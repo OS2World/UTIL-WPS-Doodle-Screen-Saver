@@ -1,4 +1,4 @@
 Doodle-ScreenSaver
 ==================
 
-Screen Saver for OS/2 and eComStation
+WPS - Screen Saver for OS/2 and eComStation
