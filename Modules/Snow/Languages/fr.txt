@@ -1,0 +1,59 @@
+/*
+ * NLS support file for the Snow Screen Saver Module
+ * Support de langue pour le module Nuit enneigÇe
+ *
+ * Language: french language
+ * Locales : fr_*
+ *
+ * Author  : Doodle
+ * Translator : Guillaume Gay <guillaume.gay@bigfoot.com>
+ *
+ * Date (AAAA-MM-JJ): 2006.02.12.
+ *
+ *
+ * Pour gÇnÇrer le fichier binaire de langue depuis ce fichier,
+ * utilisez le programme MSGC.EXE de cette maniäre :
+ * msgc <nomfichier.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configuration de Nuit enneigÇe";       // Window title
+
+CFG_0002="RÇsolution de l'image";                // Groupbox
+CFG_0003="RÇsolution de l'~Çcran";               // Radio button
+CFG_0004="~MoitiÇ de la rÇsolution de l'Çcran";  // Radio button
+CFG_0005="~RÇsolution personnalisÇe";            // Radio button
+CFG_0006="RÇsolution:";                          // Static text
+
+CFG_0007="Utilisation du processeur";            // Groupbox
+CFG_0008="PrioritÇ ~basse";                      // Radio button
+CFG_0009="PrioritÇ ~normale";                    // Radio button
+
+CFG_0010="Vitesse de l'animation :";             // Static text
+CFG_0011="img/s";                                // Static text
+
+CFG_0012="Utiliser ~WarpOverlay! si prÇsent";    // Checkbox
+
+CFG_0013="~OK";                                  // Ok button
+CFG_0014="~Annuler";                             // Cancel button
+
+CFG_0015="Options de visualisation";             // Groupbox
+CFG_0016="~Objets alÇatoires";                   // Checkbox
+CFG_0017="An~imations alÇatoires";               // Checkbox
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Nuit enneigÇe";
+MOD_DESC="Ce module affiche une nuit enneigÇe.\nFait usage de WarpOverlay! ou DIVE.\nêcrit par Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

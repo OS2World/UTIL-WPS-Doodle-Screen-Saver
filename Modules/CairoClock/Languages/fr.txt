@@ -1,0 +1,56 @@
+/*
+ * NLS support file for the Cairo Clock Screen Saver Module
+ * Support de langue pour le module Horloge Cairo
+ *
+ * Language: french language
+ * Locales : fr_*
+ *
+ * Author  : Doodle
+ * Translator : Guillaume Gay <guillaume.gay@bigfoot.com>
+ *
+ * Date (AAAA-MM-JJ): 2006.02.12.
+ *
+ *
+ * Pour g‚n‚rer le fichier binaire de langue depuis ce fichier,
+ * utilisez le programme MSGC.EXE de cette maniŠre :
+ * msgc <nomfichier.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configuration de l'horloge Cairo";       // Window title
+
+CFG_0002="Options de visualisation";               // Groupbox
+
+CFG_0003="Afficher la ~date";                      // Checkbox
+CFG_0004="Horloge ~num‚rique";                     // Checkbox
+CFG_0005="Laisser l'horloge flotter sur l'‚cran";  // Checkbox
+CFG_0006="Taille d'horloge : ";       // Static
+CFG_0007="% de l'‚cran";                           // Static
+
+CFG_0008="~OK";                                    // Ok button
+CFG_0009="~Annuler";                               // Cancel button
+
+
+// ---------------------------------------------------------------------------
+// Date format string
+// (See Unicode API for valid format characters!)
+// (Don't forget that the percentage sign has to be doubled, because it's
+//  an escape character!)
+MOD_DATE="%%a %%d %%b %%Y";
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Hologe Cairo";
+MOD_DESC="Affichage des date et heure en temps r‚el.\nFait usage de la bibliothŠque Cairo.";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

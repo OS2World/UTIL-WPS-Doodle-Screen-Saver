@@ -1,0 +1,110 @@
+
+/* OS/2 Warp 4.0 Resource Script File - Created by Universal Resource Editor */
+
+#define INCL_WINSYS
+#define INCL_WINBIDI
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "CaClock-resources.h"
+
+DLGTEMPLATE DLG_PASSWORDPROTECTION
+BEGIN
+    DIALOG "Password protection", DLG_PASSWORDPROTECTION, 72, 70, 160, 45,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "Please enter the password to unlock the screensaver!",
+                                       ST_PLEASEENTERTHEPASSWORD,
+                                        3, 27, 154, 14, WC_STATIC, SS_TEXT |
+                                            DT_CENTER | DT_TOP | DT_WORDBREAK |
+                                            WS_GROUP | WS_VISIBLE
+        CONTROL "Password",            EF_PASSWORD, 11, 18, 138, 6,
+                                            WC_ENTRYFIELD, ES_MARGIN |
+                                            ES_UNREADABLE | ES_ANY | WS_TABSTOP |
+                                            WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+        CONTROL "~Ok",                 PB_OK, 4, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Cancel",             PB_CANCEL, 126, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE DLG_WRONGPASSWORD
+BEGIN
+    DIALOG "Wrong password", DLG_WRONGPASSWORD, 58, 100, 160, 40,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "OK",                  DID_OK, 65, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+        CONTROL "An invalid password has been entered!
+
+Please try again!",
+                                       ST_INVALIDPASSWORDTEXT, 2, 16, 156, 20,
+                                            WC_STATIC, SS_TEXT | DT_CENTER |
+                                            DT_TOP | DT_WORDBREAK | WS_GROUP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    END
+END
+
+DLGTEMPLATE DLG_CONFIGURE
+BEGIN
+    DIALOG "Configure Cairo Clock", DLG_CONFIGURE, 76, 43, 134, 181,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "Visual options",      GB_VISUALOPTIONS, 3, 53, 120, 125,
+                                            WC_STATIC, SS_GROUPBOX | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Show ~date",          CB_SHOWDATE, 14, 159, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Show d~igital clock", CB_SHOWDIGITALCLOCK, 15, 149, -1, -1,
+                                            WC_BUTTON, BS_AUTOCHECKBOX |
+                                            BS_AUTOSIZE | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Let the clock ~move around the screen",
+                                       CB_LETTHECLOCKMOVEAROUNDTHESCREEN,
+                                        14, 132, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Clock size is",       ST_CLOCKSIZEIS, 13, 118, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "% of screen",         ST_PERCENTOFSCREEN, 72, 119, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "90",                  EF_SIZEPERCENT, 48, 122, 17, 5,
+                                            WC_ENTRYFIELD, ES_CENTER |
+                                            ES_MARGIN | ES_ANY | WS_TABSTOP |
+                                            WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+        CONTROL "~Ok",                 PB_CONFOK, 7, 28, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Cancel",             PB_CONFCANCEL, 97, 27, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END

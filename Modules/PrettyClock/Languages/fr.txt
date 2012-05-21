@@ -1,0 +1,47 @@
+/*
+ * NLS support file for the PrettyClock Screen Saver Module
+ * Support de langue pour le module Jolie Horloge
+ *
+ * Language   : french language
+ * Locales    : fr_*
+ *
+ * Author     : Doodle
+ * Translator : Guillaume Gay <guillaume.gay@bigfoot.com>
+ *
+ * Date (AAAA-MM-JJ): 2006.02.12.
+ *
+ *
+ * Pour gÇnÇrer le fichier binaire de langue depuis ce fichier,
+ * utilisez le programme MSGC.EXE de cette maniäre :
+ * msgc <nomfichier.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configuration de la Jolie Horloge";     // Window title
+CFG_0002="Apparences";                            // Groupbox text
+CFG_0003="Veuillez sÇlectionner une apparence !"; // Help text inside the groupbox
+CFG_0004="~OK";                                   // Ok button
+CFG_0005="~Annuler";                              // Cancel button
+
+CFG_0006="<Nue>";                                 // Text to show in listbox for 
+                                                  // no-skin entry
+CFG_0007="<Sans nom>";                            // Text to show in listbox when
+                                                  // there is no name of skin defined
+                                                  // in skin file
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Jolie Horloge";
+MOD_DESC="Ce module affiche une horloge flottante. L'horloge peut àtre modifiÇe en sÇlectionnant parmi une des apparences disponibles.\nUtilisant zlib v%1s et libpng v%2s.\nêcrit par Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

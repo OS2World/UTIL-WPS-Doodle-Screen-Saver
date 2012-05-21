@@ -1,0 +1,152 @@
+#define INCL_WINSYS
+#define INCL_WINBIDI
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "SldShow-resources.h"
+
+DLGTEMPLATE DLG_PASSWORDPROTECTION MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Password protection", DLG_PASSWORDPROTECTION, 60, 66, 160, 45,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "Please enter the password to unlock the screensaver!",
+                                       ST_PLEASEENTERTHEPASSWORD,
+                                        3, 27, 154, 14, WC_STATIC, SS_TEXT |
+                                            DT_CENTER | DT_TOP | DT_WORDBREAK |
+                                            WS_GROUP | WS_VISIBLE
+        CONTROL "Password",            EF_PASSWORD, 11, 18, 138, 6,
+                                            WC_ENTRYFIELD, ES_MARGIN |
+                                            ES_UNREADABLE | ES_ANY | WS_TABSTOP |
+                                            WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+        CONTROL "~Ok",                 PB_OK, 4, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Cancel",             PB_CANCEL, 126, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE DLG_WRONGPASSWORD MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Wrong password", DLG_WRONGPASSWORD, 58, 100, 160, 40,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "OK",                  DID_OK, 65, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+        CONTROL "An invalid password has been entered!\012Please try again!",
+                                       ST_INVALIDPASSWORDTEXT, 2, 16, 156, 20,
+                                            WC_STATIC, SS_TEXT | DT_CENTER |
+                                            DT_TOP | DT_WORDBREAK | WS_GROUP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    END
+END
+
+DLGTEMPLATE DLG_CONFIGURE MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Configure", DLG_CONFIGURE, 118, 62, 150, 115, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS, FCF_TITLEBAR |
+                FCF_SYSMENU | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "~Random order of images", CB_RANDOMORDER,
+                                            7, 115, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Switch image after:",   ST_SWITCHMSG, 7, 99, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+        SPINBUTTON                SB_SWITCH, 7, 89, 30, 10,  SPBS_MASTER | SPBS_READONLY | WS_GROUP
+        CONTROL "Minute(s)",   ST_SWITCHMSG1, 45, 90, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Blank screen after:",   ST_MINUTESMSG, 7, 75, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+        SPINBUTTON                SB_TIMER, 7, 65, 30, 10,  SPBS_MASTER | SPBS_READONLY | WS_GROUP
+        CONTROL "Minute(s)",   ST_MINUTESMSG1, 45, 66, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "~Zoom image if it is smaller than screen", CB_ZOOMIFSMALLERTHANSCREEN,
+                                        7, 51, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Directory to display:",   ST_IMAGE, 7, 40, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL " ",                   EF_FILENAME, 10, 30, 85, 7,
+                                            WC_ENTRYFIELD, ES_AUTOSCROLL |
+                                            ES_MARGIN | ES_ANY | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~Browse",             PB_BROWSE, 112, 28, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~Ok",                 PB_CONFOK, 7, 8, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Cancel",             PB_CONFCANCEL, 112, 8, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE IDDLG_DIRECTORY LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Search directory", IDDLG_DIRECTORY, 147, 22, 204, 188, 
+            WS_VISIBLE | WS_SYNCPAINT, FCF_SYSMENU | FCF_TITLEBAR
+    BEGIN
+         ENTRYFIELD   "", 4096, 7, 170, 187, 9, ES_MARGIN
+
+        LTEXT           "File name:", 257, -1, -1, 4, 4, NOT WS_GROUP | NOT 
+                        WS_VISIBLE
+        ENTRYFIELD      "", 258, -2, -2, 4, 4, ES_MARGIN | NOT WS_VISIBLE
+        LTEXT           "Type:", 261, -2, -2, 4, 4, NOT WS_GROUP | NOT 
+                        WS_VISIBLE
+        AUTOCHECKBOX    "Write protected", 269, -2, -2, 4, 4, NOT 
+                        WS_TABSTOP | NOT WS_VISIBLE
+        CONTROL         "<All files>", 262, -2, -2, 4, 4, WC_COMBOBOX, 
+                        CBS_DROPDOWNLIST | WS_TABSTOP
+        LTEXT           "Drive:", 259, 5, 154, 70, 8, NOT WS_GROUP
+        LTEXT           "File:", 265, -2, -2, 4, 4, NOT WS_GROUP | NOT 
+                        WS_VISIBLE
+        CONTROL         "D:  [OS2]", 260, 5, 50, 191, 101, WC_COMBOBOX, 
+                        CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+        LTEXT           "Directory:", 263, 4, 127, 60, 8, NOT WS_GROUP
+        LISTBOX         264, 5, 20, 191, 104, LS_OWNERDRAW | LS_HORZSCROLL
+        LISTBOX         266, 80, 1, 7, 7, LS_HORZSCROLL | NOT WS_VISIBLE
+        LTEXT           "", 270, -2, -2, 4, 4, NOT WS_GROUP | NOT WS_VISIBLE
+        DEFPUSHBUTTON   "OK", 1, 6, 2, 50, 14
+        PUSHBUTTON      "Cancel", 2, 64, 2, 50, 14, NOT 
+                        WS_TABSTOP
+        PUSHBUTTON      "Help", 267, 148, 2, 50, 14, BS_NOPOINTERFOCUS | 
+                        NOT WS_TABSTOP | NOT WS_VISIBLE
+        PUSHBUTTON      "", 268, 74, 0, 6, 14, NOT WS_TABSTOP
+        LISTBOX         3, 0, 0, 3, 2, NOT WS_TABSTOP | NOT 
+                        WS_VISIBLE
+;        LTEXT           "", 4096, 7, 165, 191, 18, DT_WORDBREAK
+    END
+END

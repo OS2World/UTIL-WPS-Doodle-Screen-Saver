@@ -1,0 +1,58 @@
+/*
+ * NLS support file for the IFSIM Screen Saver Module
+ *
+ * Language  : Swedish language
+ * Locales   : sv_*
+ *
+ * Author    : Doodle
+ * Translator: Bj”rn S”derstr”m
+ *
+ * Date (YYYY-MM-DD): 2005.06.06.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Konfigurera IFSIM";                                  // Window title
+
+CFG_0002="Bild uppl”sning";                                    // Groupbox
+CFG_0003="Uppl”sning hos ~sk„rmen";                            // Radio button
+CFG_0004="~Halva uppl”sningen hos sk„rmen";                    // Radio button
+CFG_0005="~Anpassad uppl”sning";                               // Radio button
+CFG_0006="Uppl”sning:";                                        // Static text
+
+CFG_0007="Antal punkter";                                      // Groupbox
+CFG_0008="Var v„nlig och ange ett v„rde mellan 1 och 100000!"; // Static text
+CFG_0009="Antal punkter:";                                     // Static text
+
+CFG_0010="Processoranv„ndning";                                // Groupbox
+CFG_0011="K”r i ~Ledig prioritet";                             // Radio button
+CFG_0012="K”r i ~Regulj„r prioritet";                          // Radio button
+
+CFG_0013="Animeringshastighet:";                               // Static text
+CFG_0014="FPS";                                                // Static text
+
+CFG_0015="Anv„nd ~WarpOverlay! om installerat";                // Checkbox
+
+CFG_0016="~Ok";                                                // Ok button
+CFG_0017="~ngra";                                             // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="IFS i r”relse";
+MOD_DESC="Trevligt upprepat funktionssystem (IFS) i r”relse.\nSkriven av Doodle\nAnv„nder k„llkod av ErOs2";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

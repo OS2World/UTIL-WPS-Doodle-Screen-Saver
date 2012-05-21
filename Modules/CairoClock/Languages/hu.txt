@@ -1,0 +1,54 @@
+/*
+ * NLS support file for the Cairo Clock Screen Saver Module
+ *
+ * Language: General Hungarian language
+ * Locales : hu_*
+ *
+ * Author  : Doodle
+ *
+ * Date (YYYY-MM-DD): 2006.01.31.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="A Cairo àra konfigur l sa";              // Window title
+
+CFG_0002="Vizu lis be ll¡t sok";                   // Groupbox
+
+CFG_0003="~D tum megjelen¡t‚se";                   // Checkbox
+CFG_0004="D~igit lis ¢ra megjelen¡t‚se";           // Checkbox
+CFG_0005="Az ¢ra m~ozogjon a k‚perny‹n";           // Checkbox
+CFG_0006="Az ¢ra m‚rete a k‚perny‹";               // Static
+CFG_0007="%-a legyen";                             // Static
+
+CFG_0008="~Ok";                                    // Ok button
+CFG_0009="~M‚gsem";                                // Cancel button
+
+
+// ---------------------------------------------------------------------------
+// Date format string
+// (See Unicode API for valid format characters!)
+// (Don't forget that the percentage sign has to be doubled, because it's
+//  an escape character!)
+MOD_DATE="%%Y %%b %d. (%%a)";
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Cairo àra";
+MOD_DESC="Az aktu lis id‹t ‚s d tumot mutatja.\nA Cairo k”nyvt rat haszn lja.";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

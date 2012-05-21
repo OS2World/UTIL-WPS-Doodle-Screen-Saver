@@ -1,0 +1,55 @@
+/*
+ * NLS support file for the Randomizer Screen Saver Module
+ *
+ * Language: Russian
+ * Locales : ru_*
+ *
+ * Author  : Yuri Proniakin
+ *
+ * Date (YYYY-MM-DD): 2005.12.27
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Настройка модуля Жеребьёвка";   // Window title
+
+CFG_0002="Переключение модулей";          // Groupbox
+CFG_0003="Переход к следующему ~через";   // Static text
+CFG_0004="мин.";                          // Static text
+CFG_0005="В случайном ~порядке";          // Checkbox
+
+CFG_0006="Используемые модули";           // Groupbox
+CFG_0007="Использовать ~все доступные модули"; // Radiobutton
+CFG_0008="Только модули из этого ~списка:";    // Radiobutton
+
+CFG_0009="";                             // Button
+CFG_0010="";                             // Button
+
+CFG_0011="<- ~Добавить";                  // Button
+CFG_0012="<< Д~обавить все";              // Button
+CFG_0013="Уда~лить все >>";               // Button
+CFG_0014="~Удалить ->";                   // Button
+
+CFG_0015="~Ok";                           // Ok button
+CFG_0016="О~тмена";                       // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Жеребьёвка";
+MOD_DESC="Модуль, вызывающий другие модули.\nАвтор: Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

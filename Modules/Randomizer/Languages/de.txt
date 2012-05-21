@@ -1,0 +1,55 @@
+/*
+ * NLS support file for the Randomizer Screen Saver Module
+ *
+ * Language: General German language
+ * Locales : de_*
+ *
+ * Author  : Christian Hennecke
+ *
+ * Date (YYYY-MM-DD): 2005.06.09.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+ 
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+ 
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+ 
+CFG_0001="Zufallsgenerator konfigurieren";   // Window title
+ 
+CFG_0002="Module wechseln";              // Groupbox
+CFG_0003="NÑchstes Modul nach";      // Static text
+CFG_0004="Minute(n)";                     // Static text
+CFG_0005="ZufÑllige ~Modulreihenfolge verwenden";      // Checkbox
+ 
+CFG_0006="Zu verwendende Module";                // Groupbox
+CFG_0007="~Alle verfÅgbaren Module";    // Radiobutton
+CFG_0008="Module in folgender ~Liste:";    // Radiobutton
+ 
+CFG_0009="A~uf";                           // Button
+CFG_0010="A~b";                           // Button
+ 
+CFG_0011="<- ~HinzufÅgen";                       // Button
+CFG_0012="<< A~lle hinzufÅgen";                   // Button
+CFG_0013="Alle ~entfernen >>";                // Button
+CFG_0014="Entfe~rnen ->";                    // Button
+ 
+CFG_0015="~OK";                           // Ok button
+CFG_0016="~Abbruch";                       // Cancel button
+ 
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+ 
+MOD_NAME="Zufallsgenerator";
+MOD_DESC="Zufallsgeneratormodul, verwendet andere Bildschirmschonermodule.\nEntwickelt von Doodle.";
+ 
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

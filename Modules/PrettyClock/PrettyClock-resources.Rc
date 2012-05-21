@@ -1,0 +1,92 @@
+
+/* OS/2 Warp 4.0 Resource Script File - Created by Universal Resource Editor */
+
+#define INCL_WINSYS
+#define INCL_WINBIDI
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "PrettyClock-resources.h"
+
+DLGTEMPLATE DLG_PASSWORDPROTECTION
+BEGIN
+    DIALOG "Password protection", DLG_PASSWORDPROTECTION, 60, 66, 160, 46,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "Please enter the password to unlock the screensaver!",
+                                       ST_PLEASEENTERTHEPASSWORD,
+                                        3, 27, 154, 14, WC_STATIC, SS_TEXT |
+                                            DT_CENTER | DT_TOP | DT_WORDBREAK |
+                                            WS_GROUP | WS_VISIBLE
+        CONTROL "Password",            EF_PASSWORD, 11, 18, 138, 6,
+                                            WC_ENTRYFIELD, ES_MARGIN |
+                                            ES_UNREADABLE | ES_ANY | WS_TABSTOP |
+                                            WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+        CONTROL "~Ok",                 PB_OK, 4, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Cancel",             PB_CANCEL, 126, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE DLG_WRONGPASSWORD
+BEGIN
+    DIALOG "Wrong password", DLG_WRONGPASSWORD, 58, 100, 160, 41,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "OK",                  DID_OK, 65, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+        CONTROL "An invalid password has been entered!
+Please try again!",
+                                       ST_INVALIDPASSWORDTEXT, 2, 16, 156, 20,
+                                            WC_STATIC, SS_TEXT | DT_CENTER |
+                                            DT_TOP | DT_WORDBREAK | WS_GROUP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    END
+END
+
+DLGTEMPLATE DLG_CONFIGUREPRETTYCLOCK MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Configure Pretty Clock", DLG_CONFIGUREPRETTYCLOCK, 22, 50, 141, 132,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "Skins",               GB_SKINS, 6, 23, 132, 104, WC_STATIC,
+                                            SS_GROUPBOX | WS_GROUP | WS_VISIBLE
+        CONTROL "Please select a skin to use!", ST_PLEASESELECTASKINTOUSE,
+                                        13, 106, -1, -1, WC_STATIC, SS_TEXT |
+                                            SS_AUTOSIZE | DT_LEFT | DT_TOP |
+                                            DT_MNEMONIC | WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLUE
+        CONTROL "",                    LB_SKINS, 12, 28, 122, 73, WC_LISTBOX,
+                                            LS_NOADJUSTPOS | LS_HORZSCROLL |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Ok",                 DID_OK, 9, 6, 38, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Cancel",             DID_CANCEL, 98, 7, 38, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END

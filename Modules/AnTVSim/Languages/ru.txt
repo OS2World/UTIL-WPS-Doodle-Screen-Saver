@@ -1,0 +1,50 @@
+/*
+ * NLS support file for the Analogue TV Simulator Screen Saver Module
+ *
+ * Language: Russian
+ * Locales : ru_*
+ *
+ * Author  : Yuri Proniakin
+ *
+ * Date (YYYY-MM-DD): 2005.12.27
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Настройка модуля имитации помех";    // Window title
+
+CFG_0002="Размер изображения";                 // Groupbox
+CFG_0003="Размер ~экрана";                     // Radio button
+CFG_0004="~Половина размера экрана";           // Radio button
+CFG_0005="~Заданный";                          // Radio button
+CFG_0006="~Размер:";                           // Static text
+
+CFG_0007="Загрузка процессора";                // Groupbox
+CFG_0008="~Наименьший приоритет";              // Radio button
+CFG_0009="~Обычный приоритет";                 // Radio button
+
+CFG_0010="~Использовать WarpOverlay! (если есть)"; // Checkbox
+
+CFG_0011="~Ok";                                // Ok button
+CFG_0012="О~тмена";                            // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Имитация помех";
+MOD_DESC="Модуль имитирует на экране телевизионные помехи.\nИспользует WarpOverlay! или DIVE.\nАвтор: Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

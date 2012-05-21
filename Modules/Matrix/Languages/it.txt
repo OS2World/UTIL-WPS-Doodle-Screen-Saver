@@ -1,0 +1,56 @@
+/*
+ * NLS support file for the Matrix Screen Saver Module
+ *
+ * Language: General English language
+ * Locales : it_*
+ *
+ * Author  : Doodle
+ *
+ * Date (YYYY-MM-DD): 2006.01.20.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Impostazioni Matrix";                   // Window title
+
+CFG_0002="Risoluzione immagine";                   // Groupbox
+CFG_0003="Risoluzione dello ~schermo";          // Radio button
+CFG_0004="~Met… della risoluzione dello schermo"; // Radio button
+CFG_0005="Risoluzione ~personalizzata";                 // Radio button
+CFG_0006="Risoluzione:";                        // Static text
+
+CFG_0007="Utilizzo del processore";                    // Groupbox
+CFG_0008="Esegui a priorit… ~Minima";              // Radio button
+CFG_0009="Esegui a priorit… ~Regolare";           // Radio button
+
+CFG_0010="Velocit… di animazione:";                   // Static text
+CFG_0011="FPS";                                // Static text
+
+CFG_0012="Usa ~WarpOverlay! se presente";       // Checkbox
+
+CFG_0013="~Ok";                                // Ok button
+CFG_0014="~Cancella";                            // Cancel button
+
+CFG_0015="Opzioni di visualizzazione";                     // Groupbox
+CFG_0016="Cascata di lettere s~correvole";            // Checkbox
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Matrix";
+MOD_DESC="Cascata di lettere in stile Matrix.\nUsa WarpOverlay! o DIVE.\nMesso insieme da Doodle partendo dal codice creato da sNOa.";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

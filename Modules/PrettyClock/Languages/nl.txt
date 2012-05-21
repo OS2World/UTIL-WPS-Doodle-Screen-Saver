@@ -1,0 +1,45 @@
+/*
+ * NLS support file for the PrettyClock Screen Saver Module
+ *
+ * Language: General Dutch language
+ * Locales : nl_*
+ *
+ * Author  : MrFawlty
+ *
+ * Date (YYYY-MM-DD): 2005.06.06.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configureren Mooie klok";                      // Window title
+CFG_0002="Uiterlijk";                                    // Groupbox text
+CFG_0003="Selecter a.u.b. een te gebruiken uiterlijk!";  // Help text inside the groupbox
+CFG_0004="~Ok";                                          // Ok button
+CFG_0005="~Annuleren";                                   // Cancel button
+
+CFG_0006="<Geen uiterlijk>";                             // Text to show in listbox for 
+                                                         // no-skin entry
+CFG_0007="<Geen naam>";                                  // Text to show in listbox when
+                                                         // there is no name of skin defined
+                                                         // in skin file
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Mooie klok";
+MOD_DESC="Deze module laat een stuiterende klok zien. Het uiterlijk van de klok kan aangepast worden door het selecteren van verschillende uiterlijken voor de klok.\nMaakt gebruik van zlib v%1s en libpng v%2s.\nGeschreven door Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

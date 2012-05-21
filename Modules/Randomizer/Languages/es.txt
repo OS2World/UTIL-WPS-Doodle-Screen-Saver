@@ -1,0 +1,55 @@
+/*
+ * NLS support file for the Randomizer Screen Saver Module
+ *
+ * Language: Espa¤ol
+ * Locales : es_*
+ *
+ * Author  : Guillermo G. Llorens
+ *
+ * Date (YYYY-MM-DD): 2005.07.16.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configurar m¢dulo Aleatorio";     // Window title
+
+CFG_0002="Cambiando m¢dulos";               // Groupbox
+CFG_0003="Ir al siguiente m¢dulo tras";     // Static text
+CFG_0004="minuto(s)";                       // Static text
+CFG_0005="Usar ~orden aleatorio";           // Checkbox
+
+CFG_0006="M¢dulos a usar";                  // Groupbox
+CFG_0007="Usar ~todos los m¢dulos disponibles";             // Radiobutton
+CFG_0008="Usar los siguientes m¢dulos de esta ~lista:";     // Radiobutton
+
+CFG_0009="~Arriba";                         // Button
+CFG_0010="~Abajo";                          // Button
+
+CFG_0011="<- ~Agregar";                     // Button
+CFG_0012="<< A~gregar todos";               // Button
+CFG_0013="R~emover todos >>";               // Button
+CFG_0014="~Remover ->";                     // Button
+
+CFG_0015="~Bien";                           // Ok button
+CFG_0016="~Cancelar";                       // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Aleatorio";
+MOD_DESC="M¢dulo Aleatorio, usa los otros m¢dulos Salvapantalla.\nEscrito por Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

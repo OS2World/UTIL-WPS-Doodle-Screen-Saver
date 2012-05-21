@@ -1,0 +1,55 @@
+/*
+ * NLS support file for the Randomizer Screen Saver Module
+ *
+ * Language: General Italian language
+ * Locales : it_*
+ *
+ * Author  : Doodle
+ *
+ * Date (YYYY-MM-DD): 2005.05.28.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Impostazioni del modulo Casuale";   // Window title
+
+CFG_0002="Cambia moduli";              // Groupbox
+CFG_0003="Passa al modulo successivo dopo";      // Static text
+CFG_0004="minuto(i)";                     // Static text
+CFG_0005="Usa moduli in ~ordine casuale";      // Checkbox
+
+CFG_0006="Moduli da usare";                // Groupbox
+CFG_0007="Usa ~tutti i moduli disponibili";    // Radiobutton
+CFG_0008="Usa i moduli in questa ~lista:";    // Radiobutton
+
+CFG_0009="~Su";                           // Button
+CFG_0010="~Gi—";                           // Button
+
+CFG_0011="<- ~Aggiungi";                       // Button
+CFG_0012="<< A~ggiungi tutto";                   // Button
+CFG_0013="R~imuovi tutto >>";                // Button
+CFG_0014="~Rimuovi ->";                    // Button
+
+CFG_0015="~Ok";                           // Ok button
+CFG_0016="~Cancella";                       // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Casuale";
+MOD_DESC="Modulo Casuale, utilizza altri moduli salvaschermo.\nScritto da Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

@@ -1,0 +1,44 @@
+/*
+ * NLS support file for the ShowImage Screen Saver Module
+ *
+ * Language: Swedish language
+ * Locales : sv_*
+ *
+ * Author  : Warp5  (based on code by Doodle!)
+ *
+ * Date (YYYY-MM-DD): 2008.04.25.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Konfigurera visa bild";                    // Window title
+
+CFG_0002="T”m sk„rm efter";                          // Label
+CFG_0003="Minut(er)";                                // Label
+CFG_0004="~Zooma in bild om mindre „n sk„rm";        // Check Box
+CFG_0005="Bild att visa:";                           // Label
+CFG_0006="S”k";                                      // Browse Button
+CFG_0007="~Ok";                                      // Browse Button
+CFG_0008="~Avbryt";                                  // Browse Button
+
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Visa bild";
+MOD_DESC="Visa en bild och t”m sk„rmen efter viss tid.\nSkriven av Warp5.\n\nDen h„r modulen anv„nder GBM-bibliotek med JPEG-st”d\noch baseras p† delar av arbetet hos Independent\nJPEG Group.";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

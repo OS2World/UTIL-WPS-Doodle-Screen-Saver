@@ -1,0 +1,58 @@
+/*
+ * NLS support file for the Snow Screen Saver Module
+ *
+ * Language  : Swedish language
+ * Locales   : sv_*
+ *
+ * Author    : Doodle
+ * Translator: Bj”rn S”derstr”m
+ *
+ * Date (YYYY-MM-DD): 2005.05.28.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Konfigurera Sn”";                     // Window title
+
+CFG_0002="Bild uppl”sning";                     // Groupbox
+CFG_0003="Uppl”sning hos ~sk„rmen";             // Radio button
+CFG_0004="~Halva uppl”sningen hos sk„rmen";     // Radio button
+CFG_0005="~Anpassad uppl”sning";                // Radio button
+CFG_0006="Uppl”sning:";                         // Static text
+
+CFG_0007="Processoranv„ndning";                 // Groupbox
+CFG_0008="K”r i ~Ledig prioritet";              // Radio button
+CFG_0009="K”r i ~Regulj„r prioritet";           // Radio button
+
+CFG_0010="Animeringshastighet:";                // Static text
+CFG_0011="FPS";                                 // Static text
+
+CFG_0012="Anv„nd ~WarpOverlay! om installerat"; // Checkbox
+
+CFG_0013="~Ok";                                 // Ok button
+CFG_0014="~Avbryt";                             // Cancel button
+
+CFG_0015="Visuella alternativ";                 // Groupbox
+CFG_0016="Anv„nd slumpvisa ~objekt";            // Checkbox
+CFG_0017="Anv„nd slumpvisa ~animeringar";       // Checkbox
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Sn”";
+MOD_DESC="Den h„r modulen visar en sn”ig natt.\nAnv„nder WarpOverlay! eller DIVE.\nSkriven av Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

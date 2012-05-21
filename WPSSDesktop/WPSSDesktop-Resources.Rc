@@ -1,0 +1,258 @@
+
+/* OS/2 Warp 4.0 Resource Script File - Created by Universal Resource Editor */
+
+#define INCL_WINSYS
+#define INCL_WINBIDI
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "wpssdesktop-resources.h"
+
+DLGTEMPLATE DLG_SCREENSAVERSETTINGSPAGE1 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Screen Saver settings", DLG_SCREENSAVERSETTINGSPAGE1, 8, 27, 164, 171,
+                FS_NOBYTEALIGN | NOT FS_DLGBORDER | WS_CLIPSIBLINGS |
+                WS_SAVEBITS
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "General settings",    GB_GENERALSETTINGS, 8, 123, 149, 40,
+                                            WC_STATIC, SS_GROUPBOX | WS_VISIBLE
+        CONTROL "Screen saving ~enabled", CB_ENABLED, 13, 149, -1, -1,
+                                            WC_BUTTON, BS_AUTOCHECKBOX |
+                                            BS_AUTOSIZE | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Start saver after",   ST_STARTSAVERAFTER, 13, 141, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | DT_MNEMONIC |
+                                            WS_VISIBLE
+        CONTROL "",                    SPB_TIMEOUT, 63, 141, 26, 7,
+                                            WC_SPINBUTTON, SPBS_MASTER |
+                                            SPBS_JUSTRIGHT | SPBS_READONLY |
+                                            SPBS_NUMERICONLY | SPBS_FASTSPIN |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 24, 0, 256, 0, 1, 0, 180, 0, 0, 0, 0, 0
+        CONTROL "minute(s) of inactivity", ST_MINUTESOFINACTIVITY,
+                                        89, 142, -1, -1, WC_STATIC, SS_TEXT |
+                                            SS_AUTOSIZE | DT_LEFT | DT_TOP |
+                                            WS_VISIBLE
+        CONTROL "Wake up by ~keyboard only", CB_WAKEUPBYKEYBOARDONLY,
+                                        13, 133, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Disable ~VIO popups while saving",
+                                       CB_DISABLEVIOPOPUPSWHILESAVING,
+                                        14, 125, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Password protection", GB_PASSWORDPROTECTION, 8, 3, 150, 117,
+                                            WC_STATIC, SS_GROUPBOX | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Use ~password protection", CB_USEPASSWORDPROTECTION,
+                                        12, 107, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Use password of current S~ecurity/2 user",
+                                       RB_USEPASSWORDOFCURRENTSECURITYUSER,
+                                        12, 97, -1, -1, WC_BUTTON,
+                                            BS_AUTORADIOBUTTON |
+                                            BS_NOPOINTERFOCUS | BS_AUTOSIZE |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "Use ~this password:", RB_USETHISPASSWORD, 12, 91, -1, -1,
+                                            WC_BUTTON, BS_AUTORADIOBUTTON |
+                                            BS_NOPOINTERFOCUS | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Type your password in both entry fields (characters are not displayed). Then press the Change button.",
+                                       ST_TYPEYOURPASSWORD, 20, 79, 135, 11,
+                                            WC_STATIC, SS_TEXT | DT_LEFT |
+                                            DT_TOP | DT_WORDBREAK | WS_GROUP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_DARKBLUE
+        CONTROL "Password:",           ST_PASSWORD, 23, 69, -1, -1, WC_STATIC,
+                                            SS_TEXT | SS_AUTOSIZE | DT_LEFT |
+                                            DT_TOP | DT_MNEMONIC | WS_VISIBLE
+        CONTROL "",                    EF_PASSWORD, 56, 68, 92, 8,
+                                            WC_ENTRYFIELD, ES_MARGIN |
+                                            ES_UNREADABLE | ES_ANY | WS_TABSTOP |
+                                            WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+        CONTROL "Password:",           ST_PASSWORDFORVERIFICATION,
+                                        24, 59, -1, -1, WC_STATIC, SS_TEXT |
+                                            SS_AUTOSIZE | DT_LEFT | DT_TOP |
+                                            DT_MNEMONIC | WS_VISIBLE
+        CONTROL "(for verification)",  ST_FORVERIFICATION, 24, 51, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | DT_MNEMONIC |
+                                            WS_VISIBLE
+        CONTROL "",                    EF_PASSWORD2, 56, 56, 91, 7,
+                                            WC_ENTRYFIELD, ES_MARGIN |
+                                            ES_UNREADABLE | ES_ANY | WS_TABSTOP |
+                                            WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+        CONTROL "~Change",             PB_CHANGE, 116, 44, 31, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Delay password protection", CB_DELAYPASSWORDPROTECTION,
+                                        13, 41, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "Ask password only after", ST_ASKPASSWORDONLYAFTER,
+                                        14, 32, -1, -1, WC_STATIC, SS_TEXT |
+                                            SS_AUTOSIZE | DT_LEFT | DT_TOP |
+                                            DT_MNEMONIC | WS_VISIBLE
+        CONTROL "",                    SPB_PWDDELAYMIN, 73, 31, 26, 7,
+                                            WC_SPINBUTTON, SPBS_MASTER |
+                                            SPBS_JUSTRIGHT | SPBS_READONLY |
+                                            SPBS_NUMERICONLY | SPBS_FASTSPIN |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 24, 0, 256, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        CONTROL "minute(s) of saving", ST_MINUTESOFSAVING, 105, 32, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "Make the ~first keypress the first key of the password",
+                                       CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD,
+                                        15, 18, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Start screen saver on system startup",
+                                       CB_STARTSAVERMODULEONSTARTUP,
+                                        15, 9, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE DLG_SCREENSAVERSETTINGSPAGE3 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Screen Saver Settings Page 3", DLG_SCREENSAVERSETTINGSPAGE3, 8, 30, 213, 130,
+                FS_NOBYTEALIGN | NOT FS_DLGBORDER | WS_CLIPSIBLINGS |
+                WS_SAVEBITS
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "Screen saver modules", GB_SCREENSAVERMODULES, 3, 2, 210, 102,
+                                            WC_STATIC, SS_GROUPBOX | WS_VISIBLE
+        CONTROL "",                    LB_MODULELIST, 8, 52, 90, 43, WC_LISTBOX,
+                                            LS_NOADJUSTPOS | LS_HORZSCROLL |
+                                            WS_VISIBLE
+        CONTROL "Show ~preview",       CB_SHOWPREVIEW, 8, 44, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Module information",  GB_MODULEINFORMATION, 101, 5, 107, 92,
+                                            WC_STATIC, SS_GROUPBOX | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Module name:",        ST_MODULENAME, 104, 85, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "SelectedModuleName",  ST_SELECTEDMODULENAME, 142, 84, 57, 6,
+                                            WC_STATIC, SS_TEXT | DT_LEFT |
+                                            DT_TOP | WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_DARKBLUE
+        CONTROL "Module version:",     ST_MODULEVERSION, 105, 78, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "SelectedModuleVersion", ST_SELECTEDMODULEVERSION,
+                                        144, 78, 61, 5, WC_STATIC, SS_TEXT |
+                                            DT_LEFT | DT_TOP | WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_DARKBLUE
+        CONTROL "Supports password protection:", ST_SUPPORTSPASSWORDPROTECTION,
+                                        105, 71, -1, -1, WC_STATIC, SS_TEXT |
+                                            SS_AUTOSIZE | DT_LEFT | DT_TOP |
+                                            WS_VISIBLE
+        CONTROL "Yes/No",              ST_SELECTEDSUPPORTSPASSWORDPROTECTION,
+                                        180, 70, 20, 6, WC_STATIC, SS_TEXT |
+                                            DT_LEFT | DT_TOP | WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_DARKBLUE
+        CONTROL "Description:",        ST_DESCRIPTION, 105, 62, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "Selected Module Description", MLE_SELECTEDMODULEDESCRIPTION,
+                                        104, 23, 101, 38, WC_MLE, MLS_BORDER |
+                                            MLS_HSCROLL | MLS_IGNORETAB |
+                                            MLS_READONLY | MLS_VSCROLL |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 32, 0, 65535, 65535, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        CONTROL "~Start now",          PB_STARTMODULE, 106, 9, 50, 10,
+                                            WC_BUTTON, BS_PUSHBUTTON |
+                                            BS_DEFAULT | WS_GROUP | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~Configure",          PB_CONFIGURE, 156, 9, 50, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE DLG_SCREENSAVERSETTINGSPAGE2 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Screensaver settings page 2", DLG_SCREENSAVERSETTINGSPAGE2, 8, 30, 204, 125,
+                FS_NOBYTEALIGN | NOT FS_DLGBORDER | WS_CLIPSIBLINGS |
+                WS_SAVEBITS
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "DPMS settings",       GB_DPMSSETTINGS, 5, 8, 194, 112,
+                                            WC_STATIC, SS_GROUPBOX | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Use DPMS ~Standby state", CB_USEDPMSSTANDBYSTATE,
+                                        11, 103, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Switch to Standby state after", ST_SWITCHTOSTANDBYSTATEAFTER,
+                                        12, 94, -1, -1, WC_STATIC, SS_TEXT |
+                                            SS_AUTOSIZE | DT_LEFT | DT_TOP |
+                                            DT_MNEMONIC | WS_GROUP | WS_VISIBLE
+        CONTROL "",                    SPB_STANDBYTIMEOUT, 85, 95, 27, 8,
+                                            WC_SPINBUTTON, SPBS_MASTER |
+                                            SPBS_JUSTRIGHT | SPBS_READONLY |
+                                            SPBS_NUMERICONLY | SPBS_FASTSPIN |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 24, 0, 256, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        CONTROL "minutes of saving",   ST_STANDBYMINUTESTEXT, 116, 96, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Use DPMS S~uspend state", CB_USEDPMSSUSPENDSTATE,
+                                        11, 85, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Switch to Suspend state after", ST_SWITCHTOSUSPENDSTATEAFTER,
+                                        14, 76, -1, -1, WC_STATIC, SS_TEXT |
+                                            SS_AUTOSIZE | DT_LEFT | DT_TOP |
+                                            DT_MNEMONIC | WS_GROUP | WS_VISIBLE
+        CONTROL "",                    SPB_SUSPENDTIMEOUT, 86, 77, 26, 8,
+                                            WC_SPINBUTTON, SPBS_MASTER |
+                                            SPBS_JUSTRIGHT | SPBS_READONLY |
+                                            SPBS_NUMERICONLY | SPBS_FASTSPIN |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 24, 0, 256, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        CONTROL "minutes of Standby state", ST_SUSPENDMINUTESTEXT,
+                                        114, 78, -1, -1, WC_STATIC, SS_TEXT |
+                                            SS_AUTOSIZE | DT_LEFT | DT_TOP |
+                                            WS_GROUP | WS_VISIBLE
+        CONTROL "Use DPMS ~Off state", CB_USEDPMSOFFSTATE, 11, 68, -1, -1,
+                                            WC_BUTTON, BS_AUTOCHECKBOX |
+                                            BS_AUTOSIZE | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Switch to Off state after", ST_SWITCHTOOFFSTATEAFTER,
+                                        15, 60, -1, -1, WC_STATIC, SS_TEXT |
+                                            SS_AUTOSIZE | DT_LEFT | DT_TOP |
+                                            DT_MNEMONIC | WS_GROUP | WS_VISIBLE
+        CONTROL "",                    SPB_OFFTIMEOUT, 84, 60, 26, 8,
+                                            WC_SPINBUTTON, SPBS_MASTER |
+                                            SPBS_JUSTRIGHT | SPBS_READONLY |
+                                            SPBS_NUMERICONLY | SPBS_FASTSPIN |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 24, 0, 256, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        CONTROL "minutes of Suspend state", ST_OFFMINUTESTEXT, 114, 62, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+    END
+END

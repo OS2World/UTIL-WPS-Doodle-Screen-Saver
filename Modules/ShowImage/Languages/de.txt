@@ -1,0 +1,44 @@
+/*
+ * NLS support file for the ShowImage Screen Saver Module
+ *
+ * Language: General English language
+ * Locales : de_*
+ *
+ * Author  : Warp5  (based on code by Doodle!)
+ *
+ * Date (YYYY-MM-DD): 2005.06.02.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Konfiguration";                                           // Window title
+
+CFG_0002="Bildschirm ausblenden nach";                              // Label
+CFG_0003="Minute(n)";                                               // Label
+CFG_0004="~Bild vergrî·ern wenn es kleiner als der Bildschirm ist"; // Check Box
+CFG_0005="Bild:";                                                   // Label
+CFG_0006="AuswÑhlen";                                               // Browse Button
+CFG_0007="~Ok";                                                     // Browse Button
+CFG_0008="~Abbrechen";                                              // Browse Button
+
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Bild anzeigen";
+MOD_DESC="Zeigt ein Bild an und blendet dies nach einiger Zeit aus.\nGeschrieben von Warp5.\n\nDieses Modul nutzt die GBM Bibliothek mit JPEG\nUnterstÅtzung und basiert teilweise auf der Arbeit\nder Independent JPEG Group.";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

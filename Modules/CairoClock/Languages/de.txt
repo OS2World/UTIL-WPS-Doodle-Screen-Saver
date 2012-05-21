@@ -1,0 +1,54 @@
+/*
+ * NLS support file for the Cairo Clock Screen Saver Module
+ *
+ * Language: General German language
+ * Locales : de_*
+ *
+ * Author  : Christian Hennecke
+ *
+ * Date (YYYY-MM-DD): 2006.02.10.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+ 
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+ 
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+ 
+CFG_0001="Cairo-Uhr konfigurieren";                  // Window title
+ 
+CFG_0002="Darstellung";                         // Groupbox
+ 
+CFG_0003="~Datum anzeigen";                             // Checkbox
+CFG_0004="D~igitaluhr anzeigen";                    // Checkbox
+CFG_0005="Uhr auf dem Bildschirm heru~mbewegen";  // Checkbox
+CFG_0006="Gr”áe der Uhr:";                          // Static
+CFG_0007="% des Bildschirms";                            // Static
+ 
+CFG_0008="~OK";                                    // Ok button
+CFG_0009="~Abbruch";                                // Cancel button
+ 
+ 
+// ---------------------------------------------------------------------------
+// Date format string
+// (See Unicode API for valid format characters!)
+// (Don't forget that the percentage sign has to be doubled, because it's
+//  an escape character!)
+MOD_DATE="%%a, %%d. %%b %%Y";
+ 
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+ 
+MOD_NAME="Cairo-Uhr";
+MOD_DESC="Uhr und aktuelles Datum.\nVerwendet die Bibliothek Cairo.";
+ 
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

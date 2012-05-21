@@ -1,0 +1,39 @@
+/*
+ * NLS support file for the Moving Text Saver Module
+ *
+ * Language  : Swedish language
+ * Locales   : en_*
+ *
+ * Author    : Robert
+ * Translator: Bj”rn S”derstr”m
+ *
+ * Date (YYYY-MM-DD): 2006.01.02.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Konfigurera Flyttande text";              // Window title
+CFG_0002="Text att visa:";                          // Label
+CFG_0003="~Ok";                                     // OK Button
+CFG_0004="~Avbryt";                                 // Cancel Button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Flyttande text";
+MOD_DESC="Den h„r modulen flyttar text p† sk„rmen!\nSkriven av Warp5";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

@@ -1,0 +1,749 @@
+Open Watcom Linker Version 1.6
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       08/09/15 22:46:01
+Executable Image: Circles.dll
+creating an OS/2 and eComStation dynamic link library
+symbol __set_commode_ removed
+symbol _heapenable_ removed
+symbol __set_handles_ removed
+symbol _grow_handles_ removed
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          0003:00000000        00001820
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+_TEXT16                CODE           AUTO           0001:00000000   00000068
+BEGTEXT                CODE           AUTO           0002:00000000   00000007
+_TEXT                  CODE           AUTO           0002:00000010   0000dcdb
+_NULL                  BEGDATA        DGROUP         0003:00000000   00000004
+_AFTERNULL             BEGDATA        DGROUP         0003:00000004   00000000
+CONST                  DATA           DGROUP         0003:00000004   00000278
+CONST2                 DATA           DGROUP         0003:0000027c   00000000
+_DATA                  DATA           DGROUP         0003:0000027c   000006e8
+XIB                    DATA           DGROUP         0003:00000964   00000000
+XI                     DATA           DGROUP         0003:00000964   00000036
+XIE                    DATA           DGROUP         0003:0000099a   00000000
+YIB                    DATA           DGROUP         0003:0000099a   00000000
+YI                     DATA           DGROUP         0003:0000099a   0000001e
+YIE                    DATA           DGROUP         0003:000009b8   00000000
+TIB                    DATA           DGROUP         0003:000009b8   00000000
+TI                     DATA           DGROUP         0003:000009b8   00000000
+TIE                    DATA           DGROUP         0003:000009b8   00000000
+DATA                   DATA           DGROUP         0003:000009b8   00000000
+_BSS                   BSS            DGROUP         0003:000009b8   00000e68
+STACK                  STACK          DGROUP         0003:00001820   00000000
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: Circles.obj(D:\WATCOM\Projects\SSaver\Modules\Circles\Circles.c)
+0003:000009b8+ _ampMP2
+0003:00000ab8+ _ampMP1
+0003:00000bb8+ _ModuleConfig
+0003:00000bd0+ _achUndoBuf
+0003:00000dd0+ _pfnHWVIDEOSetAttrib
+0003:00000dd4+ _OverlayCaps
+0003:00000e08+ _pfnHWVIDEOSetup
+0003:00000e0c+ _pfnHWVIDEOBeginUpdate
+0003:00000e10+ _pfnHWVIDEOGetAttrib
+0003:00000e14+ _pfnHWVIDEOEndUpdate
+0003:00000e18+ _pfnHWVIDEOInit
+0003:00000e1c+ _pfnHWVIDEOClose
+0003:00000e20+ _iNumEventsInRecord
+0003:00000e24+ _pfnHWVIDEOCaps
+0003:00000e28+ _hmodHWVideo
+0003:00000e2c+ _bHWVideoPresent
+0003:00000e30+ _bUseFrameRegulation
+0003:00000e34+ _hevBlitEvent
+0003:00000e38+ _hab
+0003:00000e3c+ _bShutdownRequest
+0003:00000e40+ _iBufferXSize
+0003:00000e44+ _hDive
+0003:00000e48+ _tidBlitterThread
+0003:00000e4c+ _iBufferYSize
+0003:00000e50+ _bVRNEnabled
+0003:00000e54+ _hmtxUseNLSTextArray
+0003:00000e58+ _hmtxUseDive
+0003:00000e5c+ _ulImage
+0003:00000e60+ _hmqSaverThreadMsgQueue
+0003:00000e64+ _ulAutoHiderTimerID
+0002:000014a0+ fnConfigDialogProc
+0002:00001cd0+ fnAutoHiderDlgProc
+0002:00001d90+ fnSaverWindowProc
+0002:00002610+ SetupGraphics_
+0002:00002b40+ ShutdownGraphics_
+0002:00002e80+ fnBlitThread_
+0002:000039d0+ fnSaverThread_
+0002:00003e90+ SSModule_GetModuleDesc
+0002:00003f60+ SSModule_Configure
+0002:00003fe0+ SSModule_StartSaving
+0002:00004070+ SSModule_StopSaving
+0002:000040d0+ SSModule_AskUserForPassword
+0002:00004110+ SSModule_ShowWrongPasswordNotification
+0002:00004140+ SSModule_PauseSaving
+0002:00004170+ SSModule_ResumeSaving
+0002:000041a0+ SSModule_SetNLSText
+0002:00004270+ SSModule_SetCommonSetting
+0002:00004290  LibMain
+0003:0000027c+ _bFirstKeyGoesToPwdWindow
+0003:00000280+ _ulColorKey
+0003:00000284+ _aiCustomResWidth
+0003:000002bc+ _aiCustomResHeight
+0003:00000e68+ _iSaverThreadState
+0003:00000e6c+ _bOnlyPreviewMode
+0003:00000e70+ _apchNLSText
+0003:00000e94+ _tidSaverThread
+0003:00000e98+ _bPaused
+0003:00000e9c+ _bRunning
+0003:00000ea0+ _hwndSaverWindow
+0003:00000ea4+ _hmodOurDLLHandle
+Module: framerate.obj(D:\WATCOM\Projects\SSaver\Modules\Circles\FrameRate.c)
+0002:00004330* Initialize_ulInitTimeStamp_
+0002:00004350+ FrameRegulator_
+0002:00004450+ SetupFrameRegulation_
+0002:00004490  StartFrameRegulation_
+0002:000044f0  StopFrameRegulation_
+0002:00004530  Initialize_FrameRegulation_
+0002:00004540  Uninitialize_FrameRegulation_
+0003:00000ea8+ _flFRPollTime
+0003:00000eac+ _hevFRBlitNeededEvent
+0003:00000eb0+ _FrameRegulatorThread
+0003:00000eb4+ _ulFRPollStartTime
+0003:00000eb8+ _fFRShutdown
+0003:00000ebc+ _ulInitTimeStamp
+0003:00000ec0+ _ulCurrTimeStamp
+Module: msgx.obj(D:\WATCOM\Projects\SSaver\Modules\Circles\msgx.c)
+0002:00004560  fopenMessageFile_
+0002:000045e0* vfyMemMessageFile_
+0002:00004600  sprintmsg_
+0002:00004960* sprintmemmsg_
+0002:00004cb0+ _getMessage_
+0002:00004d80+ _getMemMessage_
+0002:00004e70+ memread_
+0002:00004e80+ _insertstring_
+0002:00004ee0+ _deletestring_
+0002:00004f20+ _scrubfmt_
+0002:00004fc0+ _scrubprecent_
+0002:00005000+ _isfmtchar_
+0002:00005200+ _findSubstitute_
+Module: D:\watcom/lib386/os2\clib3r.lib(nmalloc)
+0002:00005260  malloc_
+0002:00005270  _nmalloc_
+0003:000002f4  ___nheapbeg
+0003:000002f8  ___MiniHeapRover
+0003:000002fc  ___LargestSizeB4MiniHeapRover
+Module: D:\watcom/lib386/os2\clib3r.lib(strncpy)
+0002:00005370  strncpy_
+Module: D:\watcom/lib386/os2\clib3r.lib(sprintf)
+0002:000053b0  sprintf_
+Module: D:\watcom/lib386/os2\clib3r.lib(nfree)
+0002:000053e0  free_
+0002:000053f0  _nfree_
+0003:00000ec4  ___MiniHeapFreeRover
+Module: D:\watcom/lib386/os2\clib3r.lib(getenv)
+0002:00005500  getenv_
+Module: D:\watcom/lib386/os2\clib3r.lib(snprintf)
+0002:000055d0+ vsnprintf_
+0002:00005630  snprintf_
+Module: D:\watcom/lib386/os2\clib3r.lib(fopen)
+0002:00005660+ __open_flags_
+0002:000058a0+ _fsopen_
+0002:000058f0  fopen_
+0002:00005980* freopen_
+Module: D:\watcom/lib386/os2\clib3r.lib(strncat)
+0002:000059f0  strncat_
+Module: D:\watcom/lib386/os2\clib3r.lib(fscanf)
+0002:00005a70+ vfscanf_
+0002:00005ae0  fscanf_
+Module: D:\watcom/lib386/os2\clib3r.lib(fclose)
+0002:00005b10  __doclose_
+0002:00005bb0  __shutdown_stream_
+0002:00005bd0  fclose_
+0003:00000ec8+ ___RmTmpFileFn
+Module: D:\watcom/lib386/os2\clib3r.lib(mkdiros2)
+0002:00005c20  mkdir_
+Module: D:\watcom/lib386/os2\clib3r.lib(fprintf)
+0002:00005c40  fprintf_
+Module: D:\watcom/lib386/os2\clib3r.lib(memset)
+0002:00005c70  memset_
+Module: D:\watcom/lib386/os2\clib3r.lib(time)
+0002:00005c90  time_
+Module: D:\watcom/lib386/os2\clib3r.lib(rand)
+0002:00005cd0  rand_
+0002:00005d00  srand_
+Module: D:\watcom/lib386\math387r.lib(fchop)
+0002:00005d14  __CHP
+Module: D:\watcom/lib386/os2\clib3r.lib(register)
+0002:00005d40  __initthread_
+0002:00005d50  _beginthread_
+0002:00005d60  _endthread_
+0002:00005d70* __RegisterThreadData_
+Module: D:\watcom/lib386/os2\clib3r.lib(dstrt386)
+0002:00005db4  __DLLstart_
+0002:00005db4* __DLLstartw_
+Module: D:\watcom/lib386/os2\clib3r.lib(fltused)
+0003:0000030c  _fltused_
+Module: D:\watcom/lib386/os2\emu387.lib(386)
+0002:00005e10  __init_387_emulator
+0002:00005e11* __fini_387_emulator
+Module: D:\watcom/lib386/os2\clib3r.lib(_8087)
+0003:00000310  __8087
+0003:00000311  __real87
+Module: D:\watcom/lib386/os2\clib3r.lib(fread)
+0002:00005e20  fread_
+Module: D:\watcom/lib386/os2\clib3r.lib(_strcmp)
+0002:00006050  strcmp_
+Module: D:\watcom/lib386/os2\clib3r.lib(rewind)
+0002:00006190  rewind_
+Module: D:\watcom/lib386/os2\clib3r.lib(fseek)
+0002:00006210  fseek_
+Module: D:\watcom/lib386/os2\clib3r.lib(strnicmp)
+0002:00006340  strnicmp_
+Module: D:\watcom/lib386/os2\clib3r.lib(memmove)
+0002:00006390  memmove_
+Module: D:\watcom/lib386/os2\clib3r.lib(maino32)
+0003:00000314  ___FirstThreadData
+0003:00000318  ___GetThreadPtr
+0003:0000031c  __AccessFileH
+0003:00000320  __ReleaseFileH
+0003:00000324  __AccessIOB
+0003:00000328  __ReleaseIOB
+0003:0000032c  __AccessNHeap
+0003:00000330  __AccessFHeap
+0003:00000334  __ReleaseNHeap
+0003:00000338  __ReleaseFHeap
+0002:000063ed  __threadstack_
+0002:000063f4  __threadid_
+0002:000063fd* __OS2MainInit_
+0002:0000646c  __OS2Init_
+0002:000064aa  __OS2Fini_
+0002:000064b5  __shutdown_stack_checking_
+0002:000064ca  __exit_
+0003:0000033c  __AccessTDList
+0003:00000340  __ReleaseTDList
+0003:00000344  ___sig_init_rtn
+0003:00000348  ___sig_fini_rtn
+0003:0000034c  __threadstksize
+0003:00000350+ ___process_fini
+0003:00000ecc  ___Is_DLL
+0003:00000ed0+ ___saved_CS
+Module: D:\watcom/lib386/os2\clib3r.lib(nmemneed)
+0002:00006520  __nmemneed_
+Module: D:\watcom/lib386/os2\clib3r.lib(mem)
+0002:00006530  __MemAllocator
+0002:000065f0  __MemFree
+Module: D:\watcom/lib386/os2\clib3r.lib(grownear)
+0002:000068b0  __ExpandDGROUP_
+Module: D:\watcom/lib386/os2\clib3r.lib(vsprintf)
+0002:000068f0  vsprintf_
+Module: D:\watcom/lib386/os2\clib3r.lib(environ)
+0003:00000fd4  ___env_mask
+0003:00000fd8  _environ
+0003:00000fdc* __wenviron
+Module: D:\watcom/lib386/os2\clib3r.lib(mbterm)
+0002:00006910  _mbterm_
+Module: D:\watcom/lib386/os2\clib3r.lib(mbsnextc)
+0002:00006950  _mbsnextc_
+Module: D:\watcom/lib386/os2\clib3r.lib(mbcupper)
+0002:00006990  _mbctoupper_
+Module: D:\watcom/lib386/os2\clib3r.lib(mbsinc)
+0002:000069b0  _mbsinc_
+Module: D:\watcom/lib386/os2\clib3r.lib(prtf)
+0002:000069e0  __prtf_
+Module: D:\watcom/lib386/os2\clib3r.lib(comtflag)
+0003:00000354  __commode
+Module: D:\watcom/lib386/os2\clib3r.lib(iob)
+0003:00000358  ___iob
+0003:00000560  __fmode
+0003:00000fe0  ___OpenStreams
+0003:00000fe4  ___ClosedStreams
+Module: D:\watcom/lib386/os2\clib3r.lib(seterrno)
+0002:000076db  __set_errno_
+0002:000076e9* __set_EDOM_
+0002:000076f7  __set_ERANGE_
+0002:00007705* __set_EINVAL_
+0002:00007718  __set_doserrno_
+Module: D:\watcom/lib386/os2\clib3r.lib(tolower)
+0002:00007730  tolower_
+Module: D:\watcom/lib386/os2\clib3r.lib(openos2)
+0002:000078d0* open_
+0002:000078f0  sopen_
+Module: D:\watcom/lib386/os2\clib3r.lib(chktty)
+0002:00007920  __chktty_
+Module: D:\watcom/lib386/os2\clib3r.lib(freefp)
+0002:00007960  __freefp_
+0002:000079b0  __purgefp_
+Module: D:\watcom/lib386/os2\clib3r.lib(allocfp)
+0002:000079e0  __allocfp_
+Module: D:\watcom/lib386/os2\clib3r.lib(fgetc)
+0002:00007ab0  __fill_buffer_
+0002:00007b90+ __filbuf_
+0002:00007bc0  fgetc_
+Module: D:\watcom/lib386/os2\clib3r.lib(ungetc)
+0002:00007c90  ungetc_
+Module: D:\watcom/lib386/os2\clib3r.lib(scnf)
+0002:00008920  __scnf_
+Module: D:\watcom/lib386/os2\clib3r.lib(lseekos2)
+0002:00008b90  __lseek_
+Module: D:\watcom/lib386/os2\clib3r.lib(_clseos2)
+0002:00008bd0  __close_
+Module: D:\watcom/lib386/os2\clib3r.lib(flush)
+0002:00008c10  __flush_
+Module: D:\watcom/lib386/os2\clib3r.lib(dosret)
+0002:00008d20* _dosretax_
+0002:00008d30* _dosret0_
+0002:00008d40  __set_errno_dos_
+Module: D:\watcom/lib386/os2\clib3r.lib(fprtf)
+0002:00008d90  __fprtf_
+Module: D:\watcom/lib386/os2\clib3r.lib(__stos)
+0002:00008e50  __STOSB
+0002:00008e87* __STOSD
+Module: D:\watcom/lib386/os2\clib3r.lib(gtctmos2)
+0002:00008f00  __getctime_
+Module: D:\watcom/lib386/os2\clib3r.lib(mktime)
+0002:00008f70  mktime_
+Module: D:\watcom/lib386/os2\clib3r.lib(thredo32)
+0002:000090a0  __CBeginThread_
+0002:00009140  __CEndThread_
+Module: D:\watcom/lib386/os2\clib3r.lib(dmaino32)
+0002:0000915c  __LibMain
+Module: D:\watcom/lib386/os2\clib3r.lib(segdefns)
+0002:00000003  ___begtext
+0003:00000000* __nullarea
+0003:00000964  __Start_XI
+0003:0000099a  __End_XI
+0003:0000099a  __Start_YI
+0003:000009b8  __End_YI
+Module: D:\watcom/lib386/os2\clib3r.lib(setefg)
+0002:00009390  __setEFGfmt_
+Module: D:\watcom/lib386/os2\clib3r.lib(chk8087)
+0002:000093b0  _fpreset_
+0002:000093d0* __init_8087_
+0002:000093f0  __chk8087_
+Module: D:\watcom/lib386/os2\clib3r.lib(crwdata)
+0003:000006ac  __osmajor
+0003:000006ad  __osminor
+0003:00000670  __LpCmdLine
+0003:00000674  __LpPgmName
+0003:00000678  __LpDllName
+0003:0000067c  __LpwCmdLine
+0003:00000680  __LpwPgmName
+0003:00000684  __LpwDllName
+0003:00000668* __dynend
+0003:0000066c  __curbrk
+0003:00000688* __STACKLOW
+0003:0000068c* __STACKTOP
+0003:00000690  __ASTACKSIZ
+0003:00000694  __ASTACKPTR
+0003:00000698  __cbyte
+0003:0000069c  __cbyte2
+0003:000006a0* __child
+0003:000006a6  __Envptr
+0003:000006aa* __Envseg
+0003:000006a4  __no87
+0003:000006ae* ___FPE_handler
+Module: D:\watcom/lib386/os2\clib3r.lib(qread)
+0002:00009450  __qread_
+Module: D:\watcom/lib386/os2\clib3r.lib(ioalloc)
+0002:00009480  __ioalloc_
+Module: D:\watcom/lib386/os2\clib3r.lib(lseek)
+0002:00009520  lseek_
+Module: D:\watcom/lib386/os2\clib3r.lib(tellos2)
+0002:00009550  tell_
+Module: D:\watcom/lib386/os2\clib3r.lib(cinit)
+0002:00009590  __CommonInit_
+0003:000012f8  ___hmodule
+Module: D:\watcom/lib386/os2\clib3r.lib(initrtns)
+0002:000095b0  __InitRtns
+0002:00009600  __FiniRtns
+Module: D:\watcom/lib386/os2\clib3r.lib(amblksiz)
+0003:000006b4  __amblksiz
+Module: D:\watcom/lib386/os2\clib3r.lib(heapen)
+0003:000006b8  ___heap_enabled
+Module: D:\watcom/lib386/os2\clib3r.lib(nheapmin)
+0002:00009660  _heapshrink_
+0002:00009670* _heapmin_
+0002:00009680* _nheapmin_
+0002:00009740  _nheapshrink_
+Module: D:\watcom/lib386/os2\clib3r.lib(setenvp)
+0002:00009780  __setenvp_
+0002:00009840  __freeenvp_
+Module: D:\watcom/lib386/os2\clib3r.lib(mbisdbcs)
+0003:00001300  ___IsDBCS
+Module: D:\watcom/lib386/os2\clib3r.lib(mbislead)
+0002:000098a0* _ismbblead_
+0003:00001304  ___MBCSIsTable
+Module: D:\watcom/lib386/os2\clib3r.lib(toupper)
+0002:000098c0  toupper_
+Module: D:\watcom/lib386/os2\clib3r.lib(mbinit)
+0002:00009910  __mbinit_
+0003:000006bc  ___MBCodePage
+Module: D:\watcom/lib386/os2\clib3r.lib(mbdtoupp)
+0002:00009a10  _mbdtoupper_
+Module: D:\watcom/lib386/os2\clib3r.lib(wctomb)
+0002:00009a30  wctomb_
+Module: D:\watcom/lib386/os2\clib3r.lib(itoa)
+0002:00009a60+ utoa_
+0002:00009ab0  itoa_
+Module: D:\watcom/lib386/os2\clib3r.lib(strupr)
+0002:00009ae0  strupr_
+Module: D:\watcom/lib386/os2\clib3r.lib(noefgfmt)
+0003:000006c0  ___EFG_printf
+0003:000006c4  ___EFG_scanf
+Module: D:\watcom/lib386/os2\clib3r.lib(lltoa)
+0002:00009b50  ulltoa_
+0002:00009bc0* lltoa_
+Module: D:\watcom/lib386/os2\clib3r.lib(ltoa)
+0002:00009bf0  ultoa_
+0002:00009c40* ltoa_
+Module: D:\watcom/lib386/os2\clib3r.lib(initfile)
+0002:00009ca0  __InitFiles_
+Module: D:\watcom/lib386/os2\clib3r.lib(ioexit)
+0002:00009da0* fcloseall_
+0002:00009db0  __full_io_exit_
+Module: D:\watcom/lib386/os2\clib3r.lib(umaskval)
+0003:000006c8  ___umaskval
+Module: D:\watcom/lib386/os2\clib3r.lib(iomode)
+0002:00009dc0  __GetIOMode_
+0002:00009de0  __SetIOMode_nogrow_
+0003:000006cc  ___NFiles
+0003:000006d0  ___init_mode
+0003:00000720  ___io_mode
+Module: D:\watcom/lib386/os2\clib3r.lib(isattos2)
+0002:00009e00  isatty_
+Module: D:\watcom/lib386/os2\clib3r.lib(stiomode)
+0002:00009e30  __grow_iomode_
+0002:00009f00+ __shrink_iomode_
+0002:00009f90  __SetIOMode_
+Module: D:\watcom/lib386/os2\clib3r.lib(flushall)
+0002:0000a000  __flushall_
+0002:0000a040* flushall_
+Module: D:\watcom/lib386/os2\clib3r.lib(gtcheos2)
+0002:0000a050  getche_
+Module: D:\watcom/lib386/os2\clib3r.lib(istable)
+0002:0000a080  __IsTable
+Module: D:\watcom/lib386/os2\clib3r.lib(mbtowc)
+0002:0000a190  mbtowc_
+Module: D:\watcom/lib386/os2\clib3r.lib(fdfs386)
+0002:0000a24c  __FDFS
+Module: D:\watcom/lib386/os2\clib3r.lib(i8m)
+0002:0000a298* __I8M
+0002:0000a298  __U8M
+Module: D:\watcom/lib386/os2\clib3r.lib(fsync)
+0002:0000a2c0  fsync_
+Module: D:\watcom/lib386/os2\clib3r.lib(qwrit)
+0002:0000a2f0  __qwrite_
+Module: D:\watcom/lib386/os2\clib3r.lib(fputc)
+0002:0000a390  fputc_
+Module: D:\watcom/lib386/os2\clib3r.lib(locmktim)
+0002:0000a480  __local_mktime_
+Module: D:\watcom/lib386/os2\clib3r.lib(gmtime)
+0002:0000a640  __brktime_
+0002:0000a740+ _gmtime_
+0002:0000a760* gmtime_
+Module: D:\watcom/lib386/os2\clib3r.lib(tzset)
+0003:00000724  ___start_dst
+0003:00000748  ___end_dst
+0003:00000870* _tzname
+0003:00000878  _timezone
+0003:0000087c  _daylight
+0003:00000880  ___dst_adjust
+0002:0000a790* __DontCacheOSTZ_
+0002:0000a7b0* __CacheOSTZ_
+0002:0000aa20+ __parse_tz_
+0002:0000ab90  tzset_
+Module: D:\watcom/lib386/os2\clib3r.lib(timeutil)
+0002:0000ad00  __isindst_
+Module: D:\watcom/lib386/os2\clib3r.lib(mthrdini)
+0002:0000b060  __InitThreadData_
+0003:00000888  ___ThreadDataSize
+Module: D:\watcom/lib386/os2\clib3r.lib(mthread)
+0002:0000b0d0+ __CloseSemaphore_
+0002:0000b110+ __AccessSemaphore_
+0002:0000b170+ __ReleaseSemaphore_
+0002:0000b1d0+ __AccessIOB_
+0002:0000b1e0+ __ReleaseIOB_
+0002:0000b1f0+ __AccessFileH_
+0002:0000b200+ __ReleaseFileH_
+0002:0000b210+ __AccessNHeap_
+0002:0000b220+ __ReleaseNHeap_
+0002:0000b230+ __AccessFHeap_
+0002:0000b240+ __ReleaseFHeap_
+0002:0000b250+ __AccessTDList_
+0002:0000b260+ __ReleaseTDList_
+0002:0000b270+ __MultipleThread_
+0002:0000b2c0  __AllocInitThreadData_
+0002:0000b310  __FreeInitThreadData_
+0002:0000b320  __OS2AddThread_
+0002:0000b390  __OS2RemoveThread_
+0002:0000b3e0  __InitMultipleThread_
+0003:0000088c+ ___AccessSema4
+0003:00000890+ ___ReleaseSema4
+0003:00000894+ ___CloseSema4
+Module: D:\watcom/lib386/os2\clib3r.lib(trdalloc)
+0002:0000b580  __InitThreadProcessing_
+0002:0000b5a0  __FiniThreadProcessing_
+0003:0000155c  ___ThreadData
+Module: D:\watcom/lib386/os2\clib3r.lib(ddgrpo32)
+0002:0000b6d0  __disallow_single_dgroup_
+Module: D:\watcom/lib386/os2\clib3r.lib(atouni)
+0002:0000b920  _atouni_
+Module: D:\watcom/lib386/os2\clib3r.lib(maxthrds)
+0003:00000898  ___MaxThreads
+Module: D:\watcom/lib386/os2\clib3r.lib(dosseg)
+0000:00001234  __DOSseg__
+Module: D:\watcom/lib386\math387r.lib(efgfmt)
+0002:0000b95a  _EFG_Format_
+Module: D:\watcom/lib386\math387r.lib(cnvs2d)
+0002:0000babf  __cnvs2d_
+Module: D:\watcom/lib386/os2\clib3r.lib(8087cw)
+0003:0000089c  __8087cw
+Module: D:\watcom/lib386/os2\clib3r.lib(init8087)
+0002:0000bad0  __x87id
+Module: D:\watcom/lib386/os2\clib3r.lib(clearenv)
+0002:0000bb10  clearenv_
+Module: D:\watcom/lib386/os2\clib3r.lib(alphabet)
+0003:00000220  ___Alphabet
+Module: D:\watcom/lib386/os2\clib3r.lib(xmsgo32)
+0002:0000bbb0+ __exit_with_msg_
+0002:0000bbe0  __fatal_runtime_error_
+Module: D:\watcom/lib386/os2\clib3r.lib(nrealloc)
+0002:0000bc00  realloc_
+0002:0000bc10+ _nrealloc_
+Module: D:\watcom/lib386/os2\clib3r.lib(hdlman)
+0003:000008a0  ___NHandles
+Module: D:\watcom/lib386/os2\clib3r.lib(iomodtty)
+0002:0000bc90  __ChkTTYIOMode_
+0002:0000bce0* __IOMode_
+Module: D:\watcom/lib386/os2\clib3r.lib(getchos2)
+0002:0000bd00  getch_
+Module: D:\watcom/lib386/os2\clib3r.lib(putchos2)
+0002:0000bdc0  putch_
+Module: D:\watcom/lib386/os2\clib3r.lib(leapyear)
+0002:0000be20  __leapyear_
+0003:00000248  ___diyr
+0003:00000262  ___dilyr
+Module: D:\watcom/lib386/os2\clib3r.lib(trdlist)
+0002:0000beb0  __GetThreadData_
+0002:0000bfd0  __ReallocThreadData_
+0002:0000c140  __AddThreadData_
+0002:0000c1c0  __RemoveThreadData_
+0002:0000c220* __ResizeThreadDataList_
+0002:0000c270  __FreeThreadDataList_
+0002:0000c2a0* __ActiveThreads_
+Module: D:\watcom/lib386/os2\clib3r.lib(calloc)
+0002:0000c2c0  calloc_
+Module: D:\watcom/lib386/os2\clib3r.lib(thrdmax)
+0002:0000c2e0  __GETMAXTHREADS
+Module: D:\watcom/lib386\math387r.lib(ldcvt)
+0002:0000c3cb  _LDScale10x_
+0002:0000c9fe  __LDcvt_
+Module: D:\watcom/lib386\math387r.lib(strtod)
+0002:0000d3d1+ __Strtold_
+0002:0000d540  strtod_
+Module: D:\watcom/lib386/os2\clib3r.lib(enterdb)
+0002:0000d690  __EnterWVIDEO_
+0003:0000094c+ ___WD_Present
+Module: D:\watcom/lib386/os2\clib3r.lib(nmsize)
+0002:0000d6c0* _msize_
+0002:0000d6d0  _nmsize_
+Module: D:\watcom/lib386/os2\clib3r.lib(nexpand)
+0002:0000d6e0* _expand_
+0002:0000d6f0+ __HeapManager_expand_
+0002:0000d8b0  _nexpand_
+Module: D:\watcom/lib386/os2\clib3r.lib(thunk)
+0002:0000d90c  __TNK
+0002:0000d8f8* __TNC
+Module: D:\watcom/lib386/os2\clib3r.lib(far16fun)
+0002:0000d95c  __Far16Func2
+0002:0000d9a5* __Far16Func
+0002:0000d9f3* __Far16Pascal2
+0002:0000da3a* __Far16Pascal
+0002:0000da86* __Far16Cdecl2
+0002:0000dad4* __Far16Cdecl
+0002:0000db27  __FlatToFar16
+0002:0000db30* __Far16ToFlat
+Module: D:\watcom/lib386\math387r.lib(ldclass)
+0002:0000db39  __LDClass_
+0002:0000db89* _FLClass_
+Module: D:\watcom/lib386/os2\clib3r.lib(bufld386)
+0002:0000db98  __ZBuf2LD
+Module: D:\watcom/lib386\math387r.lib(inf_nan)
+0002:0000dc3b* ___f_infinity
+0002:0000dc3f* ___f_posqnan
+0002:0000dc43  ___d_infinity
+0002:0000dc4b  ___d_posqnan
+0002:0000dc53* ___ld_infinity
+0002:0000dc5b* ___ld_posqnan
+Module: D:\watcom/lib386/os2\clib3r.lib(hugeval)
+0002:0000dc70  __HugeValue
+Module: D:\watcom/lib386/os2\clib3r.lib(stk)
+0002:0000dc89  __STK
+0002:0000dc79* __CHK
+0002:0000dcb8* __GRO
+0002:0000dca8* __STKOVERFLOW_
+Module: D:\watcom/lib386/os2\clib3r.lib(itsto32)
+0002:0000dce0  __init_threadstksize_
+
+
+                        +----------------------+
+                        |   Imported Symbols   |
+                        +----------------------+
+
+Symbol                              Module
+======                              ======
+
+WinQueryFocus                       PMWIN
+WinPostMsg                          PMWIN
+DosRequestMutexSem                  DOSCALLS
+DosReleaseMutexSem                  DOSCALLS
+DosScanEnv                          DOSCALLS
+WinQueryDlgItemText                 PMWIN
+WinWindowFromID                     PMWIN
+WinGetPS                            PMWIN
+GpiQueryTextBox                     PMGPI
+WinReleasePS                        PMWIN
+WinCreateWindow                     PMWIN
+WinQueryWindowPos                   PMWIN
+WinDestroyWindow                    PMWIN
+WinSetPresParam                     PMWIN
+WinBeginEnumWindows                 PMWIN
+WinGetNextWindow                    PMWIN
+WinEndEnumWindows                   PMWIN
+WinSetDlgItemText                   PMWIN
+WinSetWindowText                    PMWIN
+WinQuerySysValue                    PMWIN
+WinIsWindowVisible                  PMWIN
+WinSetWindowPos                     PMWIN
+WinEnableWindowUpdate               PMWIN
+WinSendDlgItemMsg                   PMWIN
+WinEnableWindow                     PMWIN
+WinSetWindowULong                   PMWIN
+WinQueryWindow                      PMWIN
+WinMapWindowPoints                  PMWIN
+WinSetFocus                         PMWIN
+WinQueryWindowULong                 PMWIN
+WinQueryDlgItemShort                PMWIN
+WinDefDlgProc                       PMWIN
+WinDismissDlg                       PMWIN
+WinQueryAnchorBlock                 PMWIN
+WinStopTimer                        PMWIN
+WinStartTimer                       PMWIN
+WinShowPointer                      PMWIN
+WinDefWindowProc                    PMWIN
+WinLoadDlg                          PMWIN
+WinSetWindowBits                    PMWIN
+WinBeginPaint                       PMWIN
+WinQueryWindowRect                  PMWIN
+GpiCreateLogColorTable              PMGPI
+WinFillRect                         PMWIN
+WinEndPaint                         PMWIN
+WinProcessDlg                       PMWIN
+DosResetEventSem                    DOSCALLS
+DiveSetupBlitter                    dive
+GpiCreateRegion                     PMGPI
+WinQueryVisibleRegion               PMWIN
+GpiQueryRegionRects                 PMGPI
+GpiDestroyRegion                    PMGPI
+DiveSetDestinationPalette           dive
+DosLoadModule                       DOSCALLS
+DosQueryProcAddr                    DOSCALLS
+DosFreeModule                       DOSCALLS
+DiveQueryCaps                       dive
+DiveOpen                            dive
+DiveAllocImageBuffer                dive
+DosCreateMutexSem                   DOSCALLS
+DiveClose                           dive
+DiveFreeImageBuffer                 dive
+DosCloseMutexSem                    DOSCALLS
+DosSleep                            DOSCALLS
+DiveEndImageBufferAccess            dive
+DosWaitEventSem                     DOSCALLS
+DiveBlitImage                       dive
+DiveBeginImageBufferAccess          dive
+DosSetPriority                      DOSCALLS
+WinInitialize                       PMWIN
+WinCreateMsgQueue                   PMWIN
+WinRegisterClass                    PMWIN
+WinDestroyMsgQueue                  PMWIN
+WinTerminate                        PMWIN
+WinSubclassWindow                   PMWIN
+WinSendMsg                          PMWIN
+WinInvalidateRect                   PMWIN
+WinSetVisibleRegionNotify           PMWIN
+DosCreateEventSem                   DOSCALLS
+WinGetMsg                           PMWIN
+WinDispatchMsg                      PMWIN
+DosCloseEventSem                    DOSCALLS
+DosWaitThread                       DOSCALLS
+WinQuerySysModalWindow              PMWIN
+WinSetSysModalWindow                PMWIN
+WinPostQueueMsg                     PMWIN
+DosQuerySysInfo                     DOSCALLS
+DosPostEventSem                     DOSCALLS
+DosCreateDir                        DOSCALLS
+DosExit                             DOSCALLS
+DosAllocMem                         DOSCALLS
+DosOpen                             DOSCALLS
+DosClose                            DOSCALLS
+DosSetFilePtr                       DOSCALLS
+DosGetDateTime                      DOSCALLS
+DosCreateThread                     DOSCALLS
+DosGetInfoBlocks                    DOSCALLS
+DosQueryModuleName                  DOSCALLS
+DosDevConfig                        DOSCALLS
+DosRead                             DOSCALLS
+DosFreeMem                          DOSCALLS
+DosQueryDBCSEnv                     NLS
+DosQueryCp                          DOSCALLS
+DosQueryHType                       DOSCALLS
+DosSetRelMaxFH                      DOSCALLS
+DosResetBuffer                      DOSCALLS
+DosWrite                            DOSCALLS
+KBD16CHARIN                         KBDCALLS
+VIO16WRTTTY                         VIOCALLS
+DosFlatToSel                        DOSCALLS
+DosSelToFlat                        DOSCALLS
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+D:\os2tk45\lib\mmpm2.lib
+D:\watcom/lib386/os2\clib3r.lib
+D:\watcom/lib386\math387r.lib
+D:\watcom/lib386/os2\emu387.lib
+D:\os2tk45\lib\os2386.lib
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  0000 (0.)
+Memory size:  f573 (62835.)
+Link time: 00:00.78

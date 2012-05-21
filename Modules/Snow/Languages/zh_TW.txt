@@ -1,0 +1,57 @@
+/*
+ * NLS support file for the Snow Screen Saver Module
+ *
+ * Language: General English language
+ * Locales : zh_TW_*
+ *
+ * Author  : Alex Lee
+ *
+ * Date (YYYY-MM-DD): 2006.02.10.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="架構放映";                     // Window title
+
+CFG_0002="圖像解析度";                   // Groupbox
+CFG_0003="螢幕解析度(~S)";          // Radio button
+CFG_0004="1/2螢幕解析度(~H)"; // Radio button
+CFG_0005="自定解析度(~C)";                 // Radio button
+CFG_0006="解析度:";                        // Static text
+
+CFG_0007="處理器使用量";                    // Groupbox
+CFG_0008="閒置執行(~I)";              // Radio button
+CFG_0009="正常執行(~R)";           // Radio button
+
+CFG_0010="動畫速度:";                   // Static text
+CFG_0011="FPS";                                // Static text
+
+CFG_0012="使用 ~WarpOverlay!";       // Checkbox
+
+CFG_0013="確定(~O)";                                // Ok button
+CFG_0014="取消(~C)";                            // Cancel button
+
+CFG_0015="視覺選項";                     // Groupbox
+CFG_0016="使用隨機物件(~O)";                // Checkbox
+CFG_0017="使用隨機動畫(~A)";                // Checkbox
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="放映";
+MOD_DESC="此模組會顯示下雪的夜晚。\n使用 WarpOverlay! 或 DIVE.\nWritten by Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

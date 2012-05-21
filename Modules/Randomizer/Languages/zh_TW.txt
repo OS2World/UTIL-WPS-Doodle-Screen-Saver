@@ -1,0 +1,55 @@
+/*
+ * NLS support file for the Randomizer Screen Saver Module
+ *
+ * Language: Traditional Chinese language
+ * Locales : zh_TW
+ *
+ * Author  : Doodle
+ * Translator : Alex Lee
+ * Date (YYYY-MM-DD): 2005.06.10.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="架構隨機模組";   // Window title
+
+CFG_0002="變更模組";              // Groupbox
+CFG_0003="進入下一模組在";      // Static text
+CFG_0004="分鐘之後";                     // Static text
+CFG_0005="使用隨機模組排序(~O)";      // Checkbox
+
+CFG_0006="可使用的模組";                // Groupbox
+CFG_0007="使用所有可用模組(~A)";    // Radiobutton
+CFG_0008="使用此列表模組(~L):";    // Radiobutton
+
+CFG_0009="上(~U)";                           // Button
+CFG_0010="下(~D)";                           // Button
+
+CFG_0011="<- 新增(~A)";                       // Button
+CFG_0012="<< 全部新增(~D)";                   // Button
+CFG_0013="全部移除(~E) >>";                // Button
+CFG_0014="移除(~R) ->";                    // Button
+
+CFG_0015="確定(~O)";                           // Ok button
+CFG_0016="取消(~C)";                       // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="隨機";
+MOD_DESC="隨機模組，使用其他保護模組。\nWritten by Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

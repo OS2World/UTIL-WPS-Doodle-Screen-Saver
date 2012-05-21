@@ -1,0 +1,45 @@
+/*
+ * NLS support file for the PrettyClock Screen Saver Module
+ *
+ * Language: Espa¤ol
+ * Locales : es_*
+ *
+ * Author  : Guillermo G. Llorens
+ *
+ * Date (YYYY-MM-DD): 2005.07.16.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configurar Reloj Bonito";        // Window title
+CFG_0002="Pieles";                         // Groupbox text
+CFG_0003="Por favor elija que piel va a usar!";  // Help text inside the groupbox
+CFG_0004="~Bien";                           // Ok button
+CFG_0005="~Cancelar";                       // Cancel button
+
+CFG_0006="<Sin piel>";                      // Text to show in listbox for 
+                                            // no-skin entry
+CFG_0007="<Sin nombre>";                    // Text to show in listbox when
+                                            // there is no name of skin defined
+                                            // in skin file
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Reloj Bonito";
+MOD_DESC="Este m¢dulo presenta un reloj flotante. La apariencia del reloj se puede cambiar seleccionando diferentes pieles.\nUsando zlib v%1s y libpng v%2s.\nEscrito por Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

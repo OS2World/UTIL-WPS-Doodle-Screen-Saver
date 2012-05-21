@@ -1,0 +1,236 @@
+/*
+ * Screen Saver - Lockup Desktop replacement for OS/2 and eComStation systems
+ * Copyright (C) 2004-2008 Doodle
+ *
+ * Contact: doodle@dont.spam.me.scenergy.dfmk.hu
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ */
+
+#ifndef wpssdesktop_idl
+#define wpssdesktop_idl
+
+#include <wpdesk.idl>
+#include <somcls.idl>
+
+interface M_WPSSDesktop;
+
+// CLASS: WPSSDesktop
+//
+// CLASS HIERARCHY:
+//
+//     SOMObject
+//       +-- WPObject
+//             +-- WPFileSystem
+//                   +-- WPFolder
+//                         +-- WPDesktop
+//                               +--  WPSSDesktop
+//
+// DESCRIPTION:
+//
+//    This is the extended WPDesktop object class, which replaces the
+//    desktop lockup capability with the Screen Saver capability.
+//
+//    An instance of this class can be created as a Workplace object.
+//
+interface WPSSDesktop : WPDesktop
+{
+
+   struct SSMODULEDESC
+   {
+     char achSaverDLLFileName[CCHMAXPATHCOMP];
+     long lVersionMajor;
+     long lVersionMinor;
+     char achModuleName[1024];
+     char achModuleDesc[4096];
+     long bConfigurable;
+     long bSupportsPasswordProtection;
+   };
+   typedef SSMODULEDESC *PSSMODULEDESC;
+
+
+   BOOL  wpssAddScreenSaver1Page(in HWND hwndNotebook);
+   BOOL  wpssAddScreenSaver2Page(in HWND hwndNotebook);
+   BOOL  wpssAddScreenSaver3Page(in HWND hwndNotebook);
+
+   VOID  wpssStartScreenSaverNow(in BOOL bDontDelayPasswordProtection);
+
+   VOID  wpssStartScreenSaverModulePreview(in PSZ pszSaverDLLFileName, in HWND hwndClientArea);
+   VOID  wpssStopScreenSaverModulePreview(in HWND hwndClientArea);
+   VOID  wpssConfigureScreenSaverModule(in PSZ pszSaverDLLFileName, in HWND hwndOwnerWindow);
+
+   VOID  wpssSetScreenSaverEnabled(in BOOL bEnabled);
+   BOOL  wpssQueryScreenSaverEnabled();
+
+   VOID  wpssSetScreenSaverTimeout(in ULONG ulTimeoutInmsec);
+   ULONG wpssQueryScreenSaverTimeout();
+
+   VOID  wpssSetAutoStartAtStartup(in BOOL bAutoStart);
+   BOOL  wpssQueryAutoStartAtStartup();
+
+   VOID  wpssEncryptScreenSaverPassword(in PSZ pszPassword);
+
+   VOID  wpssSetScreenSaverPasswordProtected(in BOOL bPasswordProtected);
+   BOOL  wpssQueryScreenSaverPasswordProtected();
+
+   VOID  wpssSetScreenSaverEncryptedPassword(in PSZ pszEncryptedPassword);
+   VOID  wpssQueryScreenSaverEncryptedPassword(in PSZ pszEncryptedPasswordBuf, in ULONG ulEncryptedPasswordBufSize);
+
+   VOID  wpssSetDelayedPasswordProtection(in BOOL bDelayedPasswordProtection);
+   BOOL  wpssQueryDelayedPasswordProtection();
+
+   VOID  wpssSetDelayedPasswordProtectionTimeout(in ULONG ulTimeoutInmsec);
+   ULONG wpssQueryDelayedPasswordProtectionTimeout();
+
+   VOID  wpssSetScreenSaverModule(in PSZ pszSaverDLLFileName);
+   VOID  wpssQueryScreenSaverModule(in PSZ pszSaverDLLFileNameBuf, in ULONG ulSaverDLLFileNameBufSize);
+
+   VOID  wpssSetScreenSaverPreviewEnabled(in BOOL bEnabled);
+   BOOL  wpssQueryScreenSaverPreviewEnabled();
+
+   ULONG wpssQueryNumOfAvailableScreenSaverModules();
+   ULONG wpssQueryInfoAboutAvailableScreenSaverModules(in ULONG ulMaxModules,
+                                                       in PSSMODULEDESC pModuleDescArray);
+
+   VOID  wpssSetUseDPMSStandby(in BOOL bEnabled);
+   BOOL  wpssQueryUseDPMSStandby();
+
+   VOID  wpssSetDPMSStandbyTimeout(in ULONG ulTimeoutInmsec);
+   ULONG wpssQueryDPMSStandbyTimeout();
+
+   VOID  wpssSetUseDPMSSuspend(in BOOL bEnabled);
+   BOOL  wpssQueryUseDPMSSuspend();
+
+   VOID  wpssSetDPMSSuspendTimeout(in ULONG ulTimeoutInmsec);
+   ULONG wpssQueryDPMSSuspendTimeout();
+
+   VOID  wpssSetUseDPMSOff(in BOOL bEnabled);
+   BOOL  wpssQueryUseDPMSOff();
+
+   VOID  wpssSetDPMSOffTimeout(in ULONG ulTimeoutInmsec);
+   ULONG wpssQueryDPMSOffTimeout();
+
+   VOID  wpssSetUseCurrentSecurityPassword(in BOOL bEnabled);
+   BOOL  wpssQueryUseCurrentSecurityPassword();
+
+   VOID  wpssSetWakeByKeyboardOnly(in BOOL bEnabled);
+   BOOL  wpssQueryWakeByKeyboardOnly();
+
+   VOID  wpssSetFirstKeyEventGoesToPwdWindow(in BOOL bEnabled);
+   BOOL  wpssQueryFirstKeyEventGoesToPwdWindow();
+
+   VOID  wpssSetDisableVIOPopupsWhileSaving(in BOOL bVIOPopupsDisabled);
+   BOOL  wpssQueryDisableVIOPopupsWhileSaving();
+
+   #ifdef __SOMIDL__
+   implementation
+   {
+      releaseorder: wpssAddScreenSaver1Page, wpssAddScreenSaver2Page, wpssAddScreenSaver3Page,
+                    wpssStartScreenSaverNow,
+                    wpssStartScreenSaverModulePreview, wpssStopScreenSaverModulePreview,
+                    wpssConfigureScreenSaverModule,
+                    wpssSetScreenSaverEnabled, wpssQueryScreenSaverEnabled,
+                    wpssSetScreenSaverTimeout, wpssQueryScreenSaverTimeout,
+                    wpssSetAutoStartAtStartup, wpssQueryAutoStartAtStartup,
+                    wpssEncryptScreenSaverPassword,
+                    wpssSetScreenSaverPasswordProtected, wpssQueryScreenSaverPasswordProtected,
+                    wpssSetScreenSaverEncryptedPassword, wpssQueryScreenSaverEncryptedPassword,
+                    wpssSetDelayedPasswordProtection, wpssQueryDelayedPasswordProtection,
+                    wpssSetDelayedPasswordProtectionTimeout, wpssQueryDelayedPasswordProtectionTimeout,
+                    wpssSetScreenSaverModule, wpssQueryScreenSaverModule,
+                    wpssSetScreenSaverPreviewEnabled, wpssQueryScreenSaverPreviewEnabled,
+                    wpssQueryNumOfAvailableScreenSaverModules,
+                    wpssQueryInfoAboutAvailableScreenSaverModules,
+                    wpssSetUseDPMSStandby, wpssQueryUseDPMSStandby,
+                    wpssSetDPMSStandbyTimeout, wpssQueryDPMSStandbyTimeout,
+                    wpssSetUseDPMSSuspend, wpssQueryUseDPMSSuspend,
+                    wpssSetDPMSSuspendTimeout, wpssQueryDPMSSuspendTimeout,
+                    wpssSetUseDPMSOff, wpssQueryUseDPMSOff,
+                    wpssSetDPMSOffTimeout, wpssQueryDPMSOffTimeout,
+                    wpssSetUseCurrentSecurityPassword, wpssQueryUseCurrentSecurityPassword,
+                    wpssSetWakeByKeyboardOnly, wpssQueryWakeByKeyboardOnly,
+                    wpssSetFirstKeyEventGoesToPwdWindow, wpssQueryFirstKeyEventGoesToPwdWindow,
+                    wpssSetDisableVIOPopupsWhileSaving, wpssQueryDisableVIOPopupsWhileSaving;
+
+       /*
+       * Class Modifiers
+       */
+      externalstem   = WPSSDesktop;
+      externalprefix = wpssdesktop_;
+      majorversion   = 1;
+      minorversion   = 2;
+      filestem       = WPSSDesktop;
+      metaclass      = M_WPSSDesktop;
+      callstyle      = oidl;
+
+      /*
+       * Internal Instance Variables
+       */
+
+      BOOL  bPreviewEnabled;
+      BOOL  bAutoStartAtStartup;
+      char  achLanguage[64];
+
+      /*
+       * Method Modifiers
+       */
+      wpSaveState:                     override;
+      wpRestoreState:                  override;
+      wpAddDesktopLockup1Page:         override;
+      wpAddDesktopLockup2Page:         override;
+      wpAddDesktopLockup3Page:         override;
+      wpSetAutoLockup:                 override;
+      wpSetLockupOnStartup:            override;
+      wpSetup:                         override;
+      wpMenuItemSelected:              override;
+      wpOpen:                          override;
+   };
+   #endif /* __SOMIDL__ */
+};
+
+interface M_WPSSDesktop : M_WPDesktop
+{
+
+   BOOL  wpssclsInitializeScreenSaver();
+   BOOL  wpssclsUninitializeScreenSaver();
+
+   #ifdef __SOMIDL__
+   implementation
+   {
+      releaseorder: wpssclsInitializeScreenSaver, wpssclsUninitializeScreenSaver;
+
+      /*
+       * Class Modifiers
+       */
+      externalstem   = WPSSDesktop;
+      externalprefix = wpssdesktopM_;
+      functionprefix = wpssdesktopM_;
+      majorversion   = 1;
+      minorversion   = 2;
+      filestem       = WPSSDesktop;
+      callstyle      = oidl;
+
+      /*
+       * Method Modifiers
+       */
+      wpclsInitData:                   override;
+      wpclsUnInitData:                 override;
+      wpclsQueryTitle:                 override;
+      wpclsQuerySettingsPageSize:      override;
+   };
+   #endif /* __SOMIDL__ */
+};
+#endif  /* WPSSDesktop_idl */

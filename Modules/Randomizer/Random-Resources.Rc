@@ -1,0 +1,86 @@
+
+/* OS/2 Warp 4.0 Resource Script File - Created by Universal Resource Editor */
+
+#define INCL_WINSYS
+#define INCL_WINBIDI
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "random-resources.h"
+
+DLGTEMPLATE DLG_CONFIGURERANDOMIZEMODULE MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Configure Randomize module", DLG_CONFIGURERANDOMIZEMODULE, 8, 30, 185, 116,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "Changing modules",    GB_CHANGINGMODULES, 3, 88, 173, 24,
+                                            WC_STATIC, SS_GROUPBOX | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Go for next module after", ST_GOFORNEXTMODULEAFTER,
+                                        10, 99, -1, -1, WC_STATIC, SS_TEXT |
+                                            SS_AUTOSIZE | DT_LEFT | DT_TOP |
+                                            DT_MNEMONIC | WS_VISIBLE
+        CONTROL "1",                   SPB_NEXTMODULETIME, 71, 98, 23, 8,
+                                            WC_SPINBUTTON, SPBS_MASTER |
+                                            SPBS_JUSTRIGHT | SPBS_READONLY |
+                                            SPBS_NUMERICONLY | SPBS_FASTSPIN |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 24, 0, 256, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        CONTROL "minute(s)",           ST_MINUTES, 99, 100, -1, -1, WC_STATIC,
+                                            SS_TEXT | SS_AUTOSIZE | DT_LEFT |
+                                            DT_TOP | WS_VISIBLE
+        CONTROL "Use random module ~order", CB_USERANDOMMODULEORDER,
+                                        9, 91, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Modules to use",      GB_MODULESTOUSE, 5, 16, 170, 71,
+                                            WC_STATIC, SS_GROUPBOX | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Use ~all available modules", RB_USEALLAVAILABLEMODULES,
+                                        11, 73, -1, -1, WC_BUTTON,
+                                            BS_AUTORADIOBUTTON | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Use modules in this ~list:", RB_USEMODULESINTHISLIST,
+                                        11, 63, -1, -1, WC_BUTTON,
+                                            BS_AUTORADIOBUTTON | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Up",                 PB_UP, 9, 47, 12, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "D~n",                 PB_DN, 10, 22, 12, 8, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "",                    LB_MODULESINUSE, 26, 20, 59, 40,
+                                            WC_LISTBOX, LS_NOADJUSTPOS |
+                                            WS_VISIBLE
+        CONTROL "<- ~Add",             PB_ADD, 86, 50, 36, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "<< A~dd all",         PB_ADDALL, 88, 40, 35, 9, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "R~emove all >>",      PB_REMOVEALL, 86, 29, 37, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~Remove ->",          PB_REMOVE, 87, 21, 36, 8, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "",                    LB_ALLMODULES, 125, 23, 47, 36,
+                                            WC_LISTBOX, LS_NOADJUSTPOS |
+                                            WS_VISIBLE
+        CONTROL "~OK",                 PB_OK, 35, 5, 36, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Cancel",             PB_CANCEL, 99, 5, 36, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END

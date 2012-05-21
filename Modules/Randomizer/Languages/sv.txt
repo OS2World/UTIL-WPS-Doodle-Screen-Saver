@@ -1,0 +1,56 @@
+/*
+ * NLS support file for the Randomizer Screen Saver Module
+ *
+ * Language  : Swedish language
+ * Locales   : sv_*
+ *
+ * Author    : Doodle
+ * Translator: Bjîrn Sîderstrîm
+ *
+ * Date (YYYY-MM-DD): 2005.06.06.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Konfigurera SlumpmÑssig modul";      // Window title
+
+CFG_0002="éndra moduler";                      // Groupbox
+CFG_0003="GÜ till nÑsta modul efter";          // Static text
+CFG_0004="minut(er)";                          // Static text
+CFG_0005="AnvÑnd slumpvis modul~ordning";      // Checkbox
+
+CFG_0006="Moduler att anvÑnda";                // Groupbox
+CFG_0007="AnvÑnd ~alla tillgÑngliga moduler";  // Radiobutton
+CFG_0008="AnvÑnd moduler i den hÑr listan:";   // Radiobutton
+
+CFG_0009="~Upp";                               // Button
+CFG_0010="~Ner";                               // Button
+
+CFG_0011="<- ~LÑgg till";                      // Button
+CFG_0012="<< L~Ñgg till alla";                 // Button
+CFG_0013="Ta ~bort alla >>";                   // Button
+CFG_0014="~Ta bort ->";                        // Button
+
+CFG_0015="~Ok";                                // Ok button
+CFG_0016="~èngra";                             // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="SlumpmÑssig";
+MOD_DESC="SlumpmÑssig modul, som anvÑnder andra skÑrmslÑckarmoduler.\nSkriven av Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

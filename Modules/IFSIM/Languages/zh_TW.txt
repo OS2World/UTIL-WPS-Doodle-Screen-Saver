@@ -1,0 +1,57 @@
+/*
+ * NLS support file for the IFSIM Screen Saver Module
+ *
+ * Language: Traditional Chinese language
+ * Locales : zh_TW
+ *
+ * Author  : Doodle
+ * Translator : Alex Lee
+ * Date (YYYY-MM-DD): 2005.06.10.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="架構 IFSIM";                    // Window title
+
+CFG_0002="圖像解析度";                   // Groupbox
+CFG_0003="螢幕解析度(~S)";          // Radio button
+CFG_0004="1/2螢幕解析度(~H)"; // Radio button
+CFG_0005="自定解析度(~C)";                 // Radio button
+CFG_0006="解析度:";                        // Static text
+
+CFG_0007="小點數";                   // Groupbox
+CFG_0008="請輸入 1 至 100000 之間的值！"; // Static text
+CFG_0009="小點數:";                  // Static text
+
+CFG_0010="處理器使用量";                    // Groupbox
+CFG_0011="優先閒置執行(~I)";              // Radio button
+CFG_0012="優先正常執行(~R)";           // Radio button
+
+CFG_0013="動畫速度:";                   // Static text
+CFG_0014="FPS";                                // Static text
+
+CFG_0015="若許可，使用 ~WarpOverlay!";       // Checkbox
+
+CFG_0016="確定(~O)";                                // Ok button
+CFG_0017="取消(~C)";                            // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="IFS 動作";
+MOD_DESC="漂亮的 Iterated Function System (IFS) 動作中。\nWritten by Doodle\nUsing source code of ErOs2";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

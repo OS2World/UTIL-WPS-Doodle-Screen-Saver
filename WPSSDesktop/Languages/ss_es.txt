@@ -1,0 +1,133 @@
+/*
+ * NLS support file for Doodle's Screen Saver v1.6
+ *
+ * Language: Espa¤ol
+ * Locales : es_*
+ *
+ * Author  : Guillermo G. Llorens
+ *
+ * Date (YYYY-MM-DD): 2006.02.28.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Screen Saver settings pages.
+
+// ---------------------------------------------------------------------------
+// Strings for the settings notebook:
+
+COM_0000="S~alvapantalla";                   // Properties tab text
+COM_0001="Par metros generales";         // Descriptive text for page 1
+COM_0002="Par metros DPMS";               // Descriptive text for page 2
+COM_0003="M¢dulos del Salvapantalla";  // Descriptive text for page 3
+
+// ---------------------------------------------------------------------------
+// Strings for page 1 of screen saver settings:
+
+PG1_FONT="8.Helv";
+
+PG1_0000="Ayuda";
+PG1_0001="~Por defecto";
+PG1_0002="~Deshacer";
+
+PG1_0003="Par metros generales";
+PG1_0004="Salvapantalla ~activado";
+PG1_0005="Lanzar Salvapantalla despu‚s de";
+PG1_0006="minuto(s) de inactividad";
+
+PG1_0007="Protecci¢n por contrase¤a";
+PG1_0008="Usar ~protecci¢n con contrase¤a";
+PG1_0009="Ingrese su contrase¤a en ambos campos de entrada (no se muestran los caracteres). Luego pulse Cambiar.";
+PG1_0010="Contrase¤a:";
+PG1_0011="(para verificaci¢n)";
+PG1_0012="~Cambiar";
+PG1_0013="~Retrasar protecci¢n por contrase¤a";
+PG1_0014="Pedir contrase¤a s¢lo despu‚s de";
+PG1_0015="minuto(s) de activado";
+PG1_0016="~Activar Salvapantalla al iniciar el sistema";
+
+PG1_0017="Contrase¤a incorrecta";
+PG1_0018="Las dos contrase¤as ingresadas no coinciden!";
+
+// -- Added in v1.4:
+PG1_0019="Usar contrase¤a del usuario actual S~ecurity/2";
+PG1_0020="Usar ~esta contrase¤a:";
+
+// -- Added in v1.5:
+PG1_0021="Desactivar s¢lo por ~teclado";
+
+// -- Added in v1.6:
+PG1_0022="Hacer que la ~primer tecla pulsada se tome como primer caracter de la contrase¤a";
+
+// -- Added in v1.9:
+PG1_0023="Inhabilitar apariciones ~VIO al guardar";
+
+// ---------------------------------------------------------------------------
+// Strings for page 2 of screen saver settings:
+
+PG2_FONT="8.Helv";
+
+PG2_0000="Ayuda";
+PG2_0001="~Por defecto";
+PG2_0002="~Deshacer";
+
+PG2_0003="Par metros DPMS";
+PG2_0004="Usar estado ~Standby DPMS";
+PG2_0005="Pasar a Standby despu‚s de";
+PG2_0006="Usar estado S~uspender DPMS";
+PG2_0007="Pasar a Suspender despu‚s de";
+PG2_0008="Usar estado ~Apagado DPMS";
+PG2_0009="Pasar a Apagado despu‚s de";
+PG2_0010="minutos(s) de ahorro";
+PG2_0011="minuto(s) de estado Standby";
+PG2_0012="minuto(s) de estado Suspender";
+
+// ---------------------------------------------------------------------------
+// Strings for page 3 of screen saver settings:
+
+PG3_FONT="8.Helv";
+
+PG3_0000="Ayuda";
+PG3_0001="~Por defecto";
+PG3_0002="~Deshacer";
+
+PG3_0003="M¢dulos del Salvapantalla";
+PG3_0004="Mostrar ~Vista previa";
+PG3_0005="Informaci¢n del m¢dulo";
+PG3_0006="Nombre del m¢dulo:";
+PG3_0007="Versi¢n del m¢dulo:";
+PG3_0008="Soporta protecci¢n por contrase¤a:";
+PG3_0009="Si";
+PG3_0010="No";
+PG3_0011="Descripci¢n:";
+PG3_0012="~Comenzar ya";
+PG3_0013="~Configurar";
+
+PG3_0014="No ha seleccionado un m¢dulo!\nPor favor elija un m¢dulo Salvapantalla!";
+PG3_0015="Sin vista previa";
+
+// ---------------------------------------------------------------------------
+// Common strings sent to NLS-enabled saver modules:
+
+// Password asking window
+MOD_0000="Protecci¢n por contrase¤a"; 
+MOD_0001="Por favor ingrese la contrase¤a para desactivar el Salvapantalla!";
+MOD_0002="~Bien";
+MOD_0003="~Cancelar";
+
+// Wrong password window
+MOD_0004="Contrase¤a incorrecta"; 
+MOD_0005="Ha ingresado una contrase¤a incorrecta!\nPor favor trate nuevamente!";
+MOD_0006="~Bien";
+
+// Font to use (for DBCS support)
+MOD_0007="8.Helv";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

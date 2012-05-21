@@ -1,0 +1,55 @@
+/*
+ * NLS support file for the Randomizer Screen Saver Module
+ *
+ * Language: General Dutch language
+ * Locales : nl_*
+ *
+ * Author  : MrFawlty
+ *
+ * Date (YYYY-MM-DD): 2005.06.06.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configureren Willekeurige module";      // Window title
+
+CFG_0002="Wisselende modules";                    // Groupbox
+CFG_0003="Ga naar volgende module na";            // Static text
+CFG_0004="minu(u)t(en)";                          // Static text
+CFG_0005="Gebruik willekeurige module ~volgorde"; // Checkbox
+
+CFG_0006="Te gebruiken modules";                  // Groupbox
+CFG_0007="Gebruik alle beschikbare ~modules";     // Radiobutton
+CFG_0008="Gebruik modules uit deze ~lijst:";      // Radiobutton
+
+CFG_0009="Naar ~boven";                           // Button
+CFG_0010="Naar ben~eden";                         // Button
+
+CFG_0011="<- ~Toevoegen";                         // Button
+CFG_0012="<< Alles toevoe~gen";                   // Button
+CFG_0013="Alles ver~wijderen >>";                 // Button
+CFG_0014="Ve~rwijderen ->";                       // Button
+
+CFG_0015="~Ok";                                   // Ok button
+CFG_0016="~Annuleren";                            // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Willekeurige";
+MOD_DESC="Willekeurige module, gebruikt andere blokkeer modules.\nGeschreven door Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

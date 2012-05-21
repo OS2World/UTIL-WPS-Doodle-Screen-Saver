@@ -1,0 +1,58 @@
+/*
+ * NLS support file for the Matrix Screen Saver Module
+ * Support de langue pour le module Matrix
+ *
+ * Language: french language
+ * Locales : fr_*
+ *
+ * Author  : Doodle
+ * Translator : Guillaume Gay <guillaume.gay@bigfoot.com>
+ *
+ * Date (AAAA-MM-JJ): 2006.02.12.
+ *
+ *
+ * Pour g‚n‚rer le fichier binaire de langue depuis ce fichier,
+ * utilisez le programme MSGC.EXE de cette maniŠre :
+ * msgc <nomfichier.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configuration de Matrix";             // Window title
+
+CFG_0002="R‚solution de l'image";               // Groupbox
+CFG_0003="R‚solution de l'~‚cran";              // Radio button
+CFG_0004="~Moiti‚ de la r‚solution de l'‚cran"; // Radio button
+CFG_0005="~R‚solution personnalis‚e";           // Radio button
+CFG_0006="R‚solution:";                         // Static text
+
+CFG_0007="Utilisation du processeur";           // Groupbox
+CFG_0008="Priorit‚ ~basse";                     // Radio button
+CFG_0009="Priorit‚ ~normale";                   // Radio button
+
+CFG_0010="Vitesse de l'animation : ";           // Static text
+CFG_0011="img/s";                               // Static text
+
+CFG_0012="Utiliser ~WarpOverlay! si pr‚sent";   // Checkbox
+
+CFG_0013="~OK";                                 // Ok button
+CFG_0014="~Annuler";                            // Cancel button
+
+CFG_0015="Options de visualisation";            // Groupbox
+CFG_0016="Lettres tombant de maniŠre ~fluide";  // Checkbox
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Matrix";
+MOD_DESC="Lettre qui tombent fa‡on Matrix.\nFait usage de WarpOverlay! ou DIVE.\nMont‚ par Doodle … partir du code cr‚‚ par sNOa.";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

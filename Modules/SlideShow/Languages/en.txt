@@ -1,0 +1,46 @@
+/*
+ * NLS support file for the ShowImage Screen Saver Module
+ *
+ * Language: General English language
+ * Locales : en_*
+ *
+ * Author  : Warp5  (based on code by Doodle!)
+ *
+ * Date (YYYY-MM-DD): 2005.06.02.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configure Slide Show";                     // Window title
+
+CFG_0002="Blank screen after";                       // Label
+CFG_0003="Minute(s)";                                // Label
+CFG_0004="~Zoom image if it is smaller than screen"; // Check Box
+CFG_0005="Directory to display:";                    // Label
+CFG_0006="Browse";                                   // Browse Button
+CFG_0007="~Ok";                                      // Browse Button
+CFG_0008="~Cancel";                                  // Browse Button
+CFG_0009="Switch image after";                       // Label
+CFG_0010="~Random order of images";                  // Label
+
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Slide Show";
+MOD_DESC="Show a series of images and \nblank the screen after some time.\nWritten by Warp5.\n\nThis module uses the GBM library with JPEG support\nand is based in part on the work of the Independent\nJPEG Group.";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

@@ -1,0 +1,45 @@
+/*
+ * NLS support file for the PrettyClock Screen Saver Module
+ *
+ * Language: General German language
+ * Locales : de_*
+ *
+ * Author  : Christian Hennecke
+ *
+ * Date (YYYY-MM-DD): 2005.06.09.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+ 
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+ 
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+ 
+CFG_0001="Pretty Clock konfigurieren";        // Window title
+CFG_0002="Themen";                         // Groupbox text
+CFG_0003="Ein zu verwendendes Thema ausw„hlen.";  // Help text inside the groupbox
+CFG_0004="~OK";                           // Ok button
+CFG_0005="~Abbruch";                       // Cancel button
+ 
+CFG_0006="<ohne Skin>";                   // Text to show in listbox for 
+                                          // no-skin entry
+CFG_0007="<unbenannt>";                     // Text to show in listbox when
+                                          // there is no name of skin defined
+                                          // in skin file
+ 
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+ 
+MOD_NAME="Pretty Clock";
+MOD_DESC="Dieses Modul zeigt eine schwebende Uhr an. Das Erscheinungsbild der Uhr kann durch Auswahl verschiedener Themen angepaát werden.\nVerwendet zlib v%1s und libpng v%2s.\nEntwickelt von Doodle.";
+ 
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

@@ -1,0 +1,29 @@
+Translators of DSSaver:
+-----------------------
+
+Italian:
+muffetta66 <muffetta66@email.it> 
+
+Russian:
+Yuri Proniakin <yup@bigmir.net>
+
+Spanish:
+GGLL <nagato@arnet.com.ar>
+
+Dutch:
+Jan van der Heide <j.van.der.heide@hccnet.nl>
+
+Chinese:
+Alex Lee <alexylee.geo@yahoo.com>
+
+German:
+Christian Hennecke <christian.hennecke@ruhr-uni-bochum.de>
+
+French:
+Guillaume Gay <guillaume.gay@bigfoot.com>
+
+Swedish:
+Bj”rn S”derstr”m <bjorso@bjorso.com>
+
+Hungarian:
+Doodle <doodle@scenergy.dfmk.hu>

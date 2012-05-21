@@ -1,0 +1,53 @@
+/*
+ * NLS support file for the Circles Screen Saver Module
+ *
+ * Language: Espa¤ol
+ * Locales : es_*
+ *
+ * Author  : Guillermo G. Llorens
+ *
+ * Date (YYYY-MM-DD): 2005.07.16.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configurar C¡rculos";                    // Window title
+
+CFG_0002="Resoluci¢n de la imagen";                // Groupbox
+CFG_0003="Resoluci¢n de ~Pantalla";                // Radio button
+CFG_0004="~Media resoluci¢n de pantalla";          // Radio button
+CFG_0005="Resoluci¢n ~propia";                     // Radio button
+CFG_0006="Resoluci¢n:";                            // Static text
+
+CFG_0007="Uso del procesador";                     // Groupbox
+CFG_0008="Ejecutar con prioridad ~M¡nima";         // Radio button
+CFG_0009="Ejecutar con prioridad ~Regular";        // Radio button
+
+CFG_0010="Velocidad de animaci¢n:";                // Static text
+CFG_0011="FPS";                                    // Static text
+
+CFG_0012="Usar ~WarpOverlay! si est  disponible";  // Checkbox
+
+CFG_0013="~Bien";                                  // Ok button
+CFG_0014="~Cancelar";                              // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="C¡rculos";
+MOD_DESC="C¡rculos hipnotizantes.\nUsa WarpOverlay! o DIVE.\nEscrito por Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

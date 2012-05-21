@@ -1,0 +1,40 @@
+/*
+ * NLS support file for the Moving Text Saver Module
+ * Support de langue pour le module Message animÇ
+ *
+ * Language: french language
+ * Locales : fr_*
+ *
+ * Author  : Doodle
+ * Translator : Guillaume Gay <guillaume.gay@bigfoot.com>
+ *
+ * Date (AAAA-MM-JJ): 2006.02.12.
+ *
+ *
+ * Pour gÇnÇrer le fichier binaire de langue depuis ce fichier,
+ * utilisez le programme MSGC.EXE de cette maniäre :
+ * msgc <nomfichier.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configuration de Message animÇ";            // Window title
+CFG_0002="Texte Ö afficher :";                        // Label
+CFG_0003="~OK";                                       // OK Button
+CFG_0004="~Annuler";                                  // Cancel Button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Message animÇ";
+MOD_DESC="Ce module affiche un message texte Ö l'Çcran.\nêcrit par Warp5";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

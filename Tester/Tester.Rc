@@ -1,0 +1,76 @@
+
+/* OS/2 Warp 4.0 Resource Script File - Created by Universal Resource Editor */
+
+#define INCL_WINSYS
+#define INCL_WINBIDI
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "tester.h"
+
+DLGTEMPLATE DLG_SCREENSAVERMODULETESTER MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Screen Saver Module tester", DLG_SCREENSAVERMODULETESTER, 8, 30, 213, 143,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON | FCF_TASKLIST
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "12.System Proportional"
+    BEGIN
+        CONTROL "Module name:",        ST_MODULENAME, 7, 129, 70, 8, WC_STATIC,
+                                            SS_TEXT | DT_LEFT | DT_TOP |
+                                            WS_GROUP | WS_VISIBLE
+        CONTROL "Module version:",     ST_MODULEVERSION, 7, 117, 70, 8,
+                                            WC_STATIC, SS_TEXT | DT_LEFT |
+                                            DT_TOP | WS_GROUP | WS_VISIBLE
+        CONTROL "Supports pwd protection:", ST_SUPPORTSPWDPROTECTION,
+                                        7, 105, 70, 8, WC_STATIC, SS_TEXT |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Module description:", 260, 8, 92, 70, 8, WC_STATIC, SS_TEXT |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Name",                EF_NAME, 83, 129, 48, 6, WC_ENTRYFIELD,
+                                            ES_MARGIN | ES_ANY | WS_TABSTOP |
+                                            WS_VISIBLE
+                CTLDATA 8, 256, 0, 0
+        CONTROL "Version",             EF_VERSION, 83, 117, 48, 6,
+                                            WC_ENTRYFIELD, ES_MARGIN | ES_ANY |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+        CONTROL "PwdProt",             EF_PWDPROT, 83, 104, 48, 6,
+                                            WC_ENTRYFIELD, ES_MARGIN | ES_ANY |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+        CONTROL "Module desc",         MLE_MODULEDESC, 6, 52, 127, 38, WC_MLE,
+                                            MLS_BORDER | MLS_HSCROLL |
+                                            MLS_IGNORETAB | MLS_VSCROLL |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 32, 0, 65535, 65535, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        CONTROL "For testing with password protection, the password is ""password"" !",
+                                       ST_FORTESTING, 6, 31, 127, 17, WC_STATIC,
+                                            SS_TEXT | DT_LEFT | DT_TOP |
+                                            DT_WORDBREAK | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Password protected test", CB_PASSWORDPROTECTEDTEST,
+                                        6, 21, 82, 8, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~Test 5 secs",        PB_TEST, 5, 5, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Configure",          PB_CONFIGURE, 52, 5, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "E~xit",               PB_EXIT, 172, 4, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Preview:",            ST_PREVIEW, 140, 97, 67, 7, WC_STATIC,
+                                            SS_TEXT | DT_CENTER | DT_TOP |
+                                            WS_GROUP | WS_VISIBLE
+    END
+END

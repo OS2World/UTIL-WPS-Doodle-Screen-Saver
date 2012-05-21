@@ -1,0 +1,45 @@
+/*
+ * NLS support file for the PrettyClock Screen Saver Module
+ *
+ * Language: General Hungarian language
+ * Locales : hu_*
+ *
+ * Author  : Doodle
+ *
+ * Date (YYYY-MM-DD): 2005.05.28.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="A SzÇp ‡ra be†ll°t†sai";                       // Window title
+CFG_0002="Skinek";                                       // Groupbox text
+CFG_0003="KÇrem v†lassza ki a haszn†lni k°v†nt Skint!";  // Help text inside the groupbox
+CFG_0004="~Ok";                                          // Ok button
+CFG_0005="~MÇgsem";                                      // Cancel button
+
+CFG_0006="<Skin nÇlkÅl>";                                // Text to show in listbox for 
+                                                         // no-skin entry
+CFG_0007="<NÇvtelen>";                                   // Text to show in listbox when
+                                                         // there is no name of skin defined
+                                                         // in skin file
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="SzÇp ‡ra";
+MOD_DESC="Ez a modul egy, a kÇpernyãn keresztÅl£sz¢ ¢r†t mutat. Az ¢ra kinÇzete kÅlînbîzã skinek kiv†laszt†s†val megv†ltoztathat¢.\nA modul a kîvetkezã szoftverkînyvt†rakat haszn†lja: zlib v%1s Çs libpng v%2s.\nKÇsz°tette: Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

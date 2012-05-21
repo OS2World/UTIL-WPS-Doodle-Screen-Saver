@@ -1,0 +1,59 @@
+/*
+ * NLS support file for the IFSIM Screen Saver Module
+ * Support de langue pour le module Objet Fractal en Mouvement
+ *
+ * Language   : french language
+ * Locales    : fr_*
+ *
+ * Author     : Doodle
+ * Translator : Guillaume Gay <guillaume.gay@bigfoot.com>
+ *
+ * Date (AAAA-MM-JJ): 2006.02.12.
+ *
+ *
+ * Pour gÇnÇrer le fichier binaire de langue depuis ce fichier,
+ * utilisez le programme MSGC.EXE de cette maniäre :
+ * msgc <nomfichier.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configuration de l'Objet Fractal en Mouvement"; // Window title
+
+CFG_0002="RÇsolution de l'image";                // Groupbox
+CFG_0003="RÇsolution de l'~Çcran";               // Radio button
+CFG_0004="~MoitiÇ de la rÇsolution de l'Çcran";  // Radio button
+CFG_0005="~RÇsolution personnalisÇe";            // Radio button
+CFG_0006="RÇsolution : ";                        // Static text
+
+CFG_0007="Nombre de points";                     // Groupbox
+CFG_0008="Veuillez entrer une valeur entre 1 et 100000 !"; // Static text
+CFG_0009="Nombre de points : ";                  // Static text
+
+CFG_0010="Utilisation du processeur";            // Groupbox
+CFG_0011="PrioritÇ ~basse";                      // Radio button
+CFG_0012="PrioritÇ ~normale";                    // Radio button
+
+CFG_0013="Vitesse de l'animation : ";            // Static text
+CFG_0014="img/s";                                // Static text
+
+CFG_0015="Utiliser ~WarpOverlay! si prÇsent";    // Checkbox
+
+CFG_0016="~OK";                                  // Ok button
+CFG_0017="~Annuler";                             // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Objet Fractal en Mouvement";
+MOD_DESC="Affiche un objet fractal animÇ.\nêcrit par Doodle\nUtilisant le code source de ErOs2";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

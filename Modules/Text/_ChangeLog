@@ -1,0 +1,11 @@
+SRC .. source code change
+FEA .. feature change
+KNB .. known bugs
+
+Version 1.6 - first public release
+SRC
+FEA
+   Scroll white text on a black screen from right to left
+   The text is editable and is saved to a configuration file   
+KNB
+

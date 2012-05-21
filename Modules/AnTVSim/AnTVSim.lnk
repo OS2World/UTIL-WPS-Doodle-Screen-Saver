@@ -1,0 +1,12 @@
+system os2v2_dll INITINSTANCE TERMINSTANCE
+name ANTVSIM
+file AnTVSim
+file msgx
+OPTION MAP=AnTVSim
+OPTION DESCRIPTION 'Analogue TV Simulator - ScreenSaver module'
+OPTION ELIMINATE
+OPTION MANYAUTODATA
+OPTION OSNAME='OS/2 and eComStation'
+OPTION SHOWDEAD
+LIBPATH %os2tk%\lib
+library mmpm2.lib

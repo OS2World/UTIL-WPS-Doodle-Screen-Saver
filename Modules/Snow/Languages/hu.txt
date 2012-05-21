@@ -1,0 +1,57 @@
+/*
+ * NLS support file for the Snow Screen Saver Module
+ *
+ * Language: General Hungarian language
+ * Locales : hu_*
+ *
+ * Author  : Doodle
+ *
+ * Date (YYYY-MM-DD): 2005.05.28.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="A H¢es‚s modul be ll¡t sai"; // Window title
+
+CFG_0002="K‚p felbont sa";                     // Groupbox
+CFG_0003="A ~k‚perny‹ felbont sa";             // Radio button
+CFG_0004="A k‚perny‹ felbont s nak ~fele";     // Radio button
+CFG_0005="~Egy‚b felbont s";                   // Radio button
+CFG_0006="Felbont s:";                         // Static text
+
+CFG_0007="Processzor haszn lata";              // Groupbox
+CFG_0008="~Idle priorit ssal fusson";          // Radio button
+CFG_0009="µ~ltal nos priorit ssal fusson";     // Radio button
+
+CFG_0010="Anim ci¢ sebess‚ge:";                // Static text
+CFG_0011="FPS";                                // Static text
+
+CFG_0012="Haszn ljon ~WarpOverlay!-t ha el‚rhet‹"; // Checkbox
+
+CFG_0013="~Ok";                                // Ok button
+CFG_0014="~M‚gsem";                            // Cancel button
+
+CFG_0015="Vizu lis be ll¡t sok";               // Groupbox
+CFG_0016="~T rgyak haszn lata";                // Checkbox
+CFG_0017="~Anim ci¢k haszn lata";              // Checkbox
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="H¢es‚s";
+MOD_DESC="Ez a modul egy h¢es‚ses ‚jszak t mutat.\nWarpOverlay!-t vagy DIVE-t haszn l.\nK‚sz¡tette: Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

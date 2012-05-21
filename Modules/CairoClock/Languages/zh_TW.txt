@@ -1,0 +1,54 @@
+/*
+ * NLS support file for the Cairo Clock Screen Saver Module
+ *
+ * Language: General English language
+ * Locales : zh_TW_*
+ *
+ * Author  : Doodle
+ * Translater : Alex Lee
+ * Date (YYYY-MM-DD): 2006.02.10.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="架構 Cairo Clock";                  // Window title
+
+CFG_0002="視覺選項";                         // Groupbox
+
+CFG_0003="顯示日期(~D)";                             // Checkbox
+CFG_0004="顯示數字(~I)";                    // Checkbox
+CFG_0005="讓時鐘在螢幕上移動(~M)";  // Checkbox
+CFG_0006="時鐘大小為";                          // Static
+CFG_0007="% 的螢幕";                            // Static
+
+CFG_0008="確定(~O)";                                    // Ok button
+CFG_0009="取消(~C)";                                // Cancel button
+
+
+// ---------------------------------------------------------------------------
+// Date format string
+// (See Unicode API for valid format characters!)
+// (Don't forget that the percentage sign has to be doubled, because it's
+//  an escape character!)
+MOD_DATE="%%H %%a %%b %%d, %%Y";
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Cairo Clock";
+MOD_DESC="時鐘和目前的日期。\nUsing the Cairo library.";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

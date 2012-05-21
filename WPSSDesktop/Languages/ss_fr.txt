@@ -1,0 +1,132 @@
+/*
+ * NLS support file for Doodle's Screen Saver v1.4
+ *
+ * Language: General French language
+ * Locales : fr_*
+ *
+ * Author  : Guillaume Gay
+ *
+ * Date (YYYY-MM-DD): 2008.04.22.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Screen Saver settings pages.
+
+// ---------------------------------------------------------------------------
+// Strings for the settings notebook:
+
+COM_0000="~êconomiseur d'Çcran";            // Properties tab text
+COM_0001="Paramätres gÇnÇraux";             // Descriptive text for page 1
+COM_0002="Paramätres DPMS";                 // Descriptive text for page 2
+COM_0003="Modules pour l'Çconomie d'Çcran"; // Descriptive text for page 3
+
+// ---------------------------------------------------------------------------
+// Strings for page 1 of screen saver settings:
+
+PG1_FONT="8.Helv";
+
+PG1_0000="Aide";
+PG1_0001="~Par DÇfaut";
+PG1_0002="~DÇfaire";
+
+PG1_0003="Paramätres gÇnÇraux";
+PG1_0004="~Activer l'Çconomiseur d'Çcran";
+PG1_0005="Lancement apräs";
+PG1_0006="minute(s) d'inactivitÇ";
+
+PG1_0007="Protection par mot de passe";
+PG1_0008="~Activer la protection par mot de passe";
+PG1_0009="Tapez votre mot de passe dans les deux zones (il ne s'affiche pas). Puis appuyez sur le bouton Modifier. ";
+PG1_0010="Mot de passe : ";
+PG1_0011="(pour vÇrification)";
+PG1_0012="~Modifier";
+PG1_0013="Protection par mot de passe ~diffÇrÇe";
+PG1_0014="Demander le mot de passe seulement apräs";
+PG1_0015="minute(s) de passage en Çconomie";
+PG1_0016="~Passage en Çconomie au lancement du systäme";
+
+PG1_0017="Erreur de mot de passe";
+PG1_0018="Les deux mots de passe entrÇs ne concordent pas ! ";
+
+// -- Added in v1.4:
+PG1_0019="Utilisation du mot de passe ~Security/2 en cours";
+PG1_0020="Utilisation de ce ~mot de passe :";
+
+// -- Added in v1.5:
+PG1_0021="Sortie de veille au ~clavier uniquement";
+
+// -- Added in v1.6:
+PG1_0022="La premiäre ~touche pressÇe correspond au 1er caractäre du mot de passe";
+
+// -- Added in v1.9:
+PG1_0023="DÇsactiver les fenàtres ~VIO lors de la veille";
+// ---------------------------------------------------------------------------
+// Strings for page 2 of screen saver settings:
+
+PG2_FONT="8.Helv";
+
+PG2_0000="Aide";
+PG2_0001="~Par dÇfaut";
+PG2_0002="~DÇfaire";
+
+PG2_0003="Paramätres DPMS";
+PG2_0004="Utilisation du mode ~attente DPMS";
+PG2_0005="Passage en mode attente apräs";
+PG2_0006="Utilisation du mode ~suspendu DPMS";
+PG2_0007="Passage en mode suspendu apräs";
+PG2_0008="Utilisation du mode ~hors tension DPMS";
+PG2_0009="Passage en mode hors tension apräs";
+PG2_0010="minute(s) d'Çconomie";
+PG2_0011="minute(s) d'Çtat d'attente";
+PG2_0012="minute(s) d'Çtat de suspension";
+
+// ---------------------------------------------------------------------------
+// Strings for page 3 of screen saver settings:
+
+PG3_FONT="8.Helv";
+
+PG3_0000="Aide";
+PG3_0001="~Par dÇfaut";
+PG3_0002="~DÇfaire";
+
+PG3_0003="Modules d'Çconomie d'Çcran";
+PG3_0004="Ap~eráu";
+PG3_0005="Information sur le module";
+PG3_0006="Nom du module : ";
+PG3_0007="Version du Module :";
+PG3_0008="Support de la protection par mot de passe : ";
+PG3_0009="Oui";
+PG3_0010="Non";
+PG3_0011="Description : ";
+PG3_0012="~Lancement immÇdiat";
+PG3_0013="~Configuration";
+
+PG3_0014="Aucun module sÇlectionnÇ !\nVeuillez sÇlectionner un module d'Çconomie d'Çcran. ";
+PG3_0015="Pas d'aperáu.";
+
+// ---------------------------------------------------------------------------
+// Common strings sent to NLS-enabled saver modules:
+
+// Password asking window
+MOD_0000="Protection par mot de passe"; 
+MOD_0001="Veuillez entrer le mot de passe pour dÇverrouiller l'Çconomiseur d'Çcran. ";
+MOD_0002="~OK";
+MOD_0003="~Annuler";
+
+// Wrong password window
+MOD_0004="Mot de passe incorrect"; 
+MOD_0005="Un mot de passe incorrect a ÇtÇ entrÇ !\nVeuillez rÇessayer. ";
+MOD_0006="~OK";
+
+// Font to use (for DBCS support)
+MOD_0007="8.Helv";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

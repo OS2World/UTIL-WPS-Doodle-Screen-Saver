@@ -1,0 +1,39 @@
+/*
+ * NLS support file for the Padlock Screen Saver Module
+ * Support de langue pour le module Cadenas animÇ
+ *
+ * Language   : french language
+ * Locales    : fr_*
+ *
+ * Author     : Doodle
+ * Translator : Guillaume Gay <guillaume.gay@bigfoot.com>
+ *
+ * Date (AAAA-MM-JJ): 2006.02.12.
+ *
+ *
+ * Pour gÇnÇrer le fichier binaire de langue depuis ce fichier,
+ * utilisez le programme MSGC.EXE de cette maniäre :
+ * msgc <nomfichier.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+// ........................................
+// This module has no configuration dialog!
+// ........................................
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Cadenas animÇ";
+MOD_DESC="Un cadenas dorÇ rebondit sur votre Çcran.\nêcrit par Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

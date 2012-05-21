@@ -1,0 +1,55 @@
+/*
+ * NLS support file for the Randomizer Screen Saver Module
+ *
+ * Language: General Hungarian language
+ * Locales : hu_*
+ *
+ * Author  : Doodle
+ *
+ * Date (YYYY-MM-DD): 2005.05.28.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="A Randomiz l¢ modul be ll¡t sai";   // Window title
+
+CFG_0002="Modulok v ltakoz sa";           // Groupbox
+CFG_0003="K”vetkez‹ modul ind¡t sa";      // Static text
+CFG_0004="percenk‚nt";                    // Static text
+CFG_0005="~V‚letlenszerû modulsorrend";   // Checkbox
+
+CFG_0006="Haszn land¢ modulok";           // Groupbox
+CFG_0007="Minden ~rendelkez‚sre  ll¢ modult haszn ljon";    // Radiobutton
+CFG_0008="Csak a k”vetkez‹ ~lista moduljait haszn lja:";    // Radiobutton
+
+CFG_0009="~Fel";                          // Button
+CFG_0010="~Le";                           // Button
+
+CFG_0011="<- ~Hozz ad";                   // Button
+CFG_0012="<< ~Mindet hozz adja";          // Button
+CFG_0013="M~indet elveszi >>";            // Button
+CFG_0014="~Elvesz ->";                    // Button
+
+CFG_0015="~Ok";                           // Ok button
+CFG_0016="~M‚gsem";                       // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Randomiz l¢";
+MOD_DESC="Randomiz l¢ (v‚letlenszerûs¡t‹) modul, mely m s modulokat haszn l.\nK‚sz¡tette: Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

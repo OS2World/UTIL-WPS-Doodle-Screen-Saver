@@ -1,0 +1,131 @@
+
+/* OS/2 Warp 4.0 Resource Script File - Created by Universal Resource Editor */
+
+#define INCL_WINSYS
+#define INCL_WINBIDI
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "Circles-resources.h"
+
+DLGTEMPLATE DLG_PASSWORDPROTECTION MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Password protection", DLG_PASSWORDPROTECTION, 72, 70, 160, 45,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "Please enter the password to unlock the screensaver!",
+                                       ST_PLEASEENTERTHEPASSWORD,
+                                        3, 27, 154, 14, WC_STATIC, SS_TEXT |
+                                            DT_CENTER | DT_TOP | DT_WORDBREAK |
+                                            WS_GROUP | WS_VISIBLE
+        CONTROL "Password",            EF_PASSWORD, 11, 18, 138, 6,
+                                            WC_ENTRYFIELD, ES_MARGIN |
+                                            ES_UNREADABLE | ES_ANY | WS_TABSTOP |
+                                            WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+        CONTROL "~Ok",                 PB_OK, 4, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Cancel",             PB_CANCEL, 126, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE DLG_WRONGPASSWORD MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Wrong password", DLG_WRONGPASSWORD, 58, 100, 160, 40,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "OK",                  DID_OK, 65, 4, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+        CONTROL "An invalid password has been entered!\012Please try again!",
+                                       ST_INVALIDPASSWORDTEXT, 2, 16, 156, 20,
+                                            WC_STATIC, SS_TEXT | DT_CENTER |
+                                            DT_TOP | DT_WORDBREAK | WS_GROUP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    END
+END
+
+DLGTEMPLATE DLG_CONFIGURE MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Configure Circles", DLG_CONFIGURE, 118, 72, 134, 181, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS, FCF_TITLEBAR |
+                FCF_SYSMENU | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "Image resolution",    GB_IMAGERESOLUTION, 3, 127, 125, 50,
+                                            WC_STATIC, SS_GROUPBOX | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Resolution of the ~screen", RB_RESOLUTIONOFTHESCREEN,
+                                        7, 160, -1, -1, WC_BUTTON,
+                                            BS_AUTORADIOBUTTON | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Half the resolution of the screen",
+                                       RB_HALFTHERESOLUTIONOFTHESCREEN,
+                                        7, 151, -1, -1, WC_BUTTON,
+                                            BS_AUTORADIOBUTTON | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Custom resolution",  RB_CUSTOMRESOLUTION, 7, 141, -1, -1,
+                                            WC_BUTTON, BS_AUTORADIOBUTTON |
+                                            BS_AUTOSIZE | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Resolution:",         ST_RESOLUTION, 14, 133, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_GROUP | DT_MNEMONIC |
+                                            WS_VISIBLE
+        CONTROL "Resolution",          CX_RESOLUTION, 45, 108, 48, 32,
+                                            WC_COMBOBOX, CBS_DROPDOWNLIST |
+                                            ES_ANY | WS_GROUP | WS_VISIBLE
+        CONTROL "Processor usage",     GB_PROCESSORUSAGE, 4, 47, 126, 43,
+                                            WC_STATIC, SS_GROUPBOX | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Run in ~Idle priority", RB_RUNINIDLEPRIORITY, 8, 71, -1, -1,
+                                            WC_BUTTON, BS_AUTORADIOBUTTON |
+                                            BS_AUTOSIZE | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Run in ~Regular priority", RB_RUNINREGULARPRIORITY,
+                                        8, 62, -1, -1, WC_BUTTON,
+                                            BS_AUTORADIOBUTTON | BS_AUTOSIZE |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Animation speed:",    ST_ANIMATIONSPEED, 8, 51, -1, -1,
+                                            WC_STATIC, SS_TEXT | SS_AUTOSIZE |
+                                            DT_LEFT | DT_TOP | WS_GROUP | DT_MNEMONIC |
+                                            WS_VISIBLE
+        CONTROL "FPS",                 EF_FPS, 53, 52, 18, 6, WC_ENTRYFIELD,
+                                            ES_AUTOSCROLL | ES_RIGHT |
+                                            ES_MARGIN | ES_ANY | WS_TABSTOP |
+                                            WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+        CONTROL "FPS",                 ST_FPS, 75, 52, -1, -1, WC_STATIC,
+                                            SS_TEXT | SS_AUTOSIZE | DT_LEFT |
+                                            DT_TOP | WS_GROUP | WS_VISIBLE
+        CONTROL "Use ~WarpOverlay! if present", CB_USEWARPOVERLAYIFPRESENT,
+                                        9, 39, -1, -1, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | BS_AUTOSIZE |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Ok",                 PB_CONFOK, 7, 28, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Cancel",             PB_CONFCANCEL, 97, 27, 30, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END

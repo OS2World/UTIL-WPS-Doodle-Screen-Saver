@@ -1,0 +1,462 @@
+Open Watcom Linker Version 1.6
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       08/09/15 22:46:00
+Executable Image: CaShapes.dll
+creating an OS/2 and eComStation dynamic link library
+symbol _heapenable_ removed
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          0002:00000000        00000d30
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+BEGTEXT                CODE           AUTO           0001:00000000   00000007
+_TEXT                  CODE           AUTO           0001:00000010   00005297
+_NULL                  BEGDATA        DGROUP         0002:00000000   00000004
+_AFTERNULL             BEGDATA        DGROUP         0002:00000004   00000000
+CONST                  DATA           DGROUP         0002:00000004   000000d8
+CONST2                 DATA           DGROUP         0002:000000dc   00000000
+_DATA                  DATA           DGROUP         0002:000000dc   000001a8
+XIB                    DATA           DGROUP         0002:00000284   00000000
+XI                     DATA           DGROUP         0002:00000284   00000018
+XIE                    DATA           DGROUP         0002:0000029c   00000000
+YIB                    DATA           DGROUP         0002:0000029c   00000000
+YI                     DATA           DGROUP         0002:0000029c   0000000c
+YIE                    DATA           DGROUP         0002:000002a8   00000000
+TIB                    DATA           DGROUP         0002:000002a8   00000000
+TI                     DATA           DGROUP         0002:000002a8   00000000
+TIE                    DATA           DGROUP         0002:000002a8   00000000
+DATA                   DATA           DGROUP         0002:000002a8   00000000
+_BSS                   BSS            DGROUP         0002:000002a8   00000a88
+STACK                  STACK          DGROUP         0002:00000d30   00000000
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: General.obj(D:\WATCOM\Projects\SSaver\Modules\CairoShapes\General.c)
+0002:000002a8+ _ampMP2
+0002:000003a8+ _ampMP1
+0002:000004a8+ _hmqSaverThreadMsgQueue
+0002:000004ac+ _tidCairoDrawThread
+0002:000004b0+ _ulAutoHiderTimerID
+0002:000004b4+ _iSaverThreadState
+0002:000004b8+ _bOnlyPreviewMode
+0002:000004bc+ _apchNLSText
+0002:000004e0+ _tidSaverThread
+0001:00000650+ fnAutoHiderDlgProc
+0001:00000710+ fnSaverWindowProc
+0001:00000bc0+ CairoDrawThread_
+0001:00000c90+ fnSaverThread_
+0001:00000f10+ SSModule_GetModuleDesc
+0001:00000fa0+ SSModule_Configure
+0001:00000fb0+ SSModule_StartSaving
+0001:00001030+ SSModule_StopSaving
+0001:00001090+ SSModule_AskUserForPassword
+0001:000010d0+ SSModule_ShowWrongPasswordNotification
+0001:00001100+ SSModule_PauseSaving
+0001:00001130+ SSModule_ResumeSaving
+0001:00001160+ SSModule_SetNLSText
+0001:00001230+ SSModule_SetCommonSetting
+0001:00001250  LibMain
+0002:000000dc+ _bFirstKeyGoesToPwdWindow
+0002:000000e0+ _pCairoSurface
+0002:000000e4+ _pCairoHandle
+0002:000004e4+ _iNumEventsInRecord
+0002:000004e8+ _bRunning
+0002:000004ec+ _hmtxUseNLSTextArray
+0002:000004f0+ _hwndSaverWindow
+0002:000004f4+ _hmodOurDLLHandle
+Module: ModuleSpec.obj(D:\WATCOM\Projects\SSaver\Modules\CairoShapes\ModuleSpec.c)
+0001:00001310  CairoDrawLoop_
+0002:000000e8  _pchModuleName
+0002:000000ec  _pchModuleDesc
+0002:000000f0  _iModuleVersionMajor
+0002:000000f4  _iModuleVersionMinor
+0002:000000f8  _pchSaverWindowClassName
+0002:000000fc  _bPauseDrawing
+0002:00000100  _bShutdownDrawing
+Module: D:\watcom/lib386/os2\clib3r.lib(cntrl87)
+0001:000019b0  _control87_
+Module: D:\watcom/lib386/os2\clib3r.lib(register)
+0001:00001a10  __initthread_
+0001:00001a20  _beginthread_
+0001:00001a30  _endthread_
+0001:00001a40* __RegisterThreadData_
+Module: D:\watcom/lib386/os2\clib3r.lib(nfree)
+0001:00001a90  free_
+0001:00001aa0  _nfree_
+0002:000004f8  ___MiniHeapFreeRover
+Module: D:\watcom/lib386/os2\clib3r.lib(nmalloc)
+0001:00001bb0  malloc_
+0001:00001bc0  _nmalloc_
+0002:00000110  ___nheapbeg
+0002:00000114  ___MiniHeapRover
+0002:00000118  ___LargestSizeB4MiniHeapRover
+Module: D:\watcom/lib386/os2\clib3r.lib(dstrt386)
+0001:00001cbc  __DLLstart_
+0001:00001cbc* __DLLstartw_
+Module: D:\watcom/lib386/os2\clib3r.lib(clocko32)
+0001:00001d18  clock_
+Module: D:\watcom/lib386/os2\clib3r.lib(rand)
+0001:00001d60  rand_
+0001:00001d90  srand_
+Module: D:\watcom/lib386/os2\clib3r.lib(fltused)
+0002:0000011c  _fltused_
+Module: D:\watcom/lib386/os2\emu387.lib(386)
+0001:00001da4  __init_387_emulator
+0001:00001da5* __fini_387_emulator
+Module: D:\watcom/lib386/os2\clib3r.lib(_8087)
+0002:00000120  __8087
+0002:00000121  __real87
+Module: D:\watcom/lib386/os2\clib3r.lib(thredo32)
+0001:00001e50  __CBeginThread_
+0001:00001ef0  __CEndThread_
+Module: D:\watcom/lib386/os2\clib3r.lib(maino32)
+0002:00000124  ___FirstThreadData
+0002:00000128  ___GetThreadPtr
+0002:0000012c  __AccessFileH
+0002:00000130  __ReleaseFileH
+0002:00000134  __AccessIOB
+0002:00000138  __ReleaseIOB
+0002:0000013c  __AccessNHeap
+0002:00000140  __AccessFHeap
+0002:00000144  __ReleaseNHeap
+0002:00000148  __ReleaseFHeap
+0001:00001f16  __threadstack_
+0001:00001f1d  __threadid_
+0001:00001f26* __OS2MainInit_
+0001:00001f95  __OS2Init_
+0001:00001fd3  __OS2Fini_
+0001:00001fde  __shutdown_stack_checking_
+0001:00001ff3  __exit_
+0002:0000014c  __AccessTDList
+0002:00000150  __ReleaseTDList
+0002:00000154  ___sig_init_rtn
+0002:00000158  ___sig_fini_rtn
+0002:0000015c  __threadstksize
+0002:00000160+ ___process_fini
+0002:00000500  ___Is_DLL
+0002:00000504+ ___saved_CS
+Module: D:\watcom/lib386/os2\clib3r.lib(mem)
+0001:00002040  __MemAllocator
+0001:00002100  __MemFree
+Module: D:\watcom/lib386/os2\clib3r.lib(nmemneed)
+0001:00002250  __nmemneed_
+Module: D:\watcom/lib386/os2\clib3r.lib(grownear)
+0001:000023d0  __ExpandDGROUP_
+Module: D:\watcom/lib386/os2\clib3r.lib(dmaino32)
+0001:000023e1  __LibMain
+Module: D:\watcom/lib386/os2\clib3r.lib(segdefns)
+0001:00000003  ___begtext
+0002:00000000* __nullarea
+0002:00000284  __Start_XI
+0002:0000029c  __End_XI
+0002:0000029c  __Start_YI
+0002:000002a8  __End_YI
+Module: D:\watcom/lib386/os2\clib3r.lib(setefg)
+0001:00002610  __setEFGfmt_
+Module: D:\watcom/lib386/os2\clib3r.lib(chk8087)
+0001:00002630  _fpreset_
+0001:00002650* __init_8087_
+0001:00002670  __chk8087_
+Module: D:\watcom/lib386/os2\clib3r.lib(crwdata)
+0002:000001a8  __osmajor
+0002:000001a9  __osminor
+0002:0000016c  __LpCmdLine
+0002:00000170  __LpPgmName
+0002:00000174  __LpDllName
+0002:00000178  __LpwCmdLine
+0002:0000017c  __LpwPgmName
+0002:00000180  __LpwDllName
+0002:00000164* __dynend
+0002:00000168  __curbrk
+0002:00000184* __STACKLOW
+0002:00000188* __STACKTOP
+0002:0000018c  __ASTACKSIZ
+0002:00000190  __ASTACKPTR
+0002:00000194* __cbyte
+0002:00000198* __cbyte2
+0002:0000019c* __child
+0002:000001a2  __Envptr
+0002:000001a6* __Envseg
+0002:000001a0  __no87
+0002:000001aa* ___FPE_handler
+Module: D:\watcom/lib386/os2\clib3r.lib(mthrdini)
+0001:000026d0  __InitThreadData_
+0002:000001b0  ___ThreadDataSize
+Module: D:\watcom/lib386/os2\clib3r.lib(memset)
+0001:000026f0  memset_
+Module: D:\watcom/lib386/os2\clib3r.lib(mthread)
+0001:00002760+ __CloseSemaphore_
+0001:000027a0+ __AccessSemaphore_
+0001:00002800+ __ReleaseSemaphore_
+0001:00002860+ __AccessIOB_
+0001:00002870+ __ReleaseIOB_
+0001:00002880+ __AccessFileH_
+0001:00002890+ __ReleaseFileH_
+0001:000028a0+ __AccessNHeap_
+0001:000028b0+ __ReleaseNHeap_
+0001:000028c0+ __AccessFHeap_
+0001:000028d0+ __ReleaseFHeap_
+0001:000028e0+ __AccessTDList_
+0001:000028f0+ __ReleaseTDList_
+0001:00002900+ __MultipleThread_
+0001:00002950  __AllocInitThreadData_
+0001:000029a0  __FreeInitThreadData_
+0001:000029b0  __OS2AddThread_
+0001:00002a20  __OS2RemoveThread_
+0001:00002a70  __InitMultipleThread_
+0002:000001b4+ ___AccessSema4
+0002:000001b8+ ___ReleaseSema4
+0002:000001bc+ ___CloseSema4
+Module: D:\watcom/lib386/os2\clib3r.lib(trdalloc)
+0001:00002c10  __InitThreadProcessing_
+0001:00002c30  __FiniThreadProcessing_
+0002:00000a68  ___ThreadData
+Module: D:\watcom/lib386/os2\clib3r.lib(cinit)
+0001:00002c90  __CommonInit_
+0002:00000a6c  ___hmodule
+Module: D:\watcom/lib386/os2\clib3r.lib(initrtns)
+0001:00002cb0  __InitRtns
+0001:00002d00  __FiniRtns
+Module: D:\watcom/lib386/os2\clib3r.lib(amblksiz)
+0002:000001c0  __amblksiz
+Module: D:\watcom/lib386/os2\clib3r.lib(heapen)
+0002:000001c4  ___heap_enabled
+Module: D:\watcom/lib386/os2\clib3r.lib(nheapmin)
+0001:00002d60  _heapshrink_
+0001:00002d70* _heapmin_
+0001:00002d80* _nheapmin_
+0001:00002e40  _nheapshrink_
+Module: D:\watcom/lib386/os2\clib3r.lib(ddgrpo32)
+0001:00002f50  __disallow_single_dgroup_
+Module: D:\watcom/lib386/os2\clib3r.lib(atouni)
+0001:000031a0  _atouni_
+Module: D:\watcom/lib386/os2\clib3r.lib(maxthrds)
+0002:000001c8  ___MaxThreads
+Module: D:\watcom/lib386/os2\clib3r.lib(dosseg)
+0000:00001234  __DOSseg__
+Module: D:\watcom/lib386\math387r.lib(efgfmt)
+0001:000031da  _EFG_Format_
+Module: D:\watcom/lib386\math387r.lib(cnvs2d)
+0001:0000333f  __cnvs2d_
+Module: D:\watcom/lib386/os2\clib3r.lib(noefgfmt)
+0002:000001cc  ___EFG_printf
+0002:000001d0  ___EFG_scanf
+Module: D:\watcom/lib386/os2\clib3r.lib(8087cw)
+0002:000001d4  __8087cw
+Module: D:\watcom/lib386/os2\clib3r.lib(init8087)
+0001:00003394  __x87id
+Module: D:\watcom/lib386/os2\clib3r.lib(__stos)
+0001:000033d0  __STOSB
+0001:00003407* __STOSD
+Module: D:\watcom/lib386/os2\clib3r.lib(xmsgo32)
+0001:00003480+ __exit_with_msg_
+0001:000034b0  __fatal_runtime_error_
+Module: D:\watcom/lib386/os2\clib3r.lib(trdlist)
+0001:00003520  __GetThreadData_
+0001:00003640  __ReallocThreadData_
+0001:000037b0  __AddThreadData_
+0001:00003830  __RemoveThreadData_
+0001:00003890* __ResizeThreadDataList_
+0001:000038e0  __FreeThreadDataList_
+0001:00003910* __ActiveThreads_
+Module: D:\watcom/lib386/os2\clib3r.lib(calloc)
+0001:00003930  calloc_
+Module: D:\watcom/lib386/os2\clib3r.lib(thrdmax)
+0001:00003950  __GETMAXTHREADS
+Module: D:\watcom/lib386\math387r.lib(ldcvt)
+0001:00003a3b  _LDScale10x_
+0001:0000406e  __LDcvt_
+Module: D:\watcom/lib386\math387r.lib(strtod)
+0001:00004a41+ __Strtold_
+0001:00004bb0  strtod_
+Module: D:\watcom/lib386/os2\clib3r.lib(enterdb)
+0001:00004d00  __EnterWVIDEO_
+0002:00000280+ ___WD_Present
+Module: D:\watcom/lib386/os2\clib3r.lib(nrealloc)
+0001:00004d30  realloc_
+0001:00004d40+ _nrealloc_
+Module: D:\watcom/lib386\math387r.lib(ldclass)
+0001:00004dba  __LDClass_
+0001:00004e0a* _FLClass_
+Module: D:\watcom/lib386/os2\clib3r.lib(istable)
+0001:00004e20  __IsTable
+Module: D:\watcom/lib386/os2\clib3r.lib(tolower)
+0001:00004f30  tolower_
+Module: D:\watcom/lib386/os2\clib3r.lib(bufld386)
+0001:00004f40  __ZBuf2LD
+Module: D:\watcom/lib386/os2\clib3r.lib(seterrno)
+0001:00004fe3* __set_errno_
+0001:00004ff1* __set_EDOM_
+0001:00004fff  __set_ERANGE_
+0001:0000500d* __set_EINVAL_
+0001:00005020* __set_doserrno_
+Module: D:\watcom/lib386\math387r.lib(inf_nan)
+0001:0000502e* ___f_infinity
+0001:00005032* ___f_posqnan
+0001:00005036  ___d_infinity
+0001:0000503e  ___d_posqnan
+0001:00005046* ___ld_infinity
+0001:0000504e* ___ld_posqnan
+Module: D:\watcom/lib386/os2\clib3r.lib(hugeval)
+0001:00005060  __HugeValue
+Module: D:\watcom/lib386/os2\clib3r.lib(nmsize)
+0001:00005070* _msize_
+0001:00005080  _nmsize_
+Module: D:\watcom/lib386/os2\clib3r.lib(nexpand)
+0001:00005090* _expand_
+0001:000050a0+ __HeapManager_expand_
+0001:00005260  _nexpand_
+
+
+                        +----------------------+
+                        |   Imported Symbols   |
+                        +----------------------+
+
+Symbol                              Module
+======                              ======
+
+WinQueryFocus                       PMWIN
+WinPostMsg                          PMWIN
+WinQueryDlgItemText                 PMWIN
+WinWindowFromID                     PMWIN
+WinGetPS                            PMWIN
+GpiQueryTextBox                     PMGPI
+WinReleasePS                        PMWIN
+DosRequestMutexSem                  DOSCALLS
+WinSetDlgItemText                   PMWIN
+DosReleaseMutexSem                  DOSCALLS
+WinSetWindowText                    PMWIN
+WinQuerySysValue                    PMWIN
+WinSetWindowPos                     PMWIN
+WinQueryWindowPos                   PMWIN
+WinSetPresParam                     PMWIN
+WinBeginEnumWindows                 PMWIN
+WinGetNextWindow                    PMWIN
+WinEndEnumWindows                   PMWIN
+WinDismissDlg                       PMWIN
+WinDefDlgProc                       PMWIN
+WinQueryAnchorBlock                 PMWIN
+WinStopTimer                        PMWIN
+WinStartTimer                       PMWIN
+WinShowPointer                      PMWIN
+WinDefWindowProc                    PMWIN
+WinLoadDlg                          PMWIN
+WinSetWindowBits                    PMWIN
+WinBeginPaint                       PMWIN
+cairo_os2_surface_refresh_window    CAIRO124
+WinEndPaint                         PMWIN
+WinSendDlgItemMsg                   PMWIN
+WinProcessDlg                       PMWIN
+WinDestroyWindow                    PMWIN
+WinQueryWindowRect                  PMWIN
+WinFillRect                         PMWIN
+cairo_os2_init                      CAIRO124
+cairo_os2_surface_create            CAIRO124
+cairo_os2_surface_set_hwnd          CAIRO124
+cairo_os2_surface_set_manual_window_refresh CAIRO124
+cairo_create                        CAIRO124
+cairo_destroy                       CAIRO124
+cairo_surface_destroy               CAIRO124
+cairo_os2_fini                      CAIRO124
+DosSetPriority                      DOSCALLS
+WinInitialize                       PMWIN
+WinCreateMsgQueue                   PMWIN
+WinSubclassWindow                   PMWIN
+WinSendMsg                          PMWIN
+WinInvalidateRect                   PMWIN
+WinGetMsg                           PMWIN
+WinDispatchMsg                      PMWIN
+DosWaitThread                       DOSCALLS
+WinDestroyMsgQueue                  PMWIN
+WinTerminate                        PMWIN
+WinRegisterClass                    PMWIN
+WinCreateWindow                     PMWIN
+WinQuerySysModalWindow              PMWIN
+WinSetSysModalWindow                PMWIN
+WinSetFocus                         PMWIN
+DosSleep                            DOSCALLS
+WinPostQueueMsg                     PMWIN
+DosCloseMutexSem                    DOSCALLS
+DosCreateMutexSem                   DOSCALLS
+cairo_set_source_rgb                CAIRO124
+cairo_rectangle                     CAIRO124
+cairo_fill                          CAIRO124
+cairo_save                          CAIRO124
+cairo_scale                         CAIRO124
+cairo_set_operator                  CAIRO124
+cairo_set_source_rgba               CAIRO124
+cairo_set_line_width                CAIRO124
+cairo_set_line_cap                  CAIRO124
+cairo_set_line_join                 CAIRO124
+cairo_move_to                       CAIRO124
+cairo_line_to                       CAIRO124
+cairo_stroke                        CAIRO124
+cairo_restore                       CAIRO124
+cairo_curve_to                      CAIRO124
+cairo_arc                           CAIRO124
+cairo_select_font_face              CAIRO124
+cairo_set_font_size                 CAIRO124
+cairo_text_extents                  CAIRO124
+cairo_rotate                        CAIRO124
+cairo_show_text                     CAIRO124
+DosQuerySysInfo                     DOSCALLS
+DosPostEventSem                     DOSCALLS
+DosCreateEventSem                   DOSCALLS
+DosCreateThread                     DOSCALLS
+DosCloseEventSem                    DOSCALLS
+DosWaitEventSem                     DOSCALLS
+DosExit                             DOSCALLS
+DosAllocMem                         DOSCALLS
+DosGetInfoBlocks                    DOSCALLS
+DosQueryModuleName                  DOSCALLS
+DosDevConfig                        DOSCALLS
+DosFreeMem                          DOSCALLS
+DosLoadModule                       DOSCALLS
+DosQueryProcAddr                    DOSCALLS
+DosOpen                             DOSCALLS
+DosWrite                            DOSCALLS
+DosClose                            DOSCALLS
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+f:\upload\cairo-1.2.4\cairo-1.2.4-os2-dev\cairo124.lib
+D:\watcom/lib386/os2\clib3r.lib
+D:\watcom/lib386\math387r.lib
+D:\watcom/lib386/os2\emu387.lib
+D:\watcom/lib386/os2\os2386.lib
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  0000 (0.)
+Memory size:  5fd7 (24535.)
+Link time: 00:00.21

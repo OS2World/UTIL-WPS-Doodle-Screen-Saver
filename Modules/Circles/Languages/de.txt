@@ -1,0 +1,55 @@
+/*
+ * NLS support file for the Circles Screen Saver Module
+ *
+ * Language: General German language
+ * Locales : de_*
+ *
+ * Author  : Christian Hennecke
+ *
+ * Date (YYYY-MM-DD): 2005.06.09.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+ 
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+ 
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+ 
+CFG_0001="Kreise konfigurieren";                    // Window title
+ 
+CFG_0001="Analogfernsehersimulator konfigurieren";    // Window title
+ 
+CFG_0002="Bildauflîsung";                   // Groupbox
+CFG_0003="Bild~schirmauflîsung";          // Radio button
+CFG_0004="~Halbe Bildschirmauflîsung"; // Radio button
+CFG_0005="~Benutzerdefinierte Auflîsung";                 // Radio button
+CFG_0006="Auflîsung:";                        // Static text
+ 
+CFG_0007="Prozessorlast";                    // Groupbox
+CFG_0008="Mit PrioritÑt ~Idle betreiben";              // Radio button
+CFG_0009="Mit PrioritÑt ~Regular betreiben";           // Radio button
+ 
+CFG_0010="Animationsgeschwindigkeit:";                   // Static text
+CFG_0011="FPS";                                // Static text
+ 
+CFG_0012="~WarpOverlay! verwenden, falls verfÅgbar";       // Checkbox
+ 
+CFG_0013="~OK";                                // Ok button
+CFG_0014="~Abbruch";                            // Cancel button
+ 
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+ 
+MOD_NAME="Kreise";
+MOD_DESC="Hypnotische Kreise.\nVerwendet WarpOverlay! oder DIVE.\nEntwickelt von Doodle.";
+ 
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

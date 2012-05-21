@@ -1,0 +1,133 @@
+/*
+ * NLS support file for Doodle's Screen Saver v1.9
+ *
+ * Language: Dutch language
+ * Locales : nl_*
+ *
+ * Author  : MrFawlty
+ *
+ * Date (YYYY-MM-DD): 2008.04.22.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Screen Saver settings pages.
+
+// ---------------------------------------------------------------------------
+// Strings for the settings notebook:
+
+PG1_FONT="8.Helv";
+
+COM_0000="B~lokkeren";                       // Properties tab text
+COM_0001="Algemene blokkeringsinstellingen"; // Descriptive text for page 1
+COM_0002="DPMS instellingen";                // Descriptive text for page 2
+COM_0003="Blokkeringsmodules";               // Descriptive text for page 3
+
+// ---------------------------------------------------------------------------
+// Strings for page 1 of screen saver settings:
+
+PG1_0000="Help";
+PG1_0001="~Standaard";
+PG1_0002="~Beginwaarde";
+
+PG1_0003="Algemene instellingen";
+PG1_0004="Blokk~eren ingeschakeld";
+PG1_0005="Start blokkeren na";
+PG1_0006="minu(u)t(en) van inactiviteit";
+
+PG1_0007="Wachtwoord beveiliging";
+PG1_0008="Gebruik ~wachtwoord beveiliging";
+PG1_0009="Voer uw wachtwoord in beide velden in (tekst wordt niet afgebeeld) en klik vervolgens op Wijzigen.";
+PG1_0010="Wachtwoord:";
+PG1_0011="(ter controle)";
+PG1_0012="W~ijzigen";
+PG1_0013="~Vertraagde wachtwoord beveiliging";
+PG1_0014="Vraag wachtwoord alleen na";
+PG1_0015="minu(u)t(en) van blokkeren";
+PG1_0016="Bl~okkeren bij opstarten";
+
+PG1_0017="Wachtwoorden verschillen";
+PG1_0018="De twee ingevoerde wachtwoorden komen niet overeen!";
+
+// -- Added in v1.4:
+PG1_0019="Gebruik wachtwoord van ~huidige Security/2 gebruiker";
+PG1_0020="Gebruik dit wach~twoord:";
+
+// -- Added in v1.5:
+PG1_0021="Alleen ~deblokkeren met toetsenbord";
+
+// -- Added in v1.6:
+PG1_0022="Maak de eerst ~ingetoetste karakter de eerste karakter van het wachtwoord";
+
+// -- Added in v1.9:
+PG1_0023="~VIO hulpvensters tijdens het opslaan uitschakelen";
+
+// ---------------------------------------------------------------------------
+// Strings for page 2 of screen saver settings:
+
+PG2_FONT="8.Helv";
+
+PG2_0000="Help";
+PG2_0001="~Standaard";
+PG2_0002="~Beginwaarde";
+
+PG2_0003="DPMS instellingen";
+PG2_0004="Gebruik DPMS ~Waakstand";
+PG2_0005="Schakel over naar Waakstand na";
+PG2_0006="Gebruik DPMS R~uststand";
+PG2_0007="Schakel over naar Ruststand na";
+PG2_0008="Gebruik DPMS U~it status";
+PG2_0009="Schakel over naar Uit status na";
+PG2_0010="minu(u)t(en) van blokkeren";
+PG2_0011="minu(u)t(en) van Waakstand";
+PG2_0012="minu(u)t(en) van Ruststand";
+
+// ---------------------------------------------------------------------------
+// Strings for page 3 of screen saver settings:
+
+PG3_FONT="8.Helv";
+
+PG3_0000="Help";
+PG3_0001="~Standaard";
+PG3_0002="~Beginwaarde";
+
+PG3_0003="Schermbeveiligingsmodules";
+PG3_0004="Toon ~voorbeeld";
+PG3_0005="Module informatie";
+PG3_0006="Module naam:";
+PG3_0007="Module versie:";
+PG3_0008="Ondersteunt wachtwoord beveiliging:";
+PG3_0009="Ja";
+PG3_0010="Nee";
+PG3_0011="Omschrijving:";
+PG3_0012="Start ~nu";
+PG3_0013="~Instellen";
+
+PG3_0014="Geen module geselecteerd!\nSelecteer a.u.b. een schermbeveiligingsmodule!";
+PG3_0015="Geen voorbeeld";
+
+// ---------------------------------------------------------------------------
+// Common strings sent to NLS-enabled saver modules:
+
+// Password asking window
+MOD_0000="Wachtwoord beveiliging"; 
+MOD_0001="Voer a.u.b. het wachtwoord in om de schermbeveiliger te ontsluiten!";
+MOD_0002="~Ok";
+MOD_0003="~Annuleren";
+
+// Wrong password window
+MOD_0004="Verkeerde wachtwoord"; 
+MOD_0005="Er is een verkeerd wachtwoord ingevoerd!\nProbeer het a.u.b. opnieuw!";
+MOD_0006="~Annuleren";
+
+// Font to use (for DBCS support)
+MOD_0007="8.Helv";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

@@ -1,0 +1,38 @@
+/*
+ * NLS support file for the Blank Screen Saver Module
+ *
+ * Language  : Swedish language
+ * Locales   : sv_*
+ *
+ * Author    : Doodle
+ * Translator: Bj”rn S”derstr”m
+ *
+ * Date (YYYY-MM-DD): 2005.06.06.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+// ........................................
+// This module has no configuration dialog!
+// ........................................
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Tom sk„rm";
+MOD_DESC="Enkel tom sk„rm, anv„nder kraften hos Svart! :)\nSkriven av Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

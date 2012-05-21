@@ -1,0 +1,132 @@
+* v1.8 : 2008.02.11.
+  - Added new API : SSCore_GetInactivityTime()
+
+* v1.7.5 : 2007.03.08.
+  - Modified DPMS handling, so that it can be told *NOT* to use SNAP, 
+    but use direct VGA register access. This might be a bit risky, and 
+    only supports ON and OFF modes, but this is the only working method
+    when SNAP has problems with the monitor. A REXX tool has been 
+    included to turn on/off this feature.
+  - Added new module: SlideShow (Thanks to Warp5!)
+  - Updated ShowImage and SlideShow modules to v1.7.1.
+    They now use the GBM library to decode images, not the MMPM IOProcs.
+  - Modified Cairo modules so they now link to Cairo v1.2.4
+    This should resolve FontConfig problems.
+  - Compiler upgraded to OpenWatcom v1.6.
+
+* v1.7 : 2006.06.15.
+  - Mouse movement detection changed, small mouse movement will not stop 
+    screen saving now
+  - Upgraded OpenWatcom compiler to v1.5
+  - Added new scripts to source code package for easier building:
+       MakeCopy.cmd (thanks to MrFawlty)
+       makeall.cmd
+       cleanall.cmd
+       copy_files.cmd
+  - Added Italian language support
+  - The Matrix module has been optimized for speed (thanks to Rudi)
+
+* v1.6 : 2006.03.14.
+  - Made the change with password protection (introduced in previous version) 
+    optional, selectable from first configuration screen. Most of the current 
+    modules will honor the setting.
+  - Some buttons on third page are disabled now for the time the modules are 
+    being loaded/unloaded/configured.
+  - Changed module defaults from full desktop resolution to 640x480.
+    This may be a help for WarpOverlay modules, where the overlay does
+    not support such high resolution.
+  - Modified PrettyClock unskinned mode to remove the big red circle.
+    (which was seen only on some computers anyway)
+  - Added "Silver Clock" skin to PrettyClock.
+  - Made Cairo Clock module NLS-enabled.
+  - The appearance of the Cairo Clock module is changeable now.
+  - Changed Cairo modules, they now need Cairo103.dll.
+  - Fixed Randomizer module (was crashing with Cairo modules).
+  - Fixed CairoShapes module crash.
+  - Added new modules: Matrix, Snow, Moving Text
+  - Upgraded OpenWatcom compiler to v1.4
+  - The Swedish translation is not yet complete, sorry for that.
+
+* v1.51 : 2006.01.12.
+  - Some small visual changes:
+    - Disable static text controls too when a feature is disabled
+    - Added DT_MNEMONIC flag to most of the static text controls
+  - Added russian language support
+  - Fixed wrong Randomizer module configuration language when preview is disabled
+  - Hopefully fixed AnTVSim module freezes
+  - Querying the module list in settings windows can be time-consuming, so 
+    the WAIT mouse pointer is shown for that time to inform the user about
+    the background process. Done both in Screen Saver Settings and in Randomizer module.
+  - Changed behaviour of password protection in modules, so even the keypress 
+    triggering the password protection window will be treated as a password character.
+  - Added two new modules: Cairo Clock and Cairo Shapes.
+    Please note that these modules require Cairo v1.0.2 Runtime to be
+    installed first. It can be installed from
+    ftp://ftp.netlabs.org/pub/Cairo/cairo-1.0.2-os2-bin.exe
+  - Fixed module tester to work well with Cairo modules.
+
+* v1.5 : 2005.06.11.
+  - Wakeup-by-keyboard-only support
+  - Added support for HOME directory. Now all settings are stored in
+    .dssaver subdirectory in the HOME directory, if possible.
+    This is done both in the core and in the available saver modules.
+  - Made all the available modules NLS-enabled.
+  - New saver module: Pretty Clock
+  - New language support: French
+  - New API functions: SSCore_GetCurrentState(), SSCore_WaitForStateChange()
+  - SSCore_Initialize() now accepts path without trailing backslash
+  - Various small fixes in general
+
+* v1.4 : 2005.03.11.
+  - Modified the way of loading NLS messages. This should solve problems with
+    the settings pages switching back to English sometimes.
+  - Added support for DBCS languages
+    (both in settings pages and in currently available modules)
+  - Added support for new languages: Swedish, Traditional Chinese
+  - Added new module: Analogue TV Simulator
+  - Fixed randomizer module config window
+  - Settings pages now accept locale objects with private names, too, no need
+    to name the locale objects to fit their locales.
+  - Added WarpOverlay! support to modules utiliting DIVE
+  - Added Security/2 password support
+
+* v1.3 : 2005.02.13.
+  - Changed method of checking if PM is in foreground.
+    This should solve problems like starting the screen saver while the user
+    is in a fullscreen DOS session, or not starting the saver while a VDM window is open.
+  - SSDPMS now checks if SNAP is installed before calling SNAP functions.
+    This should solve crashes on systems without Scitech SNAP.
+  - Made the screen saver NLS enabled.
+    Unfortunately, this requires that the old version has to be uninstalled before 
+    installing this version. By default, the screen saver uses the current locale 
+    (got from LANG environmental variable), but the language can be changed dynamically 
+    by dropping a locale object onto the screen saving settings pages from the
+    country palette (System Settings->Locale).
+  - Added NLS support for saver modules.
+  - Made the third settings page more simple, and more WPS-like.
+  - The screen saver setting "Start at system startup" takes action only if
+    the password protection is turned on.
+  - The delayed password protection setting is not taken into account when
+    the saver starts at system startup or when it starts by the request of
+    the user (Lockup Desktop).
+  - The saver is now sensitive to the WM_?SCROLL messages, too, and treats it as 
+    user activity. (to support mice with wheel)
+  - Modified Padlock module to remove flickering
+  - Added new modules: Circles, Randomizer, and Show Image
+  - Added Help
+
+* v1.2 : 2005.01.10.
+  - Added DPMS support for systems running Scitech SNAP
+  - Added feature of Delayed password protection
+  - Added feature of Start saver module on startup
+  - Double-clicking on a saver module now means "Use this module"
+  - Fixed DLL termination routine, causing infinite loop with misbehaving applications
+  - SSCore_TempDisable() API now stops the screensaver if it's running
+  - Modified all three saver modules (Blank, eCSBall, IFSIM) to stay on top of
+    xCenter window, and made their password windows bigger to avoid text cutting
+  - Added new module, the Bouncing padlock
+  - Modified SSCore, so it won't start saver module if the PM is not in foreground
+  - Mouse button release doesn't turn off saver now
+
+* v1.0 : 2004.12.23.
+  - First release

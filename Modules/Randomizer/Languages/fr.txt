@@ -1,0 +1,57 @@
+/*
+ * NLS support file for the Randomizer Screen Saver Module
+ * Support de langue pour le module AlÇatoire
+ *
+ * Language   : french language
+ * Locales    : fr_*
+ *
+ * Author     : Doodle
+ * Translator : Guillaume Gay <guillaume.gay@bigfoot.com>
+ *
+ * Date (AAAA-MM-JJ): 2006.02.12.
+ *
+ *
+ * Pour gÇnÇrer le fichier binaire de langue depuis ce fichier,
+ * utilisez le programme MSGC.EXE de cette maniäre :
+ * msgc <nomfichier.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Configuration du module AlÇatoire";   // Window title
+
+CFG_0002="Rotation entre modules";              // Groupbox
+CFG_0003="Changer de module apräs";             // Static text
+CFG_0004="minute(s)";                           // Static text
+CFG_0005="Utiliser un ordre ~alÇatoire";        // Checkbox
+
+CFG_0006="Modules Ö utiliser";                  // Groupbox
+CFG_0007="~Tous les modules disponibles";       // Radiobutton
+CFG_0008="Ceux de cette ~liste : ";             // Radiobutton
+
+CFG_0009="~Haut";                               // Button
+CFG_0010="~Bas";                                // Button
+
+CFG_0011="<- ~Ajouter";                         // Button
+CFG_0012="<< A~jouter tout";                    // Button
+CFG_0013="R~etirer tout >>";                    // Button
+CFG_0014="~Retirer ->";                         // Button
+
+CFG_0015="~OK";                                 // Ok button
+CFG_0016="~Annuler";                            // Cancel button
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="AlÇatoire";
+MOD_DESC="Un module utilisant les autres modules alÇatoirement.\nêcrit par Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

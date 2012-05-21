@@ -1,0 +1,13 @@
+system os2v2_dll INITINSTANCE TERMINSTANCE
+name Matrix
+file Matrix
+file framerate
+file msgx
+OPTION MAP=Matrix
+OPTION DESCRIPTION 'Matrix - ScreenSaver module'
+OPTION ELIMINATE
+OPTION MANYAUTODATA
+OPTION OSNAME='OS/2 and eComStation'
+OPTION SHOWDEAD
+LIBPATH %os2tk%\lib
+library mmpm2.lib
