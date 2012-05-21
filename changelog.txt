@@ -1,3 +1,4 @@
+
 * v2.0 : 2008.08.18.
   - The screen saver settings page now reports 180 Dialog Units as its minimal
     height, so most of it should be visible even on newly installed systems.
