@@ -2,11 +2,25 @@
 *.slo
 *.lo
 *.o
+*.obj
 
 # Compiled Dynamic libraries
 *.so
+*.dll
 
 # Compiled Static libraries
 *.lai
 *.la
 *.a
+*.lib
+
+# Various files created by OpenWatcom
+*.err
+*.lnk
+*.map
+
+# Files created by the various resource compilers
+*.res
+
+# Logs
+*.logs
