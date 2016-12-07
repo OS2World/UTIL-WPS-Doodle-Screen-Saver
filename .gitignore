@@ -16,7 +16,6 @@
 
 # Various files created by OpenWatcom
 *.err
-*.lnk
 *.map
 
 # Files created by the various resource compilers
