@@ -1,0 +1,22 @@
+system os2v2_dll INITINSTANCE TERMINSTANCE
+name WPSSDesk
+file WPSSDesktop
+file MSGX
+OPTION MAP=WPSSDesk
+OPTION DESCRIPTION 'ScreenSaver-extended WPDesktop class (WPSSDesktop)'
+OPTION ELIMINATE
+OPTION MANYAUTODATA
+OPTION OSNAME='OS/2 and eComStation'
+OPTION SHOWDEAD
+LIBPATH %os2tk%\lib;%sombase%\lib;..;
+LIBRARY SSCore.lib
+LIBRARY somtk.lib
+LIBRARY libuls.lib
+LIBRARY libconv.lib
+
+EXPORT WPSSDesktopClassData = _WPSSDesktopClassData
+EXPORT WPSSDesktopCClassData = _WPSSDesktopCClassData
+EXPORT M_WPSSDesktopClassData = _M_WPSSDesktopClassData
+EXPORT M_WPSSDesktopCClassData = _M_WPSSDesktopCClassData
+EXPORT WPSSDesktopNewClass
+EXPORT M_WPSSDesktopNewClass
