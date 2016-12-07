@@ -1,2 +1,49 @@
-D:\os2tk45\h\errcmpat.h(96): Warning! W138: No newline at end of file
-D:\os2tk45\h\ulsitem.h(251): Warning! W138: No newline at end of file
+G:\OS2TK45\h\errcmpat.h(96): Warning! W138: No newline at end of file
+G:\OS2TK45\h\ulsitem.h(251): Warning! W138: No newline at end of file
+CaClock.c(48): Error! E1055: Unable to open 'cairo.h'
+CaClock.c(49): Error! E1055: Unable to open 'cairo-os2.h'
+CaClock.c(108): Error! E1022: Missing or misspelled data type near 'cairo_surface_t'
+CaClock.c(108): Warning! W132: No storage class or type specified
+CaClock.c(108): Warning! W305: Type 'int' assumed in declaration of 'pCairoSurface'
+CaClock.c(109): Error! E1022: Missing or misspelled data type near 'cairo_t'
+CaClock.c(109): Warning! W132: No storage class or type specified
+CaClock.c(109): Warning! W305: Type 'int' assumed in declaration of 'pCairoHandle'
+CaClock.c(1286): Warning! W102: Parameter 2: Type mismatch (warning)
+CaClock.c(1286): Note! I2003: source conversion type is 'void *'
+CaClock.c(1286): Note! I2004: target conversion type is 'unsigned long'
+CaClock.c(1290): Warning! W131: No prototype found for function 'cairo_os2_surface_refresh_window'
+CaClock.c(1369): Warning! E1176: Parameter 2, pointer type mismatch
+CaClock.c(1369): Note! I2003: source conversion type is 'char **'
+CaClock.c(1369): Note! I2004: target conversion type is 'void **'
+CaClock.c(1438): Warning! E1176: Parameter 2, pointer type mismatch
+CaClock.c(1438): Note! I2003: source conversion type is 'char **'
+CaClock.c(1438): Note! I2004: target conversion type is 'void **'
+CaClock.c(1473): Warning! E1176: Parameter 4, pointer type mismatch
+CaClock.c(1473): Note! I2003: source conversion type is 'char **'
+CaClock.c(1473): Note! I2004: target conversion type is 'void **'
+CaClock.c(1500): Error! E1127: Type required in parameter list
+CaClock.c(1500): Error! E1022: Missing or misspelled data type near 'cairo_surface_t'
+CaClock.c(1501): Error! E1127: Type required in parameter list
+CaClock.c(1501): Error! E1022: Missing or misspelled data type near 'cairo_t'
+CaClock.c(1507): Error! E1011: Symbol 'cairo_text_extents_t' has not been declared
+CaClock.c(1507): Error! E1009: Expecting ';' but found 'CairoTextExtents'
+CaClock.c(1507): Error! E1011: Symbol 'CairoTextExtents' has not been declared
+CaClock.c(1508): Error! E1077: Missing '}'
+CaClock.c(1504): Warning! W202: Symbol 'Time' has been defined, but not referenced
+CaClock.c(1503): Warning! W202: Symbol 'achTimeString' has been defined, but not referenced
+CaClock.c(1506): Warning! W202: Symbol 'iOldSec' has been defined, but not referenced
+CaClock.c(1505): Warning! W202: Symbol 'pTime' has been defined, but not referenced
+CaClock.c(1517): Warning! W304: Return type 'int' assumed for function 'InitLocaleStuff'
+CaClock.c(1520): Error! E1009: Expecting ',' but found '('
+CaClock.c(1520): Warning! W304: Return type 'int' assumed for function 'srand'
+CaClock.c(1520): Error! E1062: Inconsistent return type for function 'srand'
+CaClock.c(1520): Note! I2003: source conversion type is 'int'
+CaClock.c(1520): Note! I2004: target conversion type is 'void'
+CaClock.c(1520): Note! I2002: 'srand' defined in: g:\WATCOM\H\stdlib.h(217)
+CaClock.c(1520): Error! E1026: Invalid declarator
+CaClock.c(1520): Error! E1009: Expecting ',' but found ')'
+CaClock.c(1520): Error! E1026: Invalid declarator
+CaClock.c(1521): Error! E1022: Missing or misspelled data type near 'xpos'
+CaClock.c(1521): Error! E1024: Declared symbol 'xpos' is not in parameter list
+CaClock.c(1521): Error! E1009: Expecting ',' but found '='
+CaClock.c(1521): Error! E1147: Too many errors: compilation aborted
