@@ -61,8 +61,8 @@ BEGIN
                 PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
     END
 END
-BITMAP      BM_ECSBALL                         "\\Watcom\\Projects\\SSaver\\Modules\\eCSBall\\Logo.bmp"
-BITMAP      BM_ECSBALL2                        "\\Watcom\\Projects\\SSaver\\Modules\\eCSBall\\Logo2.bmp"
+BITMAP      BM_ECSBALL                         "\\.\\Logo.bmp"
+BITMAP      BM_ECSBALL2                        "\\.\\Logo2.bmp"
 DLGTEMPLATE DLG_RESOURCECOLLECTORWINDOW MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "Resource collector window", DLG_RESOURCECOLLECTORWINDOW, 21, 57, 350, 200,
