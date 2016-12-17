@@ -1,2 +1,5 @@
 # CRLF is crucial for OS/2 REXX files (also fine for Windows .cmd)
 *.cmd eol=crlf
+*.txt eol=crlf
+# Be safe by making the Warpin script (*.wis) have crlf
+*.wis eol=crlf
