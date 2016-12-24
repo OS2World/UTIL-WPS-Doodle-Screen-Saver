@@ -26,6 +26,11 @@ cd Modules\AnTVSim
 wmake -h clean
 cd ..\..
 
+echo * MODULES\AOS_Logo
+cd Modules\AOS_Logo
+wmake -h clean
+cd ..\..
+
 echo * MODULES\BLANK
 cd Modules\Blank
 wmake -h clean

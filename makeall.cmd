@@ -27,6 +27,14 @@ call make.cmd
 cd ..
 cd ..\..
 
+echo * MODULES\AOS_Logo
+cd Modules\AOS_Logo
+wmake -h
+cd Languages
+call make.cmd
+cd ..
+cd ..\..
+
 echo * MODULES\BLANK
 cd Modules\Blank
 wmake -h
