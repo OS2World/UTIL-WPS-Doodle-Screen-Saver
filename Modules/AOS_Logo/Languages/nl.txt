@@ -1,0 +1,37 @@
+/*
+ * NLS support file for the AOS_Logo Screen Saver Module
+ *
+ * Language: General Dutch language
+ * Locales : nl_*
+ *
+ * Author  : MrFawlty
+ *
+ * Date (YYYY-MM-DD): 2005.06.06.
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+// ........................................
+// This module has no configuration dialog!
+// ........................................
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="eCS Bal";
+MOD_DESC="Elke 30 seconden bewegend eComStation logo.\nGeschreven door Doodle";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

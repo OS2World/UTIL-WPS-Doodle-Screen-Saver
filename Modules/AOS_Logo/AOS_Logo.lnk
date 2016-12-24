@@ -1,0 +1,11 @@
+system os2v2_dll INITINSTANCE TERMINSTANCE
+name AOS_Logo
+file AOS_Logo
+file msgx
+OPTION MAP=AOS_Logo
+OPTION DESCRIPTION 'AOS_Logo, screen saver module'
+OPTION ELIMINATE
+OPTION MANYAUTODATA
+OPTION OSNAME='OS/2 and eComStation'
+OPTION SHOWDEAD
+LIBPATH %os2tk%\lib
