@@ -1,0 +1,14 @@
+--- cairo.h.orig	2016-06-19 22:41:04.000000000 -0700
++++ cairo.h	2016-12-22 23:22:34.000000000 -0800
+@@ -53,9 +53,11 @@
+ #ifndef cairo_public
+ # if defined (_MSC_VER) && ! defined (CAIRO_WIN32_STATIC_BUILD)
+ #  define cairo_public __declspec(dllimport)
++# elif defined (__WATCOMC__)
++#  define cairo_public __declspec(__cdecl)
+ # else
+ #  define cairo_public
+ # endif
+ #endif
+ 
+ CAIRO_BEGIN_DECLS

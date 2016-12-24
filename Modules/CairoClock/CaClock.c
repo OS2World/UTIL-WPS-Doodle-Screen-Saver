@@ -42,7 +42,6 @@
 #include <unidef.h>                    // Unicode API
 #include <uconv.h>                     // Unicode API (codepage conversion)
 
-
 #include "CaClock-Resources.h"
 
 #include "cairo.h"
@@ -1287,9 +1286,9 @@ MRESULT EXPENTRY fnSaverWindowProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
         if (pCairoSurface)
         {
-          cairo_os2_surface_refresh_window(pCairoSurface,
-                                           hpsBeginPaint,
-                                           &rclRect);
+          cairo_os2_surface_paint_window (pCairoSurface,
+                                          hpsBeginPaint,
+                                          NULL, 1);
         } else
         {
           // Fill with black
@@ -1810,20 +1809,14 @@ void CairoDrawThread(void *pParam)
   cairo_os2_init();
 
   // Create cairo surface
-  pCairoSurface = cairo_os2_surface_create(hpsClientWindow,
-                                           swpTemp.cx,
-                                           swpTemp.cy);
+  pCairoSurface = cairo_os2_surface_create_for_window(hwndClientWindow,
+                                                      swpTemp.cx,
+                                                      swpTemp.cy);
 
   // Tell the surface the HWND too, so if the application decides
   // that it wants to draw itself, then it will be able to turn
   // on blit_as_changes.
   cairo_os2_surface_set_hwnd(pCairoSurface, hwndClientWindow);
-
-  // Make sure that the changes will be shown only
-  // when we tell so
-  cairo_os2_surface_set_manual_window_refresh(pCairoSurface,
-                                              TRUE);
-
 
   // Create Cairo drawing handle for the surface
   pCairoHandle = cairo_create(pCairoSurface);
