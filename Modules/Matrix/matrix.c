@@ -2138,11 +2138,12 @@ char achLetters[]=
 #define SPEC_MSG_TIME "TIME"
 #define SPEC_MSG_DATE "DATE"
 
-#define MESSAGE_NUM 8
+#define MESSAGE_NUM 9
 char * apchMessages[MESSAGE_NUM] =
 {
   "THE MATRIX HAS YOU",
   "eComStation",
+  "ArcaOS",
   "UP THE IRONS",
   "TAKE THE BLUE PILL",
   "THE ANSWER IS 42",
@@ -3135,7 +3136,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
 
   // Return info about module!
   pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 70;
+  pModuleDesc->iVersionMinor = 80;
   strcpy(pModuleDesc->achModuleName, "Matrix");
   strcpy(pModuleDesc->achModuleDesc,
          "Falling letters in Matrix style.\n"
