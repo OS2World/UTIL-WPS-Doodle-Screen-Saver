@@ -4,9 +4,10 @@
  * Language: General English language
  * Locales : en_*
  *
- * Author  : Doodle
+ * Original Author : Doodle
+ * Contributor : Dave Yeo
  *
- * Date (YYYY-MM-DD): 2006.01.31.
+ * Date (YYYY-MM-DD): 2016.12.28
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
