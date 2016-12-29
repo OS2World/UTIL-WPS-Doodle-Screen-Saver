@@ -1,8 +1,9 @@
 /*
- * Screen Saver - Lockup Desktop replacement for OS/2 and eComStation systems
- * Copyright (C) 2004-2008 Doodle
+ * Screen Saver - Lockup Desktop replacement for OS/2, ArcaOS
+ * and eComStation systems
+ * Copyright (C) 2004-2008 2016,2017 Doodle contributor Dave Yeo
  *
- * Contact: doodle@dont.spam.me.scenergy.dfmk.hu
+ * Contact: doodle@dont.spam.me.scenergy.dfmk.hu dave.r.yeo@gmail.com
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -53,8 +54,8 @@ char *pchModuleDesc =
   "Using the Cairo library.\n";
 
 /* Module version number (Major.Minor format): */
-int   iModuleVersionMajor = 1;
-int   iModuleVersionMinor = 70;
+int   iModuleVersionMajor = 2;
+int   iModuleVersionMinor = 00;
 
 /* Internal name generated from module name, to have
  * private window identifier for this kind of windows: */
@@ -82,10 +83,6 @@ void CairoDrawLoop(HWND             hwndClientWindow,
 
   // Initialize random number generator
   srand(clock());
-
-  // Show every change as soon as it's ready.
-  cairo_os2_surface_set_manual_window_refresh(pCairoSurface,
-                                              FALSE);
 
   // Set dRandMax value
   dRandMax = RAND_MAX;
@@ -209,8 +206,8 @@ void CairoDrawLoop(HWND             hwndClientWindow,
           break;
         case 4:
           cairo_select_font_face(pCairoHandle, "Sans",
-                                 ((int)rand())*3/RAND_MAX,
-                                 ((int)rand())*3/RAND_MAX);
+                                 ((int)rand())*2/RAND_MAX,
+                                 ((int)rand())*2/RAND_MAX);
           cairo_set_font_size(pCairoHandle,
                               rand()/dRandMax);
 
@@ -218,7 +215,10 @@ void CairoDrawLoop(HWND             hwndClientWindow,
           if (rand()>RAND_MAX/2)
             pchText = "OS/2";
           else
-            pchText = "eComStation";
+            if (rand()>RAND_MAX/2)
+              pchText = "ArcaOS";
+            else
+              pchText = "eComStation";
           cairo_text_extents(pCairoHandle,
                              pchText,
                              &CairoTextExtents);
@@ -231,6 +231,11 @@ void CairoDrawLoop(HWND             hwndClientWindow,
                         rand()/dRandMax*dYAspect + CairoTextExtents.height/2);
           cairo_show_text(pCairoHandle, pchText);
       }
+
+        cairo_os2_surface_paint_window(pCairoSurface,
+                                       NULL,
+                                       NULL,
+                                       1);
 
       cairo_stroke (pCairoHandle);
 

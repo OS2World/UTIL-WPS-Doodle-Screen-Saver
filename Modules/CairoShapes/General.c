@@ -1,8 +1,9 @@
 /*
- * Screen Saver - Lockup Desktop replacement for OS/2 and eComStation systems
- * Copyright (C) 2004-2008 Doodle
+ * Screen Saver - Lockup Desktop replacement for OS/2, ArcaOS
+ * and eComStation systems
+ * Copyright (C) 2004-2008, 2016,2017 Doodle, Contributor Dave Yeo
  *
- * Contact: doodle@dont.spam.me.scenergy.dfmk.hu
+ * Contact: doodle@dont.spam.me.scenergy.dfmk.hu, dave.r.yeo@gmail.com
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -648,12 +649,7 @@ MRESULT EXPENTRY fnSaverWindowProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
         hpsBeginPaint = WinBeginPaint(hwnd, NULL, &rclRect);
 
-        if (pCairoSurface)
-        {
-          cairo_os2_surface_refresh_window(pCairoSurface,
-                                           hpsBeginPaint,
-                                           &rclRect);
-        } else
+        if (!pCairoSurface)
         {
           // Fill with black
           WinQueryWindowRect(hwnd, &rclRect);
@@ -705,20 +701,14 @@ void CairoDrawThread(void *pParam)
   cairo_os2_init();
 
   // Create cairo surface
-  pCairoSurface = cairo_os2_surface_create(hpsClientWindow,
-                                           swpTemp.cx,
-                                           swpTemp.cy);
+  pCairoSurface = cairo_os2_surface_create_for_window(hpsClientWindow,
+                                                      swpTemp.cx,
+                                                      swpTemp.cy);
 
   // Tell the surface the HWND too, so if the application decides
   // that it wants to draw itself, then it will be able to turn
   // on blit_as_changes.
   cairo_os2_surface_set_hwnd(pCairoSurface, hwndClientWindow);
-
-  // Make sure that the changes will be shown only
-  // when we tell so
-  cairo_os2_surface_set_manual_window_refresh(pCairoSurface,
-                                              TRUE);
-
 
   // Create Cairo drawing handle for the surface
   pCairoHandle = cairo_create(pCairoSurface);

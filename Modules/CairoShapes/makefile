@@ -31,7 +31,7 @@ dllflags = -bd
 cflags = $(debugflags) -zq -bm -bt=OS2 -5 -fpi -sg -otexan -wx
 
 .before
-    @set include=$(%os2tk)\h;$(%cairopath)\h;$(%include);..\..
+    @set include=$(%os2tk)\h;$(%cairopath)\include\cairo;$(%include);..\..
 
 .extensions:
 .extensions: .dll .obj .c
