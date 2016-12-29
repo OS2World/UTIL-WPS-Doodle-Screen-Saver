@@ -48,13 +48,18 @@
 
 /* ------ Changelog (in Docs) ----------- */
 
-"xcopy ..\changelog.txt Docs\"
+"xcopy ..\doc\changelog.txt Docs\"
 
 
 /* ------ Modules ----------- */
 
 fromdir="AnTVSim"
 modulename="AnTVSim"
+"xcopy ..\Modules\"fromdir"\*.dll Modules\"modulename"\"
+"xcopy ..\Modules\"fromdir"\Languages\*.msg Modules\"modulename"\"modulename"\"
+
+fromdir="AOS_Logo"
+modulename="AOS_Logo"
 "xcopy ..\Modules\"fromdir"\*.dll Modules\"modulename"\"
 "xcopy ..\Modules\"fromdir"\Languages\*.msg Modules\"modulename"\"modulename"\"
 

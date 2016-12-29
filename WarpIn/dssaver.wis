@@ -1,8 +1,8 @@
-<WARPIN VERSION="1.0.0" CODEPAGE=850>
+<WARPIN VERSION="1.0.20" CODEPAGE=850>
 <HEAD>
 
 <PCK INDEX="1"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Home\2\0"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Home\2\1"
      TITLE="Doodle's Screen Saver home folder"
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver" BASE
      SELECT
@@ -14,7 +14,7 @@
      >You can specify the home folder of the screen saver here, where it will store its configuration and where it will look for additinal files like language packs and screen saver modules.</PCK>
 
 <PCK INDEX="2"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Core\2\0"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Core\2\1"
      TITLE="Doodle's Screen Saver system binaries (DLL)"
      TARGET="?:\OS2\APPS\DLL"
      FIXED
@@ -26,7 +26,7 @@
      >This contains the system DLL files for this new screen saver solution for OS/2 and eComStation systems.</PCK>
 
 <PCK INDEX="201"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Core-ModuleWrapper\2\0"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Core-ModuleWrapper\2\1"
      TITLE="Doodle's Screen Saver system binaries (EXE)"
      TARGET="?:\OS2\APPS"
      FIXED
@@ -36,7 +36,7 @@
      >This contains the system EXE files for this new screen saver solution for OS/2 and eComStation systems.</PCK>
 
 <PCK INDEX="3"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Documents\2\0"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Documents\2\1"
      TITLE="Doodle's Screen Saver documents"
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver"
      FIXED
@@ -131,27 +131,25 @@
      >This module shows a nice skinnable clock.</PCK>
 
 <PCK INDEX="19"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Cairo Clock\1\7"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Cairo Clock\2\0"
      TITLE="Cairo Clock"
      REQUIRES=1
-     REQUIRES="Doodle\Cairo Vector Graphics Library\Cairo Runtime DLL\1\2\4"
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
      FIXED
      SELECT
-     >This module shows the current date and time. It requires Cairo v1.2.4 Runtime.</PCK>
+     >This module shows the current date and time. It requires the Cairo RPM/YUM package</PCK>
 
 <PCK INDEX="20"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Cairo Shapes\1\7"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Cairo Shapes\2\0"
      TITLE="Cairo Shapes"
      REQUIRES=1
-     REQUIRES="Doodle\Cairo Vector Graphics Library\Cairo Runtime DLL\1\2\4"
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
      FIXED
      SELECT
-     >This module shows different colorful shapes and figures. It requires Cairo v1.2.4 Runtime.</PCK>
+     >This module shows different colorful shapes and figures. It requires the Cairo RPM/YUM package</PCK>
 
 <PCK INDEX="21"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Matrix\1\7"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Matrix\1\8"
      TITLE="Matrix"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -185,6 +183,15 @@
      FIXED
      SELECT
      >This module shows a series of images and blanks the screen after some time.</PCK>
+
+<PCK INDEX="25"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : AOS_Logo\1\0"
+     TITLE="ArcaOS Logo"
+     REQUIRES=1
+     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     FIXED
+     SELECT
+     >ArcaOS logo moving around every 30 seconds.</PCK>
 
 </GROUP>
 

@@ -6,4 +6,4 @@
 */
 
 /* Create Self-Installing EXE file */
-'f:\Utils\warpin\wic.exe @dssaver_wic_params.txt'
+'n:\ecs\install\warpin\wic.exe @dssaver_wic_params.txt'
