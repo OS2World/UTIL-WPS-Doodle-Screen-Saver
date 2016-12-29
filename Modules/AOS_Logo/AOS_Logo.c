@@ -1,8 +1,9 @@
 /*
- * Screen Saver - Lockup Desktop replacement for OS/2 and eComStation systems
- * Copyright (C) 2004-2008 Doodle
+ * Screen Saver - Lockup Desktop replacement for OS/2, ArcaOS
+ * and eComStation systems
+ * Copyright (C) 2004-2008, 2016,2017 Doodle, Dave Yeo
  *
- * Contact: doodle@dont.spam.me.scenergy.dfmk.hu
+ * Contact: doodle@dont.spam.me.scenergy.dfmk.hu dave.r.yeo@gmail.com
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public

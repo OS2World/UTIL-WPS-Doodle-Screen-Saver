@@ -4,7 +4,10 @@
  * Language: General English language
  * Locales : en_*
  *
- * Author  : Doodle
+ * Original Author  : Doodle
+ * Contributor  : Dave Yeo
+ * Artwork  : Rachel Rosenthal, Alex Taylor
+ * Logo  : Arca Noae, LLC
  *
  * Date (YYYY-MM-DD): 2005.05.28.
  *
