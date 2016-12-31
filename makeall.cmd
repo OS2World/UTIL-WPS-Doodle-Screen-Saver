@@ -45,7 +45,6 @@ cd ..\..
 
 echo * MODULES\CairoClock
 cd Modules\CairoClock
-call setvars.cmd
 wmake -h
 cd Languages
 call make.cmd
@@ -54,7 +53,6 @@ cd ..\..
 
 echo * MODULES\CairoShapes
 cd Modules\CairoShapes
-call setvars.cmd
 wmake -h
 cd ..\..
 

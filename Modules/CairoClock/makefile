@@ -6,6 +6,12 @@
 dllname=CaClock
 object_files=CaClock.obj MSGX.obj
 
+# Where to find the import library
+cairopath=%unixroot%\usr\lib
+
+# The import library
+cairolibname=cairo_dll.lib
+
 # Create debug build?
 #debug_build=defined
 
@@ -31,7 +37,7 @@ dllflags = -bd
 cflags = $(debugflags) -zq -bm -bt=OS2 -5 -fpi -sg -otexan -wx
 
 .before
-    @set include=$(%os2tk)\h;$(%cairopath)\include\cairo;$(%include);..\..
+    @set include=$(%os2tk)\h;$(%include);$(%UNIXROOT)\usr\include;..\..
 
 .extensions:
 .extensions: .dll .obj .c
@@ -42,7 +48,7 @@ $(dllname).dll: $(object_files)
     @wlink system 386 lx dll INITINSTANCE TERMINSTANCE name $(dllname) &
     f CaClock f MSGX op MAP=$(dllname) op DESC 'Cairo Clock - ScreenSaver module' &
     op ELIMINATE op MANYAUTODATA op OSNAME='OS/2 and eComStation' op SHOWDEAD &
-    LIBPATH %os2tk%\lib LIBPATH %cairopath% LIBRARY %cairolibname% LIBRARY libuls.lib LIBRARY libconv.lib
+    LIBPATH %os2tk%\lib LIBPATH $(cairopath) LIBRARY $(cairolibname) LIBRARY libuls.lib LIBRARY libconv.lib
 
 !ifdef has_resource_file
     rc $(rcname) $(dllname).dll

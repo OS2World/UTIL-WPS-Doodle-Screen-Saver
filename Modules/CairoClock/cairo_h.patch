@@ -4,7 +4,7 @@
  #ifndef cairo_public
  # if defined (_MSC_VER) && ! defined (CAIRO_WIN32_STATIC_BUILD)
  #  define cairo_public __declspec(dllimport)
-+# elif defined (__WATCOMC__)
++# elif defined (__WATCOMC__) && defined (__OS2__)
 +#  define cairo_public __declspec(__cdecl)
  # else
  #  define cairo_public

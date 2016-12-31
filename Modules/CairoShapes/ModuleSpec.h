@@ -24,8 +24,8 @@
 #ifndef __MODULESPEC_H__
 #define __MODULESPEC_H__
 
-#include "cairo.h"
-#include "cairo-os2.h"
+#include <cairo\cairo.h>
+#include <cairo\cairo-os2.h>
 
 extern char *pchModuleName;
 extern char *pchModuleDesc;

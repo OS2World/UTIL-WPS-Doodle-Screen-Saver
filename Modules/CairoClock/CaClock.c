@@ -44,8 +44,8 @@
 
 #include "CaClock-Resources.h"
 
-#include "cairo.h"
-#include "cairo-os2.h"
+#include <cairo\cairo.h>
+#include <cairo\cairo-os2.h>
 
 // Undocumented flag to make a window topmost:
 #define WS_TOPMOST  0x00200000L
