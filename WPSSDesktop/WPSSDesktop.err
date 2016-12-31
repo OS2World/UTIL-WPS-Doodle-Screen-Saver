@@ -1,8 +1,0 @@
-G:\OS2TK45\h\errcmpat.h(96): Warning! W138: No newline at end of file
-G:\OS2TK45\h\ulsitem.h(251): Warning! W138: No newline at end of file
-WPSSDesktop.c(289): Warning! E1176: Parameter 2, pointer type mismatch
-WPSSDesktop.c(289): Note! I2003: source conversion type is 'char **'
-WPSSDesktop.c(289): Note! I2004: target conversion type is 'void **'
-WPSSDesktop.c(353): Warning! E1176: Parameter 4, pointer type mismatch
-WPSSDesktop.c(353): Note! I2003: source conversion type is 'char **'
-WPSSDesktop.c(353): Note! I2004: target conversion type is 'void **'
