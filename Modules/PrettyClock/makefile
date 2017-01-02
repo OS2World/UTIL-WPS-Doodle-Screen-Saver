@@ -21,7 +21,7 @@ create_packed_dll=defined
 !include Watcom.mif
 
 .before
-    set include=..\..;.\libpng;.\zlib121;$(%os2tk)\h;$(%include);
+    set include=..\..;.\libpng;.\zlib129;$(%os2tk)\h;$(%include);
 
 all : $(dllname).dll
 
@@ -35,7 +35,7 @@ $(dllname).dll: zlib libpng $(object_files)
 !endif
 
 zlib: .SYMBOLIC
-    @cd zlib121
+    @cd zlib129
     @wmake -h -f makefile.wat
     @cd ..
 
@@ -45,7 +45,7 @@ libpng: .SYMBOLIC
     @cd ..
     
 clean : .SYMBOLIC
-        @cd zlib121
+        @cd zlib129
         @wmake -h -f makefile.wat clean
         @cd ..
         @cd libpng
