@@ -2,7 +2,8 @@
 Ideas for Screen Saver:
 -----------------------
 
-- Change setvars.cmd in cairo modules
+- Change setvars.cmd in cairo modules (Done by moving the vars into the
+  makefiles)
 
 - More animations and objects for Snow module
 - Make CairoShapes NLS enabled (?)

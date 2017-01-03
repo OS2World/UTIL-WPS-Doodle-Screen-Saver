@@ -1,5 +1,12 @@
 ChangeLog File:
 
+* v2.1 : 2016.01.03.
+  - Updated PrettyClock's zlib and libpng to latest versions.
+  - Added AOS_Logo module.
+  - Updated CairoClock and CairoShapes to use the system Cairo DLL installed
+    by YUM/RPM.
+  - Rebuilt with latest version of OpenWatcom.
+
 * v2.0 : 2008.08.18.
   - The screen saver settings page now reports 180 Dialog Units as its minimal
     height, so most of it should be visible even on newly installed systems.
