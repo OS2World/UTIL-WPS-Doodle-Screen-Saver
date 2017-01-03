@@ -30,7 +30,7 @@
 // The name and the description string of the module:
  
 MOD_NAME="eCS-Kugel";
-MOD_DESC="eComStation-Logo, das sich alles 30 Sekunden bewegt.\nEntwickelt von Doodle.";
+MOD_DESC="ArcaOS-Logo, das sich alles 30 Sekunden bewegt.\nEntwickelt von Doodle.";
  
 // ---------------------------------------------------------------------------
 // <EOF>

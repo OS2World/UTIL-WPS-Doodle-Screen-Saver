@@ -7,7 +7,7 @@
 About
 -----
 
-This is a new screen saver solution for OS/2 and eComStation systems.
+This is a new screen saver solution for OS/2, ArcaOS and eComStation systems.
 Its main goal was to have an open-source screen saver which can be developed
 further by others, if needed, and which can co-operate with third party 
 applications, like WarpVision, so the screen saver will not activate itself

@@ -30,7 +30,7 @@
 // The name and the description string of the module:
 
 MOD_NAME="eCS labda";
-MOD_DESC="Egy eComStation logo mely 30 m sodpercenk‚nt helyet v lt.\nK‚sz¡tette: Doodle";
+MOD_DESC="Egy ArcaOS logo mely 30 m sodpercenk‚nt helyet v lt.\nK‚sz¡tette: Doodle";
 
 // ---------------------------------------------------------------------------
 // <EOF>

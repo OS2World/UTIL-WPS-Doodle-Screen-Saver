@@ -23,7 +23,7 @@
      REQUIRES=1
      REGISTERCLASS="WPSSDesktop|?:\OS2\APPS\DLL\WPSSDesk.DLL"
      REPLACECLASS="WPDesktop|WPSSDesktop"
-     >This contains the system DLL files for this new screen saver solution for OS/2 and eComStation systems.</PCK>
+     >This contains the system DLL files for this new screen saver solution for OS/2, ArcaOS and eComStation systems.</PCK>
 
 <PCK INDEX="201"
      PACKAGEID="Doodle\Doodle's Screen Saver\Core-ModuleWrapper\2\1"
@@ -33,7 +33,7 @@
      SELECT
      NODESELECT
      REQUIRES=1
-     >This contains the system EXE files for this new screen saver solution for OS/2 and eComStation systems.</PCK>
+     >This contains the system EXE files for this new screen saver solution for OS/2, ArcaOS and eComStation systems.</PCK>
 
 <PCK INDEX="3"
      PACKAGEID="Doodle\Doodle's Screen Saver\Documents\2\1"
@@ -310,7 +310,7 @@ Select "Cancel" to abort installation.</TEXT>
 <P>
 This archive contains <B>Doodle's Screen Saver v2.0</B>
 <P>
-This is a new screen saver solution for OS/2 and eComStation systems. 
+This is a new screen saver solution for OS/2, ArcaOS and eComStation systems. 
 Its main goal was to have an open-source screen saver which can be developed 
 further by others, if needed, and which can co-operate with third party 
 applications, like WarpVision, so the screen saver will not activate itself
