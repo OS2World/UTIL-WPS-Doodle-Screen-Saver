@@ -1,6 +1,6 @@
 Doodle-ScreenSaver
 ==================
-WPS - Screen Saver for OS/2 and eComStation.
+WPS - Screen Saver for OS/2, ArcaOS and eComStation.
 
 LICENSE
 ========
@@ -15,3 +15,7 @@ COMPILE TOOLS
 AUTHORS
 =============
 - Doodle
+
+Contributors
+=============
+-Dave Yeo
