@@ -36,9 +36,10 @@
 
 
 #define CURL_HIDDEN_SYMBOLS
+#define BUILDING_LIBCURL
 #define CURL_EXTERN_SYMBOL __declspec(__cdecl)
 #include <curl/curl.h>
-#include <curl/types.h>
+//#include <curl/types.h>
 #include <curl/easy.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -64,8 +65,8 @@ char *pchModuleDesc =
   "Using Cairo, Curl, libxml2 and html2text.\n";
 
 /* Module version number (Major.Minor format): */
-int   iModuleVersionMajor = 1;
-int   iModuleVersionMinor = 75;
+int   iModuleVersionMajor = 2;
+int   iModuleVersionMinor = 00;
 int   iUniSize;
 double  dXAspect, dYAspect;
 
@@ -584,10 +585,6 @@ void CairoDrawLoop(HWND             hwndClientWindow,
   // Initialize random number generator
   srand(clock());
   dRandMax = RAND_MAX;
-
-  cairo_os2_surface_set_manual_window_refresh(pCairoSurface,
-                                              1);
-
   // Clear background with black
   cairo_set_source_rgb (pCairoHandle, 0, 0 ,0);
   cairo_rectangle (pCairoHandle,
@@ -689,7 +686,12 @@ void CairoDrawLoop(HWND             hwndClientWindow,
                           0, 0,
                           dXAspect, dYAspect);
           cairo_fill(pCairoHandle);
-  
+
+          cairo_os2_surface_paint_window(pCairoSurface,
+                                         NULL,
+                                         NULL,
+                                         1);
+
 
           // Restore canvas state to original one
           cairo_restore(pCairoHandle);

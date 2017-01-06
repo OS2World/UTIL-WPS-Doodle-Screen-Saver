@@ -37,7 +37,7 @@
 
 #include <iostream>
 #include <strstream>
-#include <string>
+#include <string.h>
 #include <stdlib.h>
 
 #include <emx/startup.h>

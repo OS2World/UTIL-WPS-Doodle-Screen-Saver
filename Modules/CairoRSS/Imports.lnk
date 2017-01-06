@@ -1,8 +1,8 @@
-IMPORT _curl_global_init curl
-IMPORT _curl_easy_init curl
-IMPORT _curl_easy_perform curl
-IMPORT _curl_easy_setopt curl
-IMPORT _curl_easy_cleanup curl
+IMPORT _curl_global_init curl7
+IMPORT _curl_easy_init curl7
+IMPORT _curl_easy_perform curl7
+IMPORT _curl_easy_setopt curl7
+IMPORT _curl_easy_cleanup curl7
 IMPORT _xmlReadMemory libxml2
 IMPORT _xmlCleanupParser libxml2
 IMPORT _xmlFreeDoc libxml2

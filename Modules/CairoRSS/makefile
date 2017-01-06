@@ -6,6 +6,12 @@
 dllname=CairoRSS
 object_files=General.obj ModuleSpec.obj
 
+# Where to find the import library
+cairopath=%unixroot%\usr\lib
+
+# The import library
+cairolibname=cairo_dll.lib
+
 # Create debug build?
 #debug_build=defined
 
@@ -31,7 +37,7 @@ dllflags = -bd
 cflags = $(debugflags) -zq -bm -bt=OS2 -5 -fpi -sg -otexan -wx
 
 .before
-    @set include=$(%os2tk)\h;$(%cairopath)\h;$(%include);..\..;.
+    @set include=$(%os2tk)\h;$(%include);$(%UNIXROOT)\usr\include;..\..;.
 
 .extensions:
 .extensions: .dll .obj .c
@@ -42,7 +48,7 @@ $(dllname).dll: $(object_files)
     @wlink system os2v2_dll INITINSTANCE TERMINSTANCE name $(dllname) &
     f General f ModuleSpec op MAP=$(dllname) op DESC 'ScreenSaver module' &
     op ELIMINATE op MANYAUTODATA op OSNAME='OS/2 and eComStation' op SHOWDEAD &
-    LIBPATH %cairopath% library %cairolibname% @Imports.lnk
+    LIBPATH $(cairopath) library $(cairolibname) @Imports.lnk
 !ifdef has_resource_file
     rc $(rcname) $(dllname).dll
 !endif
