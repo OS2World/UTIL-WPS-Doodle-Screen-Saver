@@ -1147,7 +1147,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
 
   // Return info about module!
   pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 00;
+  pModuleDesc->iVersionMinor = 80;
   strcpy(pModuleDesc->achModuleName, "AOS_Logo");
   strcpy(pModuleDesc->achModuleDesc,
          "Arca Noae logo moving around every 30 seconds.\n"
