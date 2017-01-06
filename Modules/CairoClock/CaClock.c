@@ -44,6 +44,7 @@
 
 #include "CaClock-Resources.h"
 
+#define cairo_public __declspec(__cdecl)
 #include <cairo\cairo.h>
 #include <cairo\cairo-os2.h>
 

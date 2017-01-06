@@ -24,6 +24,7 @@
 #ifndef __MODULESPEC_H__
 #define __MODULESPEC_H__
 
+#define cairo_public __declspec(__cdecl)
 #include <cairo\cairo.h>
 #include <cairo\cairo-os2.h>
 
