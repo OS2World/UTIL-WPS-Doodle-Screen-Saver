@@ -2143,7 +2143,7 @@ char * apchMessages[MESSAGE_NUM] =
 {
   "THE MATRIX HAS YOU",
   "eComStation",
-  "ArcaOS",
+  "ArcaOS | Arca Noae, LLC",
   "UP THE IRONS",
   "TAKE THE BLUE PILL",
   "THE ANSWER IS 42",
