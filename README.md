@@ -18,4 +18,4 @@ AUTHORS
 
 Contributors
 =============
--Dave Yeo
+- Dave Yeo
