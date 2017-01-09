@@ -301,14 +301,14 @@
 <!-- page 1: introductory page -->
 <PAGE INDEX="1" TYPE="README">
 <NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
-<TEXT>Doodle's Screen Saver v2.0 Installation
+<TEXT>Doodle's Screen Saver v2.1 Installation
 
 Select "Next" to continue.
 Select "Cancel" to abort installation.</TEXT>
 <README FORMAT="HTML">
 <B>Welcome!</B>
 <P>
-This archive contains <B>Doodle's Screen Saver v2.0</B>
+This archive contains <B>Doodle's Screen Saver v2.1</B>
 <P>
 This is a new screen saver solution for OS/2, ArcaOS and eComStation systems. 
 Its main goal was to have an open-source screen saver which can be developed 
