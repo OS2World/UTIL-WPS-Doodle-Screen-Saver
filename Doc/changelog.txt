@@ -1,6 +1,6 @@
 ChangeLog File:
 
-* v2.1 : 2016.01.03.
+* v2.1 : 2017.01.03.
   - Updated PrettyClock's zlib and libpng to latest versions.
   - Added AOS_Logo module.
   - Updated CairoClock and CairoShapes to use the system Cairo DLL installed
