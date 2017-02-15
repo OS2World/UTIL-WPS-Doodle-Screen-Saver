@@ -64,7 +64,6 @@
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
      FIXED
-     SELECT
      >eComStation logo moving around every 30 seconds.</PCK>
 
 <PCK INDEX="12"
