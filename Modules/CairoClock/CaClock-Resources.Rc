@@ -18,7 +18,7 @@ BEGIN
                 FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
                 FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
     PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
-    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
     PRESPARAMS PP_USER, "12.System Proportional"
     BEGIN
         CONTROL "Please enter the password to unlock the screensaver!",
@@ -45,13 +45,13 @@ BEGIN
     DIALOG "Wrong password", DLG_WRONGPASSWORD, 58, 100, 160, 40,
                 FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
                 FCF_TITLEBAR | FCF_SYSMENU
-    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
     PRESPARAMS PP_USER, "12.System Proportional"
     BEGIN
         CONTROL "OK",                  DID_OK, 65, 4, 30, 10, WC_BUTTON,
                                             BS_PUSHBUTTON | BS_DEFAULT |
                                             WS_GROUP | WS_TABSTOP | WS_VISIBLE
-                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+                PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
         CONTROL "An invalid password has been entered!
 
 Please try again!",
@@ -60,7 +60,7 @@ Please try again!",
                                             DT_TOP | DT_WORDBREAK | WS_GROUP |
                                             WS_VISIBLE
                 PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
-                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+                PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
     END
 END
 
@@ -70,7 +70,7 @@ BEGIN
                 FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
                 FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
     PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
-    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
     PRESPARAMS PP_USER, "12.System Proportional"
     BEGIN
         CONTROL "Visual options",      GB_VISUALOPTIONS, 3, 53, 120, 125,
