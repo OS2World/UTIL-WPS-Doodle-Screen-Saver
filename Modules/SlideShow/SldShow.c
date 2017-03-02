@@ -1176,7 +1176,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
 
   // Return info about module!
   pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 71;
+  pModuleDesc->iVersionMinor = 80;
   strcpy(pModuleDesc->achModuleName, "Slideshow");
   strcpy(pModuleDesc->achModuleDesc,
          "Slideshow .\n"

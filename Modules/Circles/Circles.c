@@ -2714,7 +2714,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
 
   // Return info about module!
   pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 60;
+  pModuleDesc->iVersionMinor = 70;
   strcpy(pModuleDesc->achModuleName, "Circles");
   strcpy(pModuleDesc->achModuleDesc,
          "Hypnotizing circles\n"

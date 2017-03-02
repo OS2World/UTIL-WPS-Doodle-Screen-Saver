@@ -2,7 +2,7 @@
 <HEAD>
 
 <PCK INDEX="1"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Home\2\1"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Home\2\2"
      TITLE="Doodle's Screen Saver home folder"
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver" BASE
      SELECT
@@ -14,7 +14,7 @@
      >You can specify the home folder of the screen saver here, where it will store its configuration and where it will look for additinal files like language packs and screen saver modules.</PCK>
 
 <PCK INDEX="2"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Core\2\1"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Core\2\2"
      TITLE="Doodle's Screen Saver system binaries (DLL)"
      TARGET="?:\OS2\APPS\DLL"
      FIXED
@@ -26,7 +26,7 @@
      >This contains the system DLL files for this new screen saver solution for OS/2, ArcaOS and eComStation systems.</PCK>
 
 <PCK INDEX="201"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Core-ModuleWrapper\2\1"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Core-ModuleWrapper\2\2"
      TITLE="Doodle's Screen Saver system binaries (EXE)"
      TARGET="?:\OS2\APPS"
      FIXED
@@ -36,7 +36,7 @@
      >This contains the system EXE files for this new screen saver solution for OS/2, ArcaOS and eComStation systems.</PCK>
 
 <PCK INDEX="3"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Documents\2\1"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Documents\2\2"
      TITLE="Doodle's Screen Saver documents"
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver"
      FIXED
@@ -50,7 +50,7 @@
 <GROUP TITLE="Screen Saver modules">
 
 <PCK INDEX="10"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Blank\1\6"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Blank\1\7"
      TITLE="Blank screen"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -59,7 +59,7 @@
      >Simple blank screen, using the power of Black! :)</PCK>
 
 <PCK INDEX="11"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : eCSBall\1\6"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : eCSBall\1\7"
      TITLE="eCS Ball"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -67,7 +67,7 @@
      >eComStation logo moving around every 30 seconds.</PCK>
 
 <PCK INDEX="12"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : IFSIM\1\6"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : IFSIM\1\7"
      TITLE="IFS In Motion (DIVE)"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -76,7 +76,7 @@
      >Shows a moving fractal (Iterate Function System).</PCK>
 
 <PCK INDEX="13"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Padlock\1\6"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Padlock\1\7"
      TITLE="Bouncing padlock"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -85,7 +85,7 @@
      >A golden padlock bouncing around the screen.</PCK>
 
 <PCK INDEX="14"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Circles\1\6"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Circles\1\7"
      TITLE="Hypnotizing circles"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -94,7 +94,7 @@
      >Colourful circles whirling around the screen.</PCK>
 
 <PCK INDEX="15"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Randomizer\1\6"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Randomizer\1\7"
      TITLE="Randomizer"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -103,7 +103,7 @@
      >Pseudo module, using other modules.</PCK>
 
 <PCK INDEX="16"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Show Image\1\7\1"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Show Image\1\8"
      TITLE="Show Image"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -112,7 +112,7 @@
      >This module shows a selected image on the screen for a while, then blanks the screen.</PCK>
 
 <PCK INDEX="17"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Analogue TV Simulator\1\6"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Analogue TV Simulator\1\7"
      TITLE="Analogue TV Simulator"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -121,7 +121,7 @@
      >This module mimics an analogue television screen.</PCK>
 
 <PCK INDEX="18"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Pretty Clock\1\6"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Pretty Clock\1\7"
      TITLE="Pretty Clock"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -130,7 +130,7 @@
      >This module shows a nice skinnable clock.</PCK>
 
 <PCK INDEX="19"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Cairo Clock\2\0"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Cairo Clock\2\1"
      TITLE="Cairo Clock"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -139,7 +139,7 @@
      >This module shows the current date and time. It requires the Cairo RPM/YUM package</PCK>
 
 <PCK INDEX="20"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Cairo Shapes\2\0"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Cairo Shapes\2\1"
      TITLE="Cairo Shapes"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -148,7 +148,7 @@
      >This module shows different colorful shapes and figures. It requires the Cairo RPM/YUM package</PCK>
 
 <PCK INDEX="21"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Matrix\1\8"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Matrix\1\9"
      TITLE="Matrix"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -157,7 +157,7 @@
      >This module shows falling green letters in Matrix style.</PCK>
 
 <PCK INDEX="22"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Snow\1\6"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Snow\1\7"
      TITLE="Snow"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -166,7 +166,7 @@
      >This module shows falling snowflakes in the night.</PCK>
 
 <PCK INDEX="23"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Moving Text\1\6"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Moving Text\1\7"
      TITLE="Moving Text"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -175,7 +175,7 @@
      >This module moves text on the screen.</PCK>
 
 <PCK INDEX="24"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Slide Show\1\7\1"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Slide Show\1\8"
      TITLE="Slide Show"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -184,7 +184,7 @@
      >This module shows a series of images and blanks the screen after some time.</PCK>
 
 <PCK INDEX="25"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : AOS_Logo\1\0"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Module : AOS_Logo\1\1"
      TITLE="ArcaOS Logo"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
@@ -197,7 +197,7 @@
 <GROUP TITLE="Screen Saver language packs">
 
 <PCK INDEX="50"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Default\1\9"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Default\2\0"
      TITLE="Default (English) language"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
@@ -206,7 +206,7 @@
      >Default (English) language support</PCK>
 
 <PCK INDEX="51"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Hungarian\1\9"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Hungarian\2\0"
      TITLE="Hungarian language"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
@@ -215,7 +215,7 @@
      >Hungarian language support</PCK>
 
 <PCK INDEX="52"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Dutch\1\9"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Dutch\2\0"
      TITLE="Dutch language"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
@@ -224,7 +224,7 @@
      >Dutch language support</PCK>
 
 <PCK INDEX="53"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : German\1\9"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Language : German\2\0"
      TITLE="German language"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
@@ -233,7 +233,7 @@
      >German language support</PCK>
 
 <PCK INDEX="54"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Swedish\1\9"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Swedish\2\0"
      TITLE="Swedish language"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
@@ -242,7 +242,7 @@
      >Swedish language support</PCK>
 
 <PCK INDEX="55"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Chinese\1\7"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Chinese\1\8"
      TITLE="Chinese language"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
@@ -251,7 +251,7 @@
      >Chinese language support</PCK>
 
 <PCK INDEX="56"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : French\1\9"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Language : French\2\0"
      TITLE="French language"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
@@ -260,7 +260,7 @@
      >French language support</PCK>
 
 <PCK INDEX="57"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Russian\1\7"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Russian\1\8"
      TITLE="Russian language"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
@@ -269,7 +269,7 @@
      >Russian language support</PCK>
 
 <PCK INDEX="58"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Spanish\1\9"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Spanish\2\0"
      TITLE="Spanish language"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
@@ -278,7 +278,7 @@
      >Spanish language support</PCK>
 
 <PCK INDEX="59"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Italian\1\9"
+     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Italian\2\0"
      TITLE="Italian language"
      REQUIRES=1
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
@@ -300,14 +300,14 @@
 <!-- page 1: introductory page -->
 <PAGE INDEX="1" TYPE="README">
 <NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
-<TEXT>Doodle's Screen Saver v2.1 Installation
+<TEXT>Doodle's Screen Saver v2.2 Installation
 
 Select "Next" to continue.
 Select "Cancel" to abort installation.</TEXT>
 <README FORMAT="HTML">
 <B>Welcome!</B>
 <P>
-This archive contains <B>Doodle's Screen Saver v2.1</B>
+This archive contains <B>Doodle's Screen Saver v2.2</B>
 <P>
 This is a new screen saver solution for OS/2, ArcaOS and eComStation systems. 
 Its main goal was to have an open-source screen saver which can be developed 

@@ -1242,7 +1242,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
 
   // Return info about module!
   pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 60;
+  pModuleDesc->iVersionMinor = 70;
   strcpy(pModuleDesc->achModuleName, "Bouncing padlock");
   strcpy(pModuleDesc->achModuleDesc,
          "A golden padlock bouncing around the screen.\n"

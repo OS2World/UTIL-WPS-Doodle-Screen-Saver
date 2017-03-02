@@ -3290,7 +3290,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
 
   // Return info about module!
   pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 60;
+  pModuleDesc->iVersionMinor = 70;
   strcpy(pModuleDesc->achModuleName, "Analogue TV simulator");
   strcpy(pModuleDesc->achModuleDesc,
 	 "This module tries to imitate an analogue television.\n"
