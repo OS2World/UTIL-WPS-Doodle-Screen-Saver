@@ -37,7 +37,7 @@ dllflags = -bd
 cflags = $(debugflags) -zq -bm -bt=OS2 -5 -fpi -sg -otexan -wx
 
 .before
-    @set include=$(%os2tk)\h;$(%include);$(%UNIXROOT)\usr\include;..\..;.
+    @set include=$(%os2tk)\h;$(%include);$(%UNIXROOT)\usr\include;$(UNIXROOT)\usr\include\libxml2;..\..;.
 
 .extensions:
 .extensions: .dll .obj .c

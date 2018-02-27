@@ -1,0 +1,34 @@
+Currently to compile we need to patch @UNIXROOT/usr/include/libxml2/libxml/xmlexports.h 
+with this patch to force cdecl calling convention to make OpenWatcom happy.
+
+--- xmlexports.h.orig   2018-02-26 20:07:54.000000000 -0800
++++ xmlexports.h        2018-02-26 20:34:02.000000000 -0800
+@@ -152,6 +152,27 @@
+   #define XMLCDECL __cdecl
+ #endif
+
++/* OS/2 with the OpenWatcom compiler */
++#if defined(__OS2__) && defined(__WATCOMC__)
++  #undef XMLPUBFUN
++  #undef XMLPUBVAR
++  #undef XMLCALL
++  #undef XMLCDECL
++  #if defined(IN_LIBXML) && !defined(LIBXML_STATIC)
++    #define XMLPUBFUN __declspec(dllexport)
++    #define XMLPUBVAR __declspec(dllexport)
++  #else
++    #define XMLPUBFUN
++    #if !defined(LIBXML_STATIC)
++      #define XMLPUBVAR __declspec(dllimport) extern
++    #else
++      #define XMLPUBVAR
++    #endif
++  #endif
++  #define XMLCALL __cdecl
++  #define XMLCDECL __cdecl
++#endif
++
+ /* Compatibility */
+ #if !defined(LIBXML_DLL_IMPORT)
+ #define LIBXML_DLL_IMPORT XMLPUBVAR
+
