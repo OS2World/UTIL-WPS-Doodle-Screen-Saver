@@ -6,4 +6,5 @@
 */
 
 /* Create Self-Installing EXE file */
-'n:\ecs\install\warpin\wic.exe @dssaver_wic_params.txt'
+'set BEGINLIBPATH=D:\sys\install\WARPIN;%BEGINLIBPATH%'
+'D:\sys\install\WARPIN\wic.exe @dssaver_wic_params.txt'
