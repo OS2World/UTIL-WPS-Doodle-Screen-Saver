@@ -20,6 +20,24 @@
 
 # Files created by the various resource compilers
 *.res
+*.RES
 
 # Logs
 *.logs
+*.log
+
+# Executables
+*.exe
+
+# Generated Docs
+*.msg
+*.hlp
+*.HLP
+
+# Backups
+*.orig
+*.bak
+
+# Diff files
+*.patch
+*.diff
