@@ -1,3 +1,36 @@
+ChangeLog File:
+
+* v2.3 : 2019.06.19
+  - Target i686 instead of i586
+  - Use the FPU rather then emulation
+  - 32 bit code instead of 16 bit
+  - Make the initial Desktop Properties taller.
+  - Update Readme
+
+* v2.2 : 2017.03.03
+  - Don't install eCSBall by default
+  - Update Rc files to use WarpSans
+  - Update txt messages in WPSSDesktop to use WarpSans
+
+* v2.1 : 2017.01.03.
+  - Updated PrettyClock's zlib and libpng to latest versions.
+  - Added AOS_Logo module.
+  - Updated CairoClock and CairoShapes to use the system Cairo DLL installed
+    by YUM/RPM.
+  - Rebuilt with latest version of OpenWatcom.
+
+* v2.0 : 2008.08.18.
+  - The screen saver settings page now reports 180 Dialog Units as its minimal
+    height, so most of it should be visible even on newly installed systems.
+  - The screen saver modules are now running in a separate process when they
+    are started for real saving (but not when they are running for preview
+    mode). This should help to solve those kinds of memory and resource leaks 
+    on which we have no control (e.g. leaks in DIVE subsystem).
+
+* v1.9 : 2008.04.22.
+  - Added new setting to first page of screen saver settings, to make it
+    possible to disable VIO popups while the screen saving is active.
+
 * v1.8 : 2008.02.11.
   - Added new API : SSCore_GetInactivityTime()
 

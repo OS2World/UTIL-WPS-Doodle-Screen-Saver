@@ -1,6 +1,6 @@
 <NOTE: This file is best viewed with a monospaced font, like System Monospaced>
 
-                             Screen Saver v1.8
+                             Screen Saver v2.3
                              =================
 
 
@@ -41,6 +41,8 @@ services of the SNAP video driver should not be used, but the monitor should
 be blanked by direct programming of the VGA registers. This might be a bit
 risky and brute-force method, and it only supports the On and Off states of
 the monitor, but it's still more than nothing.
+
+Note that this does not currently work with the Panorama driver.
 
 That REXX script can be found in the home folder of the screen saver, and
 program objects have also been created for it on the desktop, in the folder
@@ -103,3 +105,6 @@ If you have any questions, remarks, bugreports, or you only would like to say
 hello, I can be reached at
 
 Doodle <doodle@scenergy.dont.spam.please.dfmk.hu>
+
+Current maintainer (note Doodle does not use OS/2 anymore)
+Dave Yeo <dave.r.yeo at gmail dot com>
