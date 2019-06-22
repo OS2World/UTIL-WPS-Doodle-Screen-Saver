@@ -2074,8 +2074,8 @@ SOM_Scope BOOL SOMLINK wpssdesktopM_wpclsQuerySettingsPageSize(M_WPSSDesktop *so
     // Modify the minimum height, if needed!
     // This 180 Dialog Units height seems to be okay in most cases.
     // (empirically...)
-    if (pSizl->cy < 180)
-      pSizl->cy = 180;
+    if (pSizl->cy < 210)
+      pSizl->cy = 210;
   }
 
   return rc;
