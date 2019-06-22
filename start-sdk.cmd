@@ -5,7 +5,7 @@ rem Graphics Library, using the selected default compiler.
 rem Setup the default path environment variable
 
 set OLDPATH=%PATH%
-set DEFPATH=C:\OS2;C:\OS2\MDOS
+set DEFPATH=D:\OS2;D:\OS2\MDOS
 PATH %DEFPATH%
 
 rem Initialise the default compile time environment
