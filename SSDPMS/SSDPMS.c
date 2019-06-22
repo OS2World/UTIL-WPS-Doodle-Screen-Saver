@@ -49,7 +49,7 @@ void AddLog(char *pchMsg)
 {
   FILE *hFile;
 
-  hFile = fopen("e:\\ssdpms.log", "at+");
+  hFile = fopen("c:\\ssdpms.log", "at+");
   if (hFile)
   {
     fprintf(hFile, "%s", pchMsg);

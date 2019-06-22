@@ -8,5 +8,5 @@ OPTION MANYAUTODATA
 OPTION OSNAME='OS/2 and eComStation'
 OPTION SHOWDEAD
 LIBPATH %os2tk%\lib
-LIBPATH %scitech_lib%\lib\release\wc11
+LIBPATH %scitech_lib%\lib\release\os232\ow10
 LIB pm.lib
