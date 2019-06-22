@@ -23,10 +23,10 @@ rcname=Tester
 
 !ifdef debug_build
 debugflags = -d2 -dDEBUG_BUILD
-cflags = $(debugflags) -bm -bt=OS2 -5 -fpi -sg -wx
+cflags = $(debugflags) -bm -bt=OS2 -6s -fp6 -sg -wx
 !else
 debugflags =
-cflags = $(debugflags) -bm -bt=OS2 -5 -fpi -sg -otexan -wx
+cflags = $(debugflags) -bm -bt=OS2 -6s -fp6 -sg -otexan -wx
 !endif
 
 .before

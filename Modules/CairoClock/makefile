@@ -34,7 +34,7 @@ debugflags =
 !endif
 
 dllflags = -bd
-cflags = $(debugflags) -zq -bm -bt=OS2 -5 -fpi -sg -otexan -wx
+cflags = $(debugflags) -zq -bm -bt=OS2 -6s -fp6 -sg -otexan -wx
 
 .before
     @set include=$(%os2tk)\h;$(%include);$(%UNIXROOT)\usr\include;..\..

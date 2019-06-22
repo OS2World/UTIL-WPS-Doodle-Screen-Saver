@@ -28,7 +28,7 @@ debugflags =
 !endif
 
 dllflags = -bd
-cflags = $(debugflags) -bm -bt=OS2 -5 -fpi -sg -wx
+cflags = $(debugflags) -bm -bt=OS2 -6s -fp6 -sg -wx
 # The following (full optimization) option has been removed, because
 # OpenWatcom generated invalid code, and caused crash in the Thunking 
 # code. (in internal_IsPMTheForegroundSession() )
