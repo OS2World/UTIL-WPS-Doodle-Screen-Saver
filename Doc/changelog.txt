@@ -1,5 +1,12 @@
 ChangeLog File:
 
+* v2.3 : 2019.06.19
+  - Target i686 instead of i586
+  - Use the FPU rather then emulation
+  - 32 bit code instead of 16 bit
+  - Make the initial Desktop Properties taller.
+  - Update Readme
+
 * v2.2 : 2017.03.03
   - Don't install eCSBall by default
   - Update Rc files to use WarpSans
