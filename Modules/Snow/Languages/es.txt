@@ -1,12 +1,12 @@
 /*
  * NLS support file for the Snow Screen Saver Module
  *
- * Language: Espa¤ol
+ * Language: Spanish
  * Locales : es_*
  *
- * Author  : Doodle
+ * Author  : Alfredo Fern ndez D¡az
  *
- * Date (YYYY-MM-DD): 2006.02.25.
+ * Date (YYYY-MM-DD): 2019.07.07.
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -24,33 +24,33 @@
 
 CFG_0001="Configurar Nieve";                     // Window title
 
-CFG_0002="Resoluci¢n de imagen";                   // Groupbox
-CFG_0003="Resoluci¢n de p~antalla";          // Radio button
-CFG_0004="~Mitad de la resoluci¢n de pantalla"; // Radio button
-CFG_0005="~Resoluci¢n propia";                 // Radio button
-CFG_0006="Resoluci¢n:";                        // Static text
+CFG_0002="Resoluci¢n de la imagen";               // Groupbox
+CFG_0003="~Resoluci¢n de la pantalla";            // Radio button
+CFG_0004="~Mitad de la resoluci¢n de pantalla";   // Radio button
+CFG_0005="Resoluci¢n ~propia";                    // Radio button
+CFG_0006="Resoluci¢n:";                           // Static text
 
 CFG_0007="Uso del procesador";                    // Groupbox
-CFG_0008="Ejecutar en prioridad ~Idle";              // Radio button
-CFG_0009="Ejecutar en prioridad ~Regular";           // Radio button
+CFG_0008="Ejecutar con prioridad de ~inactividad";// Radio button
+CFG_0009="Ejecutar con prioridad ~normal";        // Radio button
 
-CFG_0010="Velocidad de animaci¢n:";                   // Static text
-CFG_0011="FPS";                                // Static text
+CFG_0010="Velocidad de animaci¢n:";               // Static text
+CFG_0011="CPS";                                   // Static text
 
-CFG_0012="Usar ~WarpOverlay! si est  disponible";       // Checkbox
+CFG_0012="Usar ~WarpOverlay! si est  disponible"; // Checkbox
 
-CFG_0013="~Bien";                                // Ok button
-CFG_0014="~Cancelar";                            // Cancel button
+CFG_0013="~Bien";                                 // Ok button
+CFG_0014="~Cancelar";                             // Cancel button
 
-CFG_0015="Opciones de visualizaci¢n";                     // Groupbox
-CFG_0016="Usar ~objetos al azar";                // Checkbox
-CFG_0017="Usar ~animaciones al azar";                // Checkbox
+CFG_0015="Opciones visuales";                     // Groupbox
+CFG_0016="~Objetos aleatorios";                   // Checkbox
+CFG_0017="~Animaciones aleatorias";               // Checkbox
 
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
 MOD_NAME="Nieve";
-MOD_DESC="Este m¢dulo muestra nevando en una noche.\nUsa WarpOverlay! o DIVE.\nEscrito por  Doodle";
+MOD_DESC="Este m¢dulo muestra una noche nevada.\nUsa WarpOverlay! o DIVE.\nEscrito por Doodle";
 
 // ---------------------------------------------------------------------------
 // <EOF>

@@ -8,7 +8,8 @@ Russian:
 Yuri Proniakin <yup@bigmir.net>
 
 Spanish:
-GGLL <nagato@arnet.com.ar>
+Alfredo Fern ndez D¡az <mrwarper@yahoo.es>
+Guillermo G. Llorens <nagato@arnet.com.ar>
 
 Dutch:
 Jan van der Heide <j.van.der.heide@hccnet.nl>

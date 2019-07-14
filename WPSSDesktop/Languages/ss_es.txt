@@ -1,12 +1,12 @@
 /*
  * NLS support file for Doodle's Screen Saver v1.6
  *
- * Language: Espa¤ol
+ * Language: Spanish
  * Locales : es_*
  *
- * Author  : Guillermo G. Llorens
+ * Author  : Alfredo Fern ndez D¡az, Guillermo G. Llorens
  *
- * Date (YYYY-MM-DD): 2006.02.28.
+ * Date (YYYY-MM-DD): 2019.07.07.
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -21,112 +21,112 @@
 // ---------------------------------------------------------------------------
 // Strings for the settings notebook:
 
-COM_0000="S~alvapantalla";                   // Properties tab text
+COM_0000="~Protector de pantalla";                   // Properties tab text
 COM_0001="Par metros generales";         // Descriptive text for page 1
 COM_0002="Par metros DPMS";               // Descriptive text for page 2
-COM_0003="M¢dulos del Salvapantalla";  // Descriptive text for page 3
+COM_0003="M¢dulos del protector de pantalla";  // Descriptive text for page 3
 
 // ---------------------------------------------------------------------------
 // Strings for page 1 of screen saver settings:
 
-PG1_FONT="10.System Proportional";
+PG1_FONT="9.WarpSans";
 
 PG1_0000="Ayuda";
-PG1_0001="~Por defecto";
+PG1_0001="~Por omisi¢n";
 PG1_0002="~Deshacer";
 
 PG1_0003="Par metros generales";
-PG1_0004="Salvapantalla ~activado";
-PG1_0005="Lanzar Salvapantalla despu‚s de";
-PG1_0006="minuto(s) de inactividad";
+PG1_0004="~Habilitar protecci¢n de pantalla";
+PG1_0005="~Iniciar protecci¢n de pantalla tras";
+PG1_0006="minuto(s) de inactividad del sistema";
 
 PG1_0007="Protecci¢n por contrase¤a";
-PG1_0008="Usar ~protecci¢n con contrase¤a";
-PG1_0009="Ingrese su contrase¤a en ambos campos de entrada (no se muestran los caracteres). Luego pulse Cambiar.";
+PG1_0008="Habilitar protecci¢n con ~contrase¤a";
+PG1_0009="Introduzca la misma contrase¤a en ambos campos de entrada (no se muestran los caracteres). Luego pulse Cambiar.";
 PG1_0010="Contrase¤a:";
 PG1_0011="(para verificaci¢n)";
-PG1_0012="~Cambiar";
-PG1_0013="~Retrasar protecci¢n por contrase¤a";
-PG1_0014="Pedir contrase¤a s¢lo despu‚s de";
-PG1_0015="minuto(s) de activado";
-PG1_0016="~Activar Salvapantalla al iniciar el sistema";
+PG1_0012="Ca~mbiar";
+PG1_0013="~Retrasar solicitud de contrase¤a";
+PG1_0014="Pedir la contrase¤a s¢lo tras";
+PG1_0015="minuto(s) de actividad";
+PG1_0016="~Activar autom ticamente al inicio del sistema";
 
 PG1_0017="Contrase¤a incorrecta";
-PG1_0018="Las dos contrase¤as ingresadas no coinciden!";
+PG1_0018="­Las contrase¤as introducidas no coinciden!";
 
 // -- Added in v1.4:
-PG1_0019="Usar contrase¤a del usuario actual S~ecurity/2";
-PG1_0020="Usar ~esta contrase¤a:";
+PG1_0019="Contrase¤a del usuario actual de ~Security/2";
+PG1_0020="~Especificar contrase¤a:";
 
 // -- Added in v1.5:
-PG1_0021="Desactivar s¢lo por ~teclado";
+PG1_0021="Desbloquear s¢lo mediante ~teclado";
 
 // -- Added in v1.6:
-PG1_0022="Hacer que la ~primer tecla pulsada se tome como primer caracter de la contrase¤a";
+PG1_0022="~Usar como primer car cter de la contrase¤a la primera tecla pulsada";
 
 // -- Added in v1.9:
-PG1_0023="Inhabilitar apariciones ~VIO al guardar";
+PG1_0023="Inhibir sesiones ~VIO emergentes mientras est‚ activo el protector";
 
 // ---------------------------------------------------------------------------
 // Strings for page 2 of screen saver settings:
 
-PG2_FONT="10.System Proportional";
+PG2_FONT="9.WarpSans";
 
 PG2_0000="Ayuda";
-PG2_0001="~Por defecto";
+PG2_0001="~Por omisi¢n";
 PG2_0002="~Deshacer";
 
-PG2_0003="Par metros DPMS";
-PG2_0004="Usar estado ~Standby DPMS";
-PG2_0005="Pasar a Standby despu‚s de";
-PG2_0006="Usar estado S~uspender DPMS";
-PG2_0007="Pasar a Suspender despu‚s de";
-PG2_0008="Usar estado ~Apagado DPMS";
-PG2_0009="Pasar a Apagado despu‚s de";
-PG2_0010="minutos(s) de ahorro";
-PG2_0011="minuto(s) de estado Standby";
-PG2_0012="minuto(s) de estado Suspender";
+PG2_0003="Par metros DPMS para el monitor";
+PG2_0004="Utilizar estado ®~En espera¯";
+PG2_0005="Situar ®En espera¯ tras";
+PG2_0006="Utilizar estado ®~Suspensi¢n¯";
+PG2_0007="Pasar a Suspensi¢n tras";
+PG2_0008="Utilizar estado ®~Apagado¯";
+PG2_0009="Pasar a Apagado tras";
+PG2_0010="minutos(s) de actividad del protector";
+PG2_0011="minuto(s) ®En espera¯";
+PG2_0012="minuto(s) en ®Suspensi¢n¯";
 
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
 
-PG3_FONT="10.System Proportional";
+PG3_FONT="9.WarpSans";
 
 PG3_0000="Ayuda";
-PG3_0001="~Por defecto";
+PG3_0001="~Por omisi¢n";
 PG3_0002="~Deshacer";
 
-PG3_0003="M¢dulos del Salvapantalla";
-PG3_0004="Mostrar ~Vista previa";
-PG3_0005="Informaci¢n del m¢dulo";
+PG3_0003="M¢dulos instalados";
+PG3_0004="Mostrar ~vista previa";
+PG3_0005="Informaci¢n del m¢dulo seleccionado";
 PG3_0006="Nombre del m¢dulo:";
 PG3_0007="Versi¢n del m¢dulo:";
 PG3_0008="Soporta protecci¢n por contrase¤a:";
-PG3_0009="Si";
-PG3_0010="No";
+PG3_0009="s¡";
+PG3_0010="no";
 PG3_0011="Descripci¢n:";
-PG3_0012="~Comenzar ya";
+PG3_0012="~Iniciar ahora";
 PG3_0013="~Configurar";
 
-PG3_0014="No ha seleccionado un m¢dulo!\nPor favor elija un m¢dulo Salvapantalla!";
-PG3_0015="Sin vista previa";
+PG3_0014="­No hay seleccionado ning£n m¢dulo!\nPor favor, seleccione un m¢dulo para\nproteger la pantalla.";
+PG3_0015="Vista previa no disponible";
 
 // ---------------------------------------------------------------------------
 // Common strings sent to NLS-enabled saver modules:
 
 // Password asking window
-MOD_0000="Protecci¢n por contrase¤a"; 
-MOD_0001="Por favor ingrese la contrase¤a para desactivar el Salvapantalla!";
+MOD_0000="Protegido con contrase¤a"; 
+MOD_0001="Por favor, introduzca la contrase¤a para desbloquear el sistema";
 MOD_0002="~Bien";
 MOD_0003="~Cancelar";
 
 // Wrong password window
-MOD_0004="Contrase¤a incorrecta"; 
-MOD_0005="Ha ingresado una contrase¤a incorrecta!\nPor favor trate nuevamente!";
+MOD_0004="Contrase¤a err¢nea"; 
+MOD_0005="La contrase¤a introducida no es correcta.\nPor favor, vuelva a intentarlo.";
 MOD_0006="~Bien";
 
 // Font to use (for DBCS support)
-MOD_0007="10.System Proportional";
+MOD_0007="9.WarpSans";
 
 // ---------------------------------------------------------------------------
 // <EOF>

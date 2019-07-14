@@ -1,12 +1,12 @@
 /*
  * NLS support file for the Analogue TV Simulator Screen Saver Module
  *
- * Language: Espa¤ol
+ * Language: Spanish
  * Locales : es_*
  *
- * Author  : Guillermo G. Llorens
+ * Author  : Alfredo Fern ndez D¡az, Guillermo G. Llorens
  *
- * Date (YYYY-MM-DD): 2005.07.16.
+ * Date (YYYY-MM-DD): 2019.07.07.
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -22,17 +22,17 @@
 // ---------------------------------------------------------------------------
 // Strings for the Configuration dialog:
 
-CFG_0001="Configurar Emulador de TV anal¢gica";    // Window title
+CFG_0001="Configurar Emulador de TV anal¢gica";   // Window title
 
-CFG_0002="Resoluci¢n de la imagen";                // Groupbox
-CFG_0003="Resoluci¢n de ~Pantalla";                // Radio button
-CFG_0004="~Media resoluci¢n de pantalla";          // Radio button
-CFG_0005="Resoluci¢n ~propia";                     // Radio button
-CFG_0006="Resoluci¢n:";                            // Static text
+CFG_0002="Resoluci¢n de la imagen";               // Groupbox
+CFG_0003="~Resoluci¢n de la pantalla";            // Radio button
+CFG_0004="~Mitad de la resoluci¢n de pantalla";   // Radio button
+CFG_0005="Resoluci¢n ~propia";                    // Radio button
+CFG_0006="Resoluci¢n:";                           // Static text
 
-CFG_0007="Uso del Procesador";                    // Groupbox
-CFG_0008="Ejecutar con prioridad ~M¡nima";        // Radio button
-CFG_0009="Ejecutar con prioridad ~Regular";       // Radio button
+CFG_0007="Uso del procesador";                    // Groupbox
+CFG_0008="Ejecutar con prioridad de ~inactividad";// Radio button
+CFG_0009="Ejecutar con prioridad ~normal";        // Radio button
 
 CFG_0010="Usar ~WarpOverlay! si est  disponible"; // Checkbox
 
@@ -43,7 +43,7 @@ CFG_0012="~Cancelar";                             // Cancel button
 // The name and the description string of the module:
 
 MOD_NAME="Emulador de TV anal¢gica";
-MOD_DESC="Este m¢dulo trata de imitar una TV anal¢gica.\nUsa WarpOverlay! o DIVE.\nEscrito por Doodle";
+MOD_DESC="Este m¢dulo trata de imitar una TV anal¢gica.\nUsa WarpOverlay! o DIVE.\nEscrito por Doodle.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

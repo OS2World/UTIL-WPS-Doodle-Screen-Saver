@@ -1,12 +1,12 @@
 /*
  * NLS support file for the Cairo Clock Screen Saver Module
  *
- * Language: Espa¤ol
+ * Language: Spanish
  * Locales : es_*
  *
- * Author  : Guillermo G. Llorens
+ * Author  : Alfredo Fern ndez D¡az, Guillermo G. Llorens
  *
- * Date (YYYY-MM-DD): 2006.02.25.
+ * Date (YYYY-MM-DD): 2019.07.07.
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -24,16 +24,16 @@
 
 CFG_0001="Configurar Reloj Cairo";                  // Window title
 
-CFG_0002="Opciones de vista";                         // Groupbox
+CFG_0002="Opciones visuales";                       // Groupbox
 
-CFG_0003="Mostrar ~fecha";                                                              // Checkbox
-CFG_0004="Mostrar reloj d~igital";                                                      // Checkbox
-CFG_0005="Permitir que el reloj se m~ueva por la pantalla";                  // Checkbox
-CFG_0006="El tama¤o del reloj es";                                                    // Static
-CFG_0007="% de la pantalla";                                                           // Static
+CFG_0003="Mostrar ~fecha";                          // Checkbox
+CFG_0004="Reloj ~digital";                          // Checkbox
+CFG_0005="Permitir al reloj ~moverse por la pantalla"; // Checkbox
+CFG_0006="El tama¤o del reloj es";                  // Static
+CFG_0007="% de la pantalla";                        // Static
 
-CFG_0008="~Bien";                                    // Ok button
-CFG_0009="~Cancelar";                              // Cancel button
+CFG_0008="~Bien";                                   // Ok button
+CFG_0009="~Cancelar";                               // Cancel button
 
 
 // ---------------------------------------------------------------------------
@@ -41,13 +41,13 @@ CFG_0009="~Cancelar";                              // Cancel button
 // (See Unicode API for valid format characters!)
 // (Don't forget that the percentage sign has to be doubled, because it's
 //  an escape character!)
-MOD_DATE="%%a %%b %%d, %%Y";
+MOD_DATE="%%A, %%d de %%B de %%Y";
 
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
 MOD_NAME="Reloj Cairo";
-MOD_DESC="Hora y fecha corrientes.\nUsando la librer¡a Cairo.";
+MOD_DESC="Reloj con la fecha actual.\nUtiliza la biblioteca Cairo.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

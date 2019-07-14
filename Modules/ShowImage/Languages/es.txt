@@ -1,14 +1,10 @@
 /*
- * NLS support file for the AOS_Logo Screen Saver Module
+ * NLS support file for the ShowImage Screen Saver Module
  *
  * Language: Spanish
  * Locales : es_*
  *
  * Author  : Alfredo Fern ndez D¡az
- * Original Author  : Doodle
- * Contributor  : Dave Yeo
- * Artwork  : Rachel Rosenthal, Alex Taylor
- * Logo  : Arca Noae, LLC
  *
  * Date (YYYY-MM-DD): 2019.07.07.
  *
@@ -26,15 +22,22 @@
 // ---------------------------------------------------------------------------
 // Strings for the Configuration dialog:
 
-// ........................................
-// This module has no configuration dialog!
-// ........................................
+CFG_0001="Configurar Mostrar imagen";                // Window title
+
+CFG_0002="Despejar pantalla tras";                   // Label
+CFG_0003="minuto(s)";                                // Label
+CFG_0004="~Ampliar im genes m s peque¤as que la pantalla"; // Check Box
+CFG_0005="Imagen que mostrar:";                      // Label
+CFG_0006="Buscar";                                   // Browse Button
+CFG_0007="~Bien";                                    // Browse Button
+CFG_0008="~Cancelar";                                // Browse Button
+
 
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
-MOD_NAME="Logotipo de ArcaOS";
-MOD_DESC="El logo de ArcaOS movi‚ndose cada 30 segundos.\nEscrito por Doodle.";
+MOD_NAME="Mostrar imagen";
+MOD_DESC="Muestra una imagen y deja la pantalla en blanco tras un tiempo.\nEscrito por Warp5.\n\nEste m¢dulo usa la biblioteca GBM con soporte JPEG\ny se basa en parte en el trabajo del Independent JPEG Group.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

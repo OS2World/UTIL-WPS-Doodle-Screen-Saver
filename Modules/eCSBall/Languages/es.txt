@@ -1,12 +1,12 @@
 /*
  * NLS support file for the eCSBall Screen Saver Module
  *
- * Language: Espa¤ol
+ * Language: Spanish
  * Locales : es_*
  *
- * Author  : Guillermo G. Llorens
+ * Author  : Alfredo Fern ndez D¡az, Guillermo G. Llorens
  *
- * Date (YYYY-MM-DD): 2005.07.16.
+ * Date (YYYY-MM-DD): 2019.07.07.
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -30,7 +30,7 @@
 // The name and the description string of the module:
 
 MOD_NAME="Esfera de eCS";
-MOD_DESC="El logo de eComStation movi‚ndose cada 30 segundos.\nEscrito por Doodle";
+MOD_DESC="El logo de eComStation movi‚ndose cada 30 segundos.\nEscrito por Doodle.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

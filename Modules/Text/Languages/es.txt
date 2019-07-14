@@ -1,12 +1,12 @@
 /*
  * NLS support file for the Moving Text Saver Module
  *
- * Language: Espa¤ol
+ * Language: Spanish
  * Locales : es_*
  *
- * Author  : Guillermo G. Llorens
+ * Author  : Alfredo Fern ndez D¡az, Guillermo G. Llorens
  *
- * Date (YYYY-MM-DD): 2006.02.25.
+ * Date (YYYY-MM-DD): 2019.07.07.
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -22,8 +22,8 @@
 // ---------------------------------------------------------------------------
 // Strings for the Configuration dialog:
 
-CFG_0001="Configurar texto en movimiento";                     // Window title
-CFG_0002="Texto a  presentar:";                          // Label
+CFG_0001="Configurar Texto en movimiento";                     // Window title
+CFG_0002="Texto que mostrar:";                          // Label
 CFG_0003="~Bien";                                       // OK Button
 CFG_0004="~Cancelar";                                   // Cancel Button
 
@@ -31,7 +31,7 @@ CFG_0004="~Cancelar";                                   // Cancel Button
 // The name and the description string of the module:
 
 MOD_NAME="Texto en movimiento";
-MOD_DESC="Este m¢dulo mueve texto en la pantalla!\nEscrito por Warp5";
+MOD_DESC="Este m¢dulo mueve texto en la pantalla.\nEscrito por Warp5.";
 
 // ---------------------------------------------------------------------------
 // <EOF>
