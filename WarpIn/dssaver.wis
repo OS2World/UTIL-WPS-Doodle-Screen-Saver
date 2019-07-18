@@ -8,7 +8,7 @@
      SELECT
      NODESELECT
      WRITEPROFILE="USER\SSaver\HomePath|$(1)"
-     CREATEOBJECT="REPLACE WPFolder|Doodle's Screen Saver|<WP_DESKTOP>|OBJECTID=<WP_SCREENSAVERFOLDER>;"
+     CREATEOBJECT="WPFolder|Doodle's Screen Saver|<WP_DESKTOP>|OBJECTID=<WP_SCREENSAVERFOLDER>;"
      CREATEOBJECT="REPLACE WPProgram|Use SNAP for DPMS|<WP_SCREENSAVERFOLDER>|EXENAME=$(1)\dpmsmode.cmd;PARAMETERS=0 1;OBJECTID=<WP_SCREENSAVERUSESNAP>;"
      CREATEOBJECT="REPLACE WPProgram|Use Direct VGA Access for DPMS|<WP_SCREENSAVERFOLDER>|EXENAME=$(1)\dpmsmode.cmd;PARAMETERS=1 1;OBJECTID=<WP_SCREENSAVERUSEVGA>;"
      >You can specify the home folder of the screen saver here, where it will store its configuration and where it will look for additinal files like language packs and screen saver modules.</PCK>
