@@ -122,7 +122,7 @@ MOD_0003="~Cancelar";
 
 // Wrong password window
 MOD_0004="Contrase¤a err¢nea"; 
-MOD_0005="La contrase¤a introducida no es correcta.\nPor favor, vuelva a intentarlo.";
+MOD_0005="La contrase¤a introducida no es correcta. Por favor, vuelva a intentarlo.";
 MOD_0006="~Bien";
 
 // Font to use (for DBCS support)

@@ -122,7 +122,7 @@ MOD_0003="~Abbruch";
 
 // Wrong password window
 MOD_0004="Kennwort falsch";
-MOD_0005="Falsches Kennwort eingegeben!\nBitte erneut versuchen.";
+MOD_0005="Falsches Kennwort eingegeben! Bitte erneut versuchen.";
 MOD_0006="~OK";
 
 // Font to use (for DBCS support)

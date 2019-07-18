@@ -122,7 +122,7 @@ MOD_0003="~Cancel";
 
 // Wrong password window
 MOD_0004="Wrong password"; 
-MOD_0005="An invalid password has been entered!\nPlease try again!";
+MOD_0005="An invalid password has been entered! Please try again!";
 MOD_0006="~Ok";
 
 // Font to use (for DBCS support)

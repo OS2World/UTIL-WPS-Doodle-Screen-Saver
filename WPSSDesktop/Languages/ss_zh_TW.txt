@@ -119,7 +119,7 @@ MOD_0003="取消(~C)";
 
 // Wrong password window
 MOD_0004="錯誤的密碼"; 
-MOD_0005="輸入的密碼無效！\n請重新輸入！";
+MOD_0005="輸入的密碼無效！ 請重新輸入！";
 MOD_0006="確定(~O)";
 
 // Font to use (for DBCS support)

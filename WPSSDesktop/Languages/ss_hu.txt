@@ -122,7 +122,7 @@ MOD_0003="~M‚gsem";
 
 // Wrong password window
 MOD_0004="Rossz jelsz¢"; 
-MOD_0005="Nem megfelel‹ jelsz¢t adott meg!\nK‚rem pr¢b lja £jra!";
+MOD_0005="Nem megfelel‹ jelsz¢t adott meg! K‚rem pr¢b lja £jra!";
 MOD_0006="~Ok";
 
 // Font to use (for DBCS support)

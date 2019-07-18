@@ -122,7 +122,7 @@ MOD_0003="~Cancella";
 
 // Wrong password window
 MOD_0004="Password errata";
-MOD_0005="E' stata inserita una password non valida!\nInserire la password corretta!";
+MOD_0005="E' stata inserita una password non valida! Inserire la password corretta!";
 MOD_0006="~Ok";
 
 // Font to use (for DBCS support)

@@ -121,7 +121,7 @@ MOD_0003="~Annuler";
 
 // Wrong password window
 MOD_0004="Mot de passe incorrect"; 
-MOD_0005="Un mot de passe incorrect a ‚t‚ entr‚ !\nVeuillez r‚essayer. ";
+MOD_0005="Un mot de passe incorrect a ‚t‚ entr‚ ! Veuillez r‚essayer. ";
 MOD_0006="~OK";
 
 // Font to use (for DBCS support)

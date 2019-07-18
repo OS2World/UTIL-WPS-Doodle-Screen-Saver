@@ -113,7 +113,7 @@ MOD_0003="~Peruuta";
 
 // Wrong password window
 MOD_0004="V„„r„ salasana"; 
-MOD_0005="Sy”tetty v„„r„ salasana!\nYrit„ uudelleen!";
+MOD_0005="Sy”tetty v„„r„ salasana! Yrit„ uudelleen!";
 MOD_0006="~Ok";
 
 // Font to use (for DBCS support)

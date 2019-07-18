@@ -122,7 +122,7 @@ MOD_0003="~Annuleren";
 
 // Wrong password window
 MOD_0004="Verkeerde wachtwoord"; 
-MOD_0005="Er is een verkeerd wachtwoord ingevoerd!\nProbeer het a.u.b. opnieuw!";
+MOD_0005="Er is een verkeerd wachtwoord ingevoerd! Probeer het a.u.b. opnieuw!";
 MOD_0006="~Annuleren";
 
 // Font to use (for DBCS support)
