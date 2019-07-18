@@ -1,5 +1,12 @@
 ChangeLog File:
 
+* v2.4 : 2019.07.17
+  - Fix the wrong password dialog by changing a newline to a space.
+  - Install upgraded objects to the same place rather then desktop
+  - Use WarpSans in NLV files except Chinese
+  - Update Spanish translation
+  - Change help file format, only for English and Spanish so far.
+
 * v2.3 : 2019.06.19
   - Target i686 instead of i586
   - Use the FPU rather then emulation
