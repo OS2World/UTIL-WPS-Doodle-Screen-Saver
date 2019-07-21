@@ -29,7 +29,7 @@
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
-MOD_NAME="eCS Ball";
+MOD_NAME="ArcaOS logo";
 MOD_DESC="il logo di ArcaOS in movimento sullo schermo ogni 30 secondi.\nScritto da Doodle";
 
 // ---------------------------------------------------------------------------

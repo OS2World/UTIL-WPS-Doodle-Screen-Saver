@@ -31,7 +31,7 @@
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
-MOD_NAME="Balle eCS";
+MOD_NAME="Logo ArcaOS";
 MOD_DESC="Logo ArcaOS bougeant toutes les 30 secondes.\nêcrit par Doodle";
 
 // ---------------------------------------------------------------------------

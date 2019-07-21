@@ -29,7 +29,7 @@
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
-MOD_NAME="eCS Ball";
+MOD_NAME="ArcaOS logo";
 MOD_DESC="ArcaOS ¼Ð»x¨C 30 ¬í²¾°Ê¡C\nWritten by Doodle";
 
 // ---------------------------------------------------------------------------

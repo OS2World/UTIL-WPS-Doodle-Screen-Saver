@@ -29,7 +29,7 @@
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
-MOD_NAME="eCS Bal";
+MOD_NAME="ArcaOS logo";
 MOD_DESC="Elke 30 seconden bewegend ArcaOS logo.\nGeschreven door Doodle";
 
 // ---------------------------------------------------------------------------

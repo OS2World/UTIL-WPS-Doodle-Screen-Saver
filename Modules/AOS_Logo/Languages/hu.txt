@@ -29,7 +29,7 @@
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
-MOD_NAME="eCS labda";
+MOD_NAME="ArcaOS logo";
 MOD_DESC="Egy ArcaOS logo mely 30 m sodpercenk‚nt helyet v lt.\nK‚sz¡tette: Doodle";
 
 // ---------------------------------------------------------------------------
