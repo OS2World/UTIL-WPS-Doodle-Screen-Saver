@@ -34,7 +34,7 @@
 // The name and the description string of the module:
 
 MOD_NAME="Logotipo de ArcaOS";
-MOD_DESC="El logo de ArcaOS movi‚ndose cada 30 segundos.\nEscrito por Doodle.";
+MOD_DESC="El logo de ArcaOS movi‚ndose cada 30 segundos.\nEscrito por Doodle. Ilustraciones de Alex Taylor y Rachel Rosenthal. Colaborador Dave Yeo";
 
 // ---------------------------------------------------------------------------
 // <EOF>

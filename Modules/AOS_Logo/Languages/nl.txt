@@ -30,7 +30,7 @@
 // The name and the description string of the module:
 
 MOD_NAME="ArcaOS logo";
-MOD_DESC="Elke 30 seconden bewegend ArcaOS logo.\nGeschreven door Doodle";
+MOD_DESC="Elke 30 seconden bewegend ArcaOS logo.\nGeschreven door Doodle. Kunstwerk door Alex Taylor en Rachel Rosenthal. Inzender Dave Yeo ";
 
 // ---------------------------------------------------------------------------
 // <EOF>

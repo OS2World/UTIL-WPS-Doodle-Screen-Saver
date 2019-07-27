@@ -30,7 +30,7 @@
 // The name and the description string of the module:
 
 MOD_NAME="ArcaOS logo";
-MOD_DESC="Egy ArcaOS logo mely 30 m sodpercenk‚nt helyet v lt.\nK‚sz¡tette: Doodle";
+MOD_DESC="Egy ArcaOS logo mely 30 m sodpercenk‚nt helyet v lt.\nK‚sz¡tette: Doodle. Alex Taylor ‚s Rachel Rosenthal alkot sa. K”zremûk”d‹ Dave Yeo";
 
 // ---------------------------------------------------------------------------
 // <EOF>
