@@ -28,7 +28,7 @@ debugflags =
 !endif
 
 dllflags = -bd
-cflags = $(debugflags) -bm -bt=OS2 -6s -fp6 -sg -otexan -wx
+cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexan -wx
 
 .before
     set include=$(%os2tk)\h;$(%include);..\..

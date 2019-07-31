@@ -29,9 +29,9 @@ debugflags =
 
 dllflags = -bd
 # Org. Doodle
-# cflags = $(debugflags) -bm -bt=OS2 -6s -fp6 -sg -otexan -wx
+# cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexan -wx
 # New for GBM from Heiko
-cflags = $(debugflags) -bm -sg -onatbrmkiel+ -ei -6s -fp6 -mf -wx -zq
+cflags = $(debugflags) -bm -sg -onatbrmkiel+ -ei -6s -fpi87 -fp6 -mf -wx -zq
 
 .before
     set include=$(%os2tk)\h;$(%include);..\..

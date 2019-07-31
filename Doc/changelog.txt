@@ -1,6 +1,7 @@
 ChangeLog File:
 
-* v2.4 : 2019.07.26
+* v2.4 : 2019.07.30
+  - More compiler optimizations
   - Update the ArcaOS Logo description
   - Fix the wrong password dialog by changing a newline to a space.
   - Install upgraded objects to the same place rather then desktop
