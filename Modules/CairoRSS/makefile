@@ -34,7 +34,7 @@ debugflags =
 !endif
 
 dllflags = -bd
-cflags = $(debugflags) -zq -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexan -wx
+cflags = $(debugflags) -zq -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 
 .before
     @set include=$(%os2tk)\h;$(%include);$(%UNIXROOT)\usr\include;$(UNIXROOT)\usr\include\libxml2;..\..;.

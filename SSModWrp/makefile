@@ -26,7 +26,7 @@ debugflags = -d2 -dDEBUG_BUILD
 cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -wx
 !else
 debugflags =
-cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexan -wx
+cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 !endif
 
 .before
