@@ -18,6 +18,7 @@ Chinese:
 Alex Lee <alexylee.geo@yahoo.com>
 
 German:
+Laurenz Sommer <rexfahrer@googlemail.com>
 Christian Hennecke <christian.hennecke@ruhr-uni-bochum.de>
 
 French:

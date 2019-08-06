@@ -8,7 +8,8 @@
 .* Author  : Christian Hennecke                                 *
 .* Modified: Robert Henschel 2005.05.24                         *
 .* Modified: Christian Hennecke 2006.02.10                      *
-.* Modified: Christian Hennecke 2008.04.22                      *
+.* Modified: Christian Hennecke 2008.04.22
+.* Modified: Laurenz Sommer 2019.08.06                          *
 .* Date (YYYY-MM-DD): 2008.04.22.                               *
 .*                                                              *
 .*                                                              *
@@ -20,12 +21,32 @@
 :userdoc.
 .*
 .*--------------------------------------------------------------*\
+.* Just a dummy H1 panel to keep TOCs tidy -- more important when
+.* invoking this as part of the help subsystem
+.*--------------------------------------------------------------*/
+:h1.Bildschirmschoner
+
+Wenn Doodles Bildschirmschoner richtig installiert ist, mÅssen seine Einstellungen
+im Einstellungsnotizbuch der ArbeitsoberflÑche vorgenommen werden. Sie finden
+dort einen neuen Reiter :hp2.Bildschirmschoner:ehp2., dieser ist aus drei Seiten
+aufgebaut.
+WÑhlen sie fÅr jede davon unten den Titel aus, um mehr Informationen zu den
+Einstellungsmîglichkeiten jeder Seite zu erhalten:
+
+:ul compact.
+:li.:link reftype=hd res=1000.Allgemein:elink.
+:li.:link reftype=hd res=2000.DPMS:elink.
+:li.:link reftype=hd res=3000.Module:elink.
+:eul.
+
+.*
+.*--------------------------------------------------------------*\
 .*  Help for Page 1 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
 .* General help for the page
 .*
-:h1 res=1000.Bildschirmschoner
+:h2 res=1000.Allgemein
 :p.Die erste Seite der :hp2.Bildschirmschoner:ehp2.-Einstellungen ist die
 Seite :hp2.Allgemein:ehp2.. Hier kînnen die allgemeinen Einstellungen des
 Bildschirmschoners, wie etwa die Zeitspanne bis zum Aktivieren des Schonbetriebs
@@ -47,7 +68,7 @@ Liste zur VerfÅgung:
 .*
 .* Help for General settings groupbox
 .*
-:h1 res=1001.Allgemein
+:h3 res=1001.Allgemein
 :p.Zum Aktivieren des Bildschirmschoners wÑhlen Sie :hp2.Bildschirmschoner aktivieren:ehp2..
 Ist diese Einstellungen aktiv, Åberwacht das System die BenutzeraktivitÑt in Form
 der Bedienung von Maus und Tastatur auf der ArbeitsoberflÑche und schaltet
@@ -70,7 +91,7 @@ lÑuft, jedoch erhîht dies die Systemsicherheit.
 .*
 .* Help for password protection groupbox
 .*
-:h1 res=1002.Kennwortschutz
+:h3 res=1002.Kennwortschutz
 :p.Um den Bildschirmschoner Åber ein Kennwort abzusichern, markieren Sie :hp2.Kennwortschutz aktivieren:ehp2..
 Ist der Kennwortschutz eingeschaltet, erfolgt vor Beendung des Schonbetriebs eine Kennwortabfrage.
 Der Schonbetrieb wird nur beendet, wenn das korrekte Kennwort eingegeben wurde.
@@ -110,7 +131,7 @@ ArbeitsoberflÑche) oder beim Systemstart aktiviert wird.
 .*
 .* General help for the page
 .*
-:h1 res=2000.Bildschirmschoner
+:h2 res=2000.DPMS
 :p.Die zweite Seite der :hp2.Bildschirmschoner:ehp2.-Einstellungen ist
 die Seite :hp2.DPMS:ehp2.. Hier kann festgelegt werden, ob der Bildschirmschoner
 verschiedene
@@ -132,7 +153,7 @@ Liste zur VerfÅgung:
 .*
 .* Help for DPMS settings groupbox
 .*
-:h1 res=2001.DPMS
+:h3 res=2001.DPMS
 :p.Diese Einstellungen stehen nur zur VerfÅgung, wenn sowohl der Grafiktreiber DPMS
 unterstÅtzt als auch der Monitor DPMS-fÑhig ist (derzeit nur bei Scitech SNAP der Fall).
 :p.Entsprechend dem DPMS-Standard gibt es vier Energiesparmodi fÅr Monitore.
@@ -151,7 +172,7 @@ jeweils nach der festgelegten Zeit.
 .*
 .* Info about DPMS itself
 .*
-:h1 res=2002.Information Åber DPMS
+:h3 res=2002.Information Åber DPMS
 :p.DPMS ist eine AbkÅrzung fÅr :hp2.Display Power Management Signaling:ehp2., einen
 VESA-Schnittstellenstandard, der vier Energieverwaltungsmodi fÅr gerade nicht genutzte
 Monitore definiert: On, Stand-by, Suspend und Off.
@@ -162,7 +183,7 @@ Monitore definiert: On, Stand-by, Suspend und Off.
 .*
 .* General help for the page
 .*
-:h1 res=3000.Bildschirmschoner
+:h2 res=3000.Module
 :p.Die dritte Seite der :hp2.Bildschirmschoner:ehp2.-Einstellungen ist die
 Seite :hp2.Module:ehp2.. Hier wird eine Liste verfÅgbarer
 :link reftype=hd res=3002.
@@ -184,7 +205,7 @@ Liste zur VerfÅgung:
 .*
 .* Help for Screen Saver modules groupbox
 .*
-:h1 res=3001.Module
+:h3 res=3001.Module
 :p.Auf dieser Seite werden eine Liste der verfÅgbaren Bildschirmschonermodule
 sowie Informationen Åber das derzeit ausgewÑhlte Modul angezeigt.
 :p.Das derzeit ausgewÑhlte ist das Modul, das gerade in der Liste der verfÅgbaren
@@ -208,10 +229,27 @@ auf anderen Notizbuchseiten, wie :hp2.Kennwortschutz verzîgern:ehp2.) verhÑlt.
 .*
 .* Help about Screen Saver modules
 .*
-:h1 res=3002.Module
+:h3 res=3002.Bildschirmschonermodule
 :p.Bei Bildschirmschonermodulen handelt es sich um spezielle DLL-Dateien, die
 sich im Unterverzeichnis :hp3.Modules:ehp3. des Heimverzeichnisses des Bildschirmschoners
 befinden. Sie werden beim Umschalten in den Schonbetrieb ausgefÅhrt.
+.*
+.*--------------------------------------------------------------*\
+.* Just a dummy H2 panel to keep TOCs tidier by lumping together
+.* all common options...
+.*--------------------------------------------------------------*/
+.*
+:h2.Gemeinsame Optionen
+
+Diese Einstellungsmîglichkeiten sind auf jeder Seite der Bildschirmschonereinstellungen
+vorhanden.
+WÑhlen Sie fÅr weitere ErklÑrungen aus der Liste unten aus:
+
+:ul compact.
+:li.:link reftype=hd res=5000.Festlegen der Sprachversion des Bildschirmschoners:elink.
+:li.:link reftype=hd res=6001.Widerrufen:elink.
+:li.:link reftype=hd res=6002.Standard:elink.
+:eul.
 .*
 .*--------------------------------------------------------------*\
 .*  Help for setting the language of the screen saver
@@ -219,7 +257,7 @@ befinden. Sie werden beim Umschalten in den Schonbetrieb ausgefÅhrt.
 .*
 .* Help for setting the language
 .*
-:h1 res=5000.Festlegen der Sprachversion des Bildschirmschoners
+:h3 res=5000.Festlegen der Sprachversion des Bildschirmschoners
 :p.Die Sprache der Einstellungsseiten des Bildschirmschoners sowie mancher
 Module (die SprachunterstÅtzung bieten) lÑ·t sich durch Ziehen und öbergeben
 von :hp2.LÑnderspezifischen Angaben:ehp2.-Objekten aus der :hp2.LÑnderpalette:ehp2.
@@ -244,13 +282,13 @@ nicht der Fall, erfolgt dies Auswahl nach der Standardmethode Åber die Umgebungs
 .*
 .* Help for the Undo button
 .*
-:h1 res=6001.Widerrufen
+:h3 res=6001.Widerrufen
 :p.DrÅcken Sie :hp2.Widerrufen:ehp2., um die Einstellungen auf den Stand
 vor Anzeige dieser Notizbuchseite zurÅckzusetzen.
 .*
 .* Help for the Default button
 .*
-:h1 res=6002.Standard
+:h3 res=6002.Standard
 :p.DrÅcken Sie :hp2.Standard:ehp2., um die Einstellungen auf den Installationsstand
 zurÅckzusetzen.
 :euserdoc.

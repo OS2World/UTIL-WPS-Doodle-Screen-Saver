@@ -6,7 +6,7 @@
  *
  * Author  : Christian Hennecke
  *
- * Date (YYYY-MM-DD): 2005.06.09.
+ * Date (YYYY-MM-DD): 2019.08.06.
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -30,7 +30,7 @@
 // The name and the description string of the module:
  
 MOD_NAME="ArcaOS-Logo";
-MOD_DESC="ArcaOS-Logo, das sich alles 30 Sekunden bewegt.\nEntwickelt von Doodle. Grafik durch Alex Taylor und Rachel Rosenthal. Mitwirkender Dave Yeo";
+MOD_DESC="ArcaOS-Logo, das sich alle 30 Sekunden bewegt.\nEntwickelt von Doodle. Grafik von Alex Taylor und Rachel Rosenthal. Mitwirkender Dave Yeo";
  
 // ---------------------------------------------------------------------------
 // <EOF>
