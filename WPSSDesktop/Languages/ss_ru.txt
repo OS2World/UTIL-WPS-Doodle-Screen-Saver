@@ -29,7 +29,7 @@ COM_0003="Модули хранителя экрана";          // Descriptive text for page 3
 // ---------------------------------------------------------------------------
 // Strings for page 1 of screen saver settings:
 
-PG1_FONT="10.System Proportional";
+PG1_FONT="9.WarpSans";
 
 PG1_0000="Справка";
 PG1_0001="По у~молчанию";
@@ -67,7 +67,7 @@ PG1_0022="Использовать п~ервое нажатие в пароле";
 // ---------------------------------------------------------------------------
 // Strings for page 2 of screen saver settings:
 
-PG2_FONT="10.System Proportional";
+PG2_FONT="9.WarpSans";
 
 PG2_0000="Справка";
 PG2_0001="По у~молчанию";
@@ -87,7 +87,7 @@ PG2_0012="мин. приостановки";
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
 
-PG3_FONT="10.System Proportional";
+PG3_FONT="9.WarpSans";
 
 PG3_0000="Справка";
 PG3_0001="По у~молчанию";
@@ -123,7 +123,7 @@ MOD_0005="Введён неправильный пароль! Повторите ещё раз!";
 MOD_0006="ОК";
 
 // Font to use (for DBCS support)
-MOD_0007="10.System Proportional";
+MOD_0007="9.WarpSans";
 
 // ---------------------------------------------------------------------------
 // <EOF>

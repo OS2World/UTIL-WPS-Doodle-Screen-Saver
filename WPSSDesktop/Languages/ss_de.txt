@@ -29,7 +29,7 @@ COM_0003="Module";            // Descriptive text for page 3
 // ---------------------------------------------------------------------------
 // Strings for page 1 of screen saver settings:
 
-PG1_FONT="10.System Proportional";
+PG1_FONT="9.WarpSans";
 
 PG1_0000="~Hilfe";
 PG1_0001="~Standard";
@@ -70,7 +70,7 @@ PG1_0023="~VIO-Popups im Schonbetrieb unterdrÅcken";
 // ---------------------------------------------------------------------------
 // Strings for page 2 of screen saver settings:
 
-PG2_FONT="10.System Proportional";
+PG2_FONT="9.WarpSans";
 
 PG2_0000="~Hilfe";
 PG2_0001="~Standard";
@@ -90,7 +90,7 @@ PG2_0012="Minute(n) im Suspend-Modus";
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
 
-PG3_FONT="10.System Proportional";
+PG3_FONT="9.WarpSans";
 
 PG3_0000="~Hilfe";
 PG3_0001="~Standard";
@@ -126,7 +126,7 @@ MOD_0005="Falsches Kennwort eingegeben! Bitte erneut versuchen.";
 MOD_0006="~OK";
 
 // Font to use (for DBCS support)
-MOD_0007="10.System Proportional";
+MOD_0007="9.WarpSans";
 
 // ---------------------------------------------------------------------------
 // <EOF>
