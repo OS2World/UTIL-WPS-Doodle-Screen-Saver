@@ -22,7 +22,7 @@
 // ---------------------------------------------------------------------------
 // Strings for the Configuration dialog:
  
-CFG_0001="Pretty Clock konfigurieren";        // Window title
+CFG_0001="Schwebende Uhr konfigurieren";        // Window title
 CFG_0002="Themen";                         // Groupbox text
 CFG_0003="Ein zu verwendendes Thema ausw„hlen.";  // Help text inside the groupbox
 CFG_0004="~OK";                           // Ok button
@@ -37,7 +37,7 @@ CFG_0007="<unbenannt>";                     // Text to show in listbox when
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
  
-MOD_NAME="Pretty Clock";
+MOD_NAME="Schwebende Uhr";
 MOD_DESC="Dieses Modul zeigt eine schwebende Uhr an. Das Erscheinungsbild der Uhr kann durch Auswahl verschiedener Themen angepaát werden.\nVerwendet zlib v%1s und libpng v%2s.\nEntwickelt von Doodle.";
  
 // ---------------------------------------------------------------------------
