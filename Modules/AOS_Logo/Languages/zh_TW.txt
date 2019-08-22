@@ -30,7 +30,7 @@
 // The name and the description string of the module:
 
 MOD_NAME="ArcaOS logo";
-MOD_DESC="ArcaOS 標誌每 30 秒移動。\nWritten by Doodle";
+MOD_DESC="ArcaOS 標誌每 30 秒移動。\n\nWritten by Doodle";
 
 // ---------------------------------------------------------------------------
 // <EOF>

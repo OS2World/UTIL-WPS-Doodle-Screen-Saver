@@ -31,7 +31,7 @@
 // The name and the description string of the module:
 
 MOD_NAME="ArcaOS logotyp";
-MOD_DESC="ArcaOS logotyp flyttas omkring var 30'e sekund.\nSkriven av Doodle. Konstverk av Alex Taylor och Rachel Rosenthal. Bidragsgivare Dave Yeo"";
+MOD_DESC="ArcaOS logotyp flyttas omkring var 30'e sekund.\nSkriven av Doodle.\nBidragsgivare Dave Yeo.\nKonstverk av Alex Taylor och Rachel Rosenthal.";
 
 // ---------------------------------------------------------------------------
 // <EOF>
