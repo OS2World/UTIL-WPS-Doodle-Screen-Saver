@@ -19,7 +19,7 @@ BEGIN
                 WS_SAVEBITS
     PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
     PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
-    PRESPARAMS PP_USER, "12.System Proportional"
+    PRESPARAMS PP_USER, "10.System Proportional"
     BEGIN
         CONTROL "General settings",    GB_GENERALSETTINGS, 8, 123, 149, 40,
                                             WC_STATIC, SS_GROUPBOX | WS_VISIBLE
@@ -134,7 +134,7 @@ BEGIN
                 WS_SAVEBITS
     PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
     PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
-    PRESPARAMS PP_USER, "12.System Proportional"
+    PRESPARAMS PP_USER, "10.System Proportional"
     BEGIN
         CONTROL "Screen saver modules", GB_SCREENSAVERMODULES, 3, 2, 210, 102,
                                             WC_STATIC, SS_GROUPBOX | WS_VISIBLE
@@ -174,9 +174,9 @@ BEGIN
                                             DT_LEFT | DT_TOP | WS_VISIBLE
         CONTROL "Selected Module Description", MLE_SELECTEDMODULEDESCRIPTION,
                                         104, 23, 101, 38, WC_MLE, MLS_BORDER |
-                                            MLS_HSCROLL | MLS_IGNORETAB |
-                                            MLS_READONLY | MLS_VSCROLL |
-                                            WS_TABSTOP | WS_VISIBLE
+                                            MLS_IGNORETAB | MLS_READONLY |
+                                            MLS_WORDWRAP | WS_TABSTOP |
+                                            WS_VISIBLE
                 CTLDATA 32, 0, 65535, 65535, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         CONTROL "~Start now",          PB_STARTMODULE, 106, 9, 50, 10,
                                             WC_BUTTON, BS_PUSHBUTTON |
@@ -195,7 +195,7 @@ BEGIN
                 WS_SAVEBITS
     PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
     PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
-    PRESPARAMS PP_USER, "12.System Proportional"
+    PRESPARAMS PP_USER, "10.System Proportional"
     BEGIN
         CONTROL "DPMS settings",       GB_DPMSSETTINGS, 5, 8, 194, 112,
                                             WC_STATIC, SS_GROUPBOX | WS_GROUP |
