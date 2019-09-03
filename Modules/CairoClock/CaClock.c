@@ -1462,7 +1462,23 @@ void GetLocalizedDate(char *pchBuffer, int iBufLen, struct tm *pTime)
                 pTime);
   }
 
-  // Convert it from UCS to current codepage
+  // Create a new Locale object in 1208(UTF-8)
+  // As that is what Cairo expects
+  rc = UniCreateUconvObject(L"IBM-1208@map=display,path=no",
+                            &ucoTemp);
+  if (rc!=ULS_SUCCESS)
+  {
+    // Could not create locale object of this name!
+    UniFreeUconvObject(ucoTemp);
+    ucoTemp = NULL;
+    strftime(pchBuffer,
+             iBufLen,
+             "%x",
+             pTime);
+    return;
+  }
+
+  // Convert it from UCS to Code Page 1208(UTF-8)
   pucFrom = aucTemp;
   iFromCount = UniStrlen(aucTemp)+1;
   pchTo = pchBuffer;
