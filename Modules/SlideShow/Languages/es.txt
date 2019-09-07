@@ -39,7 +39,7 @@ CFG_0010="~Ordenar aleatoriamente";                  // Label
 // The name and the description string of the module:
 
 MOD_NAME="Galer¡a de im genes";
-MOD_DESC="Muestra una serie de im genes y\ndespeja la pantalla tras un tiempo.\nEscrito por Warp5.\n\nEste m¢dulo usa la biblioteca GBM con soporte JPEG\ny se basa en parte en el trabajo del Independent JPEG Group.";
+MOD_DESC="Muestra una serie de im genes y despeja la pantalla tras un tiempo.\nEscrito por Warp5.\nEste m¢dulo usa la biblioteca GBM con soporte JPEG y se basa en parte en el trabajo del Independent JPEG Group.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

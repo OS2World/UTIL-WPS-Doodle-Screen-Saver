@@ -38,7 +38,7 @@ CFG_0010="~ZufÑllige Reihenfolge der Bilder";                       // Label
 // The name and the description string of the module:
 
 MOD_NAME="Diashow";
-MOD_DESC="Zeigt eine Folge von Bildern an und \nblendet nach einiger Zeit den Bildschirm aus.\nGeschrieben von Warp5.\n\nDieses Modul nutzt die GBM Bibliothek mit JPEG\nUnterstÅtzung und basiert teilweise auf der Arbeit\nder Independent JPEG Group.";
+MOD_DESC="Zeigt eine Folge von Bildern an und blendet nach einiger Zeit den Bildschirm aus.\nGeschrieben von Warp5.\nDieses Modul nutzt die GBM Bibliothek mit JPEG UnterstÅtzung und basiert teilweise auf der Arbeit der Independent JPEG Group.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

@@ -37,7 +37,7 @@ CFG_0008="~Avbryt";                                  // Browse Button
 // The name and the description string of the module:
 
 MOD_NAME="Visa bild";
-MOD_DESC="Visa en bild och t”m sk„rmen efter viss tid.\nSkriven av Warp5.\n\nDen h„r modulen anv„nder GBM-bibliotek med JPEG-st”d\noch baseras p† delar av arbetet hos Independent\nJPEG Group.";
+MOD_DESC="Visa en bild och t”m sk„rmen efter viss tid.\nSkriven av Warp5.\nDen h„r modulen anv„nder GBM-bibliotek med JPEG-st”d och baseras p† delar av arbetet hos Independent JPEG Group.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

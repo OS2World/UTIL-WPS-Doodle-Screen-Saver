@@ -37,7 +37,7 @@ CFG_0008="~Abbrechen";                                              // Browse Bu
 // The name and the description string of the module:
 
 MOD_NAME="Bild anzeigen";
-MOD_DESC="Zeigt ein Bild an und blendet dies nach einiger Zeit aus.\nGeschrieben von Warp5.\n\nDieses Modul nutzt die GBM Bibliothek mit JPEG\nUnterstÅtzung und basiert teilweise auf der Arbeit\nder Independent JPEG Group.";
+MOD_DESC="Zeigt ein Bild an und blendet dies nach einiger Zeit aus.\nGeschrieben von Warp5.\nDieses Modul nutzt die GBM Bibliothek mit JPEG UnterstÅtzung und basiert teilweise auf der Arbeit der Independent JPEG Group.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

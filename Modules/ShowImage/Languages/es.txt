@@ -37,7 +37,7 @@ CFG_0008="~Cancelar";                                // Browse Button
 // The name and the description string of the module:
 
 MOD_NAME="Mostrar imagen";
-MOD_DESC="Muestra una imagen y deja la pantalla en blanco tras un tiempo.\nEscrito por Warp5.\n\nEste m¢dulo usa la biblioteca GBM con soporte JPEG\ny se basa en parte en el trabajo del Independent JPEG Group.";
+MOD_DESC="Muestra una imagen y deja la pantalla en blanco tras un tiempo.\nEscrito por Warp5.\nEste m¢dulo usa la biblioteca GBM con soporte JPEG y se basa en parte en el trabajo del Independent JPEG Group.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

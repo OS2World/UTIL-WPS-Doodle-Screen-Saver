@@ -39,7 +39,7 @@ CFG_0010="~Random order of images";                  // Label
 // The name and the description string of the module:
 
 MOD_NAME="Slide Show";
-MOD_DESC="Show a series of images and \nblank the screen after some time.\nWritten by Warp5.\n\nThis module uses the GBM library with JPEG support\nand is based in part on the work of the Independent\nJPEG Group.";
+MOD_DESC="Show a series of images and blank the screen after some time.\nWritten by Warp5.\nThis module uses the GBM library with JPEG support and is based in part on the work of the Independent JPEG Group.";
 
 // ---------------------------------------------------------------------------
 // <EOF>
