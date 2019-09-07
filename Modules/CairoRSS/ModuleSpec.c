@@ -66,7 +66,7 @@ char *pchModuleDesc =
 
 /* Module version number (Major.Minor format): */
 int   iModuleVersionMajor = 2;
-int   iModuleVersionMinor = 10;
+int   iModuleVersionMinor = 11;
 int   iUniSize;
 double  dXAspect, dYAspect;
 

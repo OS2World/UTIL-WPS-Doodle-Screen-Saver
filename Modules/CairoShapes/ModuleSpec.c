@@ -54,7 +54,7 @@ char *pchModuleDesc =
   "Using the Cairo library.\n";
 
 /* Module version number (Major.Minor format): */
-int   iModuleVersionMajor = 2;
+int   iModuleVersionMajor = 3;
 int   iModuleVersionMinor = 10;
 
 /* Internal name generated from module name, to have
