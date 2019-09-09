@@ -1,6 +1,23 @@
 <WARPIN VERSION="1.0.20" CODEPAGE=850>
 <HEAD>
 
+<REXX NAME="OSDIRDLL">
+  Where = WirexxGetEnv('OSDIR')
+  if Where = '' then      /* Pure OS/2, maybe early eCS? */
+    Where = "?:\OS2\APPS"
+  Where = Where||"\dll"
+  Return Where
+</REXX>
+
+<REXX NAME="OSDIRBIN">
+  Where = WirexxGetEnv('OSDIR')
+  if Where = '' then
+    Where = "?:\OS2\APPS"
+  else
+    Where = Where||"\bin"
+  Return Where
+</REXX>
+
 <PCK INDEX="1"
      PACKAGEID="Doodle\Doodle's Screen Saver\Home\2\4"
      TITLE="Doodle's Screen Saver home folder"
@@ -16,19 +33,19 @@
 <PCK INDEX="2"
      PACKAGEID="Doodle\Doodle's Screen Saver\Core\2\4"
      TITLE="Doodle's Screen Saver system binaries (DLL)"
-     TARGET="?:\OS2\APPS\DLL"
+     TARGET="=("OSDIRDLL")"
      FIXED
      SELECT
      NODESELECT
      REQUIRES=1
-     REGISTERCLASS="WPSSDesktop|?:\OS2\APPS\DLL\WPSSDesk.DLL"
+     REGISTERCLASS="WPSSDesktop|$(2)\WPSSDesk.DLL"
      REPLACECLASS="WPDesktop|WPSSDesktop"
      >This contains the system DLL files for this new screen saver solution for OS/2, ArcaOS and eComStation systems.</PCK>
 
 <PCK INDEX="201"
      PACKAGEID="Doodle\Doodle's Screen Saver\Core-ModuleWrapper\2\4"
      TITLE="Doodle's Screen Saver system binaries (EXE)"
-     TARGET="?:\OS2\APPS"
+     TARGET="=("OSDIRBIN")"
      FIXED
      SELECT
      NODESELECT
@@ -321,11 +338,14 @@ facility with an extendable screen saver.
 You will have to specify a home directory for the screen saver. 
 This directory will contain the saver modules and the language files. 
 However the core screen saver binaries will always be installed into the 
-<CODE>\OS2\APPS\DLL</CODE> folder.
+system <CODE>%OSDIR%</CODE> folders (<CODE>BIN</CODE> and <CODE>DLL</CODE>), 
+defaulting to <CODE>?:\OS2\APPS</CODE> and <CODE>?:\OS2\APPS\DLL</CODE> 
+under pre-eCS systems. Since these directories are already listed in PATH and 
+LIBPATH, there is no need to modify CONFIG.SYS to add them there.
 <P>
-Your <CODE>CONFIG.SYS</CODE> file will <B>not</B> be modified, but the files 
-will be copied to the <CODE>\OS2\APPS</CODE>, the <CODE>\OS2\APPS\DLL</CODE>
-and the screen saver's home folders, and a new WPS class will be registered.
+Thus, your <CODE>CONFIG.SYS</CODE> file will <B>not</B> be modified, but the 
+files will be copied to the <CODE>%OSDIR%</CODE> and the screen saver's home 
+folders, and a new WPS class will be registered.
 </README>
 </PAGE>
 
@@ -341,14 +361,14 @@ Select "Cancel" to abort installation.</TEXT>
 <P>
 <UL>
 <LI>
-If you have <B>v1.2 or older</B> version of Doodle's Screen Saver installed, then 
+If you have installed Doodle's Screen Saver <B>v1.2 or older</B>, 
 you should uninstall that version first!
 <P>
-Installing this version over a version before v1.3 results in putting the
-screen saver modules into wrong folder, so the saver will not find them.
+Installing this version over any other before v1.3 will result in the screen 
+saver modules being put into the wrong folder, so they will not be found.
 <LI>
-If you have <B>v1.3 or newer</B> version of Doodle's Screen Saver installed, then
-you can install this version over the old one safely.
+If you have installed Doodle's Screen Saver <B>v1.3 or newer</B>, 
+you can install this version over the old one to upgrade safely.
 </UL>
 <P>
 <B>You were warned!</B>
@@ -392,7 +412,7 @@ Press "Install" to begin installing this archive.</TEXT>
 <B>Upgrading from previous versions:</B>
 <P>
 If you're upgrading from a previous version of Doodle's Screen Saver, 
-WarpIn will find <B>locked files</B>, and will ask You what to do with them.
+WarpIn will find <B>locked files</B>, and will ask you what to do with them.
 <P>
 <UL>
 <LI>
