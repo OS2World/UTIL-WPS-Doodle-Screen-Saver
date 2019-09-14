@@ -1,0 +1,38 @@
+/*
+ * NLS support file for the AOS_Logo Screen Saver Module
+ *
+ * Language: General English language
+ * Locales : en_*
+ *
+ * Original Author  : Doodle
+ * Contributor  : Dave Yeo
+ *
+ * Date (YYYY-MM-DD): 2019.09.13
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+// ........................................
+// This module has no configuration dialog!
+// ........................................
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Cairo Shapes";
+MOD_DESC="Shows different colorful shapes and figures.\nUsing the Cairo library.\n";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

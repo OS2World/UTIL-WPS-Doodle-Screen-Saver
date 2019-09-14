@@ -1,6 +1,9 @@
 ChangeLog File:
 
-* v2.4 : 2019.07.30
+* v2.4 : 2019.09.13
+  - Add NLS support for Cairo Shapes
+  - Fix date display in Cairo Clock for some locales.
+  - Change the formatting on the description box.
   - More compiler optimizations
   - Update the ArcaOS Logo description
   - Fix the wrong password dialog by changing a newline to a space.

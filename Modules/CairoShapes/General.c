@@ -33,6 +33,7 @@
 #define INCL_ERRORS
 #define INCL_GPIPRIMITIVES
 #include <os2.h>
+#include "MSGX.h" // NLS support
 #include "SSModule.h"
 
 #include "General-Resources.h"
@@ -892,8 +893,122 @@ void fnSaverThread(void *p)
   _endthread();
 }
 
+static FILE *internal_OpenNLSFile(char *pchHomeDirectory)
+{
+  char achRealLocaleName[128];
+  char *pchFileName, *pchLang;
+  ULONG rc;
+  int i;
+  FILE *hfNLSFile;
+
+  hfNLSFile = NULLHANDLE;
+
+  pchFileName = (char *) malloc(1024);
+  if (pchFileName)
+  {
+    // Let's check the currently set Languagecode string!
+    achRealLocaleName[0] = 0;
+    if (DosRequestMutexSem(hmtxUseNLSTextArray, SEM_INDEFINITE_WAIT)==NO_ERROR)
+    {
+      if (apchNLSText[SSMODULE_NLSTEXT_LANGUAGECODE])
+        strncpy(achRealLocaleName, apchNLSText[SSMODULE_NLSTEXT_LANGUAGECODE], sizeof(achRealLocaleName));
+      DosReleaseMutexSem(hmtxUseNLSTextArray);
+    }
+
+    if (achRealLocaleName[0]==0)
+    {
+      // The ssaver core did not tell us anything about its language, so
+      // try to get language from LANG env variable!
+#ifdef DEBUG_LOGGING
+      AddLog("[internal_OpenNLSFile] : No language told by SSaver core, using LANG env. variable!\n");
+#endif
+      rc = DosScanEnv("LANG", &pchLang);
+      if ((rc!=NO_ERROR) || (!pchLang))
+      {
+#ifdef DEBUG_LOGGING
+        AddLog("[internal_OpenNLSFile] : Could not query LANG env. var., will use 'en'\n");
+#endif
+        pchLang = "en"; // Default
+      }
+      strncpy(achRealLocaleName, pchLang, sizeof(achRealLocaleName));
+    }
+
+    // Get language code
+    if (achRealLocaleName[0]!=0)
+    {
+      // Aaah, there is a language set!
+      // Try that one!
+
+      pchLang = (char *) malloc(1024);
+      if (!pchLang)
+      {
+	// Not enough memory, so we won't do the long
+	// method of searching for every combination of
+        // the language string, but only for the string itself!
+
+	// Assemble NLS file name
+	sprintf(pchFileName, "%sModules\\CaShapes\\%s.msg", pchHomeDirectory, achRealLocaleName);
+#ifdef DEBUG_LOGGING
+	AddLog("[internal_OpenNLSFile] : Trying to open NLS file: [");
+	AddLog(pchFileName);
+	AddLog("] by achLocalLanguage setting (in Not enough memory branch)!\n");
+#endif
+
+	hfNLSFile = fopenMessageFile(pchFileName);
+      } else
+      {
+	// Fine, we can start trying a lot of filenames!
+	sprintf(pchLang, "%s", achRealLocaleName);
+
+	do {
+	  // Assemble NLS file name
+	  sprintf(pchFileName, "%sModules\\CaShapes\\%s.msg", pchHomeDirectory, pchLang);
+#ifdef DEBUG_LOGGING
+	  AddLog("[internal_OpenNLSFile] : Trying to open NLS file: [");
+	  AddLog(pchFileName);
+	  AddLog("] by achLocalLanguage setting! (in Loop)\n");
+#endif
+
+	  hfNLSFile = fopenMessageFile(pchFileName);
+
+	  // Make pchLang shorter, until the next underscore!
+	  i = strlen(pchLang)-1;
+	  while ((i>=0) && (pchLang[i]!='_'))
+	    i--;
+	  if (i<0) i = 0;
+          pchLang[i] = 0;
+
+	} while ((pchLang[0]) && (!hfNLSFile));
+
+        free(pchLang); pchLang = NULL;
+      }
+    }
+
+    free(pchFileName);
+  }
+
+#ifdef DEBUG_LOGGING
+  if (hfNLSFile)
+    AddLog("[internal_OpenNLSFile] : NLS file opened.\n");
+  else
+    AddLog("[internal_OpenNLSFile] : NLS file could not be opened.\n");
+
+  AddLog("[internal_OpenNLSFile] : Done.\n");
+#endif
+
+  return hfNLSFile;
+}
+
+static void internal_CloseNLSFile(FILE *hfNLSFile)
+{
+  if (hfNLSFile)
+    fclose(hfNLSFile);
+}
+
 SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleDesc, char *pchHomeDirectory)
 {
+  FILE *hfNLSFile;
+
   if (!pModuleDesc)
     return SSMODULE_ERROR_INVALIDPARAMETER;
 
@@ -902,6 +1017,16 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
   pModuleDesc->iVersionMinor = iModuleVersionMinor;
   strcpy(pModuleDesc->achModuleName, pchModuleName);
   strcpy(pModuleDesc->achModuleDesc, pchModuleDesc);
+
+  // If we have NLS support, then show the module description in
+  // the chosen language!
+  hfNLSFile = internal_OpenNLSFile(pchHomeDirectory);
+  if (hfNLSFile)
+  {
+    sprintmsg(pModuleDesc->achModuleName, hfNLSFile, "MOD_NAME");
+    sprintmsg(pModuleDesc->achModuleDesc, hfNLSFile, "MOD_DESC");
+    internal_CloseNLSFile(hfNLSFile);
+  }
 
   pModuleDesc->bConfigurable = FALSE;
   pModuleDesc->bSupportsPasswordProtection = TRUE;

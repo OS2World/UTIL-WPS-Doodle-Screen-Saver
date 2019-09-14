@@ -4,7 +4,7 @@
 # This section should be modified according to the target to build!
 #-----------------------------------------------------------------------------
 dllname=CaShapes
-object_files=General.obj ModuleSpec.obj
+object_files=General.obj ModuleSpec.obj msgx.obj
 
 # Create debug build?
 #debug_build=defined
@@ -40,7 +40,7 @@ all : $(dllname).dll
 
 $(dllname).dll: $(object_files)
     @wlink system os2v2_dll INITINSTANCE TERMINSTANCE name $(dllname) &
-    f General f ModuleSpec op MAP=$(dllname) op DESC 'ScreenSaver module' &
+    f General f ModuleSpec f msgx op MAP=$(dllname) op DESC 'ScreenSaver module' &
     op ELIMINATE op MANYAUTODATA op OSNAME='OS/2 and eComStation' op SHOWDEAD &
     @Imports.lnk
 !ifdef has_resource_file
