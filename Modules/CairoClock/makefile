@@ -31,6 +31,8 @@ dllflags = -bd
 cflags = $(debugflags) -zq -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 
 .before
+    rm -f description.lnk
+    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,2.11,Cairo Clock - ScreenSaver module,v24
     @set include=$(%os2tk)\h;$(%include);$(%UNIXROOT)\usr\include;..\..
 
 .extensions:
@@ -42,7 +44,7 @@ $(dllname).dll: $(object_files)
     @wlink system 386 lx dll INITINSTANCE TERMINSTANCE name $(dllname) &
     f CaClock f MSGX op MAP=$(dllname) op DESC 'Cairo Clock - ScreenSaver module' &
     op ELIMINATE op MANYAUTODATA op OSNAME='OS/2 and eComStation' op SHOWDEAD &
-    LIBPATH %os2tk%\lib LIBRARY libuls.lib LIBRARY libconv.lib @Imports.lnk
+    LIBPATH %os2tk%\lib LIBRARY libuls.lib LIBRARY libconv.lib @Imports.lnk @description
 
 !ifdef has_resource_file
     rc $(rcname) $(dllname).dll

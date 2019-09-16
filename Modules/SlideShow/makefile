@@ -34,6 +34,8 @@ dllflags = -bd
 cflags = $(debugflags) -bm -sg -onatbrmkiel+ -ei -6 -fpi87 -fp6 -mf -wx -zq
 
 .before
+    rm -f description.lnk
+    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.80,Slideshow - ScreenSaver module,v24
     set include=$(%os2tk)\h;$(%include);..\..
 
 .extensions:
@@ -47,7 +49,7 @@ $(dllname).dll: $(object_files)
     wcc386 $[* $(dllflags) $(cflags)
 
 .obj.dll : .AUTODEPEND
-    wlink @$(dllname)
+    wlink @$(dllname) @description
 !ifdef has_resource_file
     rc $(rcname) $(dllname).dll
 !endif

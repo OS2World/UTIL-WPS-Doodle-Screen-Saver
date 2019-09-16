@@ -30,6 +30,8 @@ cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 !endif
 
 .before
+    rm -f description.lnk
+    ..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.70,Screen Saver module wrapper application,v24    
     set include=$(%os2tk)\h;$(%include);..\;
 
 .extensions:
@@ -43,7 +45,7 @@ $(exename).exe: $(object_files)
     wcc386 $[* $(cflags)
 
 .obj.exe : .AUTODEPEND
-    wlink @$(exename)
+    wlink @$(exename) @description
 !ifdef has_resource_file
     rc $(rcname) $(exename).exe
 !endif

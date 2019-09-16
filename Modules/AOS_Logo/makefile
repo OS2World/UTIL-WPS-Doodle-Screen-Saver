@@ -31,6 +31,8 @@ dllflags = -bd
 cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 
 .before
+    rm -f description.lnk
+    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.90,AOS_Logo, screen saver module,v24
     set include=$(%os2tk)\h;$(%include);..\..
 
 .extensions:
@@ -38,13 +40,13 @@ cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 
 all : $(dllname).dll
 
-$(dllname).dll: $(object_files)
+$(dllname).dll: $(object_files) 
 
 .c.obj : .AUTODEPEND
     wcc386 $[* $(dllflags) $(cflags)
 
 .obj.dll : .AUTODEPEND
-    wlink @$(dllname)
+    wlink @$(dllname) @description
 !ifdef has_resource_file
     rc $(rcname) $(dllname).dll
 !endif

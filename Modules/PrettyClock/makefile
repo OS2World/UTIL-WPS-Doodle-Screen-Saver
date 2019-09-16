@@ -21,12 +21,14 @@ create_packed_dll=defined
 !include Watcom.mif
 
 .before
+    rm -f description.lnk
+    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.80,Pretty Clock - ScreenSaver module,v24
     set include=..\..;.\libpng;.\zlib129;$(%os2tk)\h;$(%include);
 
 all : $(dllname).dll
 
 $(dllname).dll: zlib libpng $(object_files)
-    wlink @$(dllname)
+    wlink @$(dllname) @description
 !ifdef has_resource_file
     rc $(rcname) $(dllname).dll
 !endif

@@ -3,7 +3,7 @@ name WPSSDesk
 file WPSSDesktop
 file MSGX
 OPTION MAP=WPSSDesk
-OPTION DESCRIPTION 'ScreenSaver-extended WPDesktop class (WPSSDesktop)'
+OPTION DESCRIPTION '@#DRY:1.20#@ScreenSaver-extended WPDesktop class (WPSSDesktop)'
 OPTION ELIMINATE
 OPTION MANYAUTODATA
 OPTION OSNAME='OS/2 and eComStation'

@@ -36,6 +36,8 @@ cflags = $(debugflags) -bm -bt=OS2 -6s -fp6 -sg -wx
 # -otexan 
 
 .before
+    rm -f description.lnk
+    AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,2.00,Screensaver Core,v24
     set include=$(%os2tk)\h;$(%include);.;
 
 .extensions:
@@ -49,7 +51,7 @@ $(dllname).dll: $(object_files)
     wcc386 $[* $(dllflags) $(cflags)
 
 .obj.dll : .AUTODEPEND
-    wlink @$(dllname)
+    wlink @$(dllname) @description
 !ifdef has_resource_file
     rc $(rcname) $(dllname).dll
 !endif

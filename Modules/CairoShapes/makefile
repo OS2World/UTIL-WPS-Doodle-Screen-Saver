@@ -31,6 +31,8 @@ dllflags = -bd
 cflags = $(debugflags) -zq -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 
 .before
+    rm -f description.lnk
+    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,3.11,Cairo Shapes - ScreenSaver module,v24
     @set include=$(%os2tk)\h;$(%include);$(%UNIXROOT)\usr\include\;..\..
 
 .extensions:
@@ -42,7 +44,7 @@ $(dllname).dll: $(object_files)
     @wlink system os2v2_dll INITINSTANCE TERMINSTANCE name $(dllname) &
     f General f ModuleSpec f msgx op MAP=$(dllname) op DESC 'ScreenSaver module' &
     op ELIMINATE op MANYAUTODATA op OSNAME='OS/2 and eComStation' op SHOWDEAD &
-    @Imports.lnk
+    @Imports.lnk @description
 !ifdef has_resource_file
     rc $(rcname) $(dllname).dll
 !endif
