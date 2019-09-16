@@ -1,5 +1,5 @@
 /*
- * NLS support file for the AOS_Logo Screen Saver Module
+ * NLS support file for the Cairo Shapes Screen Saver Module
  *
  * Language: General English language
  * Locales : en_*
