@@ -429,15 +429,6 @@ already registered</B>, and will ask You what to do.
 <P>
 If a class is already registered, <B>choose "Yes" to replace that class</B> with the new binaries.
 </UL>
-<P>
-<B>Note:</B><BR>
-It happens on some systems that even though the folder for the screen saver is 
-created on the Desktop, it will not contain anything. This problem seems to be
-a <B>WarpIn bug</B>, and is fixed in WarpIn v1.0.6 and later versions. If you 
-have an older one, a workaround for it is to open that folder and check its 
-contents <U><I>before</I></U> letting WarpIn to restart the Desktop. 
-Otherwise, the Desktop will be restarted without the new folder being 
-populated, so it will contain no objects after the reboot.
 </README>
 </PAGE>
 
