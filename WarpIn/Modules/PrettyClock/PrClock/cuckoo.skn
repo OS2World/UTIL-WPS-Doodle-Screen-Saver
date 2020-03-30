@@ -1,0 +1,15 @@
+Skin_Name = cuckoo
+Draw_Area_Width = 768
+Draw_Area_Height = 768
+Background_Image = cuckoo\back.png
+Background_Image_Center = 0 0 0 0
+Foreground_Image = cuckoo\fore.png
+Hour_Analogue_Mode = 1
+Minute_Analogue_Mode = 1
+Second_Analogue_Mode = 1
+Hour_0_Image = cuckoo\hour.png
+Hour_0_Image_Center = 384 384 384 384
+Minute_0_Image = cuckoo\min.png
+Minute_0_Image_Center = 384 384 384 384
+Second_0_Image = cuckoo\sec.png
+Second_0_Image_Center = 384 384 384 384

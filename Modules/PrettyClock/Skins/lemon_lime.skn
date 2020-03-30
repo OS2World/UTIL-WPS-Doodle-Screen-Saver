@@ -1,0 +1,13 @@
+Skin_Name = lemon_lime
+Draw_Area_Width = 512
+Draw_Area_Height = 512
+Background_Image = lemon_lime\back.png
+Background_Image_Center = 0 0 0 0
+Hour_Analogue_Mode = 1
+Minute_Analogue_Mode = 1
+Hour_0_Image = lemon_lime\hour.png
+Hour_0_Image_Center = 256 256 256 256
+Minute_0_Image = lemon_lime\min.png
+Minute_0_Image_Center = 256 256 256 256
+Second_0_Image = lemon_lime\sec.png
+Second_0_Image_Center = 256 256 256 256
