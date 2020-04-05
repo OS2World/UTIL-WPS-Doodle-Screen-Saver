@@ -1,25 +1,97 @@
 <WARPIN VERSION="1.0.20" CODEPAGE=850>
 <HEAD>
 
-<REXX NAME="OSDIRDLL">
-  Where = WirexxGetEnv('OSDIR')
-  if Where = '' then      /* Pure OS/2, maybe early eCS? */
-    Where = "?:\OS2\APPS"
-  Where = Where||"\dll"
-  Return Where
+<TITLE>=("Initialize_GetTitle")</TITLE>
+
+<REXX NAME="Initialize_GetTitle">
+   CALL Rxfuncadd 'SysLoadFuncs', 'REXXUTIL', 'SysLoadFuncs'
+   CALL SysLoadFuncs
+
+   env         = 'OS2ENVIRONMENT'
+   TRUE        = (1 = 1)
+   FALSE       = (0 = 1)
+   CrLf        = '0d0a'x
+   Redirection = '> NUL 2>&1'
+   GlobalVars  = 'env TRUE FALSE CrLf Redirection'
+
+   MainTitle  = "Doodle's Screen Saver v2.4 Installation"
+   PckPrefix  = "Doodle\Doodle's Screen Saver"
+   PckVersion = "2\4"
+   DefaultLangCode2 = 'en'
+   DefaultOsBinDir = GetBootDrive()'\OS2\APPS'
+   DefaultOsDllDir = GetBootDrive()'\OS2\APPS\DLL'
+
+   /* Set vars for package ids */
+   /* Once installed, package ids, even upper/lowercase, can't be changed here. */
+   /* Group names can always be changed. */
+   CALL SetVar 'PCKPREFIX', PckPrefix
+   CALL SetVar 'PCKVERSION', PckVersion
+
+   /* Set the 2-letter language code (ISO 3166-1) from LANG env var */
+   LangVarVal = VALUE( 'LANG',, env)
+   PARSE VAR LangVarVal LangCode2'_'.
+   IF LangCode2 = '' THEN
+      LangCode2 = DefaultLangCode2
+   CALL SetVar 'LANGCODE2', LangCode2
+
+   /* Set DIR vars */
+   OsDir = VALUE( 'OSDIR',, env) /* Usually BootDrive\sys or BootDrive\ecs */
+   IF OsDir <> '' THEN
+   DO
+      OsBinDir = OsDir'\bin'
+      OsDllDir = OsDir'\dll'
+   END
+   ELSE
+   DO
+      OsBinDir = DefaultOsBinDir
+      OsDllDir = DefaultOsDllDir
+   END
+   CALL SetVar 'OSBINDIR', OsBinDir
+   CALL SetVar 'OSDLLDIR', OsDllDir
+   CALL SetVar 'OSDIR', OsDir
+   CALL SetVar 'DEFAULTOSBINDIR', DefaultOsBinDir
+   CALL SetVar 'DEFAULTOSDLLDIR', DefaultOsDllDir
+
+   RETURN( MainTitle)
+
+   GetBootDrive: PROCEDURE EXPOSE (GlobalVars)
+      IF \RxFuncQuery( 'SysBootDrive') THEN
+         BootDrive = SysBootDrive()
+      ELSE
+         PARSE UPPER VALUE VALUE( 'PATH',, env) WITH ':\OS2\SYSTEM' -1 BootDrive +2
+      RETURN( BootDrive)
+
+   SetVar: PROCEDURE EXPOSE (GlobalVars)
+      PARSE ARG Varname, VarValue
+      IF (0) THEN  /* Debug: Enable this and call warpin.exe in command line */
+         SAY 'SetVar( "'Varname'", "'VarValue'")'
+      rc = WirexxPutEnv( Varname, VarValue)
+      RETURN( '')
 </REXX>
 
-<REXX NAME="OSDIRBIN">
-  Where = WirexxGetEnv('OSDIR')
-  if Where = '' then
-    Where = "?:\OS2\APPS"
-  else
-    Where = Where||"\bin"
-  Return Where
+<REXX NAME="SelectLang">
+   PARSE ARG LangValue
+   LangCode2 = WirexxGetEnv( 'LANGCODE2')
+   SelectValue = ''
+   IF TRANSLATE( LangValue) = TRANSLATE( LangCode2) THEN
+      SelectValue = 'SELECT'
+   RETURN( SelectValue)
+</REXX>
+
+<REXX NAME="Var">
+   PARSE ARG Varname
+   VarValue = WirexxGetEnv( VarName)
+   IF (0) THEN  /* Debug: Enable this and call warpin.exe in command line */
+   DO
+      SAY '--------------------'
+      SAY VarName
+      SAY VarValue
+   END
+   RETURN( WirexxGetEnv( VarName))
 </REXX>
 
 <PCK INDEX="1"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Home\2\4"
+     PACKAGEID="=("Var PckPrefix")\Home\=("Var PckVersion")"
      TITLE="Doodle's Screen Saver home folder"
      TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver" BASE
      SELECT
@@ -31,9 +103,9 @@
      >You can specify the home folder of the screen saver here, where it will store its configuration and where it will look for additinal files like language packs and screen saver modules.</PCK>
 
 <PCK INDEX="2"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Core\2\4"
+     PACKAGEID="=("Var PckPrefix")\Core\=("Var PckVersion")"
      TITLE="Doodle's Screen Saver system binaries (DLL)"
-     TARGET="=("OSDIRDLL")"
+     TARGET="=("Var OsDllDir")"
      FIXED
      SELECT
      NODESELECT
@@ -43,9 +115,9 @@
      >This contains the system DLL files for this new screen saver solution for OS/2, ArcaOS and eComStation systems.</PCK>
 
 <PCK INDEX="201"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Core-ModuleWrapper\2\4"
+     PACKAGEID="=("Var PckPrefix")\Core-ModuleWrapper\=("Var PckVersion")"
      TITLE="Doodle's Screen Saver system binaries (EXE)"
-     TARGET="=("OSDIRBIN")"
+     TARGET="=("Var OsBinDir")"
      FIXED
      SELECT
      NODESELECT
@@ -53,9 +125,9 @@
      >This contains the system EXE files for this new screen saver solution for OS/2, ArcaOS and eComStation systems.</PCK>
 
 <PCK INDEX="3"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Documents\2\4"
+     PACKAGEID="=("Var PckPrefix")\Documents\=("Var PckVersion")"
      TITLE="Doodle's Screen Saver documents"
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver"
+     TARGET="$(1)"
      FIXED
      REQUIRES=1
      SELECT
@@ -67,144 +139,144 @@
 <GROUP TITLE="Screen Saver modules">
 
 <PCK INDEX="10"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Blank\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : Blank\1\9"
      TITLE="Blank screen"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >Simple blank screen, using the power of Black! :)</PCK>
 
 <PCK INDEX="11"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : eCSBall\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : eCSBall\1\9"
      TITLE="eCS Ball"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      >eComStation logo moving around every 30 seconds.</PCK>
 
 <PCK INDEX="12"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : IFSIM\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : IFSIM\1\9"
      TITLE="IFS In Motion (DIVE)"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >Shows a moving fractal (Iterate Function System).</PCK>
 
 <PCK INDEX="13"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Padlock\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : Padlock\1\9"
      TITLE="Bouncing padlock"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >A golden padlock bouncing around the screen.</PCK>
 
 <PCK INDEX="14"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Circles\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : Circles\1\9"
      TITLE="Hypnotizing circles"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >Colourful circles whirling around the screen.</PCK>
 
 <PCK INDEX="15"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Randomizer\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : Randomizer\1\9"
      TITLE="Randomizer"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >Pseudo module, using other modules.</PCK>
 
 <PCK INDEX="16"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Show Image\1\10"
+     PACKAGEID="=("Var PckPrefix")\Module : Show Image\1\10"
      TITLE="Show Image"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >This module shows a selected image on the screen for a while, then blanks the screen.</PCK>
 
 <PCK INDEX="17"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Analogue TV Simulator\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : Analogue TV Simulator\1\9"
      TITLE="Analogue TV Simulator"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >This module mimics an analogue television screen.</PCK>
 
 <PCK INDEX="18"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Pretty Clock\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : Pretty Clock\1\9"
      TITLE="Pretty Clock"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >This module shows a nice skinnable clock.</PCK>
 
 <PCK INDEX="19"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Cairo Clock\2\3"
+     PACKAGEID="=("Var PckPrefix")\Module : Cairo Clock\2\3"
      TITLE="Cairo Clock"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >This module shows the current date and time. It requires the Cairo RPM/YUM package</PCK>
 
 <PCK INDEX="20"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Cairo Shapes\2\3"
+     PACKAGEID="=("Var PckPrefix")\Module : Cairo Shapes\2\3"
      TITLE="Cairo Shapes"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >This module shows different colorful shapes and figures. It requires the Cairo RPM/YUM package</PCK>
 
 <PCK INDEX="21"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Matrix\1\11"
+     PACKAGEID="=("Var PckPrefix")\Module : Matrix\1\11"
      TITLE="Matrix"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >This module shows falling green letters in Matrix style.</PCK>
 
 <PCK INDEX="22"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Snow\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : Snow\1\9"
      TITLE="Snow"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >This module shows falling snowflakes in the night.</PCK>
 
 <PCK INDEX="23"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Moving Text\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : Moving Text\1\9"
      TITLE="Moving Text"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >This module moves text on the screen.</PCK>
 
 <PCK INDEX="24"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : Slide Show\1\10"
+     PACKAGEID="=("Var PckPrefix")\Module : Slide Show\1\10"
      TITLE="Slide Show"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >This module shows a series of images and blanks the screen after some time.</PCK>
 
 <PCK INDEX="25"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Module : AOS_Logo\1\3"
+     PACKAGEID="=("Var PckPrefix")\Module : AOS_Logo\1\3"
      TITLE="ArcaOS Logo"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Modules"
+     TARGET="$(1)\Modules"
      FIXED
      SELECT
      >ArcaOS logo moving around every 30 seconds.</PCK>
@@ -214,93 +286,93 @@
 <GROUP TITLE="Screen Saver language packs">
 
 <PCK INDEX="50"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Default\2\1"
+     PACKAGEID="=("Var PckPrefix")\Language : Default\2\1"
      TITLE="Default (English) language"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
+     TARGET="$(1)\Lang"
      FIXED
-     SELECT
+     =("SelectLang en")
      >Default (English) language support</PCK>
 
 <PCK INDEX="51"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Hungarian\2\1"
+     PACKAGEID="=("Var PckPrefix")\Language : Hungarian\2\1"
      TITLE="Hungarian language"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
+     TARGET="$(1)\Lang"
      FIXED
-     SELECT
+     =("SelectLang hu")
      >Hungarian language support</PCK>
 
 <PCK INDEX="52"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Dutch\2\1"
+     PACKAGEID="=("Var PckPrefix")\Language : Dutch\2\1"
      TITLE="Dutch language"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
+     TARGET="$(1)\Lang"
      FIXED
-     SELECT
+     =("SelectLang dk")
      >Dutch language support</PCK>
 
 <PCK INDEX="53"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : German\2\1"
+     PACKAGEID="=("Var PckPrefix")\Language : German\2\1"
      TITLE="German language"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
+     TARGET="$(1)\Lang"
      FIXED
-     SELECT
+     =("SelectLang de")
      >German language support</PCK>
 
 <PCK INDEX="54"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Swedish\2\1"
+     PACKAGEID="=("Var PckPrefix")\Language : Swedish\2\1"
      TITLE="Swedish language"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
+     TARGET="$(1)\Lang"
      FIXED
-     SELECT
+     =("SelectLang sv")
      >Swedish language support</PCK>
 
 <PCK INDEX="55"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Chinese\1\8"
+     PACKAGEID="=("Var PckPrefix")\Language : Chinese\1\8"
      TITLE="Chinese language"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
+     TARGET="$(1)\Lang"
      FIXED
-     SELECT
+     =("SelectLang cn")
      >Chinese language support</PCK>
 
 <PCK INDEX="56"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : French\2\1"
+     PACKAGEID="=("Var PckPrefix")\Language : French\2\1"
      TITLE="French language"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
+     TARGET="$(1)\Lang"
      FIXED
-     SELECT
+     =("SelectLang fr")
      >French language support</PCK>
 
 <PCK INDEX="57"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Russian\1\9"
+     PACKAGEID="=("Var PckPrefix")\Language : Russian\1\9"
      TITLE="Russian language"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
+     TARGET="$(1)\Lang"
      FIXED
-     SELECT
+     =("SelectLang ru")
      >Russian language support</PCK>
 
 <PCK INDEX="58"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Spanish\2\1"
+     PACKAGEID="=("Var PckPrefix")\Language : Spanish\2\1"
      TITLE="Spanish language"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
+     TARGET="$(1)\Lang"
      FIXED
-     SELECT
+     =("SelectLang es")
      >Spanish language support</PCK>
 
 <PCK INDEX="59"
-     PACKAGEID="Doodle\Doodle's Screen Saver\Language : Italian\2\1"
+     PACKAGEID="=("Var PckPrefix")\Language : Italian\2\1"
      TITLE="Italian language"
      REQUIRES=1
-     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\DSSaver\Lang"
+     TARGET="$(1)\Lang"
      FIXED
-     SELECT
+     =("SelectLang it")
      >Italian language support</PCK>
 
 </GROUP>
@@ -317,34 +389,32 @@
 <!-- page 1: introductory page -->
 <PAGE INDEX="1" TYPE="README">
 <NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
-<TEXT>Doodle's Screen Saver v2.4 Installation
-
-Select "Next" to continue.
+<TEXT>Select "Next" to continue.
 Select "Cancel" to abort installation.</TEXT>
 <README FORMAT="HTML">
 <B>Welcome!</B>
 <P>
 This archive contains <B>Doodle's Screen Saver v2.4</B>
 <P>
-This is a new screen saver solution for OS/2, ArcaOS and eComStation systems. 
-Its main goal was to have an open-source screen saver which can be developed 
-further by others, if needed, and which can co-operate with third party 
+This is a new screen saver solution for OS/2, ArcaOS and eComStation systems.
+Its main goal was to have an open-source screen saver which can be developed
+further by others, if needed, and which can co-operate with third party
 applications, like WarpVision, so the screen saver will not activate itself
 while the user watches a movie.
 <P>
-The screen saver integrates itself into the WPS, replacing the old Lockup 
+The screen saver integrates itself into the WPS, replacing the old Lockup
 facility with an extendable screen saver.
 <P>
-You will have to specify a home directory for the screen saver. 
-This directory will contain the saver modules and the language files. 
-However the core screen saver binaries will always be installed into the 
-system <CODE>%OSDIR%</CODE> folders (<CODE>BIN</CODE> and <CODE>DLL</CODE>), 
-defaulting to <CODE>?:\OS2\APPS</CODE> and <CODE>?:\OS2\APPS\DLL</CODE> 
-under pre-eCS systems. Since these directories are already listed in PATH and 
+You will have to specify a home directory for the screen saver.
+This directory will contain the saver modules and the language files.
+However the core screen saver binaries will always be installed into the
+system <CODE>=("Var OsDir")</CODE> folders (<CODE>BIN</CODE> and <CODE>DLL</CODE>),
+defaulting to <CODE>=("Var DefaultOsBinDir")</CODE> and <CODE>=("Var DefaultOsDllDir")</CODE>
+under pre-eCS systems. Since these directories are already listed in PATH and
 LIBPATH, there is no need to modify CONFIG.SYS to add them there.
 <P>
-Thus, your <CODE>CONFIG.SYS</CODE> file will <B>not</B> be modified, but the 
-files will be copied to the <CODE>%OSDIR%</CODE> and the screen saver's home 
+Thus, your <CODE>CONFIG.SYS</CODE> file will <B>not</B> be modified, but the
+files will be copied to the <CODE>=("Var OsDir")</CODE> and the screen saver's home
 folders, and a new WPS class will be registered.
 </README>
 </PAGE>
@@ -361,13 +431,13 @@ Select "Cancel" to abort installation.</TEXT>
 <P>
 <UL>
 <LI>
-If you have installed Doodle's Screen Saver <B>v1.2 or older</B>, 
+If you have installed Doodle's Screen Saver <B>v1.2 or older</B>,
 you should uninstall that version first!
 <P>
-Installing this version over any other before v1.3 will result in the screen 
+Installing this version over any other before v1.3 will result in the screen
 saver modules being put into the wrong folder, so they will not be found.
 <LI>
-If you have installed Doodle's Screen Saver <B>v1.3 or newer</B>, 
+If you have installed Doodle's Screen Saver <B>v1.3 or newer</B>,
 you can install this version over the old one to upgrade safely.
 </UL>
 <P>
@@ -411,24 +481,33 @@ Press "Install" to begin installing this archive.</TEXT>
 <README FORMAT="HTML">
 <B>Upgrading from previous versions:</B>
 <P>
-If you're upgrading from a previous version of Doodle's Screen Saver, 
+If you're upgrading from a previous version of Doodle's Screen Saver,
 WarpIn will find <B>locked files</B>, and will ask you what to do with them.
 <P>
 <UL>
 <LI>
-If locked files are found, <B>choose "Unlock (DosReplaceModule)"</B>, so the old 
+If locked files are found, <B>choose "Unlock (DosReplaceModule)"</B>, so the old
 binaries will be replaced with the new versions.
 <P>
 Note:<BR>
-There can be cases when some files are in use (like help files), so, they 
-cannot be replaced. If you still want to have a full install in those cases, 
+There can be cases when some files are in use (like help files), so, they
+cannot be replaced. If you still want to have a full install in those cases,
 you have to uninstall the previous version first, then install this version.
 <LI>
-Also, in case of upgrading, WarpIn will find that the <B>WPSSDesktop class is 
+Also, in case of upgrading, WarpIn will find that the <B>WPSSDesktop class is
 already registered</B>, and will ask You what to do.
 <P>
 If a class is already registered, <B>choose "Yes" to replace that class</B> with the new binaries.
 </UL>
+<P>
+<B>Note:</B><BR>
+It happens on some systems that even though the folder for the screen saver is
+created on the Desktop, it will not contain anything. This problem seems to be
+a <B>WarpIn bug</B>, and is fixed in WarpIn v1.0.6 and later versions. If you
+have an older one, a workaround for it is to open that folder and check its
+contents <U><I>before</I></U> letting WarpIn to restart the Desktop.
+Otherwise, the Desktop will be restarted without the new folder being
+populated, so it will contain no objects after the reboot.
 </README>
 </PAGE>
 

@@ -1,7 +1,9 @@
 ChangeLog File:
 
-* v2.4 : 2020.03.29
-  - Add a bunch of Pretty Clock skins from David Glaser
+* v2.4 : 2020.04.01
+  - Only install the correct language pack based on locale,
+      with fallback to English, thanks to Andreas Schnellbacher
+  - Add a bunch of Pretty Clock skins from David Graser
   - Add bldlevel info
   - Add NLS support for Cairo Shapes
   - Fix date display in Cairo Clock for some locales.
