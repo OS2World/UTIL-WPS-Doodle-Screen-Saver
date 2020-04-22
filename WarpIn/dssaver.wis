@@ -18,6 +18,7 @@
    PckPrefix  = "Doodle\Doodle's Screen Saver"
    PckVersion = "2\4"
    DefaultLangCode2 = 'en'
+   AvailableLangs   = 'en hu dk de sv cn fr ru es it'
    DefaultOsBinDir = GetBootDrive()'\OS2\APPS'
    DefaultOsDllDir = GetBootDrive()'\OS2\APPS\DLL'
 
@@ -32,6 +33,11 @@
    PARSE VAR LangVarVal LangCode2'_'.
    IF LangCode2 = '' THEN
       LangCode2 = DefaultLangCode2
+   ELSE
+   DO
+      IF WORDPOS( LangCode2, AvailableLangs) = 0 THEN
+         LangCode2 = DefaultLangCode2
+   END
    CALL SetVar 'LANGCODE2', LangCode2
 
    /* Set DIR vars */
