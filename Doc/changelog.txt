@@ -1,6 +1,7 @@
 ChangeLog File:
 
-* v2.4 : 2020.04.21
+* v2.4 : 2020.09.07
+  - Some Pretty Clock skin fixes from David Graser
   - Only install the correct language pack based on locale,
       with fallback to English, thanks to Andreas Schnellbacher
   - Add a bunch of Pretty Clock skins from David Graser
