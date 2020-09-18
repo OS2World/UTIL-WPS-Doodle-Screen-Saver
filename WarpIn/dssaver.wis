@@ -216,7 +216,7 @@
      >This module mimics an analogue television screen.</PCK>
 
 <PCK INDEX="18"
-     PACKAGEID="=("Var PckPrefix")\Module : Pretty Clock\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : Pretty Clock\2\0"
      TITLE="Pretty Clock"
      REQUIRES=1
      TARGET="$(1)\Modules"
