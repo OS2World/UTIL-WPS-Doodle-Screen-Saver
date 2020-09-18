@@ -1,6 +1,7 @@
 ChangeLog File:
 
-* v2.4 : 2020.09.07
+* v2.4 : 2020.09.17
+  - Support DPMS on Panorama, requires Panorama v1.17 or newer
   - Some Pretty Clock skin fixes from David Graser
   - Only install the correct language pack based on locale,
       with fallback to English, thanks to Andreas Schnellbacher

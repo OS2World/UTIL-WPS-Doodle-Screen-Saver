@@ -1,8 +1,11 @@
 /*
  * Screen Saver - Lockup Desktop replacement for OS/2 and eComStation systems
  * Copyright (C) 2004-2008 Doodle
+ * Copyright (C) 2020 David Yeo
+ * Panorama Support based on reference code Copyright (C) 2020 David Azarewicz
  *
  * Contact: doodle@dont.spam.me.scenergy.dfmk.hu
+ * Contact: dave.r.yeo@don't.spam.me.gmail.com
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -39,13 +42,21 @@
 
 int        bInitialized;
 int        bUseDirectVGAAccess;
+int        UsePano=0;
+int        UseSNAP=0;
 
 int        iCurrentDPMSState = SSDPMS_STATE_ON;
 GA_devCtx *SNAPDeviceContext = NULL;
+typedef ULONG (APIENTRY *PFN_DPMS)(ULONG, ULONG*);
+
+#define Pano_DPMS_on      0
+#define Pano_DPMS_standby 1
+#define Pano_DPMS_suspend 2
+#define Pano_DPMS_off     4
 
 //#define DEBUG_LOGGING
 #ifdef DEBUG_LOGGING
-void AddLog(char *pchMsg)
+void AddLog(char *pchMsg) /*fold00*/
 {
   FILE *hFile;
 
@@ -98,7 +109,7 @@ static VGARegisters_t SavedVGARegisters;
 // This comes from SNAP's pm.lib
 extern ushort _PM_gdt;
 
-static void Get_PM_gdt()
+static void Get_PM_gdt() /*fold00*/
 {
   static ulong    inLen;          /* Must not cross 64Kb boundary!    */
   static ulong    outLen;         /* Must not cross 64Kb boundary!    */
@@ -123,7 +134,7 @@ static void Get_PM_gdt()
 
 
 /* routine to blank a vesa screen */
-int vesa_blank(void)
+int vesa_blank(void) /*fold00*/
 {
   int iOldIOPL;
 
@@ -207,7 +218,7 @@ int vesa_blank(void)
 }
 
 /* routine to unblank a vesa screen */
-int vesa_unblank(void)
+int vesa_unblank(void) /*fold00*/
 {
   int iOldIOPL;
 
@@ -253,13 +264,52 @@ int vesa_unblank(void)
   return 1;
 }
 
+// Routine to use Panorama
+
+int PanoDpms(ULONG ulCmd, ULONG *pulData)
+{
+  HMODULE hmodPano;
+  PFN_DPMS DpmsAdr;
+  ULONG rc;
+
+  rc = DosQueryModuleHandle("VBE2GRAD", &hmodPano);
+  if (rc)
+  {
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_Initialize] : Panorama not loaded.\n");
+#endif
+    return SSDPMS_ERROR_SERVICEUNAVAILABLE;
+  }
+
+  rc = DosQueryProcAddr(hmodPano, 2, NULL, (PFN*)&DpmsAdr);
+  if (rc)
+  {
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_Initialize] : DPMS not available.\n");
+#endif
+    return SSDPMS_ERROR_SERVICEUNAVAILABLE;
+  }
+
+  rc = DpmsAdr(ulCmd, pulData);
+  if (rc)
+  {
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_Initialize] : DPMS failed.\n");
+#endif
+  }
+
+  return SSDPMS_NOERROR;
+}
+
 /**************************************************************************/
 
 
-SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_GetCapabilities(int *piCapabilities)
+SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_GetCapabilities(int *piCapabilities) /*fold00*/
 {
   GA_DPMSFuncs DPMSFuncs;
   N_int16      supportedStates;
+  ULONG        Pano_supportedStates;
+  ULONG rc;
 
   // Check parameters!
   if (!piCapabilities)
@@ -276,7 +326,8 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_GetCapabilities(int *piCapabilities)
     *piCapabilities = SSDPMS_STATE_ON | SSDPMS_STATE_OFF;
     return SSDPMS_NOERROR;
   }
-
+  if (UseSNAP)
+  {
 #ifdef DEBUG_LOGGING
   AddLog("[SSDPMS_GetCapabilities] : Calling GA_queryFunctions and DPMSdetect\n");
 #endif
@@ -316,13 +367,73 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_GetCapabilities(int *piCapabilities)
     *piCapabilities |= SSDPMS_STATE_OFF;
 
   return SSDPMS_NOERROR;
+  }
+  else if (UsePano)
+  {
+#ifdef DEBUG_LOGGING
+  AddLog("[SSDPMS_GetCapabilities] : Detecting DPMS.\n");
+#endif
+
+  // Detect if the DPMS interface is active
+  rc = (PanoDpms(0, &Pano_supportedStates));
+  if (rc)
+  {
+    // DPMS services are not available!
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_GetCapabilities] : DPMS services are not available (Panorama)\n");
+#endif
+    *piCapabilities = SSDPMS_STATE_ON;
+    return SSDPMS_NOERROR;
+  }
+
+  // Return supported DPMS modes
+
+#ifdef DEBUG_LOGGING
+  AddLog("[SSDPMS_GetCapabilities] : Returning supported modes\n");
+#endif
+
+  *piCapabilities = SSDPMS_STATE_ON;
+
+  rc = PanoDpms(0, &Pano_supportedStates);
+
+  if (Pano_supportedStates & Pano_DPMS_standby)
+  {
+      *piCapabilities |= SSDPMS_STATE_STANDBY;
+#ifdef DEBUG_LOGGING
+  AddLog("[SSDPMS_GetCapabilities] : SSDPMS_STATE_STANDBY supported\n");
+#endif
+  }
+
+    if (Pano_supportedStates & Pano_DPMS_suspend)
+  {
+      *piCapabilities |= SSDPMS_STATE_SUSPEND;
+#ifdef DEBUG_LOGGING
+  AddLog("[SSDPMS_GetCapabilities] : SSDPMS_STATE_SUSPEND supported\n");
+#endif
+  }
+  if (Pano_supportedStates & Pano_DPMS_off)
+  {
+      *piCapabilities |= SSDPMS_STATE_OFF;
+#ifdef DEBUG_LOGGING
+  AddLog("[SSDPMS_GetCapabilities] : SSDPMS_STATE_OFF supported\n");
+#endif
+  }
+
+  return SSDPMS_NOERROR;
+  }
+  else
+  {
+    return SSDPMS_ERROR_SERVICEUNAVAILABLE;
+  }
 }
 
-SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_SetState(int iDPMSState)
+SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_SetState(int iDPMSState) /*fold00*/
 {
   int iSupportedStates;
   GA_DPMSFuncs DPMSFuncs;
   N_int32      stateToSet;
+  int iPano_supportedStates;
+  ULONG Pano_stateToSet;
 
   if (!bInitialized)
     return SSDPMS_ERROR_SERVICEUNAVAILABLE;
@@ -347,7 +458,7 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_SetState(int iDPMSState)
 
   // Okay, it seems that the requested DPMS state is supported.
   // Let's try to set it, then!
-
+#if 0
   if (iCurrentDPMSState == iDPMSState)
   {
 #ifdef DEBUG_LOGGING
@@ -357,7 +468,7 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_SetState(int iDPMSState)
     // Shortcut, we're already in the requested state!
     return SSDPMS_NOERROR;
   }
-
+#endif // 0
   if (bUseDirectVGAAccess)
   {
 #ifdef DEBUG_LOGGING
@@ -399,6 +510,8 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_SetState(int iDPMSState)
     }
   }
 
+  if (UseSNAP)
+  {
 #ifdef DEBUG_LOGGING
   AddLog("[SSDPMS_SetState] : Query DPMS functions from SNAP\n");
 #endif
@@ -448,9 +561,96 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_SetState(int iDPMSState)
   iCurrentDPMSState = iDPMSState;
 
   return SSDPMS_NOERROR;
+  }
+else if (UsePano)
+  {
+    if (!bInitialized)
+      return SSDPMS_ERROR_SERVICEUNAVAILABLE;
+
+    if (SSDPMS_GetCapabilities(&iPano_supportedStates)!=SSDPMS_NOERROR)
+    {
+      // Eeeek, error querying capabilities!
+      // State setting failed!
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_SetState] : Could not get capabilities!\n");
+#endif
+      return SSDPMS_ERROR_INTERNALERROR;
+    }
+
+    if ((iPano_supportedStates & iDPMSState)==0)
+    {
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_SetState] : Requested state not supported!\n");
+#endif
+      return SSDPMS_ERROR_STATENOTSUPPORTED;
+    }
+
+  // Okay, it seems that the requested DPMS state is supported.
+  // Let's try to set it, then!
+#if 0
+    if (iCurrentDPMSState == iDPMSState)
+    {
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_SetState] : Shortcut exit.\n");
+#endif
+
+      // Shortcut, we're already in the requested state!
+      return SSDPMS_NOERROR;
+     }
+#endif // 0
+  switch (iDPMSState)
+  {
+    case SSDPMS_STATE_OFF:
+        Pano_stateToSet = Pano_DPMS_off;
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_SetState] : Pano_stateToSet = Pano_DPMS_off.\n");
+#endif
+      break;
+    case SSDPMS_STATE_STANDBY:
+        Pano_stateToSet = Pano_DPMS_standby;
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_SetState] : Pano_stateToSet = Pano_DPMS_standby.\n");
+#endif
+      break;
+    case SSDPMS_STATE_SUSPEND:
+        Pano_stateToSet = Pano_DPMS_suspend;
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_SetState] : Pano_stateToSet = Pano_DPMS_suspend.\n");
+#endif
+      break;
+    case SSDPMS_STATE_ON:
+    default:
+        Pano_stateToSet = Pano_DPMS_on;
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_SetState] : Pano_stateToSet = Pano_DPMS_on.\n");
+#endif
+      break;
+  }
+
+#ifdef DEBUG_LOGGING
+  AddLog("[SSDPMS_SetState] : Calling set state.\n");
+#endif
+
+  // If all goes well, this should set dpms state on the
+  // primary video device.
+  PanoDpms(1, &Pano_stateToSet);
+
+#ifdef DEBUG_LOGGING
+  AddLog("[SSDPMS_SetState] : Saving current state, and returning\n");
+#endif
+
+    //save the current state.
+    iCurrentDPMSState = iDPMSState;
+
+    return SSDPMS_NOERROR;
+  }
+  else
+  {
+    return SSDPMS_ERROR_SERVICEUNAVAILABLE;
+  }
 }
 
-SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_GetState(int *piDPMSState)
+SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_GetState(int *piDPMSState) /*fold00*/
 {
   // Check parameters!
   if (!piDPMSState)
@@ -466,7 +666,7 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_GetState(int *piDPMSState)
 }
 
 
-static int SNAP_Initialize()
+static int SNAP_Initialize() /*fold00*/
 {
   // Load SNAP driver for primary display
   // Note that we do not handle the case, when there are
@@ -479,7 +679,7 @@ static int SNAP_Initialize()
   {
     // Ooops, could not load SNAP driver for primary display.
 #ifdef DEBUG_LOGGING
-    AddLog("[SNAP_Initialize] : Error in GA_loadDriver(0, false)!\n");
+    AddLog("[SSDPMS_Initialize] : Error in GA_loadDriver(0, false)!\n");
 #endif
     // Something went wrong. Return error!
     return 0;
@@ -489,7 +689,7 @@ static int SNAP_Initialize()
   return 1;
 }
 
-static void SNAP_Uninitialize()
+static void SNAP_Uninitialize() /*fold00*/
 {
   if (SNAPDeviceContext)
   {
@@ -499,9 +699,10 @@ static void SNAP_Uninitialize()
   }
 }
 
-SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_Initialize(void)
+SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_Initialize(void) /*FOLD00*/
 {
   HMODULE     hModSDDGRADD;
+  HMODULE     hModPano;
   int         bForceDirectVGAAccess;
 
   if (bInitialized) return SSDPMS_NOERROR;
@@ -531,6 +732,7 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_Initialize(void)
         // Could not initialize SNAP!
         // It might be that the user doesn't have SNAP drivers, or
         // something else happened...
+        UseSNAP=0;
 #ifdef DEBUG_LOGGING
         AddLog("[SSDPMS_Initialize] : Could not initialize SNAP!\n");
 #endif
@@ -540,16 +742,34 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_Initialize(void)
         AddLog("[SSDPMS_Initialize] : SNAP DPMS support initialized successfully.\n");
 #endif
         bInitialized = TRUE;
+        UseSNAP = 1;
       }
-    } else
-    {
-#ifdef DEBUG_LOGGING
-      AddLog("[SSDPMS_Initialize] : SNAP is not installed.\n");
-#endif
     }
+  else //Try Panorama
+    // First of all, check if Panorama is present!
+    if (DosQueryModuleHandle("VBE2GRAD", &hModPano) != NO_ERROR)
+    {
+      // Panorama not installed
+#ifdef DEBUG_LOGGING
+    AddLog("[SSDPMS_Initialize] : Panorama is not installed.\n");
+#endif
+      return SSDPMS_ERROR_SERVICEUNAVAILABLE;
+    }
+
+  // Okay, Panorama is here.
+  // Now initialize other local variables
+  iCurrentDPMSState = SSDPMS_STATE_ON;
+    bInitialized = TRUE;
+    UsePano = 1;
+#ifdef DEBUG_LOGGING
+  AddLog("[SSDPMS_Initialize] : Service initialized.\n");
+#endif
+
+  return SSDPMS_NOERROR;
+
   }
 
-  if (!bInitialized)
+  else if (!bInitialized)
   {
     // Could not initialize SNAP, so fall back to direct VGA access!
 #ifdef DEBUG_LOGGING
@@ -577,7 +797,7 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_Initialize(void)
   }
 }
 
-SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_Uninitialize(void)
+SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_Uninitialize(void) /*fold00*/
 {
   if (bInitialized)
   {
@@ -595,14 +815,14 @@ SSDPMSDECLSPEC int SSDPMSCALL SSDPMS_Uninitialize(void)
   } else
     return SSDPMS_ERROR_SERVICEUNAVAILABLE;
 }
-
+ /*fold00*/
 
 //---------------------------------------------------------------------
 // LibMain
 //
 // This gets called at DLL initialization and termination.
 //---------------------------------------------------------------------
-unsigned _System LibMain(unsigned hmod, unsigned termination)
+unsigned _System LibMain(unsigned hmod, unsigned termination) /*fold00*/
 {
   if (termination)
   {
@@ -617,7 +837,7 @@ unsigned _System LibMain(unsigned hmod, unsigned termination)
     if (iCurrentDPMSState!=SSDPMS_STATE_ON)
       SSDPMS_SetState(SSDPMS_STATE_ON);
 
-    // Okay, now drop SNAP functions, in case the client forgot it!
+    // Okay, now drop DPMS functions, in case the client forgot it!
     SSDPMS_Uninitialize();
 
 #ifdef DEBUG_LOGGING
