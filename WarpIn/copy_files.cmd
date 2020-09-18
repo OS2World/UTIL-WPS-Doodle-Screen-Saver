@@ -49,6 +49,7 @@
 /* ------ Changelog (in Docs) ----------- */
 
 "xcopy ..\doc\changelog.txt Docs\"
+"xcopy ..\doc\license.txt Docs\"
 
 
 /* ------ Modules ----------- */
