@@ -11,6 +11,12 @@ del *.dll
 del *.obj
 cd ..
 
+echo * SSModWrp
+cd ssmodwrp
+del *.exe
+del *.obj
+cd ..
+
 echo * TESTER
 cd tester
 wmake -h clean

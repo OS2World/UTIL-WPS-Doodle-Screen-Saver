@@ -14,6 +14,11 @@ call make.cmd
 cd ..
 cd ..
 
+echo * SSModWrp.exe
+cd SSModWrp
+wmake -h
+cd ..
+
 echo * TESTER
 cd tester
 wmake -h
