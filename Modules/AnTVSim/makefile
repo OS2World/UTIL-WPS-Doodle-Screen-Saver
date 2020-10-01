@@ -32,7 +32,7 @@ cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 
 .before
     rm -f description.lnk
-    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.80,Analogue TV Simulator - ScreenSaver module,v24
+    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.80,Analogue TV Simulator - ScreenSaver module,v2.5
     set include=$(%os2tk)\h;$(%include);..\..
 
 .extensions:

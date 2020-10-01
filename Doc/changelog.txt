@@ -1,5 +1,8 @@
 ChangeLog File:
 
+* v2.5 : 2020.09.30
+  - Make the version number more consistent. v2.5 instead of v24
+
 * v2.4 : 2020.09.17
   - Support DPMS on Panorama, requires Panorama v1.17 or newer
   - Some Pretty Clock skin fixes from David Graser

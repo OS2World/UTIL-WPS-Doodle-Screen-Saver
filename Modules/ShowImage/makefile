@@ -35,7 +35,7 @@ cflags = $(debugflags) -bm -sg -onatbrmkiel+ -ei -6s -fpi87 -fp6 -mf -wx -zq
 
 .before
     rm -f description.lnk
-    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.80,Show Image - ScreenSaver module,v24
+    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.80,Show Image - ScreenSaver module,v2.5
     set include=$(%os2tk)\h;$(%include);..\..
 
 .extensions:
