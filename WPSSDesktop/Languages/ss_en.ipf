@@ -152,20 +152,21 @@ For a detailed explanation of each field, select from the list below:
 .*
 :h3 res=2001.DPMS settings
 :p.These settings are available only if both the video driver supports DPMS (currently
-it is only supported in Scitech SNAP), and the monitor is DPMS capable.
+it is only supported in SNAP and Panorama 1.17 and later), and the monitor is DPMS capable.
 :p.There are four energy saving states for the monitors, according to the DPMS standard.
 These are the followings, starting from the less power saving state:
 :ol.
 :li.The :hp2.on state:ehp2.. This is the state in which the monitor is turned on,
 and working as normal.
 :li.The :hp2.stand-by state:ehp2.. The monitor is partially turned off here, but can
-recover very quickly from this state.
+recover very quickly from this state. LCD monitors usually just turn off the monitor with this setting.
 :li.The :hp2.suspend state:ehp2.. This is the state in which the monitor is almost fully
-turned off.
+turned off. Once again, LCD monitors just turn off the monitor in this state.
 :li.The :hp2.off state:ehp2. The monitor is turned off in this state.
 :eol.
-:p.The screen saver always starts from the first state, and goes into more and more
-power saving states as the time passes.
+:p.The screen saver usually starts from the off state but more states can be enabled so,
+changing power saving states as the time passes if the monitor supports the extra states,
+otherwise they just turn the monitor off.
 :p.The screen saver will use only those states that are selected here, and switch to
 the next state after the given time for that state.
 .*
@@ -175,6 +176,8 @@ the next state after the given time for that state.
 :p.DPMS is the abbreviation for :hp2.Display Power Management Signaling:ehp2., a VESA
 interface standard that defines four power management modes for monitors in idle state:
 on, stand-by, suspend and off.
+:p.DPMS has been superseded by the DPM (Display Power Management) standard which only has two power manamgement states,
+On and Off. This is now reflected in the default settings.
 .*
 .*--------------------------------------------------------------*\
 .* Help for Page 3 of the Screen Saver

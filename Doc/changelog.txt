@@ -1,6 +1,7 @@
 ChangeLog File:
 
 * v2.5 : 2020.09.30
+  - Change the default DPMS settings to ON and OFF
   - Make the version number more consistent. v2.5 instead of v24
 
 * v2.4 : 2020.09.17

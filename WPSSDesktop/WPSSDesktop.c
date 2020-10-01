@@ -4874,11 +4874,11 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage2(HWND hwnd, ULONG msg,
 	      {
 		// Set default settings
                 wpssdesktop_wpssSetUseDPMSStandby(pUserData->Desktop,
-                                                  TRUE);
+                                                  FALSE);
                 wpssdesktop_wpssSetDPMSStandbyTimeout(pUserData->Desktop,
                                                       5*60000);
                 wpssdesktop_wpssSetUseDPMSSuspend(pUserData->Desktop,
-                                                  TRUE);
+                                                  FALSE);
                 wpssdesktop_wpssSetDPMSSuspendTimeout(pUserData->Desktop,
                                                       5*60000);
                 wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop,
