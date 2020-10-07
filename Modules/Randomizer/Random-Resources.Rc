@@ -18,7 +18,7 @@ BEGIN
                 FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
                 FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
     PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
-    PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
+    PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
     PRESPARAMS PP_USER, "12.System Proportional"
     BEGIN
         CONTROL "Changing modules",    GB_CHANGINGMODULES, 3, 88, 173, 24,
@@ -60,7 +60,8 @@ BEGIN
                                             WS_VISIBLE
         CONTROL "",                    LB_MODULESINUSE, 26, 20, 59, 40,
                                             WC_LISTBOX, LS_NOADJUSTPOS |
-                                            WS_VISIBLE
+                                            LS_HORZSCROLL | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
         CONTROL "<- ~Add",             PB_ADD, 86, 50, 36, 10, WC_BUTTON,
                                             BS_PUSHBUTTON | WS_TABSTOP |
                                             WS_VISIBLE
@@ -75,7 +76,8 @@ BEGIN
                                             WS_VISIBLE
         CONTROL "",                    LB_ALLMODULES, 125, 23, 47, 36,
                                             WC_LISTBOX, LS_NOADJUSTPOS |
-                                            WS_VISIBLE
+                                            LS_HORZSCROLL | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
         CONTROL "~OK",                 PB_OK, 35, 5, 36, 10, WC_BUTTON,
                                             BS_PUSHBUTTON | BS_DEFAULT |
                                             WS_GROUP | WS_TABSTOP | WS_VISIBLE

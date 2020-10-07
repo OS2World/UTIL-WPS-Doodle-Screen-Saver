@@ -2282,7 +2282,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
 
   // Return info about module!
   pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 70;
+  pModuleDesc->iVersionMinor = 80;
   strcpy(pModuleDesc->achModuleName, "Randomizer");
   strcpy(pModuleDesc->achModuleDesc,
          "Randomizer module, using other saver modules.\n"
