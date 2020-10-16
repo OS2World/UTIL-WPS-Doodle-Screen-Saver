@@ -2708,9 +2708,9 @@ SSCOREDECLSPEC int SSCORECALL SSCore_Initialize(HAB habCaller, char *pchHomeDire
   strcpy(GlobalCurrentSettings.achEncryptedPassword, "");
   GlobalCurrentSettings.bUseDelayedPasswordProtection = 0; // No delayed password asking
   GlobalCurrentSettings.iPasswordDelayTime = 60000; // No delayed password asking, but still, 1 min is the minimum
-  GlobalCurrentSettings.bUseDPMSStandbyState = 1;
+  GlobalCurrentSettings.bUseDPMSStandbyState = 0;
   GlobalCurrentSettings.iDPMSStandbyTime = 5*60000; // Set standby mode in 5 secs
-  GlobalCurrentSettings.bUseDPMSSuspendState = 1;
+  GlobalCurrentSettings.bUseDPMSSuspendState = 0;
   GlobalCurrentSettings.iDPMSSuspendTime = 5*60000; // Set suspend mode in 5 more secs
   GlobalCurrentSettings.bUseDPMSOffState = 1;
   GlobalCurrentSettings.iDPMSOffTime     = 5*60000; // Turn off monitor in 5 more secs
