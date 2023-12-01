@@ -29,8 +29,6 @@ COM_0003="Moduli salvaschermo";          // Descriptive text for page 3
 // ---------------------------------------------------------------------------
 // Strings for page 1 of screen saver settings:
 
-PG1_FONT="9.WarpSans";
-
 PG1_0000="Aiuto";
 PG1_0001="~Valori assunti";
 PG1_0002="~Regredire";
@@ -70,8 +68,6 @@ PG1_0023="Disabilita avvisi ~VIO mentre il salvaschermo Š attivo";
 // ---------------------------------------------------------------------------
 // Strings for page 2 of screen saver settings:
 
-PG2_FONT="9.WarpSans";
-
 PG2_0000="A~iuto";
 PG2_0001="~Valori assunti";
 PG2_0002="~Regredire";
@@ -89,8 +85,6 @@ PG2_0012="minuto(i) di Sospensione";
 
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
-
-PG3_FONT="9.WarpSans";
 
 PG3_0000="A~iuto";
 PG3_0001="~Valori assunti";
@@ -126,7 +120,7 @@ MOD_0005="E' stata inserita una password non valida! Inserire la password corret
 MOD_0006="~Ok";
 
 // Font to use (for DBCS support)
-MOD_0007="9.WarpSans";
+// MOD_0007="9.WarpSans";
 
 // ---------------------------------------------------------------------------
 // <EOF>

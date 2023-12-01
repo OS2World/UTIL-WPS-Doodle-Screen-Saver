@@ -1,8 +1,8 @@
 ChangeLog File:
 
-* v2.5 : 2020.09.30
+* v2.5 : 2023.11.30
   - Change the default DPMS settings to ON and OFF
-  - Make the version number more consistent. v2.5 instead of v24
+  - Remove the hard coded WarpSans font from the Properties Notebook
 
 * v2.4 : 2020.09.17
   - Support DPMS on Panorama, requires Panorama v1.17 or newer
