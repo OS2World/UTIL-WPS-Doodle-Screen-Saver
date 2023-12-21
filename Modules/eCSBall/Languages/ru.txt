@@ -5,8 +5,10 @@
  * Locales : ru_*
  *
  * Author  : Yuri Proniakin
+ *         : Yurii Zamotailo
  *
  * Date (YYYY-MM-DD): 2005.12.27
+ *                  : 2023-12-13
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -30,7 +32,7 @@
 // The name and the description string of the module:
 
 MOD_NAME="Мяч eCS";
-MOD_DESC="Логотип eComStation, перемещающийся каждые 30 секунд.\nАвтор: Doodle";
+MOD_DESC="Логотип eComStation, перемещающийся по экрану каждые 30 секунд.\n\nАвтор: Doodle";
 
 // ---------------------------------------------------------------------------
 // <EOF>
