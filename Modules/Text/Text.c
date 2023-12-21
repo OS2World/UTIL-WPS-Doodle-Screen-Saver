@@ -1347,7 +1347,7 @@ void readConfig (char *pchHomeDirectory) {
   CfgDlgInit.cbSize = sizeof(CfgDlgInit);
   CfgDlgInit.pchHomeDirectory = pchHomeDirectory;
   if (CfgDlgInit.pchText == NULL) CfgDlgInit.pchText = (char *)calloc(250,1);
-  strcpy(CfgDlgInit.pchText, "Hello World!");
+  strcpy(CfgDlgInit.pchText, "OS/2...OS/2");
 
   // Get home directory of current user
   hFile = NULL;
