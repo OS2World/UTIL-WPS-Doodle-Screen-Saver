@@ -1,6 +1,9 @@
 ChangeLog File:
 
-* v2.5 : 2023.11.30
+* v2.5 : 2023.12.20
+  - Revert to using FP emulation so the FPU register is stable in the WPS
+  - Change the default string in the text module to make it more Locale friendly
+  - Add and update Russian translations, thanks to Yurii Zamotailo
   - Change the default DPMS settings to ON and OFF
   - Remove the hard coded WarpSans font from the Properties Notebook
 
