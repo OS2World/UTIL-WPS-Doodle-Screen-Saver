@@ -23,10 +23,10 @@ create_packed_exe=defined
 
 !ifdef debug_build
 debugflags = -d2 -dDEBUG_BUILD
-cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -wx
+cflags = $(debugflags) -bm -bt=OS2 -6s -fp6 -sg -wx
 !else
 debugflags =
-cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
+cflags = $(debugflags) -bm -bt=OS2 -6s -fp6 -sg -otexanr -wx
 !endif
 
 .before

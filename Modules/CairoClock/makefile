@@ -28,7 +28,7 @@ debugflags =
 !endif
 
 dllflags = -bd
-cflags = $(debugflags) -zq -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
+cflags = $(debugflags) -zq -bm -bt=OS2 -6s -fp6 -sg -otexanr -wx
 
 .before
     rm -f description.lnk
