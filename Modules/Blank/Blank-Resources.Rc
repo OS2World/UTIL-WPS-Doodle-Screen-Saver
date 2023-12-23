@@ -18,8 +18,6 @@ BEGIN
                 FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
                 FCF_TITLEBAR | FCF_SYSMENU | FCF_CLOSEBUTTON
     PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
-    PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
-    PRESPARAMS PP_USER, "10.System Proportional"
     BEGIN
         CONTROL "Please enter the password to unlock the screensaver!",
                                        ST_PLEASEENTERTHEPASSWORD,
@@ -45,19 +43,15 @@ BEGIN
     DIALOG "Wrong password", DLG_WRONGPASSWORD, 58, 100, 160, 40,
                 FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
                 FCF_TITLEBAR | FCF_SYSMENU
-    PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
-    PRESPARAMS PP_USER, "10.System Proportional"
     BEGIN
         CONTROL "OK",                  DID_OK, 65, 4, 30, 10, WC_BUTTON,
                                             BS_PUSHBUTTON | BS_DEFAULT |
                                             WS_GROUP | WS_TABSTOP | WS_VISIBLE
-                PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
         CONTROL "An invalid password has been entered!\012Please try again!",
                                        ST_INVALIDPASSWORDTEXT, 2, 16, 156, 20,
                                             WC_STATIC, SS_TEXT | DT_CENTER |
                                             DT_TOP | DT_WORDBREAK | WS_GROUP |
                                             WS_VISIBLE
                 PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
-                PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
     END
 END

@@ -1,6 +1,7 @@
 ChangeLog File:
 
-* v2.5 : 2023.12.20
+* v2.5 : 2023.12.22
+  - Remove hard coded fonts from the modules resources
   - Revert to using FP emulation so the FPU register is stable in the WPS
   - Change the default string in the text module to make it more Locale friendly
   - Add and update Russian translations, thanks to Yurii Zamotailo
