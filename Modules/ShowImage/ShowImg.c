@@ -1120,7 +1120,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_Configure(HWND hwndOwner, char *pchHo
       if (chars != strlen(buffer)) {
         // bad file
         //DosBeep(1400,200);
-        fclose(hFile);
+        //fclose(hfile);
       }
       fclose(hFile);
     }

@@ -69,7 +69,7 @@ void Initialize_ulInitTimeStamp()
 VOID FrameRegulator(void *pParam)
 {
   ULONG ulCurrTime, ulPrevPollStartTime;
-  float flNextFrameTime;
+  float flNextFrameTime = 0;
 
   ulPrevPollStartTime = 0;
   flNextFrameTime += flFRPollTime;

@@ -2186,7 +2186,7 @@ unsigned int MMXCheck(void)
 	xor             eax, eax                ; standard CPUID
 	cpuid
 	test            eax, eax		; check for highest function
-	jz short        MMXChkFail0		; features can't be queried
+	jz short        MMXChkFail0		; features can not be queried
 
 	mov		eax, 1			; get feature information
 	cpuid

@@ -2001,7 +2001,7 @@ MRESULT EXPENTRY fnConfigDialogProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
       break;
 
     case WM_COMMAND:
-      switch SHORT1FROMMP(mp2) {
+      switch (SHORT1FROMMP(mp2)) {
 	case CMDSRC_PUSHBUTTON:           // ---- A WM_COMMAND from a pushbutton ------
 	  switch (SHORT1FROMMP(mp1)) {
 	    case PB_ADD:

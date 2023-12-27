@@ -1353,6 +1353,7 @@ int InitLocaleStuff()
     // Could not create convert object!
     loTemp = NULL;
     ucoTemp = NULL;
+    free(pucLanguageCode);
     return 0;
   }
 
