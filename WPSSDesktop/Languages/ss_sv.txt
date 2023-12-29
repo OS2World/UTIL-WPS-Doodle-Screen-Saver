@@ -23,82 +23,57 @@
 
 COM_0000="S~k„rmsl„ckare";                     // Properties tab text
 COM_0001="Allm„nna inst„llningar";             // Descriptive text for page 1
-COM_0002="DPMS inst„llningar";                 // Descriptive text for page 2
+COM_0002="L”senordsskydd";                     // Descriptive text for page 2
 COM_0003="Sk„rmsl„ckarmoduler";                // Descriptive text for page 3
+COM_0004="Hj„lp";
+COM_0005="~Standard";
+COM_0006="~ngra";
 
 // ---------------------------------------------------------------------------
 // Strings for page 1 of screen saver settings:
-
-PG1_0000="Hj„lp";
-PG1_0001="~Standard";
-PG1_0002="~ngra";
 
 PG1_0003="Allm„nna inst„llningar";
 PG1_0004="Sk„rmsl„ckning ~aktiverat";
 PG1_0005="Starta sk„rmsl„ckaren efter";
 PG1_0006="minut(er) av inaktivitet";
+PG1_0007="Vakna upp ~endast via tangentbordet";
+PG1_0008="Avaktivera ~VIO popups under sparande";
 
-PG1_0007="L”senordsskydd";
-PG1_0008="Anv„nd ~l”senordsskydd";
-PG1_0009="Skriv in ditt l”senord i b†da inmatningsf„lten (tecknen visas inte). Tryck sedan p† knappen ndra.";
-PG1_0010="L”senord:";
-PG1_0011="(f”r verifiering)";
-PG1_0012="~ndra";
-PG1_0013="~F”rdr”j l”senordsskydd";
-PG1_0014="Fr†ga efter l”senord endast efter";
-PG1_0015="minut(er) av sl„ckning";
-PG1_0016="~Starta sk„rmsl„ckaren vid systemstart";
-
-PG1_0017="L”senord matchar ej";
-PG1_0018="De tv† l”senord som du angivit matchar inte!";
-
-// -- Added in v1.4:
-PG1_0019="Anv„nd l”senordet hos aktuell S~ecurity/2 anv„ndare";
-PG1_0020="Anv„nd ~detta l”senord:";
-
-// -- Added in v1.5:
-PG1_0021="Vakna upp ~endast via tangentbordet";
-
-// -- Added in v1.6:
-PG1_0022="G”r den ~f”rsta tangenttryckningen till det f”rsta tecknet i l”senordet";
-
-// -- Added in v1.9:
-PG1_0023="Avaktivera ~VIO popups under sparande";
+PG1_0013="DPMS inst„llningar";
+PG1_0014="Anv„nd DPMS ~Standby-l„ge";
+PG1_0015="V„xla till Standby-l„ge efter";
+PG1_0016="Anv„nd DPMS S~uspendera-l„ge";
+PG1_0017="V„xla till Suspendera-l„ge efter";
+PG1_0018="Anv„nd DPMS ~Av-l„ge";
+PG1_0019="V„xla till Av-l„ge efter";
+PG1_0020="minut(er) av sl„ckning";
+PG1_0021="minut(er) av Standby-l„ge";
+PG1_0022="minut(er) av Suspendera-l„ge";
 
 // ---------------------------------------------------------------------------
 // Strings for page 2 of screen saver settings:
 
-PG2_0000="Hj„lp";
-PG2_0001="~Standard";
-PG2_0002="~ngra";
-
-PG2_0003="DPMS inst„llningar";
-PG2_0004="Anv„nd DPMS ~Standby-l„ge";
-PG2_0005="V„xla till Standby-l„ge efter";
-PG2_0006="Anv„nd DPMS S~uspendera-l„ge";
-PG2_0007="V„xla till Suspendera-l„ge efter";
-PG2_0008="Anv„nd DPMS ~Av-l„ge";
-PG2_0009="V„xla till Av-l„ge efter";
-PG2_0010="minut(er) av sl„ckning";
-PG2_0011="minut(er) av Standby-l„ge";
-PG2_0012="minut(er) av Suspendera-l„ge";
+PG2_0007="L”senordsskydd";
+PG2_0008="Anv„nd ~l”senordsskydd";
+PG2_0009="Skriv in ditt l”senord i b†da inmatningsf„lten (tecknen visas inte). Tryck sedan p† knappen ndra.";
+PG2_0010="L”senord:";
+PG2_0011="(f”r verifiering)";
+PG2_0012="~ndra";
+PG2_0013="~F”rdr”j l”senordsskydd";
+PG2_0014="Fr†ga efter l”senord endast efter";
+PG2_0015="minut(er) av sl„ckning";
+PG2_0016="~Starta sk„rmsl„ckaren vid systemstart";
+PG2_0017="L”senord matchar ej";
+PG2_0018="De tv† l”senord som du angivit matchar inte!";
+PG2_0019="Anv„nd l”senordet hos aktuell S~ecurity/2 anv„ndare";
+PG2_0020="Anv„nd ~detta l”senord:";
+PG2_0022="G”r den ~f”rsta tangenttryckningen till det f”rsta tecknet i l”senordet";
 
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
 
-PG3_0000="Hj„lp";
-PG3_0001="~Standard";
-PG3_0002="~ngra";
-
 PG3_0003="Sk„rmsl„ckarmoduler";
 PG3_0004="Visa ~f”rhandsvisning";
-PG3_0005="Modulinformation";
-PG3_0006="Modulnamn:";
-PG3_0007="Modulversion:";
-PG3_0008="St”der l”senordsskydd:";
-PG3_0009="Ja";
-PG3_0010="Nej";
-PG3_0011="Beskrivning:";
 PG3_0012="~Starta nu";
 PG3_0013="~Konfigurera";
 
@@ -118,9 +93,6 @@ MOD_0003="~Avbryt";
 MOD_0004="Fel l”senord";
 MOD_0005="Ett ogiltigt l”senord har angivits! Var v„nlig och f”rs”k igen!";
 MOD_0006="~Ok";
-
-// Font to use (for DBCS support)
-// MOD_0007="9.WarpSans";
 
 // ---------------------------------------------------------------------------
 // <EOF>

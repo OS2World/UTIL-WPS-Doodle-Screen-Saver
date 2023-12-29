@@ -18,12 +18,11 @@
 :userdoc.
 .*
 .*--------------------------------------------------------------*\
-.*  Help for Page 1 of the Screen Saver
+.* General help for the page
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
 .*
-:h1 res=1000.Salvaschermo
+:h1.Salvaschermo
 :p.La prima pagina di configurazione del :hp2.Salvaschermo:ehp2. Š quella delle
 :hp2.Impostazioni generali Salvaschermo:ehp2. . Questo Š il posto dove si 
 possono cambiare la maggior parte delle impostazioni del Salvaschermo,
@@ -36,15 +35,20 @@ qui:elink..
 :p.
 Per una spiegazione dettagliata di ciascun campo, selezionare dalla lista seguente:
 :ul compact.
-:li.:link reftype=hd res=1001.Impostazioni generali:elink.
-:li.:link reftype=hd res=1002.Password di protezione:elink.
-:li.:link reftype=hd res=6001.Regredire:elink.
-:li.:link reftype=hd res=6002.Valori assunti:elink.
+:li.:link reftype=hd res=1000.Impostazioni generali:elink.
+:li.:link reftype=hd res=1001.Impostazioni DPMS:elink.
+:li.:link reftype=hd res=2000.Password di protezione:elink.
+:li.:link reftype=hd res=3000.Moduli Salvaschermo:elink.
 :eul.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 1 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Aiuto per la sezione delle impostazioni generali
 .*
-:h1 res=1001.Impostazioni generali
+:h2 res=1000.Impostazioni generali
 :p.Selezionare :hp2.Abilita il salvaschermo:ehp2. per abilitare il salvaschermo. In esecuzione
 il sistema monitorer… l'utilizzo della tastiera e del mouse e attiver… automaticamente
 il salvaschermo dopo il periodo di inattivit… stabilito.
@@ -59,10 +63,48 @@ o se non si preferisce che il computer interrompa il salvaschermo qualora si toc
 Questo significa che nessun'altra applicazione sar… in grado di comparire a schermo, input da periferiche comprese, come la pressione dei tasti 
 CAD (Ctrl+Alt+Del) o altre simili. Questo evita che l'utente possa  chiudere applicazioni che si fossero bloccate mentre il salvaschermo Š attivo, ma rende 
 il sistema pi— sicuro.
+
+:p.:link reftype=hd res=1001.Impostazioni DPMS:elink.
+
+.*
+.* Help for DPMS settings groupbox
+.*
+:h2 res=1001.Impostazioni DPMS
+:p.Queste impostazioni sono disponibili solo se il driver video supporta funzioni DPMS (attualmente Š supportato solo nei drivers Scitech SNAP), ed il monitor Š DPMS compatibile.
+:p.Ci sono quattro modalit… di risparmio energetico per i monitor, in linea con lo standard DPMS.
+Sono i seguenti, iniziando dallo stato di minore risparmio energetico:
+:ol.
+:li.Lo :hp2.stato attivo:ehp2.. E' il caso in cui il monitor Š acceso e funziona normalmente.
+:li.Lo :hp2.stato stand-by:ehp2.. Qui il monitor Š parzialmente spento, ma Š possibile ripristinare molto velocemente lo stato attivo.
+:li.Lo :hp2.stato sospensione:ehp2.. Questo Š il caso in cui il monitor Š per lo pi— spento.
+:li.Lo :hp2.stato spento:ehp2. Il monitor in questa condizione Š spento del tutto.
+:eol.
+:p.Il salvaschermo si avvia sempre dal primo stato, e cambia condizioni energetiche in progressione con il trascorrere del tempo.
+:p.Il salvaschermo utilizzer… solamente le modalit… di risparmio energetico selezionate in questa scheda e passer… allo stato successivo trascorso il tempo impostato per ognuno di essi.
+
+:p.:link reftype=hd res=1002.Informazioni su DPMS:elink.
+:p.:link reftype=hd res=1000.Impostazioni generali:elink.
+
+.*
+.* Info about DPMS itself
+.*
+:h3 res=1002.Informazioni su DPMS
+:p.DPMS Š l'abbreviazione di :hp2.Display Power Management Signaling:ehp2., una interfaccia VESA 
+standard che definisce quattro modalit… di gestione del risparmio energetico quando i monitor sono inattivi: 
+acceso, stand-by, sospensione e spento.
+
+:p.:link reftype=hd res=1001.Impostazioni DPMS:elink.
+:p.:link reftype=hd res=1000.Impostazioni generali:elink.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 2 of the Screen Saver
+.*--------------------------------------------------------------*/
+.*
 .*
 .* Help for Password protection groupbox
 .*
-:h1 res=1002.Password di protezione
+:h2 res=2000.Password di protezione
 :p.Selezionare :hp2.Usa una password di protezione:ehp2. per abilitare la protezione con password del salvaschermo. Se la password di protezione Š attivata, il salvaschermo chieder… l'inserimento della password prima di interrompersi, e si fermer… solo se si inserir… la password esatta.
 :p.Se Š installato Security/2, il salvaschermo pu• essere configurato perchŠ utilizzi la stessa password dell'utente  autorizzato all'accesso con Security/2. 
 Quando il salvaschermo chieder… l'inserimento della password per interrompersi, confronter… la password immessa con quella dell'utente attualmente autorizzato all'accesso al sistema da Security/2. 
@@ -79,78 +121,16 @@ alcuni moduli salvaschermo potrebbero non supportarla.
 :p.Selezionare :hp2.Attiva il salvaschermo all'avvio del sistema:ehp2. per avviare automaticamente il salvaschermo con password all'avvio del sistema.
 :note.
 Il salvaschermo non user… il Ritardo protezione password se avviato a richiesta dell'utente (selezionando :hp2.Blocca ora  :ehp2. dal menu impostazioni della scrivania), o se eseguito  automaticamente all'avvio del sistema.
-.*
-.*--------------------------------------------------------------*\
-.*  Help for Page 2 of the Screen Saver
-.*--------------------------------------------------------------*/
-.*
-.* General help for the page
-.*
-:h1 res=2000.Screen Saver
-:p.La seconda pagina di configurazione del :hp2.Salvaschermo:ehp2. Š relativa alle
-:hp2.Impostazioni DPMS:ehp2. . Qui Š possibile dire al salvaschermo se usare diversi servizi DPMS o no, se disponibili 
-:link reftype=hd res=2002.
-:elink. .
-:p.
-E' possibile cambiare la lingua del salvaschermo trascinando e rilasciando l'oggetto Visualizzatore lingua in questa pagina. Altro sull'argomento pu• essere trovato
-:link reftype=hd res=5000.
-qui:elink..
-:p.
-Per una spiegazione dettagliata di ciascun campo, selezionare dalla lista seguente:
-:ul compact.
-:li.:link reftype=hd res=2001.Impostazioni DPMS:elink.
-:li.:link reftype=hd res=6001.Regredire:elink.
-:li.:link reftype=hd res=6002.Valori assunti:elink.
-:eul.
-.*
-.* Help for DPMS settings groupbox
-.*
-:h1 res=2001.Impostazioni DPMS
-:p.Queste impostazioni sono disponibili solo se il driver video supporta funzioni DPMS (attualmente Š supportato solo nei drivers Scitech SNAP), ed il monitor Š DPMS compatibile.
-:p.Ci sono quattro modalit… di risparmio energetico per i monitor, in linea con lo standard DPMS.
-Sono i seguenti, iniziando dallo stato di minore risparmio energetico:
-:ol.
-:li.Lo :hp2.stato attivo:ehp2.. E' il caso in cui il monitor Š acceso e funziona normalmente.
-:li.Lo :hp2.stato stand-by:ehp2.. Qui il monitor Š parzialmente spento, ma Š possibile ripristinare molto velocemente lo stato attivo.
-:li.Lo :hp2.stato sospensione:ehp2.. Questo Š il caso in cui il monitor Š per lo pi— spento.
-:li.Lo :hp2.stato spento:ehp2. Il monitor in questa condizione Š spento del tutto.
-:eol.
-:p.Il salvaschermo si avvia sempre dal primo stato, e cambia condizioni energetiche in progressione con il trascorrere del tempo.
-:p.Il salvaschermo utilizzer… solamente le modalit… di risparmio energetico selezionate in questa scheda e passer… allo stato successivo trascorso il tempo impostato per ognuno di essi.
-.*
-.* Info about DPMS itself
-.*
-:h1 res=2002.Informazioni su DPMS
-:p.DPMS Š l'abbreviazione di :hp2.Display Power Management Signaling:ehp2., una interfaccia VESA 
-standard che definisce quattro modalit… di gestione del risparmio energetico quando i monitor sono inattivi: 
-acceso, stand-by, sospensione e spento.
+
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for Page 3 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h1 res=3000.Salvaschermo
-:p.La terza pagina di configurazione del :hp2.Salvaschermo:ehp2. Š  la pagina :hp2.Moduli Salvaschermo:ehp2. . Qui Š dove Š disponibile la lista dei moduli salvaschermo disponibili
-:link reftype=hd res=3002.
-:elink. , questi moduli possono essere configurati,
-e si pu• selezionare un modulo perchŠ diventi il salvaschermo correntemente in uso.
-:p.
-E' possibile cambiare la lingua del salvaschermo trascinando e rilasciando l'oggetto Visualizzatore lingua in questa pagina. Altro sull'argomento pu• essere trovato 
-:link reftype=hd res=5000.
-qui:elink..
-:p.
-Per una spiegazione dettagliata di ciascun campo, selezionare dalla lista seguente:
-:ul compact.
-:li.:link reftype=hd res=3001.Moduli Salvaschermo:elink.
-:li.:link reftype=hd res=6001.Regredire:elink.
-:li.:link reftype=hd res=6002.Valori assunti:elink.
-:eul.
-.*
 .* Help for Screen Saver modules groupbox
 .*
-:h1 res=3001.Moduli Salvaschermo
+:h2 res=3000.Moduli Salvaschermo
 :p.Questa pagina mostra la lista dei moduli salvaschermo disponibili e le informazioni sul modulo attualmente selezionato.
 :p.Il modulo attualmente selezionato Š quello che si seleziona dalla lista dei moduli disponibili. Questo Š il modulo che sar…  avviato dal salvaschermo al momento prestabilito.
 :p.E' possibile vedere un'anteprima del modulo prescelto selezionando :hp2.Mostra anteprima:ehp2..
@@ -159,11 +139,17 @@ Per una spiegazione dettagliata di ciascun campo, selezionare dalla lista seguen
 Se il modulo corrente non supporta password di protezione, non sar… possibile proteggere il salvaschermo con password, anche se sar… stata selezionata l'opzione prevista nella prima pagina delle impostazioni del salvaschermo!
 :p.Alcuni moduli possono essere configurati. Se il modulo selezionato pu• essere configurato, allora il pulsante :hp2.Configura:ehp2. Š disponibile. Premendo il pulsante si acceder… ad una finestra  specifica per configurare il modulo  dettagliatamente.
 :p.Il pulsante :hp2.Avvia adesso:ehp2. pu• essere usato per vedere come si presenter… il modulo salvaschermo in esecuzione con le opzioni specifiche previste (considerando anche quelle previste  dalle altre pagine di configurazione del salvaschermo, come per esempio :hp2.Ritardo protezione password:ehp2. ed altre).
+
+:p.:link reftype=hd res=3001.Moduli:elink.
+
 .*
 .* Help about Screen Saver modules
 .*
-:h1 res=3002.Moduli
+:h3 res=3001.Moduli
 :p.Un modulo salvaschermo consiste di uno o pi— file DLL speciali, localizzati nella cartella :hp3.Modules:ehp3. contenuta nella directory principale del salvaschermo. Vengono eseguiti quando il salvaschermo si attiva.
+
+:p.:link reftype=hd res=3000.Moduli Salvaschermo:elink.
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for setting the language of the screen saver
@@ -171,7 +157,7 @@ Se il modulo corrente non supporta password di protezione, non sar… possibile pr
 .*
 .* Help for setting the language
 .*
-:h1 res=5000.Configurare la lingua del salvaschermo
+:h2 res=5000.Configurare la lingua del salvaschermo
 :p.E' possibile cambiare la lingua delle pagine di impostazione del salvaschermo e la lingua di alcuni moduli salvaschermo (se supportano la nazionalizzazione) trascinando e rilasciando l'oggetto :hp2.Locale:ehp2. dalla :hp2.Tavolozza paesi:ehp2..
 :p.Il salvaschermo prova ad usare la lingua di sistema automaticamente servendosi della variabile di ambiente :hp2.LANG:ehp2. . Se non sono disponibili i files di supporto per la lingua individuata dalla variabile, il salvaschermo utilizzer… automaticamente la lingua Inglese.
 :p.Si possono comunque selezionare altre lingue, non Š necessario utilizzare la lingua di sistema per il salvaschermo. E' possibile trascinare e rilasciare sulle pagine di impostazione del salvaschermo qualunque oggetto :hp2.Locale:ehp2. dalla  
@@ -185,11 +171,11 @@ Se la lingua Š supportata, le pagine di impostazione del salvaschermo, dei modul
 .*
 .* Help for the Undo button
 .*
-:h1 res=6001.Regredire
+:h3 res=6001.Regredire
 :p.Seleziona :hp2.Regredire:ehp2. per ripristinare le impostazioni che erano attive prima della visualizzazione della finestra.
 .*
 .* Help for the Default button
 .*
-:h1 res=6002.Valori assunti
+:h3 res=6002.Valori assunti
 :p.Seleziona :hp2.Valori assunti:ehp2. per ripristinare le impostazioni che erano attive quando Š stato installato il sistema.
 :euserdoc.

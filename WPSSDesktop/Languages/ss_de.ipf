@@ -35,7 +35,8 @@ Einstellungsm”glichkeiten jeder Seite zu erhalten:
 
 :ul compact.
 :li.:link reftype=hd res=1000.Allgemein:elink.
-:li.:link reftype=hd res=2000.DPMS:elink.
+:li.:link reftype=hd res=1001.DPMS:elink.
+:li.:link reftype=hd res=2000.Kennwortschutz:elink.
 :li.:link reftype=hd res=3000.Module:elink.
 :eul.
 
@@ -44,31 +45,9 @@ Einstellungsm”glichkeiten jeder Seite zu erhalten:
 .*  Help for Page 1 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h2 res=1000.Allgemein
-:p.Die erste Seite der :hp2.Bildschirmschoner:ehp2.-Einstellungen ist die
-Seite :hp2.Allgemein:ehp2.. Hier k”nnen die allgemeinen Einstellungen des
-Bildschirmschoners, wie etwa die Zeitspanne bis zum Aktivieren des Schonbetriebs
-und Optionen fr den Kennwortschutz, angepaát werden.
-:p.
-Die Sprachversion des Bildschirmschoners l„át sich durch Ziehen und šbergeben
-eines Objektes der Landeseinstellungen an diese Seite „ndern. Mehr dazu
-:link reftype=hd res=5000.
-hier:elink..
-:p.
-Ausfhrliche Erl„uterungen fr jedes Feld stehen durch Auswahl aus nachstehender
-Liste zur Verfgung:
-:ul compact.
-:li.:link reftype=hd res=1001.Allgemein:elink.
-:li.:link reftype=hd res=1002.Kennwortschutz:elink.
-:li.:link reftype=hd res=6001.Widerrufen:elink.
-:li.:link reftype=hd res=6002.Standard:elink.
-:eul.
-.*
 .* Help for General settings groupbox
 .*
-:h3 res=1001.Allgemein
+:h2 res=1000.Allgemein
 :p.Zum Aktivieren des Bildschirmschoners w„hlen Sie :hp2.Bildschirmschoner aktivieren:ehp2..
 Ist diese Einstellungen aktiv, berwacht das System die Benutzeraktivit„t in Form
 der Bedienung von Maus und Tastatur auf der Arbeitsoberfl„che und schaltet
@@ -88,10 +67,51 @@ Infolgedessen sind andere Anwendungen nicht mehr in der Lage, die Ger„te fr Anz
 zu bernehmen, auch nicht der CAD-Handler und „hnliche Anwendungen. Zwar kann dann
 der Benutzer h„ngende Anwendungen eventuell nicht mehr beenden, w„hrend der Bildschirmschoner
 l„uft, jedoch erh”ht dies die Systemsicherheit.
+
+:p.:link reftype=hd res=1001.DPMS:elink.
+
+.*
+.* Help for DPMS settings groupbox
+.*
+:h2 res=1001.DPMS
+:p.Diese Einstellungen stehen nur zur Verfgung, wenn sowohl der Grafiktreiber DPMS
+untersttzt als auch der Monitor DPMS-f„hig ist (derzeit nur bei Scitech SNAP der Fall).
+:p.Entsprechend dem DPMS-Standard gibt es vier Energiesparmodi fr Monitore.
+Beginnend mit dem am wenigsten energiesparenden Modus sind dies:
+:ol.
+:li.Der :hp2.On-Modus:ehp2.. In diesem Modus ist der Monitor angeschaltet und arbeitet normal.
+:li.Der :hp2.Stand-by-Modus:ehp2.. Hier ist der Monitor teilweise abgeschaltet, kann jedoch
+schnell wieder zurckgeschaltet werden.
+:li.Der :hp2.Suspend-Modus:ehp2.. In diesem Modus ist der Monitor fast vollst„ndig abgeschaltet.
+:li.Der :hp2.Off-Modus:ehp2. In diesem Modus ist der Monitor ausgeschaltet.
+:eol.
+:p.Der Bildschirmschoner beginnt stets beim ersten Modus und schaltet mit der Zeit in mehr
+und mehr energiesparende Modi um.
+:p.Es werden nur die Modi verwendet, die hier markiert sind, und die Umschaltung erfolgt
+jeweils nach der festgelegten Zeit.
+
+:p.:link reftype=hd res=1002.Information ber DPMS:elink.
+:p.:link reftype=hd res=1000.Allgemein:elink.
+
+.*
+.* Info about DPMS itself
+.*
+:h3 res=1002.Information ber DPMS
+:p.DPMS ist eine Abkrzung fr :hp2.Display Power Management Signaling:ehp2., einen
+VESA-Schnittstellenstandard, der vier Energieverwaltungsmodi fr gerade nicht genutzte
+Monitore definiert: On, Stand-by, Suspend und Off.
+
+:p.:link reftype=hd res=1001.DPMS:elink.
+:p.:link reftype=hd res=1000.Allgemein:elink.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 2 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Help for password protection groupbox
 .*
-:h3 res=1002.Kennwortschutz
+:h2 res=2000.Kennwortschutz
 :p.Um den Bildschirmschoner ber ein Kennwort abzusichern, markieren Sie :hp2.Kennwortschutz aktivieren:ehp2..
 Ist der Kennwortschutz eingeschaltet, erfolgt vor Beendung des Schonbetriebs eine Kennwortabfrage.
 Der Schonbetrieb wird nur beendet, wenn das korrekte Kennwort eingegeben wurde.
@@ -124,88 +144,16 @@ Bildschirmschoner automatisch beim Systemstart zu aktivieren.
 Der Kennwortschutz wird nicht verz”gert, wenn der Bildschirmschoner durch den Anwender direkt
 (durch Auswahl des Meneintrags :hp2.Sperren:ehp2. aus dem Kontextmen der
 Arbeitsoberfl„che) oder beim Systemstart aktiviert wird.
-.*
-.*--------------------------------------------------------------*\
-.*  Help for Page 2 of the Screen Saver
-.*--------------------------------------------------------------*/
-.*
-.* General help for the page
-.*
-:h2 res=2000.DPMS
-:p.Die zweite Seite der :hp2.Bildschirmschoner:ehp2.-Einstellungen ist
-die Seite :hp2.DPMS:ehp2.. Hier kann festgelegt werden, ob der Bildschirmschoner
-verschiedene
-:link reftype=hd res=2002.
-DPMS:elink.-Dienste verwenden soll, sofern diese verfgbar sind.
-:p.
-Die Sprachversion des Bildschirmschoners l„át sich durch Ziehen und šbergeben
-eines Objektes mit L„nderspezifischen Angaben an diese Seite „ndern. Mehr dazu
-:link reftype=hd res=5000.
-hier:elink..
-:p.
-Ausfhrliche Erl„uterungen fr jedes Feld stehen durch Auswahl aus nachstehender
-Liste zur Verfgung:
-:ul compact.
-:li.:link reftype=hd res=2001.DPMS:elink.
-:li.:link reftype=hd res=6001.Widerrufen:elink.
-:li.:link reftype=hd res=6002.Standard:elink.
-:eul.
-.*
-.* Help for DPMS settings groupbox
-.*
-:h3 res=2001.DPMS
-:p.Diese Einstellungen stehen nur zur Verfgung, wenn sowohl der Grafiktreiber DPMS
-untersttzt als auch der Monitor DPMS-f„hig ist (derzeit nur bei Scitech SNAP der Fall).
-:p.Entsprechend dem DPMS-Standard gibt es vier Energiesparmodi fr Monitore.
-Beginnend mit dem am wenigsten energiesparenden Modus sind dies:
-:ol.
-:li.Der :hp2.On-Modus:ehp2.. In diesem Modus ist der Monitor angeschaltet und arbeitet normal.
-:li.Der :hp2.Stand-by-Modus:ehp2.. Hier ist der Monitor teilweise abgeschaltet, kann jedoch
-schnell wieder zurckgeschaltet werden.
-:li.Der :hp2.Suspend-Modus:ehp2.. In diesem Modus ist der Monitor fast vollst„ndig abgeschaltet.
-:li.Der :hp2.Off-Modus:ehp2. In diesem Modus ist der Monitor ausgeschaltet.
-:eol.
-:p.Der Bildschirmschoner beginnt stets beim ersten Modus und schaltet mit der Zeit in mehr
-und mehr energiesparende Modi um.
-:p.Es werden nur die Modi verwendet, die hier markiert sind, und die Umschaltung erfolgt
-jeweils nach der festgelegten Zeit.
-.*
-.* Info about DPMS itself
-.*
-:h3 res=2002.Information ber DPMS
-:p.DPMS ist eine Abkrzung fr :hp2.Display Power Management Signaling:ehp2., einen
-VESA-Schnittstellenstandard, der vier Energieverwaltungsmodi fr gerade nicht genutzte
-Monitore definiert: On, Stand-by, Suspend und Off.
+
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for Page 3 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h2 res=3000.Module
-:p.Die dritte Seite der :hp2.Bildschirmschoner:ehp2.-Einstellungen ist die
-Seite :hp2.Module:ehp2.. Hier wird eine Liste verfgbarer
-:link reftype=hd res=3002.
-Module:elink. fr den Bildschirmschoner angezeigt, die
-konfiguriert und zur Verwendung ausgew„hlt werden k”nnen.
-:p.
-Die Sprachversion des Bildschirmschoners l„át sich durch Ziehen und šbergeben
-eines Objektes der Landeseinstellungen an diese Seite „ndern. Mehr dazu
-:link reftype=hd res=5000.
-hier:elink..
-:p.
-Ausfhrliche Erl„uterungen fr jedes Feld stehen durch Auswahl aus nachstehender
-Liste zur Verfgung:
-:ul compact.
-:li.:link reftype=hd res=3001.Module:elink.
-:li.:link reftype=hd res=6001.Widerrufen:elink.
-:li.:link reftype=hd res=6002.Standard:elink.
-:eul.
-.*
 .* Help for Screen Saver modules groupbox
 .*
-:h3 res=3001.Module
+:h2 res=3000.Module
 :p.Auf dieser Seite werden eine Liste der verfgbaren Bildschirmschonermodule
 sowie Informationen ber das derzeit ausgew„hlte Modul angezeigt.
 :p.Das derzeit ausgew„hlte ist das Modul, das gerade in der Liste der verfgbaren
@@ -226,13 +174,19 @@ ein modulspezifischer Konfigurationsdialog aufgerufen.
 :p.Mit Hilfe der Schaltfl„che :hp2.Test:ehp2. l„át sich feststellen, wie sich das derzeit ausgew„hlte
 Modul mit allen aktuellen Einstellungen des Bildschirmschoners (einschlieálich der Einstellungen
 auf anderen Notizbuchseiten, wie :hp2.Kennwortschutz verz”gern:ehp2.) verh„lt.
+
+:p.:link reftype=hd res=3001.Bildschirmschonermodule:elink.
+
 .*
 .* Help about Screen Saver modules
 .*
-:h3 res=3002.Bildschirmschonermodule
+:h3 res=3001.Bildschirmschonermodule
 :p.Bei Bildschirmschonermodulen handelt es sich um spezielle DLL-Dateien, die
 sich im Unterverzeichnis :hp3.Modules:ehp3. des Heimverzeichnisses des Bildschirmschoners
 befinden. Sie werden beim Umschalten in den Schonbetrieb ausgefhrt.
+
+:p.:link reftype=hd res=3000.Module:elink.
+
 .*
 .*--------------------------------------------------------------*\
 .* Just a dummy H2 panel to keep TOCs tidier by lumping together

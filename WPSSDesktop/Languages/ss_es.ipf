@@ -34,7 +34,8 @@ explicaci¢n de las opciones que contiene:
 
 :ul compact.
 :li.:link reftype=hd res=1000.Par metros generales:elink.
-:li.:link reftype=hd res=2000.Par metros DPMS:elink.
+:li.:link reftype=hd res=1001.Par metros DPMS:elink.
+:li.:link reftype=hd res=2000.Protecci¢n por contrase¤a:elink.
 :li.:link reftype=hd res=3000.M¢dulos del protector de pantalla:elink.
 :eul.
 
@@ -43,33 +44,9 @@ explicaci¢n de las opciones que contiene:
 .* Help for Page 1 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h2 res=1000.Par metros generales
-
-La primera p gina de opciones del :hp2.Protector de pantalla:ehp2. es
-:hp2.Par metros generales:ehp2.. Aqu¡ es donde se puede cambiar sus opciones
-m s comunes, como el tiempo de espera de activaci¢n y las opciones de
-protecci¢n mediante contrase¤a.
-
-:p.Es posible cambiar el idioma del protector de pantalla arrastrando un objeto
-®Escenario¯ (perfil nacional) hasta aqu¡. Para m s detalles al respecto,
-consulte :link reftype=hd res=5000.Configurar el idioma del protector de
-pantalla:elink..
-
-:p.Seleccione los campos de la siguiente lista para una explicaci¢n detallada:
-
-:ul compact.
-:li.:link reftype=hd res=1001.Par metros generales:elink.
-:li.:link reftype=hd res=1002.Protecci¢n por contrase¤a:elink.
-:li.:link reftype=hd res=6001.Deshacer:elink.
-:li.:link reftype=hd res=6002.Por omisi¢n:elink.
-:eul.
-
-.*
 .* Help for General settings groupbox
 .*
-:h3 res=1001.Par metros generales
+:h2 res=1000.Par metros generales
 
 Marque :hp2.Habilitar protecci¢n de pantalla:ehp2. para activar el protector
 de pantalla. Mientras est‚ habilitado, el sistema vigilar  la actividad del
@@ -96,10 +73,61 @@ dispositivos de entrada, ni siquiera el Men£ C-A-S u otras aplicaciones
 similares. Esto puede impedir al usuario cerrar aplicaciones bloqueadas
 mientras el protector de pantalla est  activo, pero hace m s seguro el sistema.
 
+:p.:link reftype=hd res=1001.Par metros DPMS:elink.
+
+.*
+.* Help for DPMS settings groupbox
+.*
+:h2 res=1001.Par metros DPMS para el monitor
+
+Estas opciones s¢lo est n disponibles si el monitor tiene capacidades DPMS
+y el controlador de v¡deo lo soporta (en este momento s¢lo Scitech SNAP lo
+hace).
+
+:p.De acuerdo con el est ndar DPMS, para los monitores se definen cuatro
+estados de ahorro de energ¡a. Son los siguientes, en orden creciente de ahorro
+energ‚tico:
+
+:ol.
+:li.:hp2.Encendido:ehp2.. Es el estado de funcionamiento normal del
+monitor.
+:li.:hp2.En espera:ehp2.. El monitor est  parcialmente apagado, pero puede
+recuperarse muy r pidamente desde este estado.
+:li.:hp2.Suspensi¢n:ehp2.. En este estado el monitor est  casi completamente
+apagado.
+:li.:hp2.Apagado:ehp2.. El monitor est  apagado.
+:eol.
+
+:p.El protector de pantalla siempre parte del primer estado y va pasando a
+estados de mayor ahorro seg£n transcurre el tiempo.
+
+:p.El protector de pantalla s¢lo utilizar  los estados seleccionados aqu¡, y
+pasar  al siguiente estado tras el periodo de tiempo dado para cada uno.
+
+:p.:link reftype=hd res=1002.Informaci¢n sobre DPMS:elink.
+:p.:link reftype=hd res=1000.Par metros generales:elink.
+
+.*
+.* Info about DPMS itself
+.*
+:h3 res=1002.Informaci¢n sobre DPMS
+
+El acr¢nimo DPMS corresponde a :hp2.Display Power Management Signaling:ehp2.
+(se¤alizaci¢n de gesti¢n de energ¡a para pantallas), una interfaz del est ndar
+VESA que define cuatro modos de gesti¢n de la energ¡a para monitores inactivos:
+encendido, en espera, suspensi¢n y apagado.
+
+:p.:link reftype=hd res=1001.Par metros DPMS para el monitor:elink.
+:p.:link reftype=hd res=1000.Par metros generales:elink.
+
+.*
+.*--------------------------------------------------------------*\
+.* Help for Page 2 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Help for Password protection groupbox
 .*
-:h3 res=1002.Protecci¢n por contrase¤a
+:h2 res=2000.Protecci¢n por contrase¤a
 
 Si marca :hp2.Habilitar protecci¢n con contrase¤a:ehp2., el protector de
 pantalla solicitar  una clave antes de detenerse y s¢lo lo har  si se introduce
@@ -147,102 +175,12 @@ del sistema.
 
 .*
 .*--------------------------------------------------------------*\
-.* Help for Page 2 of the Screen Saver
-.*--------------------------------------------------------------*/
-.*
-.* General help for the page
-.*
-:h2 res=2000.Par metros DPMS
-
-La segunda p gina de opciones del :hp2.Protector de pantalla:ehp2. es
-:hp2.Par metros DPMS:ehp2.. Aqu¡ puede indicarse al protector de pantalla si
-utilizar o no diversos :link reftype=hd res=2002.servicios DPMS:elink., si
-est n disponibles.
-
-:p.Es posible cambiar el idioma del protector de pantalla arrastrando un objeto
-®Escenario¯ (perfil nacional) hasta aqu¡. Para m s detalles al respecto,
-consulte :link reftype=hd res=5000.Configurar el idioma del protector de
-pantalla:elink..
-
-:p.Seleccione los campos de la siguiente lista para una explicaci¢n detallada:
-
-:ul compact.
-:li.:link reftype=hd res=2001.Par metros DPMS para el monitor:elink.
-:li.:link reftype=hd res=6001.Deshacer:elink.
-:li.:link reftype=hd res=6002.Por omisi¢n:elink.
-:eul.
-
-.*
-.* Help for DPMS settings groupbox
-.*
-:h3 res=2001.Par metros DPMS para el monitor
-
-Estas opciones s¢lo est n disponibles si el monitor tiene capacidades DPMS
-y el controlador de v¡deo lo soporta (en este momento s¢lo Scitech SNAP lo
-hace).
-
-:p.De acuerdo con el est ndar DPMS, para los monitores se definen cuatro
-estados de ahorro de energ¡a. Son los siguientes, en orden creciente de ahorro
-energ‚tico:
-
-:ol.
-:li.:hp2.Encendido:ehp2.. Es el estado de funcionamiento normal del
-monitor.
-:li.:hp2.En espera:ehp2.. El monitor est  parcialmente apagado, pero puede
-recuperarse muy r pidamente desde este estado.
-:li.:hp2.Suspensi¢n:ehp2.. En este estado el monitor est  casi completamente
-apagado.
-:li.:hp2.Apagado:ehp2.. El monitor est  apagado.
-:eol.
-
-:p.El protector de pantalla siempre parte del primer estado y va pasando a
-estados de mayor ahorro seg£n transcurre el tiempo.
-
-:p.El protector de pantalla s¢lo utilizar  los estados seleccionados aqu¡, y
-pasar  al siguiente estado tras el periodo de tiempo dado para cada uno.
-
-.*
-.* Info about DPMS itself
-.*
-:h3 res=2002.Informaci¢n sobre DPMS
-
-El acr¢nimo DPMS corresponde a :hp2.Display Power Management Signaling:ehp2.
-(se¤alizaci¢n de gesti¢n de energ¡a para pantallas), una interfaz del est ndar
-VESA que define cuatro modos de gesti¢n de la energ¡a para monitores inactivos:
-encendido, en espera, suspensi¢n y apagado.
-
-.*
-.*--------------------------------------------------------------*\
 .* Help for Page 3 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h2 res=3000.M¢dulos del protector de pantalla
-
-La tercera p gina de opciones del :hp2.Protector de pantalla:ehp2. es
-:hp2.M¢dulos del protector de pantalla:ehp2.. Aqu¡ puede verse la
-lista de :link reftype=hd res=3002.m¢dulos del protector de pantalla:elink.,
-configurar dichos m¢dulos si lo necesitan y seleccionar cu l de ellos ser  el
-que active actualmente el protector de pantalla.
-
-:p.Es posible cambiar el idioma del protector de pantalla arrastrando un objeto
-®Escenario¯ (perfil nacional) hasta aqu¡. Para m s detalles al respecto,
-consulte :link reftype=hd res=5000.Configurar el idioma del protector de
-pantalla:elink..
-
-:p.Seleccione los campos de la siguiente lista para una explicaci¢n detallada:
-
-:ul compact.
-:li.:link reftype=hd res=3001.M¢dulos del protector de pantalla:elink.
-:li.:link reftype=hd res=6001.Deshacer:elink.
-:li.:link reftype=hd res=6002.Por omisi¢n:elink.
-:eul.
-
-.*
 .* Help for Screen Saver modules groupbox
 .*
-:h3 res=3001.M¢dulos del protector de pantalla
+:h2 res=3000.M¢dulos del protector de pantalla
 
 Esta p gina muestra la lista de m¢dulos del protector de pantalla disponibles,
 as¡ como informaci¢n sobre el seleccionado actualmente.
@@ -271,15 +209,20 @@ el m¢dulo actual con todas las opciones actuales del protector de pantalla
 (incluidas las opciones de las dem s p ginas de propiedades del protector de
 pantalla, como :hp2.Retrasar solicitud de contrase¤a:ehp2. y otras).
 
+:p.:link reftype=hd res=3001.M¢dulos:elink.
+
 .*
 .* Help about Screen Saver modules
 .*
-:h3 res=3002.M¢dulos
+:h3 res=3001.M¢dulos
 
 Un m¢dulo del protector de pantalla consiste en uno o m s archivos DLL
 especiales situados en el directorio :hp3.Modules:ehp3. dentro del directorio
 de instalaci¢n del protector de pantalla. Se inicia cuando deba iniciarse la
 protecci¢n de pantalla.
+
+:p.:link reftype=hd res=3000.M¢dulos del protector de pantalla:elink.
+
 
 .*--------------------------------------------------------------*\
 .* Just a dummy H2 panel to keep TOCs tidier by lumping together

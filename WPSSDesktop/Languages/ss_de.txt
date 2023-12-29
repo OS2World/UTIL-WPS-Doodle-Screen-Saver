@@ -1,5 +1,5 @@
 /*
- * NLS support file for Doodle's Screen Saver v1.6
+ * NLS support file for Doodle's Screen Saver v1.9
  *
  * Language: German language
  * Locales : de_*
@@ -23,82 +23,57 @@
 
 COM_0000="~Bildschirmschoner";             // Properties tab text
 COM_0001="Allgemein";       // Descriptive text for page 1
-COM_0002="DPMS";             // Descriptive text for page 2
+COM_0002="Kennwortschutz";   // Descriptive text for page 2
 COM_0003="Module";            // Descriptive text for page 3
+COM_0004="~Hilfe";
+COM_0005="~Standard";
+COM_0006="~Widerrufen";
 
 // ---------------------------------------------------------------------------
 // Strings for page 1 of screen saver settings:
-
-PG1_0000="~Hilfe";
-PG1_0001="~Standard";
-PG1_0002="~Widerrufen";
 
 PG1_0003="Allgemein";
 PG1_0004="Bildschirmschoner ~aktivieren";
 PG1_0005="Aktivieren nach";
 PG1_0006="Minute(n) InaktivitÑt";
+PG1_0007="Aufwachen nur durch ~Tastatur";
+PG1_0008="~VIO-Popups im Schonbetrieb unterdrÅcken";
 
-PG1_0007="Kennwortschutz";
-PG1_0008="~Kennwortschutz aktivieren";
-PG1_0009="Das Kennwort in beide Eingabefelder eingeben. (Zeichen werden nicht angezeigt.) Danach éndern drÅcken.";
-PG1_0010="Kennwort:";
-PG1_0011="(zur Kontrolle)";
-PG1_0012="~éndern";
-PG1_0013="~Verzîgerte Kennwortabfrage";
-PG1_0014="Kennwort erst nach";
-PG1_0015="Minute(n) Schonbetrieb abfragen";
-PG1_0016="~Bildschirmschoner beim Systemstart aktivieren";
+PG1_0013="DPMS";
+PG1_0014="~Standby-Modus verwenden";
+PG1_0015="Standby-Modus aktivieren nach";
+PG1_0016="S~uspend-Modus verwenden";
+PG1_0017="Suspend-Modus aktivieren nach";
+PG1_0018="~Off-Modus verwenden";
+PG1_0019="Bildschirm ausschalten nach";
+PG1_0020="Minute(n) im normalen Schonbetrieb";
+PG1_0021="Minute(n) im Standby-Modus";
+PG1_0022="Minute(n) im Suspend-Modus";
 
-PG1_0017="Kennwort falsch";
-PG1_0018="Die beiden eingegebenen Kennworte stimmen nicht Åberein!";
-
-// -- Added in v1.4:
-PG1_0019="Kennwort des angemeldeten S~ecurity/2-Benutzers verwenden";
-PG1_0020="Dieses Kennwor~t verwenden:";
-
-// -- Added in v1.5:
-PG1_0021="Aufwachen nur durch ~Tastatur";
-
-// -- Added in v1.6:
-PG1_0022="~Erste gedrÅckte Taste als ersten Buchstaben des Kennworts Åbernehmen";
-
-// -- Added in v1.9:
-PG1_0023="~VIO-Popups im Schonbetrieb unterdrÅcken";
-
-// ---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // Strings for page 2 of screen saver settings:
 
-PG2_0000="~Hilfe";
-PG2_0001="~Standard";
-PG2_0002="~Widerrufen";
-
-PG2_0003="DPMS";
-PG2_0004="~Standby-Modus verwenden";
-PG2_0005="Standby-Modus aktivieren nach";
-PG2_0006="S~uspend-Modus verwenden";
-PG2_0007="Suspend-Modus aktivieren nach";
-PG2_0008="~Off-Modus verwenden";
-PG2_0009="Bildschirm ausschalten nach";
-PG2_0010="Minute(n) im normalen Schonbetrieb";
-PG2_0011="Minute(n) im Standby-Modus";
-PG2_0012="Minute(n) im Suspend-Modus";
+PG2_0007="Kennwortschutz";
+PG2_0008="~Kennwortschutz aktivieren";
+PG2_0009="Das Kennwort in beide Eingabefelder eingeben. (Zeichen werden nicht angezeigt.) Danach éndern drÅcken.";
+PG2_0010="Kennwort:";
+PG2_0011="(zur Kontrolle)";
+PG2_0012="~éndern";
+PG2_0013="~Verzîgerte Kennwortabfrage";
+PG2_0014="Kennwort erst nach";
+PG2_0015="Minute(n) Schonbetrieb abfragen";
+PG2_0016="~Bildschirmschoner beim Systemstart aktivieren";
+PG2_0017="Kennwort falsch";
+PG2_0018="Die beiden eingegebenen Kennworte stimmen nicht Åberein!";
+PG2_0019="Kennwort des angemeldeten S~ecurity/2-Benutzers verwenden";
+PG2_0020="Dieses Kennwor~t verwenden:";
+PG2_0022="~Erste gedrÅckte Taste als ersten Buchstaben des Kennworts Åbernehmen";
 
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
 
-PG3_0000="~Hilfe";
-PG3_0001="~Standard";
-PG3_0002="~Widerrufen";
-
 PG3_0003="Module";
 PG3_0004="Vorschau ~anzeigen";
-PG3_0005="Modulinformationen";
-PG3_0006="Modulname:";
-PG3_0007="Modulversion:";
-PG3_0008="UnterstÅtzt Kennwortschutz:";
-PG3_0009="Ja";
-PG3_0010="Nein";
-PG3_0011="Beschreibung:";
 PG3_0012="~Test";
 PG3_0013="~Einstellungen";
 
@@ -118,9 +93,6 @@ MOD_0003="~Abbruch";
 MOD_0004="Kennwort falsch";
 MOD_0005="Falsches Kennwort eingegeben! Bitte erneut versuchen.";
 MOD_0006="~OK";
-
-// Font to use (for DBCS support)
-// MOD_0007="9.WarpSans";
 
 // ---------------------------------------------------------------------------
 // <EOF>
