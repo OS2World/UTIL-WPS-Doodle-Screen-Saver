@@ -6,3 +6,6 @@
 # These keep getting crlf line endings during the build
 WPSSDesktop/WPSSDesktop.h
 WPSSDesktop/WPSSDesktop.ih
+# IPF files should also have their line endings preserved
+*.ipf eol=crlf
+
