@@ -32,7 +32,7 @@ cflags = $(debugflags) -bm -bt=OS2 -6s -fp6 -sg -otexanr -wx
 
 .before
     rm -f description.lnk
-    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.90,Matrix - ScreenSaver module,v2.5
+    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.91,Matrix - ScreenSaver module,v2.5
     set include=$(%os2tk)\h;$(%include);..\..
 
 .extensions:
