@@ -3409,7 +3409,7 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage1(HWND hwnd, ULONG msg,
           wpssdesktop_wpssSetDPMSStandbyTimeout(pUserData->Desktop, 5*60000);
           wpssdesktop_wpssSetUseDPMSSuspend(pUserData->Desktop, FALSE);
           wpssdesktop_wpssSetDPMSSuspendTimeout(pUserData->Desktop, 5*60000);
-          wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop, TRUE);
+          wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop, FALSE);
           wpssdesktop_wpssSetDPMSOffTimeout(pUserData->Desktop, 5*60000);
 
           // Set values of controls
