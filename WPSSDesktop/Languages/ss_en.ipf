@@ -22,7 +22,7 @@
 .* Just a dummy H1 panel to keep TOCs tidy -- more important when
 .* invoking this as part of the help subsystem
 .*--------------------------------------------------------------*/
-:h1.Screen saver
+:h1 res=4000.Screen saver
 
 When Doodle's Screen Saver is installed correctly, its settings are integrated
 with the Desktop properties notebook, under a new tab labelled

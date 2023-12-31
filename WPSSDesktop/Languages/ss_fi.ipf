@@ -22,7 +22,7 @@
 .* General help for the page
 .*--------------------------------------------------------------*/
 .*
-:h1.N„yt”ns„„st„j„
+:h1 res=4000.N„yt”ns„„st„j„
 :p.Ensimm„inen sivu :hp2.n„yt”ns„„st„j„n:ehp2. asetuksissa on
 :hp2.N„yt”ns„„st„j„n yleisasetukset:ehp2. -sivu. T„„ll„ voidaan 
 muuttaa kaikkein yleisimpi„ n„yt”ns„„st„j„n asetuksia, kuten 

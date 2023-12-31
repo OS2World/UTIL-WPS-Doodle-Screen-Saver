@@ -24,7 +24,7 @@
 .* Just a dummy H1 panel to keep TOCs tidy -- more important when
 .* invoking this as part of the help subsystem
 .*--------------------------------------------------------------*/
-:h1.Bildschirmschoner
+:h1 res=4000.Bildschirmschoner
 
 Wenn Doodles Bildschirmschoner richtig installiert ist, mÅssen seine Einstellungen
 im Einstellungsnotizbuch der ArbeitsoberflÑche vorgenommen werden. Sie finden

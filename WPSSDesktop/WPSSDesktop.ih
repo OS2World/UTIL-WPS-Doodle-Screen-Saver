@@ -1023,6 +1023,38 @@ static somMethodProc* WPSSDesktop_parent_WPDesktop_wpMenuItemSelected_resolved;
    WPSSDesktop_parent_WPDesktop_wpMenuItemSelected(somSelf,hwndFrame,ulMenuId))
 
 /*
+ * Overridden method: wpMenuItemHelpSelected
+ */
+#pragma linkage(wpssdesktop_wpMenuItemHelpSelected, system)
+SOM_Scope BOOL  SOMLINK wpssdesktop_wpMenuItemHelpSelected(WPSSDesktop *somSelf,
+		ULONG MenuId);
+static char *somMN_WPSSDesktopwpMenuItemHelpSelected = "WPObject::wpMenuItemHelpSelected";
+static somId somId_WPSSDesktopwpMenuItemHelpSelected = &somMN_WPSSDesktopwpMenuItemHelpSelected;
+#ifdef somId_wpMenuItemHelpSelected
+#undef somId_wpMenuItemHelpSelected
+#else
+#define somId_wpMenuItemHelpSelected somId_WPSSDesktopwpMenuItemHelpSelected
+#endif
+static somMethodProc* WPSSDesktop_parent_WPDesktop_wpMenuItemHelpSelected_resolved;
+#define WPSSDesktop_parent_WPDesktop_wpMenuItemHelpSelected(somSelf,MenuId) \
+  ((( somTD_WPObject_wpMenuItemHelpSelected ) \
+    WPSSDesktop_parent_WPDesktop_wpMenuItemHelpSelected_resolved) \
+	 (somSelf,MenuId))
+#ifndef SOMGD_pmc_WPDesktop_wpMenuItemHelpSelected
+  #ifdef parent_WPDesktop_wpMenuItemHelpSelected
+     #undef parent_WPDesktop_wpMenuItemHelpSelected
+     #define SOMGD_pmc_WPDesktop_wpMenuItemHelpSelected 1
+  #else
+     #define parent_WPDesktop_wpMenuItemHelpSelected WPSSDesktop_parent_WPDesktop_wpMenuItemHelpSelected
+  #endif /* parent_WPDesktop_wpMenuItemHelpSelected */
+#endif /* SOMGD_pmc_WPDesktop_wpMenuItemHelpSelected */
+#ifndef parent_wpMenuItemHelpSelected
+     #define parent_wpMenuItemHelpSelected WPSSDesktop_parent_WPDesktop_wpMenuItemHelpSelected
+#endif  /* parent_wpMenuItemHelpSelected */
+#define WPSSDesktop_parents_wpMenuItemHelpSelected(somSelf,MenuId) (\
+   WPSSDesktop_parent_WPDesktop_wpMenuItemHelpSelected(somSelf,MenuId))
+
+/*
  * Overridden method: wpOpen
  */
 #pragma linkage(wpssdesktop_wpOpen, system)
@@ -2632,6 +2664,8 @@ static somOverrideMethod_t WPSSDesktopOM[] = {
          (somMethodProc *) wpssdesktop_wpSetup    },
     {    &somId_WPSSDesktopwpMenuItemSelected,
          (somMethodProc *) wpssdesktop_wpMenuItemSelected    },
+    {    &somId_WPSSDesktopwpMenuItemHelpSelected,
+         (somMethodProc *) wpssdesktop_wpMenuItemHelpSelected    },
     {    &somId_WPSSDesktopwpOpen,
          (somMethodProc *) wpssdesktop_wpOpen    },
 };
@@ -2652,7 +2686,7 @@ static somId somPCWPSSDesktop[] = {
 };
 
 static somStaticClassInfo WPSSDesktopSCI = {
-    4, 48, 10, 0, 0, 0,
+    4, 48, 11, 0, 0, 0,
     WPSSDesktop_MajorVersion, WPSSDesktop_MinorVersion,
     sizeof(WPSSDesktopData), WPSSDesktop_MaxNoMethods, 1,
     &somCN_WPSSDesktop,
@@ -2702,6 +2736,8 @@ SOMClass * SOMLINK WPSSDesktopNewClass (integer4 somtmajorVersion,
     result = somBuildClass(0xFFFFFFFF,&WPSSDesktopSCI, somtmajorVersion, somtminorVersion);
     WPSSDesktop_parent_WPDesktop_wpOpen_resolved = 
 	somParentNumResolve(WPSSDesktopCClassData.parentMtab, 1, WPObjectClassData.wpOpen); 
+    WPSSDesktop_parent_WPDesktop_wpMenuItemHelpSelected_resolved = 
+	somParentNumResolve(WPSSDesktopCClassData.parentMtab, 1, WPObjectClassData.wpMenuItemHelpSelected); 
     WPSSDesktop_parent_WPDesktop_wpMenuItemSelected_resolved = 
 	somParentNumResolve(WPSSDesktopCClassData.parentMtab, 1, WPObjectClassData.wpMenuItemSelected); 
     WPSSDesktop_parent_WPDesktop_wpSetup_resolved = 

@@ -21,7 +21,7 @@
 .* General help for the page
 .*--------------------------------------------------------------*/
 .*
-:h1.K‚perny‹v‚d‹
+:h1 res=4000.K‚perny‹v‚d‹
 :p.A :hp2.K‚perny‹v‚d‹:ehp2. be ll¡t sok els‹ oldala az
 :hp2.µltal nos k‚perny‹v‚d‹ be ll¡t sok:ehp2. oldal. Ez az a hely,
 ahol a k‚perny‹v‚d‹ leg ltal nosabb be ll¡t sait lehet megv ltoztatni,

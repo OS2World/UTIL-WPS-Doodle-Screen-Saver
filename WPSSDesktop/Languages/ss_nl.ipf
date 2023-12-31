@@ -21,7 +21,7 @@
 .* General help for the page
 .*--------------------------------------------------------------*/
 .*
-:h1.Blokkeren
+:h1 res=4000.Blokkeren
 :p.De eerste pagina van de :hp2.Blokkeren:ehp2. instellingen is de
 :hp2.Algemene blokkeringsinstellingen:ehp2. pagina. Dit is de plaats
 waar de meest gebruikte instellingen van de scherm beveiliger aangepast kunnen

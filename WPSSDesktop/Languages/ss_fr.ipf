@@ -21,7 +21,7 @@
 .* General help for the page
 .*--------------------------------------------------------------*/
 .*
-:h1.conomiseur d'‚cran (page 1)
+:h1 res=4000.conomiseur d'‚cran (page 1)
 :p.La premiŠre page des paramŠtres de l':hp2.‚conomiseur 
 d'‚cran:ehp2. est la page des :hp2.paramŠtres g‚n‚raux:ehp2.&per. C'est 
 ici que les paramŠtres les plus communs de l'‚conomiseur d'‚cran peuvent 

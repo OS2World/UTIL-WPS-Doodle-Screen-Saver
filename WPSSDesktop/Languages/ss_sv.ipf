@@ -21,7 +21,7 @@
 .* General help for the page
 .*--------------------------------------------------------------*/
 .*
-:h1.Sk„rmsl„ckare
+:h1 res=4000.Sk„rmsl„ckare
 :p.Den f”rsta sidan hos :hp2.Sk„rmsl„ckarens:ehp2. inst„llningar „r
 sidan f”r :hp2.Allm„nna inst„llningar:ehp2.. Detta „r platsen
 d„r de vanligaste inst„llningarna hos sk„rmsl„ckaren kan „ndras, som

@@ -22,7 +22,7 @@
 .*--------------------------------------------------------------*/
 .*
 .*
-:h1.Salvaschermo
+:h1 res=4000.Salvaschermo
 :p.La prima pagina di configurazione del :hp2.Salvaschermo:ehp2. Š quella delle
 :hp2.Impostazioni generali Salvaschermo:ehp2. . Questo Š il posto dove si 
 possono cambiare la maggior parte delle impostazioni del Salvaschermo,

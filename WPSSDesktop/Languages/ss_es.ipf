@@ -21,7 +21,7 @@
 .* Just a dummy H1 panel to keep TOCs tidy -- important when
 .* invoking this as part of the help subsystem
 .*--------------------------------------------------------------*/
-:h1.Protector de pantalla
+:h1 res=4000.Protector de pantalla
 
 Cuando se instala correctamente el Protector de pantalla de Doodle, sus
 opciones deben establecerse a trav‚s del cuaderno de propiedades del

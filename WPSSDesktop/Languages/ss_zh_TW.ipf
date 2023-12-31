@@ -22,7 +22,7 @@
 .* General help for the page
 .*--------------------------------------------------------------*/
 .*
-:h1.螢幕保護程式
+:h1 res=4000.螢幕保護程式
 :font facename='MINCHO System'.
 :p.:color fc=pink.:hp2.螢幕保護程式:ehp2.:color fc=default.的第一頁設定是
 :color fc=pink.:hp2.一般螢幕保護程式設定:ehp2.:color fc=default.頁。 

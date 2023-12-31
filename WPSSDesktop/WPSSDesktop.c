@@ -1744,6 +1744,19 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpMenuItemSelected(WPSSDesktop *somSelf,
     return parent_wpMenuItemSelected(somSelf, hwndFrame, MenuId);
 }
 
+SOM_Scope BOOL SOMLINK wpssdesktop_wpMenuItemHelpSelected(WPSSDesktop *somSelf,
+                                                      ULONG MenuId)
+{
+  if (_wpIsCurrentDesktop(somSelf) && MenuId == WPMENUID_LOCKUP)
+  {
+    internal_wpDisplayHelp(somSelf, HELPID_OVERVIEW);
+    return TRUE;
+  }
+
+  return parent_wpMenuItemHelpSelected(somSelf, MenuId);
+}
+
+
 SOM_Scope HWND SOMLINK wpssdesktop_wpOpen(WPSSDesktop *somSelf,
                                           HWND hwndCnr,
                                           ULONG ulView,

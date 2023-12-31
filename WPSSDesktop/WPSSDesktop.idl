@@ -196,6 +196,7 @@ interface WPSSDesktop : WPDesktop
       wpSetLockupOnStartup:            override;
       wpSetup:                         override;
       wpMenuItemSelected:              override;
+      wpMenuItemHelpSelected:          override;
       wpOpen:                          override;
    };
    #endif /* __SOMIDL__ */
