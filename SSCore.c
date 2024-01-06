@@ -602,6 +602,7 @@ static void internal_TryToLoadSSDPMS()
 
   rc = DosLoadModule(NULL, 0, "SSDPMS.DLL", &hmodThisSSDPMS);
 
+  _control87(0x37f, 0x1fff);
   if (rc!=NO_ERROR)
   {
     // Error loading the DLL.
@@ -1456,6 +1457,7 @@ static void internal_Worker_StartSaver(char *pchDLLFileName,
     ulrc = DosLoadModule(achFailure, sizeof(achFailure),
                          pchDLLFileName,
                          phmodDLL);
+    _control87(0x37f, 0x1fff);
     if (ulrc!=NO_ERROR)
     {
       // Error, could not start screensaver!
@@ -3416,6 +3418,7 @@ SSCOREDECLSPEC int SSCORECALL SSCore_ConfigureModule(char *pchModuleFileName, HW
   ulrc = DosLoadModule(achFailure, sizeof(achFailure),
                        pchModuleFileName,
                        &hmodSaverModule);
+  _control87(0x37f, 0x1fff);
   if (ulrc!=NO_ERROR)
     return SSCORE_ERROR_COULDNOTLOADMODULE;
 
@@ -3736,6 +3739,7 @@ static void internal_InitializeSecurity2()
                      sizeof(achFailure),       /* Size of buffer             */
                      "USERCTL.DLL",            /* Module to load             */
                      &hmodThisUSERCTL);        /* Module handle returned     */
+  _control87(0x37f, 0x1fff);
   if (rc != NO_ERROR)
   {
     // No userctl.dll, no security/2 installed.
