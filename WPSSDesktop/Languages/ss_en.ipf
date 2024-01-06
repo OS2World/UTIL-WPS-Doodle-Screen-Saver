@@ -6,9 +6,9 @@
 .* Locales : en_*                                               *
 .*                                                              *
 .* Author  : Doodle                                             *
-.* Updates : Dave Yeo, Lewis Rosenthal                          *
+.* Updates : Dave Yeo, Lewis Rosenthal, Alfredo Fern ndez.      *
 .*                                                              *
-.* Date (YYYY-MM-DD): 2020-10-12.                               *
+.* Date (YYYY-MM-DD): 2024-01-02.                               *
 .*                                                              *
 .*                                                              *
 .* To create the binary HLP file from this file, use the IPFC   *
@@ -19,43 +19,53 @@
 :userdoc.
 .*
 .*--------------------------------------------------------------*\
-.* Just a dummy H1 panel to keep TOCs tidy -- more important when
-.* invoking this as part of the help subsystem
+.* Formerly a dummy H1 panel to keep TOCs tidy (more important when
+.* invoking this as part of the help subsystem), now both Overview
+.* and landing page when querying the WPS for help on "Lockup now".
 .*--------------------------------------------------------------*/
-:h1 res=4000.Screen saver
+:h1.Screen saver
+:p.Doodle's Screen Saver replaces the standard WPS Lockup facility, and it will
+be activated through the :hp2.Lockup now:ehp2. menu item of the Desktop context
+menu, and any equivalent actions such as the corresponding Toolbar action
+button, WarpCenter or XCenter objects.
 
-When Doodle's Screen Saver is installed correctly, its settings are integrated
-with the Desktop properties notebook, under a new tab labelled
-:hp2.Screen Saver:ehp2., consisting of three pages.
+:p.The screen saver will immediately restrict access to your computer by
+locking the keyboard and mouse if you have specified
+:link reftype=hd res=2000.a password:elink. in its tab in the Desktop
+properties notebook.
+
+:p.There, it can be set to start automatically after a specified amount of
+time, :link reftype=hd res=1000.manage power saving in monitors:elink. that
+support it, and display a variety of colorful and visually attractive
+:link reftype=hd res=3000.modules:elink. that you can enjoy while it is active.
 
 :p.Select a title below for more information&colon.
 
 :ul compact.
-:li.:link reftype=hd res=1000.General Screen Saver settings:elink.
-:li.:link reftype=hd res=1001.Display power management settings:elink.
+:li.:link reftype=hd res=1000.General / Power saving settings:elink.
 :li.:link reftype=hd res=2000.Password protection:elink.
 :li.:link reftype=hd res=3000.Screen Saver modules:elink.
 :eul.
 
 .*
 .*--------------------------------------------------------------*\
-.* Help for Page 1 of the Screen Saver
+.* Help for Page 1 of the Screen Saver, General / Power saving
 .*--------------------------------------------------------------*/
 .*
-.*
-.* Help for General settings groupbox
-.*
-:h2 res=1000.General settings
-:p.Select :hp2.Screen saving enabled:ehp2. to enable the screen saver. While it
-is enabled, the system will monitor user activity (mouse and keyboard activity
-on the Desktop), and will start screen saving automatically after a given amount
-of inactivity.
+:h2 res=1000.General / Power saving settings
+:p.:hp7.General settings:ehp7.
 
-:p.Specify the timeout intrval in minutes in the entry field of :hp2.Start saver
-after xxx minute(s) of inactivity:ehp2. using the spinbuttons.
+:p.Select :hp2.Screen saving enabled:ehp2. to enable the screen saver and
+access all of its settings. While it is enabled, the system will monitor user
+activity (mouse and keyboard activity on the Desktop), and will start screen
+saving automatically after a given amount of inactivity.
+
+:p.Specify the timeout interval in minutes in the entry field of :hp2.Start
+saver after xxx minute(s) of inactivity:ehp2. using the spinbuttons.
 
 :note.Selecting :hp2.Lockup now:ehp2. from the Desktop context menu will start
-the screen saver even if it has not been enabled.
+the screen saver even if it has not been enabled, provided one of its installed
+:link reftype=hd res=3000.modules:elink. is active (selected).
 
 :p.When :hp2.Wake up by keyboard only:ehp2. is selected, the screen saver will
 not stop running when it detects mouse activity, but instead only when keyboard
@@ -70,15 +80,14 @@ CAD-handler or any similar applications. This should enhance system security,
 but may preclude activities such as manual process killing while the screen
 saver is running.
 
-:p.:link reftype=hd res=1001.DPMS settings:elink.
+.* former :h2 res=1001.DPMS settings panel, now 2nd groupbox in the same page
 
-.*
-.* Help for DPMS settings groupbox
-.*
-:h2 res=1001.DPMS settings
+:p.:hp7.Power saving:ehp7.
+
 :p.These settings are available only if both the video driver supports
 :link reftype=hd res=1002.DPMS or DPM:elink. (currently supported by SNAP
-and Panorama 1.17 and later) and the monitor itself is DPMS or DPM compliant.
+and Panorama 1.17 and later) on your hardware, and the monitor itself is DPMS
+or DPM compliant.
 
 :p.There are four energy saving states for DPMS-compliant monitors, and these
 map to just two for DPM-compliant monitors. Beginning with the least
@@ -116,7 +125,6 @@ available, and if the monitor supports one or more of them, the amount of time
 allowed before switching to subsequent states may be configured.
 
 :p.:link reftype=hd res=1002.Information about DPMS &amp. DPM:elink.
-:p.:link reftype=hd res=1000.General Screen Saver settings:elink.
 
 .*
 .* Info about DPMS itself
@@ -131,7 +139,7 @@ earlier work defined in the US EPA's Energy Star power management
 specifications.
 
 :p.DPM (:hp2.Display Power Management:ehp2.) is a later VESA standard, which
-supersedes DPMS and defines just two power states,&colon. On and Off. DPMS
+supersedes DPMS and defines just two power states&colon. On and Off. DPMS
 Standby and Suspend states are mapped to the Off state for DPM-compliant
 monitors.
 
@@ -148,7 +156,7 @@ D3 (Off), further defining which states are :hp2.Required:ehp2. and which are
 :p.Different types of displays support varying numbers of power management
 states in different ways and recover at different rates. Examples include&colon.
 
-:p.:hp2.CRT monitors:ehp2.
+:p.:hp7.CRT monitors:ehp7.
 :p.
 :dl tsize=12 break=none.
 :dt.:hp2.On:ehp2.
@@ -176,7 +184,7 @@ This state (D3) is :hp2.Required:ehp2. for ACPI compliance.
 :edl.
 
 :p.
-:p.:hp2.LCD monitors (analog):ehp2.
+:p.:hp7.LCD monitors (analog):ehp7.
 :p.
 :dl tsize=12 break=none.
 :dt.:hp2.On:ehp2.
@@ -199,7 +207,7 @@ state (D3) is required for ACPI compliance.
 :edl.
 
 :p.
-:p.:hp2.LCD monitors (digital/DVI):ehp2.
+:p.:hp7.LCD monitors (digital/DVI):ehp7.
 :p.
 :dl tsize=12 break=none.
 :dt.:hp2.On:ehp2.
@@ -222,7 +230,7 @@ state (D3) is :hp2.Required:ehp2. for ACPI compliance.
 :edl.
 
 :p.
-:p.:hp2.Standard TVs, analog HDTVs, projectors:ehp2.
+:p.:hp7.Standard TVs, analog HDTVs, projectors:ehp7.
 :p.
 :dl tsize=12 break=none.
 :dt.:hp2.On:ehp2.
@@ -244,20 +252,18 @@ equivalent to :hp2.Off:ehp2. (D3).
 state (D3) is :hp2.Required:ehp2. for ACPI compliance.
 :edl.
 
-:p.:link reftype=hd res=1001.DPMS settings:elink.
+.* :p.:link reftype=hd res=1001.DPMS settings:elink.
 :p.:link reftype=hd res=1000.General Screen Saver settings:elink.
 
 .*
 .*--------------------------------------------------------------*\
-.* Help for Page 2 of the Screen Saver
+.* Help for Page 2 of the Screen Saver, Password protection
 .*--------------------------------------------------------------*/
 .*
-.* Help for Password protection groupbox
-.*
 :h2 res=2000.Password Protection
-:p.Select :hp2.Use password protection:ehp2. to enable rudimentary security for 
-the screen saver. If password protection is on, the screen saver will prompt for
-a password before stopping.
+:p.Select :hp2.Use password protection:ehp2. to enable rudimentary security for
+the screen saver. If password protection is on, the screen saver will prompt
+for a password before stopping.
 
 :note.An unlimited number of password attempts are allowed.
 
@@ -268,58 +274,58 @@ installed, this option is disabled.
 
 :p.The :hp2.Use this password:ehp2. option (selected by default when Security/2
 has not been installed), enables the password and verification entry fields. To
-set a new password, complete both fields and press the :hp2.Change:ehp2. button.
+set a new password, complete both fields and press the :hp2.Change:ehp2.
+button.
 
 :p.When :hp2.Delay password protection:ehp2. is selected, the screen saver will
 not prompt for the password during the first minutes of the screen saving,
 settable with the :hp2.Ask password only after xxx minute(s) of saving:ehp2.
 spinbuttons.
 
-:p.The :hp2.Make the first keypress the first key of the password:ehp2. checkbox
-determines how the active screen saver module should react when the password
-prompt is to be shown. If selected, the keypress which raised the prompt will be
-used as the first character of the password. Otherwise, the keypress will only
-raise the prompt.
+:p.The :hp2.Make the first keypress the first key of the password:ehp2.
+checkbox determines how the active screen saver module should react when the
+password prompt is to be shown. If selected, the keypress which raised the
+prompt will be used as the first character of the password. Otherwise, the
+keypress will only raise the prompt.
 
 :nt text='CAUTION:'.Some screen saver modules may not honor this setting.:ent.
 
-:p.Select :hp2.Start screen saver on system startup:ehp2. to automatically start
-the password protected screen saver when the Desktop initializes.
+:p.Select :hp2.Start screen saver on system startup:ehp2. to automatically
+start the password protected screen saver when the Desktop initializes.
 
 :note.Password protection is enforced without delay if the screen saver is
 started at user request (by selecting :hp2.Lockup now:ehp2. from the Desktop
 context menu) or when started at Desktop initialization.
 
-
 .*
 .*--------------------------------------------------------------*\
-.* Help for Page 3 of the Screen Saver
+.* Help for Page 3 of the Screen Saver, Modules
 .*--------------------------------------------------------------*/
 .*
-.* Help for Screen Saver modules groupbox
-.*
 :h2 res=3000.Screen Saver modules
-:p.Installed screen saver modules are listed in the upper left. As a module is
-selected, its details are presented to the right, with a full description,
-below.
+By default, several different visuals, or :hp1.modules:ehp1., are installed
+along Doodle's Screen Saver. The installed modules are listed in the upper
+left, where any of them can be selected. When this happens, the module in
+question will become the one displayed by DSS whenever it is started.
 
-:p.The active module is the one which is selected from the list of installed
-modules.
+:p.When a module is thus selected as the active one, information about it is
+displayed in the rest of the page: selecting :hp2.Show preview:ehp2. will
+display on the right a miniaturized, full motion example of the selected module
+as currently configured, and a groupbox below, labelled with its name and
+version number, displays whatever information the module author decided to
+provide.
 
 :nt text='CAUTION:'.If the active module does not support password protection,
-screen saving will not be password protected, even if 
-:hp2.Use password protection:ehp2. has been set on the 
+screen saving will not be password protected, even if
+:hp2.Use password protection:ehp2. has been set on the
 :link reftype=hd res=2000.Password protection:elink. page.:ent.
-
-:p.Some of the modules support configuration. If the current module can be
-configured, the :hp2.Configure:ehp2. button will be enabled. Clicking it will
-present a module-specific configuration dialog.
 
 :p.The :hp2.Start now:ehp2. button may be used to immediately begin screen
 saving with all currently selected options.
 
-:p.Selecting :hp2.Show preview:ehp2. will display a miniaturized, full motion
-example of the selected module as currently configured.
+:p.Some of the modules support configuration. If the current module can be
+configured, the :hp2.Configure:ehp2. button will be enabled. Clicking it will
+present a module-specific configuration dialog.
 
 :p.:link reftype=hd res=3001.Modules:elink.
 
@@ -330,17 +336,24 @@ example of the selected module as currently configured.
 :p.A screen saver module is comprised of one or more DLLs, located in the
 :hp3.Modules:ehp3. subdirectory of the screen saver program directory.
 
+:p.DSS's main goal is to have an open-source screen saver which can be
+developed further by others, if needed, and which can co-operate with third
+party applications, so the screen saver will not activate itself e.g. while the
+user watches a movie.
+
+:p.Writing modules for DSS is both easy and fun!
+
 :p.:link reftype=hd res=3000.Screen Saver modules:elink.
 
 .*
 .*--------------------------------------------------------------*\
-.* Just a dummy H2 panel to keep TOCs tidier by lumping together
+.* Another dummy panel to keep TOCs tidier by lumping together
 .* all common options...
 .*--------------------------------------------------------------*/
 .*
-:h2.Common settings
-:p.These are settings shared among all of the Screen Saver properties pages.
-Select any of them in the list below for a detailed explanation:
+:h2.Common features and controls
+:p.These are features and controls shared among all of the Screen Saver properties
+pages. Select any of them in the list below for a detailed explanation:
 
 :ul compact.
 :li.:link reftype=hd res=5000.Setting the language of the screen saver:elink.
@@ -352,8 +365,6 @@ Select any of them in the list below for a detailed explanation:
 .*--------------------------------------------------------------*\
 .* Help for setting the language of the screen saver
 .*--------------------------------------------------------------*/
-.*
-.* Help for setting the language
 .*
 :h3 res=5000.Setting the language of the screen saver
 :p.The screen saver tries to use the language of the system by default. It
@@ -374,18 +385,13 @@ language. Otherwise, it will fall back to the default method, to use the
 
 .*
 .*--------------------------------------------------------------*\
-.* Help for common buttons like Undo and Default
+.* Help for common buttons -- Undo and Default
 .*--------------------------------------------------------------*/
-.*
-.* Help for the Undo button
 .*
 :h3 res=6001.Undo
 :p.Select :hp2.Undo:ehp2. to revert the settings on the current page to those
 which were active before the last change.
 
-.*
-.* Help for the Default button
-.*
 :h3 res=6002.Default
 :p.Select :hp2.Default:ehp2. to change the settings on the current page to
 installation default values.

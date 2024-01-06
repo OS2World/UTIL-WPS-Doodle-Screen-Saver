@@ -1,6 +1,7 @@
 ChangeLog File:
 
-* v2.5 : 2023.12.30
+* v2.5 : 2024.01.02
+  - Properties help rewrite from Alfredo Fern ndez D¡az
   - Spanish translations from Alfredo Fern ndez D¡az
   - Refactor the Screensaver Settings in the Desktop Properties,
      thanks to Rich Walsh
