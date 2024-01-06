@@ -40,6 +40,7 @@
 #include <stdio.h>
 #include <memory.h>
 #include <stdlib.h>
+#include <float.h>
 
 #include "SSCore.h"
 #include "WPSSDesktop-Resources.h"
@@ -3261,111 +3262,92 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage1(HWND hwnd, ULONG msg,
       if (!pUserData)
         return (MRESULT) FALSE;
 
-      switch (SHORT1FROMMP(mp1)) // Control window ID
+      switch ((ULONG)mp1) // Control window ID & notification code
       {
-        case CB_ENABLED:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
-          {
-            wpssdesktop_wpssSetScreenSaverEnabled(pUserData->Desktop,
-                                      WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-            EnableDisablePage1Controls(hwnd);
-            if (hwndSettingsPage2)
-              EnableDisablePage2Controls(hwndSettingsPage2);
-          }
+        case MPFROM2SHORT(CB_ENABLED, BN_CLICKED):
+        case MPFROM2SHORT(CB_ENABLED, BN_DBLCLICKED):
+          wpssdesktop_wpssSetScreenSaverEnabled(pUserData->Desktop,
+                                    WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage1Controls(hwnd);
+          if (hwndSettingsPage2)
+            EnableDisablePage2Controls(hwndSettingsPage2);
           break;
 
-        case CB_DISABLEVIOPOPUPSWHILESAVING:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
-            wpssdesktop_wpssSetDisableVIOPopupsWhileSaving(pUserData->Desktop,
+        case MPFROM2SHORT(CB_DISABLEVIOPOPUPSWHILESAVING, BN_CLICKED):
+        case MPFROM2SHORT(CB_DISABLEVIOPOPUPSWHILESAVING, BN_DBLCLICKED):
+          wpssdesktop_wpssSetDisableVIOPopupsWhileSaving(pUserData->Desktop,
                                         WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
           break;
 
-        case CB_WAKEUPBYKEYBOARDONLY:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
-            wpssdesktop_wpssSetWakeByKeyboardOnly(pUserData->Desktop,
+        case MPFROM2SHORT(CB_WAKEUPBYKEYBOARDONLY, BN_CLICKED):
+        case MPFROM2SHORT(CB_WAKEUPBYKEYBOARDONLY, BN_DBLCLICKED):
+          wpssdesktop_wpssSetWakeByKeyboardOnly(pUserData->Desktop,
                                WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
           break;
 
-        case SPB_TIMEOUT:
-          if (SHORT2FROMMP(mp1)==SPBN_CHANGE)
-          {
-            if (pUserData->bPageSetUp)
-            {
-              ULONG ulValue = 3; // Default, in case of problems.
-
-              WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
-                                (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
-              wpssdesktop_wpssSetScreenSaverTimeout(pUserData->Desktop, ulValue*60000);
-            }
-          }
-          break;
-
+        case MPFROM2SHORT(CB_USEDPMSSTANDBYSTATE, BN_CLICKED):
+        case MPFROM2SHORT(CB_USEDPMSSTANDBYSTATE, BN_DBLCLICKED):
         case CB_USEDPMSSTANDBYSTATE:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
+          wpssdesktop_wpssSetUseDPMSStandby(pUserData->Desktop,
+                                            WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage1Controls(hwnd);
+          break;
+
+        case MPFROM2SHORT(CB_USEDPMSSUSPENDSTATE, BN_CLICKED):
+        case MPFROM2SHORT(CB_USEDPMSSUSPENDSTATE, BN_DBLCLICKED):
+          wpssdesktop_wpssSetUseDPMSSuspend(pUserData->Desktop,
+                                            WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage1Controls(hwnd);
+          break;
+
+        case MPFROM2SHORT(CB_USEDPMSOFFSTATE, BN_CLICKED):
+        case MPFROM2SHORT(CB_USEDPMSOFFSTATE, BN_DBLCLICKED):
+          wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop,
+                                        WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage1Controls(hwnd);
+          break;
+
+        case MPFROM2SHORT(SPB_TIMEOUT, SPBN_CHANGE):
+          if (pUserData->bPageSetUp)
           {
-            wpssdesktop_wpssSetUseDPMSStandby(pUserData->Desktop,
-                                              WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-            EnableDisablePage1Controls(hwnd);
+            ULONG ulValue = 3; // Default, in case of problems.
+
+            WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
+                              (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
+            wpssdesktop_wpssSetScreenSaverTimeout(pUserData->Desktop, ulValue*60000);
           }
           break;
 
-        case CB_USEDPMSSUSPENDSTATE:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
+        case MPFROM2SHORT(SPB_STANDBYTIMEOUT, SPBN_CHANGE):
+          if (pUserData->bPageSetUp)
           {
-            wpssdesktop_wpssSetUseDPMSSuspend(pUserData->Desktop,
-                                              WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-            EnableDisablePage1Controls(hwnd);
+            ULONG ulValue = 5; // Default, in case of problems.
+
+            WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
+                              (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
+            wpssdesktop_wpssSetDPMSStandbyTimeout(pUserData->Desktop, ulValue*60000);
           }
           break;
 
-        case CB_USEDPMSOFFSTATE:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
+        case MPFROM2SHORT(SPB_SUSPENDTIMEOUT, SPBN_CHANGE):
+          if (pUserData->bPageSetUp)
           {
-            wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop,
-                                          WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-            EnableDisablePage1Controls(hwnd);
+            ULONG ulValue = 5; // Default, in case of problems.
+
+            WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
+                              (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
+            wpssdesktop_wpssSetDPMSSuspendTimeout(pUserData->Desktop, ulValue*60000);
           }
           break;
 
-        case SPB_STANDBYTIMEOUT:
-          if (SHORT2FROMMP(mp1)==SPBN_CHANGE)
+        case MPFROM2SHORT(SPB_OFFTIMEOUT, SPBN_CHANGE):
+          if (pUserData->bPageSetUp)
           {
-            if (pUserData->bPageSetUp)
-            {
-              ULONG ulValue = 5; // Default, in case of problems.
+            ULONG ulValue = 5; // Default, in case of problems.
 
-              WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
-                                (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
-              wpssdesktop_wpssSetDPMSStandbyTimeout(pUserData->Desktop, ulValue*60000);
-            }
-          }
-          break;
-
-        case SPB_SUSPENDTIMEOUT:
-          if (SHORT2FROMMP(mp1)==SPBN_CHANGE)
-          {
-            if (pUserData->bPageSetUp)
-            {
-              ULONG ulValue = 5; // Default, in case of problems.
-
-              WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
-                                (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
-              wpssdesktop_wpssSetDPMSSuspendTimeout(pUserData->Desktop, ulValue*60000);
-            }
-          }
-          break;
-
-        case SPB_OFFTIMEOUT:
-          if (SHORT2FROMMP(mp1)==SPBN_CHANGE)
-          {
-            if (pUserData->bPageSetUp)
-            {
-              ULONG ulValue = 5; // Default, in case of problems.
-
-              WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
-                                (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
-              wpssdesktop_wpssSetDPMSOffTimeout(pUserData->Desktop, ulValue*60000);
-            }
+            WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
+                              (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
+            wpssdesktop_wpssSetDPMSOffTimeout(pUserData->Desktop, ulValue*60000);
           }
           break;
 
@@ -3564,83 +3546,70 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage2(HWND hwnd, ULONG msg,
       if (!pUserData)
         return (MRESULT) FALSE;
 
-      switch (SHORT1FROMMP(mp1)) // Control window ID
+      switch ((ULONG)mp1) // Control window ID & notification code
       {
-        case EF_PASSWORD:
-        case EF_PASSWORD2:
-          if (SHORT2FROMMP(mp1)==EN_SETFOCUS)
-            WinSetDlgItemText(hwnd, SHORT1FROMMP(mp1), "");
-
-          if (SHORT2FROMMP(mp1)==EN_KILLFOCUS)
-          {
-            WinQueryDlgItemText(hwnd, SHORT1FROMMP(mp1), sizeof(achTemp), achTemp);
-
-            // Store back the encrypted password!
-            wpssdesktop_wpssEncryptScreenSaverPassword(pUserData->Desktop, achTemp);
-            WinSetDlgItemText(hwnd, SHORT1FROMMP(mp1), achTemp);
-            WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE),
-                            WinQueryButtonCheckstate(hwnd, CB_USEPASSWORDPROTECTION));
-          }
+        case MPFROM2SHORT(EF_PASSWORD, EN_SETFOCUS):
+        case MPFROM2SHORT(EF_PASSWORD2, EN_SETFOCUS):
+          WinSetDlgItemText(hwnd, SHORT1FROMMP(mp1), "");
           break;
 
-        case CB_USEPASSWORDPROTECTION:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
-          {
-            wpssdesktop_wpssSetScreenSaverPasswordProtected(pUserData->Desktop,
-                                     WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-            EnableDisablePage2Controls(hwnd);
-          }
+        case MPFROM2SHORT(EF_PASSWORD, EN_KILLFOCUS):
+        case MPFROM2SHORT(EF_PASSWORD2, EN_KILLFOCUS):
+          // Store back the encrypted password!
+          WinQueryDlgItemText(hwnd, SHORT1FROMMP(mp1), sizeof(achTemp), achTemp);
+          wpssdesktop_wpssEncryptScreenSaverPassword(pUserData->Desktop, achTemp);
+          WinSetDlgItemText(hwnd, SHORT1FROMMP(mp1), achTemp);
+          WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE),
+                          WinQueryButtonCheckstate(hwnd, CB_USEPASSWORDPROTECTION));
           break;
 
-        case CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
-            wpssdesktop_wpssSetFirstKeyEventGoesToPwdWindow(pUserData->Desktop,
-                                           WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+        case MPFROM2SHORT(CB_USEPASSWORDPROTECTION, BN_CLICKED):
+        case MPFROM2SHORT(CB_USEPASSWORDPROTECTION, BN_DBLCLICKED):
+          wpssdesktop_wpssSetScreenSaverPasswordProtected(pUserData->Desktop,
+                                   WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage2Controls(hwnd);
           break;
 
-        case CB_STARTSAVERMODULEONSTARTUP:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
-            wpssdesktop_wpssSetAutoStartAtStartup(pUserData->Desktop,
+        case MPFROM2SHORT(CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD, BN_CLICKED):
+        case MPFROM2SHORT(CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD, BN_DBLCLICKED):
+          wpssdesktop_wpssSetFirstKeyEventGoesToPwdWindow(pUserData->Desktop,
+                                         WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          break;
+
+        case MPFROM2SHORT(CB_STARTSAVERMODULEONSTARTUP, BN_CLICKED):
+        case MPFROM2SHORT(CB_STARTSAVERMODULEONSTARTUP, BN_DBLCLICKED):
+          wpssdesktop_wpssSetAutoStartAtStartup(pUserData->Desktop,
                                           WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
           break;
 
-        case CB_DELAYPASSWORDPROTECTION:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
-          {
-            wpssdesktop_wpssSetDelayedPasswordProtection(pUserData->Desktop,
-                                         WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-            EnableDisablePage2Controls(hwnd);
-          }
+        case MPFROM2SHORT(CB_DELAYPASSWORDPROTECTION, BN_CLICKED):
+        case MPFROM2SHORT(CB_DELAYPASSWORDPROTECTION, BN_DBLCLICKED):
+          wpssdesktop_wpssSetDelayedPasswordProtection(pUserData->Desktop,
+                                       WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage2Controls(hwnd);
           break;
 
-        case RB_USEPASSWORDOFCURRENTSECURITYUSER:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
-          {
-            wpssdesktop_wpssSetUseCurrentSecurityPassword(pUserData->Desktop, TRUE);
-            EnableDisablePage2Controls(hwnd);
-          }
+        case MPFROM2SHORT(RB_USEPASSWORDOFCURRENTSECURITYUSER, BN_CLICKED):
+        case MPFROM2SHORT(RB_USEPASSWORDOFCURRENTSECURITYUSER, BN_DBLCLICKED):
+          wpssdesktop_wpssSetUseCurrentSecurityPassword(pUserData->Desktop, TRUE);
+          EnableDisablePage2Controls(hwnd);
           break;
 
-        case RB_USETHISPASSWORD:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
-          {
-            wpssdesktop_wpssSetUseCurrentSecurityPassword(pUserData->Desktop, FALSE);
-            EnableDisablePage2Controls(hwnd);
-          }
+        case MPFROM2SHORT(RB_USETHISPASSWORD, BN_CLICKED):
+        case MPFROM2SHORT(RB_USETHISPASSWORD, BN_DBLCLICKED):
+          wpssdesktop_wpssSetUseCurrentSecurityPassword(pUserData->Desktop, FALSE);
+          EnableDisablePage2Controls(hwnd);
           break;
 
-        case SPB_PWDDELAYMIN:
-          if (SHORT2FROMMP(mp1)==SPBN_CHANGE)
+        case MPFROM2SHORT(SPB_PWDDELAYMIN, SPBN_CHANGE):
+          if (pUserData->bPageSetUp)
           {
-            if (pUserData->bPageSetUp)
-            {
-              ULONG ulValue = 1; // Default, in case of problems.
+            ULONG ulValue = 1; // Default, in case of problems.
 
-              WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
-                                (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
-              wpssdesktop_wpssSetDelayedPasswordProtectionTimeout(pUserData->Desktop,
-                                                                  ulValue*60000);
-            }
+            WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
+                              (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
+            wpssdesktop_wpssSetDelayedPasswordProtectionTimeout(pUserData->Desktop,
+                                                                ulValue*60000);
           }
           break;
 
@@ -4097,34 +4066,30 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
 
     case WM_CONTROL:
     {
-      switch (SHORT1FROMMP(mp1)) // Control window ID
+      switch ((ULONG)mp1) // Control window ID & notification code
       {
-        case LB_MODULELIST:
-          if ((SHORT2FROMMP(mp1)==LN_SELECT) || (SHORT2FROMMP(mp1)==LN_ENTER))
-          {
-            SetPage3ModuleInfo(hwnd);
-            UseSelectedModule(hwnd);
-          }
+        case MPFROM2SHORT(LB_MODULELIST, LN_SELECT):
+        case MPFROM2SHORT(LB_MODULELIST, LN_ENTER):
+          SetPage3ModuleInfo(hwnd);
+          UseSelectedModule(hwnd);
           break;
 
-        case CB_SHOWPREVIEW:
-          if (SHORT2FROMMP(mp1)==BN_CLICKED)
-          {
-            pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-            if (!pUserData)
-              break;
+        case MPFROM2SHORT(CB_SHOWPREVIEW, BN_CLICKED):
+        case MPFROM2SHORT(CB_SHOWPREVIEW, BN_DBLCLICKED):
+          pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+          if (!pUserData)
+            break;
 
-            // The button control has been clicked
-            if (WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)))
-            {
-              wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop, TRUE);
-              StartPage3Preview(hwnd);
-            }
-            else
-            {
-              wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop, FALSE);
-              StopPage3Preview(hwnd);
-            }
+          // The button control has been clicked
+          if (WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)))
+          {
+            wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop, TRUE);
+            StartPage3Preview(hwnd);
+          }
+          else
+          {
+            wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop, FALSE);
+            StopPage3Preview(hwnd);
           }
           break;
       }
