@@ -2714,7 +2714,7 @@ SSCOREDECLSPEC int SSCORECALL SSCore_Initialize(HAB habCaller, char *pchHomeDire
   GlobalCurrentSettings.iDPMSStandbyTime = 5*60000; // Set standby mode in 5 secs
   GlobalCurrentSettings.bUseDPMSSuspendState = 0;
   GlobalCurrentSettings.iDPMSSuspendTime = 5*60000; // Set suspend mode in 5 more secs
-  GlobalCurrentSettings.bUseDPMSOffState = 1;
+  GlobalCurrentSettings.bUseDPMSOffState = 0;
   GlobalCurrentSettings.iDPMSOffTime     = 5*60000; // Turn off monitor in 5 more secs
   GlobalCurrentSettings.bWakeByKeyboardOnly = FALSE;
   GlobalCurrentSettings.bFirstKeyEventGoesToPwdWindow = FALSE;
@@ -3006,6 +3006,7 @@ SSCOREDECLSPEC int SSCORECALL SSCore_GetListOfModules(SSCoreModuleList_p *ppModu
       rc = DosLoadModule(achFailure, sizeof(achFailure),
                          achFileNamePath,
                          &hmodDLL);
+      _control87(0x37f, 0x1fff);
       if (rc==NO_ERROR)
       {
         // Cool, DLL could be loaded!
