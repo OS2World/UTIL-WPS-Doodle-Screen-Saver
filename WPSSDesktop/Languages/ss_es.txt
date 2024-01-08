@@ -1,17 +1,16 @@
 /*
- * NLS support file for Doodle's Screen Saver v1.9
+ * NLS support file for Doodle's Screen Saver v2.5
  *
  * Language: Spanish
  * Locales : es_*
  *
  * Author  : Alfredo Fern ndez D¡az, Guillermo G. Llorens
  *
- * Date (YYYY-MM-DD): 2019.07.07.
+ * Date (YYYY-MM-DD): 2023.12.29.
  *
  *
- * To create the binary NLS file from this file, use the MSGC.EXE
- * tool this way:
- * msgc <filename.txt>
+ * Para crear el archivo NLS binario a partir de ‚ste, ejecute
+ * la herramienta MSGC mediante el mandato: msgc ss_es.txt
  *
  */
 
@@ -21,9 +20,9 @@
 // ---------------------------------------------------------------------------
 // Strings for the settings notebook:
 
-COM_0000="~Protector de pantalla";                   // Properties tab text
-COM_0001="Par metros generales";         // Descriptive text for page 1
-COM_0002="Protecci¢n por contrase¤a";    // Descriptive text for page 2
+COM_0000="~Protector de pantalla";             // Properties tab text
+COM_0001="Par metros generales";               // Descriptive text for page 1
+COM_0002="Protecci¢n por contrase¤a";          // Descriptive text for page 2
 COM_0003="M¢dulos del protector de pantalla";  // Descriptive text for page 3
 COM_0004="Ayuda";
 COM_0005="~Por omisi¢n";
@@ -34,10 +33,10 @@ COM_0006="~Deshacer";
 
 PG1_0003="Par metros generales";
 PG1_0004="~Habilitar protecci¢n de pantalla";
-PG1_0005="~Iniciar protecci¢n de pantalla tras";
-PG1_0006="minuto(s) de inactividad del sistema";
+PG1_0005="~Iniciar autom ticamente tras";
+PG1_0006="minuto(s) de espera";
 PG1_0007="Desbloquear s¢lo mediante ~teclado";
-PG1_0008="Inhibir sesiones ~VIO emergentes mientras est‚ activo el protector";
+PG1_0008="Inhibir sesiones ~VIO emergentes";
 
 PG1_0013="Par metros DPMS para el monitor";
 PG1_0014="Utilizar estado ®~En espera¯";
@@ -46,7 +45,7 @@ PG1_0016="Utilizar estado ®~Suspensi¢n¯";
 PG1_0017="Pasar a Suspensi¢n tras";
 PG1_0018="Utilizar estado ®~Apagado¯";
 PG1_0019="Pasar a Apagado tras";
-PG1_0020="minutos(s) de actividad del protector";
+PG1_0020="minuto(s) de bloqueo";
 PG1_0021="minuto(s) ®En espera¯";
 PG1_0022="minuto(s) en ®Suspensi¢n¯";
 
@@ -60,14 +59,14 @@ PG2_0010="Contrase¤a:";
 PG2_0011="(para verificaci¢n)";
 PG2_0012="Ca~mbiar";
 PG2_0013="~Retrasar solicitud de contrase¤a";
-PG2_0014="Pedir la contrase¤a s¢lo tras";
-PG2_0015="minuto(s) de actividad";
-PG2_0016="~Activar autom ticamente al inicio del sistema";
+PG2_0014="No pedir la contrase¤a antes de";
+PG2_0015="minuto(s)";
+PG2_0016="~Bloquear el sistema autom ticamente al inicio";
 PG2_0017="Contrase¤a incorrecta";
 PG2_0018="­Las contrase¤as introducidas no coinciden!";
 PG2_0019="Contrase¤a del usuario actual de ~Security/2";
 PG2_0020="~Especificar contrase¤a:";
-PG2_0022="~Usar como primer car cter de la contrase¤a la primera tecla pulsada";
+PG2_0022="~Usar la primera tecla pulsada para la contrase¤a";
 
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
@@ -77,7 +76,7 @@ PG3_0004="Mostrar ~vista previa";
 PG3_0012="~Iniciar ahora";
 PG3_0013="~Configurar";
 
-PG3_0014="­No hay seleccionado ning£n m¢dulo!\nPor favor, seleccione un m¢dulo para\nproteger la pantalla.";
+PG3_0014="­No hay seleccionado ning£n m¢dulo!\nPor favor, seleccione un m¢dulo para proteger la pantalla.";
 PG3_0015="Vista previa no disponible";
 
 // ---------------------------------------------------------------------------
