@@ -106,6 +106,7 @@
      CREATEOBJECT="WPFolder|Doodle's Screen Saver|<WP_DESKTOP>|OBJECTID=<WP_SCREENSAVERFOLDER>;"
      CREATEOBJECT="REPLACE WPProgram|Use SNAP for DPMS|<WP_SCREENSAVERFOLDER>|EXENAME=$(1)\dpmsmode.cmd;PARAMETERS=0 1;OBJECTID=<WP_SCREENSAVERUSESNAP>;"
      CREATEOBJECT="REPLACE WPProgram|Use Direct VGA Access for DPMS|<WP_SCREENSAVERFOLDER>|EXENAME=$(1)\dpmsmode.cmd;PARAMETERS=1 1;OBJECTID=<WP_SCREENSAVERUSEVGA>;"
+     CREATEOBJECT="REPLACE WPProgram|Reset WPS Properties Size|<WP_SCREENSAVERFOLDER>|EXENAME=$(1)\reset_wps_properties.cmd;PARAMETERS=0;OBJECTID=<WP_RESET_WPS_PROPERTIES>;"
      >You can specify the home folder of the screen saver here, where it will store its configuration and where it will look for additinal files like language packs and screen saver modules.</PCK>
 
 <PCK INDEX="2"
@@ -402,7 +403,7 @@ Select "Cancel" to abort installation.</TEXT>
 <P>
 This archive contains <B>Doodle's Screen Saver v2.5</B>
 <P>
-This is a new screen saver solution for OS/2, ArcaOS and eComStation systems.
+This is a screen saver solution for OS/2, ArcaOS and eComStation systems.
 Its main goal was to have an open-source screen saver which can be developed
 further by others, if needed, and which can co-operate with third party
 applications, like WarpVision, so the screen saver will not activate itself
@@ -411,8 +412,8 @@ while the user watches a movie.
 The screen saver integrates itself into the WPS, replacing the old Lockup
 facility with an extendable screen saver.
 <P>
-You will have to specify a home directory for the screen saver.
-This directory will contain the saver modules and the language files.
+The screensaver by default will put its configuration files in your HOME directory
+under the .dssaver directory. If HOME is not set, you will have to specify a location.
 However the core screen saver binaries will always be installed into the
 system <CODE>=("Var OsDir")</CODE> folders (<CODE>BIN</CODE> and <CODE>DLL</CODE>),
 defaulting to <CODE>=("Var DefaultOsBinDir")</CODE> and <CODE>=("Var DefaultOsDllDir")</CODE>
@@ -433,22 +434,16 @@ folders, and a new WPS class will be registered.
 Select "Next" to continue.
 Select "Cancel" to abort installation.</TEXT>
 <README FORMAT="HTML">
-<B>Installing this version over versions before v1.3 is not supported!</B>
+<B>Upgrading from v24 or earlier will leave your Desktop Properties not looking correct</B>
 <P>
 <UL>
 <LI>
-If you have installed Doodle's Screen Saver <B>v1.2 or older</B>,
-you should uninstall that version first!
-<P>
-Installing this version over any other before v1.3 will result in the screen
-saver modules being put into the wrong folder, so they will not be found.
-<LI>
-If you have installed Doodle's Screen Saver <B>v1.3 or newer</B>,
-you can install this version over the old one to upgrade safely.
+Your Desktop Properties Window may be sized sub-optimal.
+If you would like to resize it, run the "Reset WPS Properties" script in the Screensaver folder
+Doing it with the modules page open will give the best results.
 </UL>
-<P>
-<B>You were warned!</B>
 </README>
+("ResetDesktopProperties")
 </PAGE>
 
 <!-- page 3: changelog -->
@@ -505,15 +500,6 @@ already registered</B>, and will ask You what to do.
 <P>
 If a class is already registered, <B>choose "Yes" to replace that class</B> with the new binaries.
 </UL>
-<P>
-<B>Note:</B><BR>
-It happens on some systems that even though the folder for the screen saver is
-created on the Desktop, it will not contain anything. This problem seems to be
-a <B>WarpIn bug</B>, and is fixed in WarpIn v1.0.6 and later versions. If you
-have an older one, a workaround for it is to open that folder and check its
-contents <U><I>before</I></U> letting WarpIn to restart the Desktop.
-Otherwise, the Desktop will be restarted without the new folder being
-populated, so it will contain no objects after the reboot.
 </README>
 </PAGE>
 
