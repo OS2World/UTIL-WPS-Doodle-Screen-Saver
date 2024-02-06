@@ -434,7 +434,7 @@ folders, and a new WPS class will be registered.
 Select "Next" to continue.
 Select "Cancel" to abort installation.</TEXT>
 <README FORMAT="HTML">
-<B>Upgrading from v24 or earlier will leave your Desktop Properties not looking correct</B>
+<B>Upgrading from v2.4 or earlier will leave your Desktop Properties not looking correct</B>
 <P>
 <UL>
 <LI>
