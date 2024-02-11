@@ -1,8 +1,6 @@
 ChangeLog File:
 
-* v2.5 : 2024.02.04
-  - Add script to resize the  Desktop Properties size,
-     thanks to Alfedo Fern ndez D¡az
+* v2.5 : 2024.02.06
   - Properties help rewrite from Alfredo Fern ndez D¡az
   - Spanish translations from Alfredo Fern ndez D¡az
   - Refactor the Screensaver Settings in the Desktop Properties,

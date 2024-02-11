@@ -106,7 +106,6 @@
      CREATEOBJECT="WPFolder|Doodle's Screen Saver|<WP_DESKTOP>|OBJECTID=<WP_SCREENSAVERFOLDER>;"
      CREATEOBJECT="REPLACE WPProgram|Use SNAP for DPMS|<WP_SCREENSAVERFOLDER>|EXENAME=$(1)\dpmsmode.cmd;PARAMETERS=0 1;OBJECTID=<WP_SCREENSAVERUSESNAP>;"
      CREATEOBJECT="REPLACE WPProgram|Use Direct VGA Access for DPMS|<WP_SCREENSAVERFOLDER>|EXENAME=$(1)\dpmsmode.cmd;PARAMETERS=1 1;OBJECTID=<WP_SCREENSAVERUSEVGA>;"
-     CREATEOBJECT="REPLACE WPProgram|Reset WPS Properties Size|<WP_SCREENSAVERFOLDER>|EXENAME=$(1)\reset_wps_properties.cmd;PARAMETERS=0;OBJECTID=<WP_RESET_WPS_PROPERTIES>;"
      >You can specify the home folder of the screen saver here, where it will store its configuration and where it will look for additinal files like language packs and screen saver modules.</PCK>
 
 <PCK INDEX="2"
@@ -439,11 +438,11 @@ Select "Cancel" to abort installation.</TEXT>
 <UL>
 <LI>
 Your Desktop Properties Window may be sized sub-optimal.
-If you would like to resize it, run the "Reset WPS Properties" script in the Screensaver folder
-Doing it with the modules page open will give the best results.
+<P>
+<LI>
+Suggest opening the modules tab and resizing the properties until it looks correct.
 </UL>
 </README>
-("ResetDesktopProperties")
 </PAGE>
 
 <!-- page 3: changelog -->
