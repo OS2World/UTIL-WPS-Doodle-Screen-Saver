@@ -1,7 +1,8 @@
 /*
- * Screen Saver - Lockup Desktop replacement for OS/2 and eComStation systems
+ * Screen Saver - Lockup Desktop replacement for OS/2, eComStation and ArcaOS systems
  * Copyright (C) 2004-2008 Doodle
- * Copyright (C) 2020 David Yeo
+ * Copyright (C) 2020-2024 David Yeo
+ * Contributor Richard L Walsh
  * Panorama Support based on reference code Copyright (C) 2020 David Azarewicz
  *
  * Contact: doodle@dont.spam.me.scenergy.dfmk.hu
