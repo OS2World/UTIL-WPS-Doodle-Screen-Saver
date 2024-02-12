@@ -8,7 +8,7 @@
 .* Author  : Doodle                                             *
 .* Updates : Dave Yeo, Lewis Rosenthal, Alfredo Fern ndez.      *
 .*                                                              *
-.* Date (YYYY-MM-DD): 2024-01-02.                               *
+.* Date (YYYY-MM-DD): 2024-02-05.                               *
 .*                                                              *
 .*                                                              *
 .* To create the binary HLP file from this file, use the IPFC   *
@@ -303,7 +303,7 @@ context menu) or when started at Desktop initialization.
 .*--------------------------------------------------------------*/
 .*
 :h2 res=3000.Screen Saver modules
-By default, several different visuals, or :hp1.modules:ehp1., are installed
+:p.By default, several different visuals, or :hp1.modules:ehp1., are installed
 along Doodle's Screen Saver. The installed modules are listed in the upper
 left, where any of them can be selected. When this happens, the module in
 question will become the one displayed by DSS whenever it is started.
@@ -342,8 +342,14 @@ party applications, so the screen saver will not activate itself e.g. while the
 user watches a movie.
 
 :p.Writing modules for DSS is both easy and fun!
+:p.Here are some tutorials:
+:sl compact.
+:li.http&colon.//www.edm2.com/index.php/Creating_modules_for_Doodle's_Screen_Saver_-_Part_1
+:li.http&colon.//www.edm2.com/index.php/Creating_modules_for_Doodle's_Screen_Saver_-_Part_2
+:li.http&colon.//www.edm2.com/index.php/Creating_modules_for_Doodle's_Screen_Saver_-_Part_3
+:esl.
 
-:p.:link reftype=hd res=3000.Screen Saver modules:elink.
+:p.Back to :link reftype=hd res=3000.Screen Saver modules:elink.
 
 .*
 .*--------------------------------------------------------------*\
