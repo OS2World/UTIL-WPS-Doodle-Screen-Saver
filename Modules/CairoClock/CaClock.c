@@ -2027,7 +2027,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
 
   // Return info about module!
   pModuleDesc->iVersionMajor = 2;
-  pModuleDesc->iVersionMinor = 11;
+  pModuleDesc->iVersionMinor = 4;
   strcpy(pModuleDesc->achModuleName, "Cairo Clock");
   strcpy(pModuleDesc->achModuleDesc,
          "Clock and current date.\n"

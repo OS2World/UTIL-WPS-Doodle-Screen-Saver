@@ -1241,8 +1241,8 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
     return SSMODULE_ERROR_INVALIDPARAMETER;
 
   // Return info about module!
-  pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 70;
+  pModuleDesc->iVersionMajor = 2;
+  pModuleDesc->iVersionMinor = 0;
   strcpy(pModuleDesc->achModuleName, "Bouncing padlock");
   strcpy(pModuleDesc->achModuleDesc,
          "A golden padlock bouncing around the screen.\n"

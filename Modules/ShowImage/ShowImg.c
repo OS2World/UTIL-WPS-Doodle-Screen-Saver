@@ -1028,7 +1028,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
 
   // Return info about module!
   pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 80;
+  pModuleDesc->iVersionMinor = 81;
   strcpy(pModuleDesc->achModuleName, "Show Image");
   strcpy(pModuleDesc->achModuleDesc,
          "Show an image and blank the screen after some time.\n"

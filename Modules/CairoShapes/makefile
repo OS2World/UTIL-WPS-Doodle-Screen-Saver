@@ -32,7 +32,7 @@ cflags = $(debugflags) -zq -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 
 .before
     rm -f description.lnk
-    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,3.12,Cairo Shapes - ScreenSaver module,v2.5
+    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,3.2,Cairo Shapes - ScreenSaver module,v2.5
     @set include=$(%os2tk)\h;$(%include);$(%UNIXROOT)\usr\include\;..\..
 
 .extensions:

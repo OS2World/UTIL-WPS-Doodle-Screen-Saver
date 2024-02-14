@@ -22,7 +22,7 @@ create_packed_dll=defined
 
 .before
     rm -f description.lnk
-    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.81,Pretty Clock - ScreenSaver module,v2.5
+    ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,2.1,Pretty Clock - ScreenSaver module,v2.5
     set include=..\..;.\libpng;.\zlib129;$(%os2tk)\h;$(%include);
 
 all : $(dllname).dll
