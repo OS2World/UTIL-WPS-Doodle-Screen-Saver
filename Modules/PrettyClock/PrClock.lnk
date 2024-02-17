@@ -4,21 +4,21 @@ name PrClock
 file PrettyClock
 file MSGX
 
-file zlib129\adler32
-file zlib129\compress
-file zlib129\crc32
-file zlib129\deflate
-file zlib129\gzclose
-file zlib129\gzlib
-file zlib129\gzread
-file zlib129\gzwrite
-file zlib129\infback
-file zlib129\inffast
-file zlib129\inflate
-file zlib129\inftrees
-file zlib129\trees
-file zlib129\uncompr
-file zlib129\zutil
+file zlib\adler32
+file zlib\compress
+file zlib\crc32
+file zlib\deflate
+file zlib\gzclose
+file zlib\gzlib
+file zlib\gzread
+file zlib\gzwrite
+file zlib\infback
+file zlib\inffast
+file zlib\inflate
+file zlib\inftrees
+file zlib\trees
+file zlib\uncompr
+file zlib\zutil
 
 file libpng\png
 file libpng\pngerror

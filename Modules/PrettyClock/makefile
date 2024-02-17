@@ -23,7 +23,7 @@ create_packed_dll=defined
 .before
     rm -f description.lnk
     ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,2.1,Pretty Clock - ScreenSaver module,v2.5
-    set include=..\..;.\libpng;.\zlib129;$(%os2tk)\h;$(%include);
+    set include=..\..;.\libpng;.\zlib;$(%os2tk)\h;$(%include);
 
 all : $(dllname).dll
 
@@ -37,7 +37,7 @@ $(dllname).dll: zlib libpng $(object_files)
 !endif
 
 zlib: .SYMBOLIC
-    @cd zlib129
+    @cd zlib
     @wmake -h -f makefile.wat
     @cd ..
 
@@ -47,7 +47,7 @@ libpng: .SYMBOLIC
     @cd ..
     
 clean : .SYMBOLIC
-        @cd zlib129
+        @cd zlib
         @wmake -h -f makefile.wat clean
         @cd ..
         @cd libpng

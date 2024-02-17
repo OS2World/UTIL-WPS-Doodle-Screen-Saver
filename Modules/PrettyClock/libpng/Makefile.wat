@@ -16,7 +16,7 @@ ExtraCFlags=
 !include ..\Watcom.mif
 
 .before
-    set include=..\zlib129;.\;$(%os2tk)\h;$(%include);
+    set include=..\zlib;.\;$(%os2tk)\h;$(%include);
 
 all : $(object_files)
 
