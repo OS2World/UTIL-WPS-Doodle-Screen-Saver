@@ -198,7 +198,7 @@
      >Pseudo module, using other modules.</PCK>
 
 <PCK INDEX="16"
-     PACKAGEID="=("Var PckPrefix")\Module : Show Image\1\9"
+     PACKAGEID="=("Var PckPrefix")\Module : Show Image\2\0"
      TITLE="Show Image"
      REQUIRES=1
      TARGET="$(1)\Modules"
@@ -337,7 +337,7 @@
      >Swedish language support</PCK>
 
 <PCK INDEX="55"
-     PACKAGEID="=("Var PckPrefix")\Language : Chinese\1\9"
+     PACKAGEID="=("Var PckPrefix")\Language : Chinese\2\2"
      TITLE="Chinese language"
      REQUIRES=1
      TARGET="$(1)\Lang"
@@ -355,7 +355,7 @@
      >French language support</PCK>
 
 <PCK INDEX="57"
-     PACKAGEID="=("Var PckPrefix")\Language : Russian\2\0"
+     PACKAGEID="=("Var PckPrefix")\Language : Russian\2\2"
      TITLE="Russian language"
      REQUIRES=1
      TARGET="$(1)\Lang"
