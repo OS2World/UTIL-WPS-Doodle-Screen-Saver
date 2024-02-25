@@ -30,7 +30,7 @@ cflags = $(debugflags) -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 !endif
 
 .before
-    rm -f description.lnk
+    del description.lnk
     ..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.70,Screen Saver module wrapper application,v2.5    
     set include=$(%os2tk)\h;$(%include);..\;
 

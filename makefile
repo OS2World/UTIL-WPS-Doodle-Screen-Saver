@@ -36,7 +36,7 @@ cflags = $(debugflags) -bm -bt=OS2 -6s -fp6 -sg -wx
 # -otexan 
 
 .before
-    rm -f description.lnk
+    del description.lnk
     AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,2.00,Screensaver Core,v24
     set include=$(%os2tk)\h;$(%include);.;
 

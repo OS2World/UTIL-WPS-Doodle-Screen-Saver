@@ -31,7 +31,7 @@ dllflags = -bd
 cflags = $(debugflags) -zq -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx
 
 .before
-    rm -f description.lnk
+    del description.lnk
     ..\..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,2.4,Cairo Clock - ScreenSaver module,v2.5
     @set include=$(%os2tk)\h;$(%include);$(%UNIXROOT)\usr\include;..\..
 

@@ -31,7 +31,7 @@ dllflags = -bd
 cflags = $(debugflags) -bm -bt=OS2 -6 -fp6 -sg -otexanr -wx
 
 .before
-    rm -f description.lnk
+    del description.lnk
     ..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.10,DPMS support for ScreenSaver core,v2.5
     set include=$(%os2tk)\h;$(%include)
 

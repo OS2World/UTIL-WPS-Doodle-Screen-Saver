@@ -1,6 +1,6 @@
 rem @echo off
 @echo Creating bldlevel Description linker file
-rm -f description.lnk
+del description.lnk
 call ..\AddToFile.cmd description.lnk,option description,BLDLEVEL,DRY,1.50,ScreenSaver-extended WPDesktop class (WPSSDesktop),v2.5
 @echo Creating header file from IDL file...
 sc -mnotc -maddstar -mpbl -s"h;ih" WPSSDesktop.idl
