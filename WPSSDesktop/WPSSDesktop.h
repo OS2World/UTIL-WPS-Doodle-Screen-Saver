@@ -280,6 +280,12 @@ SOMEXTERN struct WPSSDesktopCClassDataStructure {
 	WPObject_wpMenuItemSelected(somSelf,hwndFrame,ulMenuId)
 
 /*
+ * Override method: wpMenuItemHelpSelected
+ */
+#define WPSSDesktop_wpMenuItemHelpSelected(somSelf,MenuId) \
+	WPObject_wpMenuItemHelpSelected(somSelf,MenuId)
+
+/*
  * Override method: wpOpen
  */
 #define WPSSDesktop_wpOpen(somSelf,hwndCnr,ulView,param) \
@@ -1365,7 +1371,6 @@ typedef somTP_WPSSDesktop_wpssQueryDisableVIOPopupsWhileSaving *somTD_WPSSDeskto
 #define WPSSDesktop_wpMoveObject WPObject_wpMoveObject
 #define WPSSDesktop_wpDrop WPObject_wpDrop
 #define WPSSDesktop_wpDragOver WPObject_wpDragOver
-#define WPSSDesktop_wpMenuItemHelpSelected WPObject_wpMenuItemHelpSelected
 #define WPSSDesktop_wpAddFile3Page WPFileSystem_wpAddFile3Page
 #define WPSSDesktop_wpAddFile2Page WPFileSystem_wpAddFile2Page
 #define WPSSDesktop_wpFormatDragItem WPObject_wpFormatDragItem

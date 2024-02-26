@@ -5,8 +5,10 @@
  * Locales : ru_*
  *
  * Author  : Yuri Proniakin
+ *         : Yurii Zamotailo
  *
  * Date (YYYY-MM-DD): 2005.12.27
+ *                  : 2023-12-13
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -22,35 +24,35 @@
 // ---------------------------------------------------------------------------
 // Strings for the Configuration dialog:
 
-CFG_0001="Настройка модуля IFSIM";             // Window title
+CFG_0001="IFSIM - Настройки";                        // Window title
 
-CFG_0002="Размер изображения";                 // Groupbox
-CFG_0003="Размер ~экрана";                     // Radio button
-CFG_0004="~Половина размера экрана";           // Radio button
-CFG_0005="~Заданный";                          // Radio button
-CFG_0006="~Размер:";                           // Static text
+CFG_0002="Разрешение экранной заставки";             // Groupbox
+CFG_0003="Текущее разрешение ~экрана";               // Radio button
+CFG_0004="~Половина разрешения экрана";              // Radio button
+CFG_0005="~Заданное пользователем";                  // Radio button
+CFG_0006="Разрешение:";                              // Static text
 
-CFG_0007="Количество точек";                   // Groupbox
-CFG_0008="Задайте число от 1 до 100000";       // Static text
-CFG_0009="~Число точек:";                      // Static text
+CFG_0007="Количество точек";                         // Groupbox
+CFG_0008="Введите значение от 1 до 100000";          // Static text
+CFG_0009="Число точек:";                             // Static text
 
-CFG_0010="Загрузка процессора";                // Groupbox
-CFG_0011="~Наименьший приоритет";              // Radio button
-CFG_0012="~Обычный приоритет";                 // Radio button
+CFG_0010="Загрузка процессора";                      // Groupbox
+CFG_0011="~Наименьший приоритет";                    // Radio button
+CFG_0012="~Обычный приоритет";                       // Radio button
 
-CFG_0013="~Скорость:";                         // Static text
-CFG_0014="кадр./сек";                          // Static text
+CFG_0013="Скорость анимации:";                       // Static text
+CFG_0014="кадров/с";                                 // Static text
 
-CFG_0015="~Использовать WarpOverlay! (если есть)"; // Checkbox
+CFG_0015="Использовать ~WarpOverlay! (при наличии)"; // Checkbox
 
-CFG_0016="~Ok";                                // Ok button
-CFG_0017="О~тмена";                            // Cancel button
+CFG_0016="~Ok";                                      // Ok button
+CFG_0017="О~тменить";                                // Cancel button
 
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
 MOD_NAME="IFS в движении";
-MOD_DESC="Iterated Function System (IFS) в движении.\nАвтор: Doodle\nИспользуются исходные тексты ErOs2";
+MOD_DESC="Iterated Function System (IFS) в движении.\n\nАвтор: Doodle\nИспользуются исходные коды ErOs2";
 
 // ---------------------------------------------------------------------------
 // <EOF>

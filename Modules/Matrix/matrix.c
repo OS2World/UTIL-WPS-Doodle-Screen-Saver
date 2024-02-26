@@ -2186,7 +2186,7 @@ unsigned int MMXCheck(void)
 	xor             eax, eax                ; standard CPUID
 	cpuid
 	test            eax, eax		; check for highest function
-	jz short        MMXChkFail0		; features can't be queried
+	jz short        MMXChkFail0		; features can not be queried
 
 	mov		eax, 1			; get feature information
 	cpuid
@@ -3135,8 +3135,8 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
     return SSMODULE_ERROR_INVALIDPARAMETER;
 
   // Return info about module!
-  pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 90;
+  pModuleDesc->iVersionMajor = 2;
+  pModuleDesc->iVersionMinor = 0;
   strcpy(pModuleDesc->achModuleName, "Matrix");
   strcpy(pModuleDesc->achModuleDesc,
          "Falling letters in Matrix style.\n"

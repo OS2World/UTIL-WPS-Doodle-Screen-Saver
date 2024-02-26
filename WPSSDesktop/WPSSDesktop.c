@@ -24,17 +24,10 @@
 #define M_WPSSDesktop_Class_Source
 
 #define INCL_WIN
-#define INCL_WINSHELLDATA
-#define INCL_WINSTDDRAG
 #define INCL_DOS
-#define INCL_DOSMISC
 #define INCL_GPIPRIMITIVES
 #define INCL_ERRORS
 #include <os2.h>
-
-#define INCL_WPCLASS
-#define INCL_WPFOLDER
-#include <pmwp.h>
 
 #define _ULS_CALLCONV_
 #define CALLCONV _System
@@ -47,6 +40,7 @@
 #include <stdio.h>
 #include <memory.h>
 #include <stdlib.h>
+#include <float.h>
 
 #include "SSCore.h"
 #include "WPSSDesktop-Resources.h"
@@ -61,26 +55,8 @@
 #define MIN_DPMS_TIMEOUT    0
 #define MAX_DPMS_TIMEOUT    180
 
-
-// Common notebook buttons of Help, Undo and Default:
-#define PB_NOTEBOOK_PG1_HELP    5000
-#define PB_NOTEBOOK_PG1_UNDO    5001
-#define PB_NOTEBOOK_PG1_DEFAULT 5002
-
-#define PB_NOTEBOOK_PG2_HELP    5003
-#define PB_NOTEBOOK_PG2_UNDO    5004
-#define PB_NOTEBOOK_PG2_DEFAULT 5005
-
-#define PB_NOTEBOOK_PG3_HELP    5006
-#define PB_NOTEBOOK_PG3_UNDO    5007
-#define PB_NOTEBOOK_PG3_DEFAULT 5008
-
 // Preview area
-#define ID_PREVIEWAREA      5009
 #define PREVIEW_CLASS       "ScreenSaverPreviewAreaWindowClass"
-
-// Temp checkbox to get size
-#define ID_TEMPCHECKBOX     5010
 
 // Some private messages
 #define WM_LANGUAGECHANGED (WM_USER+0xd00d)
@@ -96,12 +72,15 @@ typedef struct Page1UserData_s
   // Startup configuration (used for Undo button)
   int  bUndoEnabled;
   int  iUndoActivationTime;
-  int  bUndoStartAtStartup;
-  int  bUndoPasswordProtected;
-  char achUndoEncryptedPassword[SSCORE_MAXPASSWORDLEN];
-  int  bUndoDelayedPasswordProtection;
-  int  iUndoDelayedPasswordProtectionTime;
   int  bUndoWakeByKeyboardOnly;
+
+  int  bUndoUseDPMSStandbyState;
+  int  iUndoDPMSStandbyStateTimeout;
+  int  bUndoUseDPMSSuspendState;
+  int  iUndoDPMSSuspendStateTimeout;
+  int  bUndoUseDPMSOffState;
+  int  iUndoDPMSOffStateTimeout;
+
 } Page1UserData_t, *Page1UserData_p;
 
 typedef struct Page2UserData_s
@@ -111,12 +90,12 @@ typedef struct Page2UserData_s
   int  bPageSetUp; // TRUE if the page has been set up correctly
 
   // Startup configuration (used for Undo button)
-  int  bUndoUseDPMSStandbyState;
-  int  iUndoDPMSStandbyStateTimeout;
-  int  bUndoUseDPMSSuspendState;
-  int  iUndoDPMSSuspendStateTimeout;
-  int  bUndoUseDPMSOffState;
-  int  iUndoDPMSOffStateTimeout;
+  int  bUndoPasswordProtected;
+  char achUndoEncryptedPassword[SSCORE_MAXPASSWORDLEN];
+  int  bUndoDelayedPasswordProtection;
+  int  iUndoDelayedPasswordProtectionTime;
+  int  bUndoStartAtStartup;
+
 } Page2UserData_t, *Page2UserData_p;
 
 typedef struct Page3UserData_s
@@ -135,13 +114,13 @@ typedef struct Page3UserData_s
   char achUndoSaverDLLFileName[CCHMAXPATHCOMP];
 } Page3UserData_t, *Page3UserData_p;
 
-
-
-
-// We'll have two dialog procs
-MRESULT EXPENTRY fnwpScreenSaverSettingsPage1(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2); // General settings
-MRESULT EXPENTRY fnwpScreenSaverSettingsPage2(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2); // DPMS settings
+// We'll have three dialog procs
+MRESULT EXPENTRY fnwpScreenSaverSettingsPage1(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2); // General & DPMS settings
+MRESULT EXPENTRY fnwpScreenSaverSettingsPage2(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2); // Password settings
 MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2); // Saver modules
+
+static void EnableDisablePage1Controls(HWND hwnd);
+static void EnableDisablePage2Controls(HWND hwnd);
 
 //#define DEBUG_LOGGING
 #ifdef DEBUG_LOGGING
@@ -156,6 +135,8 @@ void AddLog(char *pchMsg)
     fclose(hFile);
   }
 }
+#else
+#define AddLog(p)
 #endif
 
 /*
@@ -182,6 +163,7 @@ int     bWindowClassRegistered = 0;
 int     bFirstOpen = TRUE;
 char    achHomeDirectory[1024];
 char    achLocalHelpFileName[1024];
+char    achFontToUse[128];
 
 HWND    hwndSettingsPage1 = NULLHANDLE;
 HWND    hwndSettingsPage2 = NULLHANDLE;
@@ -204,11 +186,9 @@ static int internal_FileExists(char *pchFileName)
   ULONG ulFindCount = 1;
   APIRET rc;
 
-#ifdef DEBUG_LOGGING
 //  AddLog("[internal_FileExists] : [");
 //  AddLog(pchFileName);
 //  AddLog("]\n");
-#endif
 
   rc = DosFindFirst(pchFileName,
 		    &hdirFindHandle,
@@ -218,12 +198,10 @@ static int internal_FileExists(char *pchFileName)
 		    &ulFindCount,
 		    FIL_STANDARD);
   DosFindClose(hdirFindHandle);
-#ifdef DEBUG_LOGGING
 //  if (rc==NO_ERROR)
 //    AddLog("[internal_FileExists] : rc is NO_ERROR, returning TRUE!\n");
 //  else
 //    AddLog("[internal_FileExists] : rc is some ERROR, returning FALSE!\n");
-#endif
 
   return (rc==NO_ERROR);
 }
@@ -246,11 +224,9 @@ static int  internal_GetRealLocaleNameFromLanguageCode(char *pchLanguageCode,
   // The default result is empty string:
   pchRealLocaleName[0] = 0; // Empty string
 
-#ifdef DEBUG_LOGGING
   AddLog("[internal_GetRealLocaleName] : In: [");
   AddLog(pchLanguageCode);
   AddLog("]\n");
-#endif
 
   // Now, we have to create an unicode string from the locale name
   // we have here. For this, we allocate memory for the UCS string!
@@ -258,9 +234,7 @@ static int  internal_GetRealLocaleNameFromLanguageCode(char *pchLanguageCode,
   pucLanguageCode = (UniChar *) malloc(sizeof(UniChar) * iLanguageCodeLen*4+4);
   if (!pucLanguageCode)
   {
-#ifdef DEBUG_LOGGING
     AddLog("[internal_GetRealLocaleName] : Not enough memory!\n");
-#endif
     // Not enough memory!
     return 0;
   }
@@ -269,9 +243,7 @@ static int  internal_GetRealLocaleNameFromLanguageCode(char *pchLanguageCode,
   rc = UniCreateUconvObject(L"", &ucoTemp);
   if (rc!=ULS_SUCCESS)
   {
-#ifdef DEBUG_LOGGING
     AddLog("[internal_GetRealLocaleName] : Could not create convert object!\n");
-#endif
     // Could not create convert object!
     return 0;
   }
@@ -286,7 +258,7 @@ static int  internal_GetRealLocaleNameFromLanguageCode(char *pchLanguageCode,
   {
     // It's not an empty string, so convert it!
     rc = UniUconvToUcs(ucoTemp,
-                       &pchFrom,
+                       (void**)&pchFrom,
                        &iFromCount,
                        &pucTo,
                        &iToCount,
@@ -295,9 +267,7 @@ static int  internal_GetRealLocaleNameFromLanguageCode(char *pchLanguageCode,
     if (rc!=ULS_SUCCESS)
     {
       // Could not convert language code to UCS string!
-#ifdef DEBUG_LOGGING
       AddLog("[internal_GetRealLocaleName] : Could not convert language code to UCS string!\n");
-#endif
       UniFreeUconvObject(ucoTemp);
       free(pucLanguageCode);
       return 0;
@@ -317,9 +287,7 @@ static int  internal_GetRealLocaleNameFromLanguageCode(char *pchLanguageCode,
   if (rc!=ULS_SUCCESS)
   {
     // Could not create locale object of this name!
-#ifdef DEBUG_LOGGING
     AddLog("[internal_GetRealLocaleName] : Could not create locale object of this name!\n");
-#endif
     UniFreeUconvObject(ucoTemp);
     free(pucLanguageCode);
     return 0;
@@ -333,9 +301,7 @@ static int  internal_GetRealLocaleNameFromLanguageCode(char *pchLanguageCode,
   if ((rc!=ULS_SUCCESS) || (!pucFrom))
   {
     // Could not get real locale name!
-#ifdef DEBUG_LOGGING
     AddLog("[internal_GetRealLocaleName] : Could not get real locale name!\n");
-#endif
     UniFreeLocaleObject(loTemp);
     UniFreeUconvObject(ucoTemp);
     free(pucLanguageCode);
@@ -350,7 +316,7 @@ static int  internal_GetRealLocaleNameFromLanguageCode(char *pchLanguageCode,
   rc = UniUconvFromUcs(ucoTemp,
                        &pucFrom,
                        &iFromCount,
-                       &pchTo,
+                       (void**)&pchTo,
                        &iToCount,
                        &iNonIdentical);
 
@@ -362,11 +328,9 @@ static int  internal_GetRealLocaleNameFromLanguageCode(char *pchLanguageCode,
   UniFreeUconvObject(ucoTemp);
   free(pucLanguageCode);
 
-#ifdef DEBUG_LOGGING
   AddLog("[internal_GetRealLocaleName] : Out: [");
   AddLog(pchRealLocaleName);
   AddLog("]\n");
-#endif
 
   return (rc == ULS_SUCCESS);
 }
@@ -379,9 +343,7 @@ static void internal_SetNLSHelpFilename(WPSSDesktop *somSelf)
   ULONG rc;
   int i;
 
-#ifdef DEBUG_LOGGING
   AddLog("[internal_SetNLSHelpFilename] : Enter!\n");
-#endif
 
   // Try to get a help file name
   rc = 0; // Not found the help file yet.
@@ -395,9 +357,7 @@ static void internal_SetNLSHelpFilename(WPSSDesktop *somSelf)
     // Aaah, there is a language set!
     // Try that one!
 
-#ifdef DEBUG_LOGGING
     AddLog("[internal_SetNLSHelpFilename] : Trying the language which is set by the user!\n");
-#endif
 
     pchLang = (char *) malloc(1024);
     if (!pchLang)
@@ -408,11 +368,9 @@ static void internal_SetNLSHelpFilename(WPSSDesktop *somSelf)
 
       // Assemble NLS file name
       sprintf(achLocalHelpFileName, "%sLang\\ss_%s.HLP", achHomeDirectory, achRealLocaleName);
-#ifdef DEBUG_LOGGING
       AddLog("[internal_SetNLSHelpFilename] : Trying to use help file: [");
       AddLog(achLocalHelpFileName);
       AddLog("] by achLocalLanguage setting (in Not enough memory branch)!\n");
-#endif
       rc = internal_FileExists(achLocalHelpFileName);
     } else
     {
@@ -422,11 +380,9 @@ static void internal_SetNLSHelpFilename(WPSSDesktop *somSelf)
       do {
 	// Assemble NLS file name
 	sprintf(achLocalHelpFileName, "%sLang\\ss_%s.HLP", achHomeDirectory, pchLang);
-#ifdef DEBUG_LOGGING
 	AddLog("[internal_SetNLSHelpFilename] : Trying to use help file: [");
 	AddLog(achLocalHelpFileName);
 	AddLog("] by achLocalLanguage setting! (in Loop)\n");
-#endif
 
 	rc = internal_FileExists(achLocalHelpFileName);
 
@@ -445,34 +401,26 @@ static void internal_SetNLSHelpFilename(WPSSDesktop *somSelf)
 
   if (!rc)
   {
-#ifdef DEBUG_LOGGING
     AddLog("[internal_SetNLSHelpFilename] : No language set, or could not open the required one -> LANG!\n");
-#endif
 
     // No language set, or could not open it, so use LANG variable!
     rc = DosScanEnv("LANG", &pchLang);
     if ((rc!=NO_ERROR) || (!pchLang))
     {
-#ifdef DEBUG_LOGGING
       AddLog("[internal_SetNLSHelpFilename] : Could not query LANG env. var., will use 'en'\n");
-#endif
       pchLang = "en"; // Default
     }
 
     // Assemble NLS file name
     sprintf(achLocalHelpFileName, "%sLang\\ss_%s.HLP", achHomeDirectory, pchLang);
-#ifdef DEBUG_LOGGING
     AddLog("[internal_SetNLSHelpFilename] : Trying to use help file: [");
     AddLog(achLocalHelpFileName);
     AddLog("] by LANG env. variable!\n");
-#endif
 
     rc = internal_FileExists(achLocalHelpFileName);
     if (!rc)
     {
-#ifdef DEBUG_LOGGING
       AddLog("[internal_SetNLSHelpFilename] : Could not open it, trying the default!\n");
-#endif
       pchLang = "en"; // Default
 
       // Assemble NLS file name
@@ -483,9 +431,7 @@ static void internal_SetNLSHelpFilename(WPSSDesktop *somSelf)
 
   if (!rc)
   {
-#ifdef DEBUG_LOGGING
     AddLog("[internal_SetNLSHelpFilename] : Result : No help file!\n");
-#endif
     strcpy(achLocalHelpFileName, "");
   }
 #ifdef DEBUG_LOGGING
@@ -531,11 +477,9 @@ static FILE *internal_OpenNLSFile(WPSSDesktop *somSelf)
 
 	// Assemble NLS file name
 	sprintf(pchFileName, "%sLang\\ss_%s.msg", achHomeDirectory, achRealLocaleName);
-#ifdef DEBUG_LOGGING
 	AddLog("[internal_OpenNLSFile] : Trying to open NLS file: [");
 	AddLog(pchFileName);
 	AddLog("] by achLocalLanguage setting (in Not enough memory branch)!\n");
-#endif
 
 	hfNLSFile = fopenMessageFile(pchFileName);
       } else
@@ -546,11 +490,9 @@ static FILE *internal_OpenNLSFile(WPSSDesktop *somSelf)
 	do {
 	  // Assemble NLS file name
 	  sprintf(pchFileName, "%sLang\\ss_%s.msg", achHomeDirectory, pchLang);
-#ifdef DEBUG_LOGGING
 	  AddLog("[internal_OpenNLSFile] : Trying to open NLS file: [");
 	  AddLog(pchFileName);
 	  AddLog("] by achLocalLanguage setting! (in Loop)\n");
-#endif
 
 	  hfNLSFile = fopenMessageFile(pchFileName);
 
@@ -575,27 +517,21 @@ static FILE *internal_OpenNLSFile(WPSSDesktop *somSelf)
       rc = DosScanEnv("LANG", &pchLang);
       if ((rc!=NO_ERROR) || (!pchLang))
       {
-#ifdef DEBUG_LOGGING
         AddLog("[internal_OpenNLSFile] : Could not query LANG env. var., will use 'en'\n");
-#endif
         pchLang = "en"; // Default
       }
 
       // Assemble NLS file name
       sprintf(pchFileName, "%sLang\\ss_%s.msg", achHomeDirectory, pchLang);
-#ifdef DEBUG_LOGGING
       AddLog("[internal_OpenNLSFile] : Trying to open NLS file: [");
       AddLog(pchFileName);
       AddLog("] by LANG env. variable!\n");
-#endif
 
       hfNLSFile = fopenMessageFile(pchFileName);
 
       if (!hfNLSFile)
       {
-#ifdef DEBUG_LOGGING
 	AddLog("[internal_OpenNLSFile] : Could not open it, trying the default!\n");
-#endif
 	pchLang = "en"; // Default
 
 	// Assemble NLS file name
@@ -606,9 +542,7 @@ static FILE *internal_OpenNLSFile(WPSSDesktop *somSelf)
     free(pchFileName);
   }
 
-#ifdef DEBUG_LOGGING
   AddLog("[internal_OpenNLSFile] : Done.\n");
-#endif
 
   return hfNLSFile;
 }
@@ -627,9 +561,7 @@ static void internal_SendNLSTextToSSCore(WPSSDesktop *somSelf, FILE *hfNLSFile)
   pchTemp = (char *) malloc(1024);
   if ((hfNLSFile) && (pchTemp))
   {
-#ifdef DEBUG_LOGGING
     AddLog("[internal_SendNLSTextToSSCore] : Memory alloced.\n");
-#endif
 
     for (i=0; i<SSCORE_NLSTEXT_MAX+1; i++)
     {
@@ -680,27 +612,22 @@ static void internal_SendNLSTextToSSCore(WPSSDesktop *somSelf, FILE *hfNLSFile)
           else
             SSCore_SetNLSText(i, NULL);
 	  break;
+
 	case SSCORE_NLSTEXT_FONTTOUSE:
-	  if (sprintmsg(pchTemp, hfNLSFile, "MOD_0007"))
-	    SSCore_SetNLSText(i, pchTemp);
-          else
-            SSCore_SetNLSText(i, NULL);
-	  break;
+    SSCore_SetNLSText(i, achFontToUse);
+    break;
+
 	default:
 	  SSCore_SetNLSText(i, NULL);
           break;
       }
     }
 
-#ifdef DEBUG_LOGGING
     AddLog("[internal_SendNLSTextToSSCore] : For loop done.\n");
-#endif
 
   } else
   {
-#ifdef DEBUG_LOGGING
     AddLog("[internal_SendNLSTextToSSCore] : No NLS file or not enough memory!\n");
-#endif
 
     // Not enough memory, or no NLS file!
     for (i=0; i<SSCORE_NLSTEXT_MAX+1; i++)
@@ -720,11 +647,9 @@ static void internal_wpDisplayHelp(WPSSDesktop *somSelf, int iHelpID)
   // If there is a help file, then:
   if (achLocalHelpFileName[0])
   {
-#ifdef DEBUG_LOGGING
     AddLog("[internal_wpDisplayHelp] : Displaying help from [");
     AddLog(achLocalHelpFileName);
     AddLog("]\n");
-#endif
     _wpDisplayHelp(somSelf, iHelpID, achLocalHelpFileName);
   }
 #ifdef DEBUG_LOGGING
@@ -829,10 +754,10 @@ static void internal_NotifyWindowsAboutLanguageChange(FILE *hfNLSFile)
     if (pchTemp)
     {
       if (!sprintmsg(bpi.pszMinorTab, hfNLSFile, "COM_0002"))
-        bpi.pszMinorTab = (PSZ) "DPMS settings";
+        bpi.pszMinorTab = (PSZ) "Password protection";
     } else
     {
-      bpi.pszMinorTab = (PSZ) "DPMS settings";
+      bpi.pszMinorTab = (PSZ) "Password protection";
     }
 
     bpi.cbMinorTab = strlen(bpi.pszMinorTab);
@@ -881,6 +806,24 @@ static void internal_NotifyWindowsAboutLanguageChange(FILE *hfNLSFile)
   }
 }
 
+//---------------------------------------------------------------------
+// LibMain
+//
+// This gets called at DLL initialization and termination.
+//---------------------------------------------------------------------
+unsigned _System LibMain(unsigned hmod, unsigned termination)
+{
+  if (termination)
+  {
+    // Cleanup!
+  } else
+  {
+    // Startup!
+    // Save DLL Module handle
+    hmodThisDLL = hmod;
+  }
+  return 1;
+}
 
 /*************************  INSTANCE METHODS SECTION  *************************
 *****                                                                     *****
@@ -894,15 +837,13 @@ static void internal_NotifyWindowsAboutLanguageChange(FILE *hfNLSFile)
 SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver3Page(WPSSDesktop *somSelf,
                                                            HWND hwndNotebook)
 {
-  ULONG ulPageID;
+  ULONG         ulPageID;
   PAGEINFO      pi;
   BOOKPAGEINFO  bpi;
-  char *pchTemp;
-  FILE *hfNLSFile;
+  FILE         *hfNLSFile;
+  char          szText[128];
 
-#ifdef DEBUG_LOGGING
   AddLog("[wpssdesktop_wpssAddScreenSaver3Page] : Enter\n");
-#endif
 
   // Don't be confused by the fact that this function is AddScreenSaver3Page,
   // but we add DLG_SCREENSAVERSETTINGSPAGE1 with function fnwpScrenSaverSettingsPage1!
@@ -925,34 +866,21 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver3Page(WPSSDesktop *somSelf,
   pi.pfnwp = fnwpScreenSaverSettingsPage1;
   pi.resid = hmodThisDLL;
   pi.dlgid = DLG_SCREENSAVERSETTINGSPAGE1;
-  if (hfNLSFile)
-  {
-    pi.pszName = pchTemp = (char *) malloc(1024);
-  } else
-    pchTemp = NULL;
-  if (pchTemp)
-  {
-    if (!sprintmsg(pi.pszName, hfNLSFile, "COM_0000"))
-      pi.pszName = "S~creen Saver";
-  } else
-  {
-    pi.pszName = "S~creen Saver";
-  }
-  pi.pCreateParams = somSelf;
 
+  if (!hfNLSFile || !sprintmsg(szText, hfNLSFile, "COM_0000"))
+    pi.pszName = (PSZ) "S~creen Saver";
+  else
+    pi.pszName = szText;
+
+  pi.pCreateParams = somSelf;
   pi.pszHelpLibraryName = achLocalHelpFileName;
-  pi.idDefaultHelpPanel = HELPID_PAGE1_GENERAL;
+  pi.idDefaultHelpPanel = HELPID_PAGE1_GENERALSETTINGS;
 
   ulPageID = _wpInsertSettingsPage(somSelf, hwndNotebook, &pi);
 
-  if (pchTemp)
-    free(pchTemp);
-
   if (ulPageID==0)
   {
-#ifdef DEBUG_LOGGING
     AddLog("[wpssdesktop_wpssAddScreenSaver3Page] : Could not insert page!\n");
-#endif
     // Could not insert new page!
     return SETTINGS_PAGE_REMOVED;
   }
@@ -963,28 +891,13 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver3Page(WPSSDesktop *somSelf,
   bpi.cb = sizeof(bpi);
   bpi.fl = BFA_MINORTABTEXT;
 
-  if (hfNLSFile)
-  {
-    bpi.pszMinorTab = pchTemp = (char *) malloc(1024);
-  } else
-    pchTemp = NULL;
-  if (pchTemp)
-  {
-    if (!sprintmsg(bpi.pszMinorTab, hfNLSFile, "COM_0001"))
-      bpi.pszMinorTab = (PSZ) "General Screen Saver settings";
-  } else
-  {
+  if (!hfNLSFile || !sprintmsg(szText, hfNLSFile, "COM_0001"))
     bpi.pszMinorTab = (PSZ) "General Screen Saver settings";
-  }
+  else
+    bpi.pszMinorTab = szText;
 
   bpi.cbMinorTab = strlen(bpi.pszMinorTab);
-  WinSendMsg(hwndNotebook,
-             BKM_SETPAGEINFO,
-             (MPARAM) ulPageID,
-             (MPARAM) &bpi);
-
-  if (pchTemp)
-    free(pchTemp);
+  WinSendMsg(hwndNotebook, BKM_SETPAGEINFO, (MPARAM) ulPageID, (MPARAM) &bpi);
 
   // Save notebook handle so the text can be changed lated on the fly!
   hwndSettingsNotebook = hwndNotebook;
@@ -992,9 +905,7 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver3Page(WPSSDesktop *somSelf,
 
   internal_CloseNLSFile(hfNLSFile);
 
-#ifdef DEBUG_LOGGING
   AddLog("[wpssdesktop_wpssAddScreenSaver3Page] : Leave\n");
-#endif
 
   // Ok, new page inserted!
   return ulPageID;
@@ -1003,19 +914,15 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver3Page(WPSSDesktop *somSelf,
 SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver2Page(WPSSDesktop *somSelf,
                                                            HWND hwndNotebook)
 {
-  ULONG ulPageID;
+  ULONG         ulPageID;
   PAGEINFO      pi;
   BOOKPAGEINFO  bpi;
-  char *pchTemp;
-  FILE *hfNLSFile;
+  FILE         *hfNLSFile;
+  char          szText[128];
 
-#ifdef DEBUG_LOGGING
   AddLog("[wpssdesktop_wpssAddScreenSaver2Page] : Enter\n");
-#endif
 
   // See notes in wpssAddScreenSaver3Page about which function adds which page!
-
-  hfNLSFile = internal_OpenNLSFile(somSelf);
 
   memset(&pi, 0, sizeof(PAGEINFO));
 
@@ -1031,14 +938,12 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver2Page(WPSSDesktop *somSelf,
   pi.pCreateParams = somSelf;
 
   pi.pszHelpLibraryName = achLocalHelpFileName;
-  pi.idDefaultHelpPanel = HELPID_PAGE2_GENERAL;
+  pi.idDefaultHelpPanel = HELPID_PAGE2_PASSWORDPROTECTION;
 
   ulPageID = _wpInsertSettingsPage(somSelf, hwndNotebook, &pi);
   if (ulPageID==0)
   {
-#ifdef DEBUG_LOGGING
     AddLog("[wpssdesktop_wpssAddScreenSaver2Page] : Could not insert page!\n");
-#endif
     // Could not insert new page!
     return SETTINGS_PAGE_REMOVED;
   }
@@ -1049,28 +954,14 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver2Page(WPSSDesktop *somSelf,
   bpi.cb = sizeof(bpi);
   bpi.fl = BFA_MINORTABTEXT;
 
-  if (hfNLSFile)
-  {
-    bpi.pszMinorTab = pchTemp = (char *) malloc(1024);
-  } else
-    pchTemp = NULL;
-  if (pchTemp)
-  {
-    if (!sprintmsg(bpi.pszMinorTab, hfNLSFile, "COM_0002"))
-      bpi.pszMinorTab = (PSZ) "DPMS settings";
-  } else
-  {
-    bpi.pszMinorTab = (PSZ) "DPMS settings";
-  }
+  if (!(hfNLSFile = internal_OpenNLSFile(somSelf)) ||
+      !sprintmsg(szText, hfNLSFile, "COM_0002"))
+    bpi.pszMinorTab = (PSZ) "Password protection";
+  else
+    bpi.pszMinorTab = szText;
 
   bpi.cbMinorTab = strlen(bpi.pszMinorTab);
-  WinSendMsg(hwndNotebook,
-             BKM_SETPAGEINFO,
-             (MPARAM) ulPageID,
-             (MPARAM) &bpi);
-
-  if (pchTemp)
-    free(pchTemp);
+  WinSendMsg(hwndNotebook, BKM_SETPAGEINFO, (MPARAM) ulPageID, (MPARAM) &bpi);
 
   // Save pageID for later use!
   hwndSettingsNotebook = hwndNotebook;
@@ -1078,10 +969,7 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver2Page(WPSSDesktop *somSelf,
 
   internal_CloseNLSFile(hfNLSFile);
 
-#ifdef DEBUG_LOGGING
   AddLog("[wpssdesktop_wpssAddScreenSaver2Page] : Leave\n");
-#endif
-
 
   // Ok, new page inserted!
   return ulPageID;
@@ -1091,19 +979,15 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver2Page(WPSSDesktop *somSelf,
 SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver1Page(WPSSDesktop *somSelf,
                                                            HWND hwndNotebook)
 {
-  ULONG ulPageID;
+  ULONG         ulPageID;
   PAGEINFO      pi;
   BOOKPAGEINFO  bpi;
-  char *pchTemp;
-  FILE *hfNLSFile;
+  FILE         *hfNLSFile;
+  char          szText[128];
 
-#ifdef DEBUG_LOGGING
   AddLog("[wpssdesktop_wpssAddScreenSaver1Page] : Enter\n");
-#endif
 
   // See notes in wpssAddScreenSaver3Page about which function adds which page!
-
-  hfNLSFile = internal_OpenNLSFile(somSelf);
 
   memset(&pi, 0, sizeof(PAGEINFO));
 
@@ -1119,14 +1003,12 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver1Page(WPSSDesktop *somSelf,
   pi.pCreateParams = somSelf;
 
   pi.pszHelpLibraryName = achLocalHelpFileName;
-  pi.idDefaultHelpPanel = HELPID_PAGE3_GENERAL;
+  pi.idDefaultHelpPanel = HELPID_PAGE3_SAVERMODULES;
 
   ulPageID = _wpInsertSettingsPage(somSelf, hwndNotebook, &pi);
   if (ulPageID==0)
   {
-#ifdef DEBUG_LOGGING
     AddLog("[wpssdesktop_wpssAddScreenSaver1Page] : Could not insert page!\n");
-#endif
     // Could not insert new page!
     return SETTINGS_PAGE_REMOVED;
   }
@@ -1137,19 +1019,11 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver1Page(WPSSDesktop *somSelf,
   bpi.cb = sizeof(bpi);
   bpi.fl = BFA_MINORTABTEXT;
 
-  if (hfNLSFile)
-  {
-    bpi.pszMinorTab = pchTemp = (char *) malloc(1024);
-  } else
-    pchTemp = NULL;
-  if (pchTemp)
-  {
-    if (!sprintmsg(bpi.pszMinorTab, hfNLSFile, "COM_0003"))
-      bpi.pszMinorTab = (PSZ) "Screen Saver modules";
-  } else
-  {
+  if (!(hfNLSFile = internal_OpenNLSFile(somSelf)) ||
+      !sprintmsg(szText, hfNLSFile, "COM_0003"))
     bpi.pszMinorTab = (PSZ) "Screen Saver modules";
-  }
+  else
+    bpi.pszMinorTab = szText;
 
   bpi.cbMinorTab = strlen(bpi.pszMinorTab);
   WinSendMsg(hwndNotebook,
@@ -1157,18 +1031,13 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpssAddScreenSaver1Page(WPSSDesktop *somSelf,
              (MPARAM) ulPageID,
              (MPARAM) &bpi);
 
-  if (pchTemp)
-    free(pchTemp);
-
   // Save pageID for later use!
   hwndSettingsNotebook = hwndNotebook;
   ulSettingsPage3ID = ulPageID;
 
   internal_CloseNLSFile(hfNLSFile);
 
-#ifdef DEBUG_LOGGING
   AddLog("[wpssdesktop_wpssAddScreenSaver1Page] : Leave\n");
-#endif
 
   // Ok, new page inserted!
   return ulPageID;
@@ -1185,18 +1054,17 @@ SOM_Scope VOID SOMLINK wpssdesktop_wpssStartScreenSaverModulePreview(WPSSDesktop
   int rc;
 
   AddLog("[wpssStartScreenSaverModulePreview]\n");
-  rc =
-#endif
-
-  SSCore_StartModulePreview(pszSaverDLLFileName, hwndClientArea);
-
-#ifdef DEBUG_LOGGING
+  rc = SSCore_StartModulePreview(pszSaverDLLFileName, hwndClientArea);
   if (rc!=SSCORE_NOERROR)
   {
     char achTemp[128];
     sprintf(achTemp,"StartModulePreview SSCore error: rc=0x%x\n", rc);
     AddLog(achTemp);
   }
+#else
+
+  SSCore_StartModulePreview(pszSaverDLLFileName, hwndClientArea);
+
 #endif
 }
 
@@ -1207,9 +1075,7 @@ SOM_Scope VOID SOMLINK wpssdesktop_wpssConfigureScreenSaverModule(WPSSDesktop *s
 
 SOM_Scope VOID SOMLINK wpssdesktop_wpssStopScreenSaverModulePreview(WPSSDesktop *somSelf, HWND hwndClientArea)
 {
-#ifdef DEBUG_LOGGING
   AddLog("[wpssStopScreenSaverModulePreview]\n");
-#endif
   SSCore_StopModulePreview(hwndClientArea);
 }
 
@@ -1217,9 +1083,7 @@ SOM_Scope VOID SOMLINK wpssdesktop_wpssSetScreenSaverEnabled(WPSSDesktop *somSel
 {
   SSCoreSettings_t CurrentSettings;
 
-#ifdef DEBUG_LOGGING
   AddLog("[SetScreenSaverEnabled] : Called!\n");
-#endif
   if (SSCore_GetCurrentSettings(&CurrentSettings)==SSCORE_NOERROR)
   {
     CurrentSettings.bEnabled = bEnabled;
@@ -1241,9 +1105,7 @@ SOM_Scope VOID SOMLINK wpssdesktop_wpssSetScreenSaverTimeout(WPSSDesktop *somSel
 {
   SSCoreSettings_t CurrentSettings;
 
-#ifdef DEBUG_LOGGING
   AddLog("[SetScreenSaverTimeout] : Called!\n");
-#endif
   if (SSCore_GetCurrentSettings(&CurrentSettings)==SSCORE_NOERROR)
   {
     CurrentSettings.iActivationTime = (int) ulTimeoutInmsec;
@@ -1423,22 +1285,15 @@ SOM_Scope ULONG SOMLINK wpssdesktop_wpssQueryInfoAboutAvailableScreenSaverModule
   SSCoreModuleList_p pList, pTemp;
   ULONG ulResult;
 
-#ifdef DEBUG_LOGGING
   AddLog("[WPSSDesktop] : QIAASSM: Calling SSCore_GetListOfModules()\n");
-#endif
 
   if (SSCore_GetListOfModules(&pList)!=SSCORE_NOERROR)
   {
-#ifdef DEBUG_LOGGING
     AddLog("[WPSSDesktop] : QIAASSM: SSCore_GetListOfModules() returned error, returning 0\n");
-#endif
-
     return 0;
   }
 
-#ifdef DEBUG_LOGGING
   AddLog("[WPSSDesktop] : QIAASSM: Processing the result\n");
-#endif
 
   // Ok, got the list, count the number of elements!
   ulResult = 0;
@@ -1465,15 +1320,11 @@ SOM_Scope ULONG SOMLINK wpssdesktop_wpssQueryInfoAboutAvailableScreenSaverModule
     pTemp = pTemp->pNext;
   }
 
-#ifdef DEBUG_LOGGING
   AddLog("[WPSSDesktop] : QIAASSM: Calling SSCore_FreeListOfModules()\n");
-#endif
 
   SSCore_FreeListOfModules(pList);
 
-#ifdef DEBUG_LOGGING
   AddLog("[WPSSDesktop] : QIAASSM: Done, returning.\n");
-#endif
   return ulResult;
 }
 
@@ -1686,9 +1537,7 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpSaveState(WPSSDesktop *somSelf)
   // Save our state
   if (_wpIsCurrentDesktop(somSelf))
   {
-#ifdef DEBUG_LOGGING
     AddLog("[WPSSDesktop] : wpSaveState : I'm the desktop object, saving my state.\n");
-#endif
 
     _wpSaveLong(somSelf, "WPSSDesktop", 1, _bPreviewEnabled);
     _wpSaveLong(somSelf, "WPSSDesktop", 2, _bAutoStartAtStartup);
@@ -1718,9 +1567,7 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpRestoreState(WPSSDesktop *somSelf, ULONG ul
     // object somehow doesn't like that, that setting did not stick...
     if (_wpIsCurrentDesktop(somSelf))
     {
-#ifdef DEBUG_LOGGING
       AddLog("[WPSSDesktop] : wpRestoreState : I'm the desktop object, calling setup.\n");
-#endif
       _wpSetup(somSelf, "AUTOLOCKUP=NO;LOCKUPONSTARTUP=NO");
     }
   }
@@ -1731,9 +1578,7 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpRestoreState(WPSSDesktop *somSelf, ULONG ul
     ULONG ulValue;
     FILE *hfNLSFile;
 
-#ifdef DEBUG_LOGGING
     AddLog("[WPSSDesktop] : wpRestoreState : I'm the desktop object, restoring my state.\n");
-#endif
     ulValue = sizeof(_achLanguage);
     _wpRestoreString(somSelf, "WPSSDesktop", 3, _achLanguage, &ulValue);
     _wpRestoreLong(somSelf, "WPSSDesktop", 2, &_bAutoStartAtStartup);
@@ -1784,9 +1629,7 @@ SOM_Scope VOID SOMLINK wpssdesktop_wpSetAutoLockup(WPSSDesktop *somSelf, BOOL bA
     // Hm, somebody wants to set autolockup on the desktop.
     // We always set it to OFF, and turn on/off the screen saver as the autolockup
     // is wanted to be turned on/off.
-#ifdef DEBUG_LOGGING
     AddLog("[WPSSDesktop] : wpSetAutoLockup\n");
-#endif
     parent_wpSetAutoLockup(somSelf, FALSE);
     wpssdesktop_wpssSetScreenSaverEnabled(somSelf, bAutoLockup);
   } else
@@ -1801,9 +1644,7 @@ SOM_Scope VOID SOMLINK wpssdesktop_wpSetLockupOnStartup(WPSSDesktop *somSelf, BO
   {
     // Hm, somebody wants to set LockupOnStartup on the desktop.
     // We always set it to OFF!
-#ifdef DEBUG_LOGGING
     AddLog("[WPSSDesktop] : wpLockOnStartup\n");
-#endif
     parent_wpSetLockupOnStartup(somSelf, FALSE);
     // Instead, we route it to our own function, setting auto-start saver at startup.
     wpssdesktop_wpssSetAutoStartAtStartup(somSelf, bLockupOnStartup);
@@ -1824,10 +1665,8 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpSetup(WPSSDesktop *somSelf, PSZ pszSetupStr
   // Make it sure that the setup strings will not be used to
   // turn on autolockup or lockuponstartup!
 
-#ifdef DEBUG_LOGGING
   AddLog("[WPSSDesktop] : wpSetup\n");
   AddLog(" String: ["); AddLog(pszSetupString); AddLog("]\n");
-#endif
 
   bNeedAutoLockupOff = FALSE;
   bNeedLockOnStartupOff = FALSE;
@@ -1844,9 +1683,7 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpSetup(WPSSDesktop *somSelf, PSZ pszSetupStr
     {
       if (!stricmp(szValue, "YES"))
       {
-#ifdef DEBUG_LOGGING
 	AddLog("[WPSSDesktop] : wpSetup : AUTOLOCKUP=YES!\n");
-#endif
         bNeedAutoLockupOff = TRUE;
       }
     }
@@ -1858,9 +1695,7 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpSetup(WPSSDesktop *somSelf, PSZ pszSetupStr
     {
       if (!stricmp(szValue, "YES"))
       {
-#ifdef DEBUG_LOGGING
 	AddLog("[WPSSDesktop] : wpSetup : LOCKUPONSTARTUP=YES!\n");
-#endif
         bNeedLockOnStartupOff = TRUE;
 
         // We route it to our own function, setting auto-start saver at startup.
@@ -1897,9 +1732,7 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpMenuItemSelected(WPSSDesktop *somSelf,
     {
       case WPMENUID_LOCKUP:
 	// It's the LockUp Now menuitem, call the screensaver instead of the lockup!
-#ifdef DEBUG_LOGGING
 	AddLog("[WPSSDesktop] : wpMenuItemSelected : WPMENUID_LOCKUP\n");
-#endif
         wpssdesktop_wpssStartScreenSaverNow(somSelf, TRUE);
         break;
 
@@ -1911,6 +1744,19 @@ SOM_Scope BOOL SOMLINK wpssdesktop_wpMenuItemSelected(WPSSDesktop *somSelf,
   } else
     return parent_wpMenuItemSelected(somSelf, hwndFrame, MenuId);
 }
+
+SOM_Scope BOOL SOMLINK wpssdesktop_wpMenuItemHelpSelected(WPSSDesktop *somSelf,
+                                                      ULONG MenuId)
+{
+  if (_wpIsCurrentDesktop(somSelf) && MenuId == WPMENUID_LOCKUP)
+  {
+    internal_wpDisplayHelp(somSelf, HELPID_OVERVIEW);
+    return TRUE;
+  }
+
+  return parent_wpMenuItemHelpSelected(somSelf, MenuId);
+}
+
 
 SOM_Scope HWND SOMLINK wpssdesktop_wpOpen(WPSSDesktop *somSelf,
                                           HWND hwndCnr,
@@ -1924,38 +1770,29 @@ SOM_Scope HWND SOMLINK wpssdesktop_wpOpen(WPSSDesktop *somSelf,
 
   if (bFirstOpen)
   {
-#ifdef DEBUG_LOGGING
     AddLog("[WPSSDesktop] : wpOpen : It was the first open!\n");
-#endif
 
     bFirstOpen = FALSE;
 
     if (_bAutoStartAtStartup)
     {
-#ifdef DEBUG_LOGGING
       AddLog("[WPSSDesktop] : wpOpen : Autostart is ON!\n");
-#endif
       if (wpssdesktop_wpssQueryScreenSaverPasswordProtected(somSelf))
       {
-#ifdef DEBUG_LOGGING
         AddLog("[WPSSDesktop] : wpOpen : PwdProt is ON -> Start saver!\n");
-#endif
         wpssdesktop_wpssStartScreenSaverNow(somSelf, TRUE);
       }
 #ifdef DEBUG_LOGGING
       else
         AddLog("[WPSSDesktop] : wpOpen : PwdProt is OFF!\n");
-#endif
-
     }
-#ifdef DEBUG_LOGGING
     else
     {
       AddLog("[WPSSDesktop] : wpOpen : Autostart is OFF!\n");
+#endif
     }
 
     AddLog("[WPSSDesktop] : wpOpen : End of processing of first open.\n");
-#endif
   }
 
   return hwndResult;
@@ -1976,9 +1813,7 @@ SOM_Scope BOOL SOMLINK wpssdesktopM_wpssclsInitializeScreenSaver(M_WPSSDesktop *
   int rc;
   ULONG ulValue;
 
-#ifdef DEBUG_LOGGING
   AddLog("[wpssdesktopM_wpssclsInitializeScreenSaver] : Enter\n");
-#endif
 
   ulValue = PrfQueryProfileString(HINI_PROFILE,
                                   "SSaver",
@@ -2010,11 +1845,13 @@ SOM_Scope BOOL SOMLINK wpssdesktopM_wpssclsInitializeScreenSaver(M_WPSSDesktop *
     }
   }
 
-#ifdef DEBUG_LOGGING
   AddLog("[wpssclsInitializeScreenSaver] : Home dir: [");
   AddLog(achHomeDirectory);
   AddLog("]\n");
-#endif
+
+  // use the window text font in effect at startup for the entire session
+  PrfQueryProfileString(HINI_USER, "PM_SystemFonts", "WindowText",
+                        "9.WarpSans", achFontToUse, sizeof(achFontToUse));
 
   // Initialize Screen Saver
   rc = SSCore_Initialize(WinQueryAnchorBlock(HWND_DESKTOP), achHomeDirectory);
@@ -2025,18 +1862,14 @@ SOM_Scope BOOL SOMLINK wpssdesktopM_wpssclsInitializeScreenSaver(M_WPSSDesktop *
   }
 #endif
 
-#ifdef DEBUG_LOGGING
   AddLog("[wpssdesktopM_wpssclsInitializeScreenSaver] : Leave\n");
-#endif
 
   return (rc==SSCORE_NOERROR);
 }
 
 SOM_Scope BOOL SOMLINK wpssdesktopM_wpssclsUninitializeScreenSaver(M_WPSSDesktop *somSelf)
 {
-#ifdef DEBUG_LOGGING
   AddLog("[wpssdesktopM_wpssclsUninitializeScreenSaver] : Calling sscore_uninitialize\n");
-#endif
   return (SSCore_Uninitialize()==SSCORE_NOERROR);
 }
 
@@ -2065,20 +1898,7 @@ SOM_Scope PSZ SOMLINK wpssdesktopM_wpclsQueryTitle(M_WPSSDesktop *somSelf)
 
 SOM_Scope BOOL SOMLINK wpssdesktopM_wpclsQuerySettingsPageSize(M_WPSSDesktop *somSelf, PSIZEL pSizl)
 {
-  BOOL rc;
-
-  // Query default settings page size from parent
-  rc = parent_wpclsQuerySettingsPageSize(somSelf, pSizl);
-  if (rc)
-  {
-    // Modify the minimum height, if needed!
-    // This 180 Dialog Units height seems to be okay in most cases.
-    // (empirically...)
-    if (pSizl->cy < 210)
-      pSizl->cy = 210;
-  }
-
-  return rc;
+  return  parent_wpclsQuerySettingsPageSize(somSelf, pSizl);
 }
 
 
@@ -2089,1182 +1909,6 @@ SOM_Scope BOOL SOMLINK wpssdesktopM_wpclsQuerySettingsPageSize(M_WPSSDesktop *so
 ******************************************************************************/
 #undef SOM_CurrentClass
 
-static void internal_GetStaticTextSize(HWND hwnd, ULONG ulID, int *piCX, int *piCY)
-{
-  HPS hps;
-  char achTemp[512];
-  POINTL aptl[TXTBOX_COUNT];
-
-  WinQueryDlgItemText(hwnd, ulID, sizeof(achTemp), achTemp);
-
-  hps = WinGetPS(WinWindowFromID(hwnd, ulID));
-  GpiQueryTextBox(hps, strlen(achTemp),
-                  achTemp,
-		  TXTBOX_COUNT,
-		  aptl);
-
-  *piCX = aptl[TXTBOX_TOPRIGHT].x - aptl[TXTBOX_BOTTOMLEFT].x;
-  *piCY = aptl[TXTBOX_TOPRIGHT].y - aptl[TXTBOX_BOTTOMLEFT].y;
-
-  WinReleasePS(hps);
-}
-
-static void internal_GetCheckboxExtraSize(HWND hwnd, ULONG ulID, int *piCX, int *piCY)
-{
-  HWND hwndTemp;
-  SWP swpTemp;
-
-  // Create temporary checkbox with no text inside
-  hwndTemp = WinCreateWindow(hwnd, WC_BUTTON,
-                             "",
-                             BS_CHECKBOX | BS_AUTOSIZE,
-                             10, 10,
-                             -1, -1,
-                             hwnd,
-                             HWND_TOP,
-                             ID_TEMPCHECKBOX,
-                             NULL, NULL);
-
-  // Query textbox size
-  WinQueryWindowPos(hwndTemp, &swpTemp);
-  // Destroy temporary checkbox
-  WinDestroyWindow(hwndTemp);
-
-  *piCX = swpTemp.cx+1;
-  *piCY = swpTemp.cy+1;
-}
-
-static void internal_GetRadioButtonExtraSize(HWND hwnd, ULONG ulID, int *piCX, int *piCY)
-{
-  HWND hwndTemp;
-  SWP swpTemp;
-
-  // Create temporary radiobutton with no text inside
-  hwndTemp = WinCreateWindow(hwnd, WC_BUTTON,
-                             "",
-                             BS_RADIOBUTTON | BS_AUTOSIZE,
-                             10, 10,
-                             -1, -1,
-                             hwnd,
-                             HWND_TOP,
-                             ID_TEMPCHECKBOX,
-                             NULL, NULL);
-
-  // Query textbox size
-  WinQueryWindowPos(hwndTemp, &swpTemp);
-  // Destroy temporary radiobutton
-  WinDestroyWindow(hwndTemp);
-
-  *piCX = swpTemp.cx+1;
-  *piCY = swpTemp.cy+1;
-}
-
-static void SetPage1Font(HWND hwnd)
-{
-  FILE *hfNLSFile;
-  char achFont[512];
-  HWND hwndChild;
-  HENUM henum;
-  Page1UserData_p pUserData;
-
-  pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-    hfNLSFile = internal_OpenNLSFile(pUserData->Desktop);
-  else
-    hfNLSFile = NULLHANDLE;
-
-  // Only if we have an NLS support file opened!
-  if (hfNLSFile)
-  {
-    if (sprintmsg(achFont, hfNLSFile, "PG1_FONT"))
-    {
-      // Oookay, we have the font, set the page and all controls inside it!
-      WinSetPresParam(hwnd, PP_FONTNAMESIZE,
-		      strlen(achFont)+1,
-		      achFont);
-
-      // Now go through all of its children, and set it there, too!
-      henum = WinBeginEnumWindows(hwnd);
-
-      while ((hwndChild = WinGetNextWindow(henum))!=NULLHANDLE)
-      {
-	WinSetPresParam(hwndChild, PP_FONTNAMESIZE,
-			strlen(achFont)+1,
-			achFont);
-
-      }
-      WinEndEnumWindows(henum);
-    }
-  }
-
-  internal_CloseNLSFile(hfNLSFile);
-}
-
-static void SetPage2Font(HWND hwnd)
-{
-  FILE *hfNLSFile;
-  char achFont[512];
-  HWND hwndChild;
-  HENUM henum;
-  Page2UserData_p pUserData;
-
-  pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-    hfNLSFile = internal_OpenNLSFile(pUserData->Desktop);
-  else
-    hfNLSFile = NULLHANDLE;
-
-  // Only if we have an NLS support file opened!
-  if (hfNLSFile)
-  {
-    if (sprintmsg(achFont, hfNLSFile, "PG2_FONT"))
-    {
-      // Oookay, we have the font, set the page and all controls inside it!
-      WinSetPresParam(hwnd, PP_FONTNAMESIZE,
-		      strlen(achFont)+1,
-		      achFont);
-
-      // Now go through all of its children, and set it there, too!
-      henum = WinBeginEnumWindows(hwnd);
-
-      while ((hwndChild = WinGetNextWindow(henum))!=NULLHANDLE)
-      {
-	WinSetPresParam(hwndChild, PP_FONTNAMESIZE,
-			strlen(achFont)+1,
-			achFont);
-
-      }
-      WinEndEnumWindows(henum);
-    }
-  }
-
-  internal_CloseNLSFile(hfNLSFile);
-}
-
-static void SetPage3Font(HWND hwnd)
-{
-  FILE *hfNLSFile;
-  char achFont[512];
-  HWND hwndChild;
-  HENUM henum;
-  Page3UserData_p pUserData;
-
-  pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-    hfNLSFile = internal_OpenNLSFile(pUserData->Desktop);
-  else
-    hfNLSFile = NULLHANDLE;
-
-  // Only if we have an NLS support file opened!
-  if (hfNLSFile)
-  {
-    if (sprintmsg(achFont, hfNLSFile, "PG3_FONT"))
-    {
-      // Oookay, we have the font, set the page and all controls inside it!
-      WinSetPresParam(hwnd, PP_FONTNAMESIZE,
-		      strlen(achFont)+1,
-		      achFont);
-
-      // Now go through all of its children, and set it there, too!
-      henum = WinBeginEnumWindows(hwnd);
-
-      while ((hwndChild = WinGetNextWindow(henum))!=NULLHANDLE)
-      {
-	WinSetPresParam(hwndChild, PP_FONTNAMESIZE,
-			strlen(achFont)+1,
-			achFont);
-
-      }
-      WinEndEnumWindows(henum);
-    }
-  }
-
-  internal_CloseNLSFile(hfNLSFile);
-}
-
-static void ResizePage1Controls(HWND hwnd)
-{
-  SWP swpTemp, swpTemp2, swpTemp3, swpWindow;
-  ULONG CXDLGFRAME = WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME);
-  ULONG CYDLGFRAME = WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME);
-  int staticheight, checkboxheight, buttonheight, gbheight, radiobuttonheight;
-  int iCBCX, iCBCY; // Checkbox extra sizes
-  int iRBCX, iRBCY; // RadioButton extra sizes
-  int iCX, iCY;     // Control size
-  int iDisabledWindowUpdate=0;
-
-  if (WinIsWindowVisible(hwnd))
-  {
-    WinEnableWindowUpdate(hwnd, FALSE);
-    iDisabledWindowUpdate = 1;
-  }
-
-  // Get window size!
-  WinQueryWindowPos(hwnd, &swpWindow);
-
-  // Query static height in pixels. 
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_PASSWORD), &swpTemp);
-  staticheight = swpTemp.cy;
-
-  // Query button height in pixels.
-  WinQueryWindowPos(WinWindowFromID(hwnd, PB_CHANGE), &swpTemp);
-  buttonheight = swpTemp.cy;
-
-  // Query checkbox height in pixels.
-  WinQueryWindowPos(WinWindowFromID(hwnd, CB_USEPASSWORDPROTECTION), &swpTemp);
-  checkboxheight = swpTemp.cy;
-
-  // Query radiobutton height in pixels.
-  WinQueryWindowPos(WinWindowFromID(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER), &swpTemp);
-  radiobuttonheight = swpTemp.cy;
-
-  // Get extra sizes
-  internal_GetCheckboxExtraSize(hwnd, CB_USEPASSWORDPROTECTION, &iCBCX, &iCBCY);
-  internal_GetRadioButtonExtraSize(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER, &iRBCX, &iRBCY);
-
-  // Get size of maybe longest control, and make that the
-  // minimum size of window!
-  internal_GetStaticTextSize(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER, &iCX, &iCY);
-  if (swpWindow.cx < iCX+iRBCX) swpWindow.cx = iCX+iRBCX;
-
-  internal_GetStaticTextSize(hwnd, CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD, &iCX, &iCY);
-  if (swpWindow.cx < iCX+iCBCX) swpWindow.cx = iCX+iCBCX;
-
-  // First set the "Password protection" groupbox
-  gbheight =
-    CYDLGFRAME + // frame
-    checkboxheight + // Checkbox
-    2*CYDLGFRAME + // Margin
-    checkboxheight + // Checkbox
-    2*CYDLGFRAME + // Margin
-    staticheight + CYDLGFRAME + // Entry field
-    CYDLGFRAME + // Margin
-    checkboxheight + // Checkbox
-    CYDLGFRAME + // Margin
-    buttonheight + // Change button
-    staticheight + CYDLGFRAME + // Entry field
-    CYDLGFRAME + // Margin
-    staticheight + CYDLGFRAME + // Entry field
-    CYDLGFRAME + // Margin
-    3*staticheight +  // Info text
-    CYDLGFRAME + // Margin
-    radiobuttonheight + // RadioButton
-    radiobuttonheight + // RadioButton
-    CYDLGFRAME + // Margin
-    checkboxheight + // Checkbox
-    2*CYDLGFRAME + // Margin
-    staticheight; // Text of groupbox
-
-  WinSetWindowPos(WinWindowFromID(hwnd, GB_PASSWORDPROTECTION),
-		  HWND_TOP,
-                  2*CXDLGFRAME,
-                  2*CYDLGFRAME,
-                  swpWindow.cx - 4*CXDLGFRAME,
-                  gbheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, GB_PASSWORDPROTECTION), &swpTemp);
-
-  //Things inside this groupbox
-  internal_GetStaticTextSize(hwnd, CB_STARTSAVERMODULEONSTARTUP, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_STARTSAVERMODULEONSTARTUP),
-                  HWND_TOP,
-                  swpTemp.x + CXDLGFRAME,
-                  swpTemp.y + 2*CYDLGFRAME,
-                  iCBCX+iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, CB_STARTSAVERMODULEONSTARTUP), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD),
-                  HWND_TOP,
-                  swpTemp.x + CXDLGFRAME,
-                  swpTemp2.y + swpTemp2.cy + CYDLGFRAME,
-                  iCBCX+iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, ST_ASKPASSWORDONLYAFTER, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_ASKPASSWORDONLYAFTER),
-                  HWND_TOP,
-                  swpTemp.x + CXDLGFRAME,
-                  swpTemp2.y + swpTemp2.cy + 2*CYDLGFRAME,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_ASKPASSWORDONLYAFTER), &swpTemp3);
-  WinSetWindowPos(WinWindowFromID(hwnd, SPB_PWDDELAYMIN),
-                  HWND_TOP,
-                  swpTemp3.x + swpTemp3.cx + CXDLGFRAME,
-                  swpTemp3.y - CYDLGFRAME/2,
-                  CXDLGFRAME*12,
-                  staticheight + CYDLGFRAME,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, SPB_PWDDELAYMIN), &swpTemp2);
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_MINUTESOFSAVING),
-                  HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + CXDLGFRAME,
-                  swpTemp3.y,
-                  swpTemp.cx - 2*CXDLGFRAME - (swpTemp2.x + swpTemp2.cx + 2*CXDLGFRAME),
-                  staticheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_ASKPASSWORDONLYAFTER), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, CB_DELAYPASSWORDPROTECTION, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_DELAYPASSWORDPROTECTION),
-                  HWND_TOP,
-                  3*CXDLGFRAME,
-                  swpTemp2.y + swpTemp2.cy + CYDLGFRAME,
-                  iCBCX+iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  // Pushbutton
-  WinQueryWindowPos(WinWindowFromID(hwnd, CB_DELAYPASSWORDPROTECTION), &swpTemp3);
-  internal_GetStaticTextSize(hwnd, PB_CHANGE, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, PB_CHANGE), HWND_TOP,
-                  swpTemp.x + swpTemp.cx - 3*CXDLGFRAME - (6*CXDLGFRAME + iCX),
-                  swpTemp3.y + swpTemp3.cy + CYDLGFRAME,
-		  6*CXDLGFRAME + iCX,
-		  3*CYDLGFRAME + iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, PB_CHANGE), &swpTemp);
-
-  internal_GetStaticTextSize(hwnd, ST_PASSWORDFORVERIFICATION, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_PASSWORDFORVERIFICATION), HWND_TOP,
-                  3*CXDLGFRAME + iRBCX,
-                  swpTemp.y + swpTemp.cy + 2*CYDLGFRAME,
-                  iCX, iCY,
-		  SWP_MOVE | SWP_SIZE);
-  internal_GetStaticTextSize(hwnd, ST_FORVERIFICATION, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_FORVERIFICATION), HWND_TOP,
-                  3*CXDLGFRAME + iRBCX,
-                  swpTemp.y + swpTemp.cy + 2*CYDLGFRAME - staticheight - CYDLGFRAME,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_FORVERIFICATION), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, ST_PASSWORD, &iCX, &iCY);
-  if (iCX > swpTemp2.cx) swpTemp2.cx = iCX;
-
-  WinSetWindowPos(WinWindowFromID(hwnd, EF_PASSWORD2), HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + 2*CXDLGFRAME,
-                  swpTemp.y + swpTemp.cy + 2*CYDLGFRAME,
-                  swpWindow.cx - 4*CXDLGFRAME -
-                    (swpTemp2.x + swpTemp2.cx + 2*CXDLGFRAME) - CXDLGFRAME,
-                  staticheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinSetWindowPos(WinWindowFromID(hwnd, EF_PASSWORD), HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + 2*CXDLGFRAME,
-                  swpTemp.y + swpTemp.cy + 2*CYDLGFRAME + staticheight + CYDLGFRAME + CYDLGFRAME,
-                  swpWindow.cx - 4*CXDLGFRAME -
-                    (swpTemp2.x + swpTemp2.cx + 2*CXDLGFRAME) - CXDLGFRAME,
-                  staticheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  internal_GetStaticTextSize(hwnd, ST_PASSWORD, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_PASSWORD), HWND_TOP,
-                  3*CXDLGFRAME + iRBCX,
-                  swpTemp.y + swpTemp.cy + 2*CYDLGFRAME + staticheight + CYDLGFRAME + CYDLGFRAME,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, EF_PASSWORD), &swpTemp);
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_TYPEYOURPASSWORD), HWND_TOP,
-                  3*CXDLGFRAME + iRBCX,
-                  swpTemp.y + swpTemp.cy + CYDLGFRAME,
-                  swpWindow.cx - 6*CXDLGFRAME - iRBCX,
-                  staticheight*3,
-                  SWP_MOVE | SWP_SIZE);
-
-  // The two radiobuttons
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_TYPEYOURPASSWORD), &swpTemp);
-  internal_GetStaticTextSize(hwnd, RB_USETHISPASSWORD, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, RB_USETHISPASSWORD), HWND_TOP,
-                  2*CXDLGFRAME + CXDLGFRAME,
-                  swpTemp.y + swpTemp.cy + CYDLGFRAME,
-                  iRBCX + iCX, iRBCY,
-                  SWP_MOVE | SWP_SIZE);
-  WinQueryWindowPos(WinWindowFromID(hwnd, RB_USETHISPASSWORD), &swpTemp);
-  internal_GetStaticTextSize(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER), HWND_TOP,
-                  2*CXDLGFRAME + CXDLGFRAME,
-                  swpTemp.y + swpTemp.cy,
-                  iRBCX + iCX, iRBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  // The main checkbox
-  WinQueryWindowPos(WinWindowFromID(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER), &swpTemp);
-  internal_GetStaticTextSize(hwnd, CB_USEPASSWORDPROTECTION, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_USEPASSWORDPROTECTION), HWND_TOP,
-                  2*CXDLGFRAME + CXDLGFRAME,
-                  swpTemp.y + swpTemp.cy + CYDLGFRAME,
-                  iCBCX + iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  // Then set the "General settings" groupbox
-  gbheight =
-    CYDLGFRAME + // frame
-    CYDLGFRAME + // Margin
-    staticheight + CYDLGFRAME + // Entry field
-    CYDLGFRAME + // Margin
-    checkboxheight + // Checkbox
-    CYDLGFRAME + // Margin
-    checkboxheight + // Checkbox
-    CYDLGFRAME + // Margin
-    checkboxheight + // Checkbox
-    CYDLGFRAME + // Margin
-    staticheight; // Text of groupbox
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, GB_PASSWORDPROTECTION), &swpTemp);
-  WinSetWindowPos(WinWindowFromID(hwnd, GB_GENERALSETTINGS),
-                  HWND_TOP,
-                  swpTemp.x,
-                  swpTemp.y + swpTemp.cy + CYDLGFRAME,
-                  swpWindow.cx - 4*CXDLGFRAME,
-                  gbheight,
-                  SWP_MOVE | SWP_SIZE);
-  WinQueryWindowPos(WinWindowFromID(hwnd, GB_GENERALSETTINGS), &swpTemp);
-
-  internal_GetStaticTextSize(hwnd, CB_DISABLEVIOPOPUPSWHILESAVING, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_DISABLEVIOPOPUPSWHILESAVING),
-                  HWND_TOP,
-                  3*CXDLGFRAME,
-                  swpTemp.y + CYDLGFRAME,
-                  iCBCX + iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, CB_DISABLEVIOPOPUPSWHILESAVING), &swpTemp3);
-  internal_GetStaticTextSize(hwnd, CB_WAKEUPBYKEYBOARDONLY, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_WAKEUPBYKEYBOARDONLY),
-                  HWND_TOP,
-                  3*CXDLGFRAME,
-                  swpTemp3.y + swpTemp3.cy + 2*CYDLGFRAME,
-                  iCBCX + iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, CB_WAKEUPBYKEYBOARDONLY), &swpTemp3);
-  internal_GetStaticTextSize(hwnd, ST_STARTSAVERAFTER, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_STARTSAVERAFTER),
-                  HWND_TOP,
-                  swpTemp.x + CXDLGFRAME,
-                  swpTemp3.y + swpTemp3.cy + 2*CYDLGFRAME,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_STARTSAVERAFTER), &swpTemp3);
-  WinSetWindowPos(WinWindowFromID(hwnd, SPB_TIMEOUT),
-                  HWND_TOP,
-                  swpTemp3.x + swpTemp3.cx + CXDLGFRAME,
-                  swpTemp3.y - CYDLGFRAME/2,
-                  CXDLGFRAME*12,
-                  staticheight + CYDLGFRAME,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, SPB_TIMEOUT), &swpTemp2);
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_MINUTESOFINACTIVITY),
-                  HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + CXDLGFRAME,
-                  swpTemp3.y,
-                  swpTemp.cx - 2*CXDLGFRAME - (swpTemp2.x + swpTemp2.cx + 2*CXDLGFRAME),
-                  staticheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_STARTSAVERAFTER), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, CB_ENABLED, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_ENABLED),
-                  HWND_TOP,
-                  3*CXDLGFRAME,
-                  swpTemp2.y + swpTemp2.cy + 2*CYDLGFRAME,
-                  iCBCX + iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-
-  // That's all!
-  if (iDisabledWindowUpdate)
-    WinEnableWindowUpdate(hwnd, TRUE);
-
-}
-
-static void ResizePage2Controls(HWND hwnd)
-{
-  SWP swpTemp, swpTemp2, swpTemp3, swpWindow;
-  ULONG CXDLGFRAME = WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME);
-  ULONG CYDLGFRAME = WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME);
-  int staticheight, checkboxheight, gbheight;
-  int iCBCX, iCBCY; // Checkbox extra sizes
-  int iCX, iCY;     // Control size
-  int iDisabledWindowUpdate=0;
-  int iSpinStartPos;
-
-  if (WinIsWindowVisible(hwnd))
-  {
-    WinEnableWindowUpdate(hwnd, FALSE);
-    iDisabledWindowUpdate = 1;
-  }
-
-  // Get window size!
-  WinQueryWindowPos(hwnd, &swpWindow);
-
-  // Query static height in pixels. 
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER), &swpTemp);
-  staticheight = swpTemp.cy;
-  if (swpWindow.cx < swpTemp.cx) swpWindow.cx = swpTemp.cx;
-
-  // Query checkbox height in pixels.
-  WinQueryWindowPos(WinWindowFromID(hwnd, CB_USEDPMSOFFSTATE), &swpTemp);
-  checkboxheight = swpTemp.cy;
-  internal_GetCheckboxExtraSize(hwnd, CB_USEDPMSOFFSTATE, &iCBCX, &iCBCY);
-
-  // Set the "DPMS Settings" groupbox
-  gbheight =
-    CYDLGFRAME + // frame
-    2*CYDLGFRAME + // Margin
-    staticheight + CYDLGFRAME + // Entry field
-    CYDLGFRAME + // Margin
-    checkboxheight + // Checkbox
-    CYDLGFRAME + // Margin
-    staticheight + CYDLGFRAME + // Entry field
-    CYDLGFRAME + // Margin
-    checkboxheight + // Checkbox
-    CYDLGFRAME + // Margin
-    staticheight + CYDLGFRAME + // Entry field
-    CYDLGFRAME + // Margin
-    checkboxheight + // Checkbox
-    2*CYDLGFRAME + // Margin
-    staticheight; // Text of groupbox
-
-  WinSetWindowPos(WinWindowFromID(hwnd, GB_DPMSSETTINGS),
-		  HWND_TOP,
-                  2*CXDLGFRAME,
-                  2*CYDLGFRAME,
-                  swpWindow.cx - 4*CXDLGFRAME,
-                  gbheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, GB_DPMSSETTINGS), &swpTemp);
-
-  //Things inside this groupbox
-
-  // First select the longest text of the three "Use xxx state" texts!
-  iSpinStartPos = 0;
-  internal_GetStaticTextSize(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER, &iCX, &iCY); // Autosize!
-  if (iSpinStartPos<iCX) iSpinStartPos = iCX;
-  internal_GetStaticTextSize(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER, &iCX, &iCY); // Autosize!
-  if (iSpinStartPos<iCX) iSpinStartPos = iCX;
-  internal_GetStaticTextSize(hwnd, ST_SWITCHTOOFFSTATEAFTER, &iCX, &iCY); // Autosize!
-  if (iSpinStartPos<iCX) iSpinStartPos = iCX;
-  iSpinStartPos += swpTemp.x + 3*CXDLGFRAME;
-
-  // Now put there the stuffs
-
-  internal_GetStaticTextSize(hwnd, ST_SWITCHTOOFFSTATEAFTER, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_SWITCHTOOFFSTATEAFTER),
-                  HWND_TOP,
-                  swpTemp.x + CXDLGFRAME,
-                  swpTemp.y + 3*CYDLGFRAME,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_SWITCHTOOFFSTATEAFTER), &swpTemp3);
-  WinSetWindowPos(WinWindowFromID(hwnd, SPB_OFFTIMEOUT),
-                  HWND_TOP,
-                  iSpinStartPos,
-                  swpTemp3.y - CYDLGFRAME/2,
-                  CXDLGFRAME * 12,
-                  staticheight + CYDLGFRAME,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, SPB_OFFTIMEOUT), &swpTemp2);
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_OFFMINUTESTEXT),
-                  HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + CXDLGFRAME,
-                  swpTemp3.y,
-                  swpTemp.x + swpTemp.cx - 2*CXDLGFRAME - (swpTemp2.x + swpTemp2.cx + 2*CXDLGFRAME),
-                  staticheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_SWITCHTOOFFSTATEAFTER), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, CB_USEDPMSOFFSTATE, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_USEDPMSOFFSTATE),
-                  HWND_TOP,
-                  3*CXDLGFRAME,
-                  swpTemp2.y + swpTemp2.cy + CYDLGFRAME,
-                  iCBCX + iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  internal_GetStaticTextSize(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER),
-                  HWND_TOP,
-                  swpTemp2.x,
-                  swpTemp2.y + 4*CYDLGFRAME  + checkboxheight + staticheight,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER), &swpTemp3);
-  WinSetWindowPos(WinWindowFromID(hwnd, SPB_SUSPENDTIMEOUT),
-                  HWND_TOP,
-                  iSpinStartPos,
-                  swpTemp3.y - CYDLGFRAME/2,
-                  CXDLGFRAME * 12,
-                  staticheight + CYDLGFRAME,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, SPB_SUSPENDTIMEOUT), &swpTemp2);
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_SUSPENDMINUTESTEXT),
-                  HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + CXDLGFRAME,
-                  swpTemp3.y,
-                  swpTemp.x + swpTemp.cx - 2*CXDLGFRAME - (swpTemp2.x + swpTemp2.cx + 2*CXDLGFRAME),
-                  staticheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, CB_USEDPMSSUSPENDSTATE, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_USEDPMSSUSPENDSTATE),
-                  HWND_TOP,
-                  3*CXDLGFRAME,
-                  swpTemp2.y + swpTemp2.cy + CYDLGFRAME,
-                  iCBCX + iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  internal_GetStaticTextSize(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER),
-                  HWND_TOP,
-                  swpTemp2.x,
-                  swpTemp2.y + 4*CYDLGFRAME  + checkboxheight + staticheight,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER), &swpTemp3);
-  WinSetWindowPos(WinWindowFromID(hwnd, SPB_STANDBYTIMEOUT),
-                  HWND_TOP,
-                  iSpinStartPos,
-                  swpTemp3.y - CYDLGFRAME/2,
-                  CXDLGFRAME * 12,
-                  staticheight + CYDLGFRAME,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, SPB_STANDBYTIMEOUT), &swpTemp2);
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_STANDBYMINUTESTEXT),
-                  HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + CXDLGFRAME,
-                  swpTemp3.y,
-                  swpTemp.x + swpTemp.cx - 2*CXDLGFRAME - (swpTemp2.x + swpTemp2.cx + 2*CXDLGFRAME),
-                  staticheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, CB_USEDPMSSTANDBYSTATE, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_USEDPMSSTANDBYSTATE),
-                  HWND_TOP,
-                  3*CXDLGFRAME,
-                  swpTemp2.y + swpTemp2.cy + CYDLGFRAME,
-                  iCBCX + iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  // That's all!
-  if (iDisabledWindowUpdate)
-    WinEnableWindowUpdate(hwnd, TRUE);
-
-}
-
-static void ResizePage3Controls(HWND hwnd)
-{
-  SWP swpTemp, swpTemp2, swpTemp3, swpWindow;
-  ULONG CXDLGFRAME = WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME);
-  ULONG CYDLGFRAME = WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME);
-  int staticheight, checkboxheight, buttonheight;
-  int paheight, pawidth, pax, pay;
-  int iCBCX, iCBCY; // Checkbox extra sizes
-  int iCX, iCY;     // Control size
-  int iDisabledWindowUpdate=0;
-
-  if (WinIsWindowVisible(hwnd))
-  {
-    WinEnableWindowUpdate(hwnd, FALSE);
-    iDisabledWindowUpdate = 1;
-  }
-
-  // Get window size!
-  WinQueryWindowPos(hwnd, &swpWindow);
-
-  // Query static height in pixels.
-  internal_GetStaticTextSize(hwnd, ST_SUPPORTSPASSWORDPROTECTION, &iCX, &iCY); // Autosize!
-  staticheight = iCY;
-  if (swpWindow.cx < iCX*3/2) swpWindow.cx = iCX*3/2;
-
-  // Query button height in pixels.
-  WinQueryWindowPos(WinWindowFromID(hwnd, PB_STARTMODULE), &swpTemp);
-  buttonheight = swpTemp.cy;
-
-  // Query checkbox height in pixels.
-  WinQueryWindowPos(WinWindowFromID(hwnd, CB_SHOWPREVIEW), &swpTemp);
-  checkboxheight = swpTemp.cy;
-  internal_GetCheckboxExtraSize(hwnd, CB_SHOWPREVIEW, &iCBCX, &iCBCY);
-
-  // Set the groupbox
-  WinSetWindowPos(WinWindowFromID(hwnd, GB_SCREENSAVERMODULES), HWND_TOP,
-                  2*CXDLGFRAME,
-                  2*CYDLGFRAME,
-                  swpWindow.cx - 4*CXDLGFRAME,
-                  swpWindow.cy - 4*CYDLGFRAME,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, GB_SCREENSAVERMODULES), &swpTemp);
-  // First set the preview window!
-  // Its width will be half the groupbox minus the margins, and
-  // the height will be 3:4 to the width (like TV)
-  pax = swpTemp.x + 2*CXDLGFRAME;
-  pay = swpTemp.y + 2*CYDLGFRAME;
-  pawidth = (swpTemp.cx - 5*CXDLGFRAME)/2;
-  paheight = ((swpTemp.cx - 5*CXDLGFRAME)/2)*3/4;
-  if (paheight > swpTemp.cy/2)
-  {
-    paheight = swpTemp.cy/2;
-    pawidth = paheight*4/3;
-    pax += ((swpTemp.cx - 5*CXDLGFRAME)/2 - pawidth)/2;
-  }
-  WinSetWindowPos(WinWindowFromID(hwnd, ID_PREVIEWAREA), HWND_TOP,
-                  pax, pay,
-                  pawidth, paheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  // Put the "Show preview" checkbox above the preview area
-
-  internal_GetStaticTextSize(hwnd, CB_SHOWPREVIEW, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, CB_SHOWPREVIEW), HWND_TOP,
-                  swpTemp.x + 2*CXDLGFRAME,
-                  pay + paheight + CYDLGFRAME,
-                  iCBCX + iCX, iCBCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  // Let the listbox get the remaining space at this side!
-  WinQueryWindowPos(WinWindowFromID(hwnd, CB_SHOWPREVIEW), &swpTemp3);
-  WinSetWindowPos(WinWindowFromID(hwnd, LB_MODULELIST), HWND_TOP,
-                  swpTemp3.x,
-                  swpTemp3.y + swpTemp3.cy + CYDLGFRAME,
-                  (swpTemp.cx - 5*CXDLGFRAME)/2,
-                  swpTemp.cy - staticheight - 4*CYDLGFRAME - swpTemp3.cy - CYDLGFRAME - paheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  // Right side
-  WinQueryWindowPos(WinWindowFromID(hwnd, GB_SCREENSAVERMODULES), &swpTemp);
-  WinQueryWindowPos(WinWindowFromID(hwnd, LB_MODULELIST), &swpTemp2);
-  WinSetWindowPos(WinWindowFromID(hwnd, GB_MODULEINFORMATION),
-		  HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + CXDLGFRAME,
-                  swpTemp.y + 2*CYDLGFRAME,
-                  (swpTemp.cx - 5*CXDLGFRAME)/2,
-                  swpTemp.cy - staticheight - 2*CYDLGFRAME,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, GB_MODULEINFORMATION), &swpTemp);
-
-  // Pushbuttons
-  WinSetWindowPos(WinWindowFromID(hwnd, PB_STARTMODULE),
-		  HWND_TOP,
-                  swpTemp.x + 2*CXDLGFRAME,
-                  swpTemp.y + 2*CYDLGFRAME,
-                  (swpTemp.cx - 5*CXDLGFRAME)/2,
-                  buttonheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, PB_STARTMODULE), &swpTemp2);
-  WinSetWindowPos(WinWindowFromID(hwnd, PB_CONFIGURE),
-		  HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + CXDLGFRAME,
-                  swpTemp2.y,
-                  (swpTemp.cx - 5*CXDLGFRAME)/2,
-                  buttonheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  // Module info statics
-  internal_GetStaticTextSize(hwnd, ST_MODULENAME, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_MODULENAME),
-		  HWND_TOP,
-                  swpTemp.x + 2*CXDLGFRAME,
-                  swpTemp.y + swpTemp.cy - staticheight - CYDLGFRAME - staticheight,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_MODULENAME), &swpTemp2);
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_SELECTEDMODULENAME),
-		  HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + CXDLGFRAME,
-                  swpTemp2.y,
-                  swpTemp.cx - 5*CXDLGFRAME - swpTemp2.cx,
-                  staticheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_MODULENAME), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, ST_MODULEVERSION, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_MODULEVERSION),
-		  HWND_TOP,
-                  swpTemp2.x,
-                  swpTemp2.y - CYDLGFRAME - staticheight,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_MODULEVERSION), &swpTemp2);
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_SELECTEDMODULEVERSION),
-		  HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + CXDLGFRAME,
-                  swpTemp2.y,
-                  swpTemp.cx - 5*CXDLGFRAME - swpTemp2.cx,
-                  staticheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_MODULEVERSION), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, ST_SUPPORTSPASSWORDPROTECTION, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_SUPPORTSPASSWORDPROTECTION),
-		  HWND_TOP,
-                  swpTemp2.x,
-                  swpTemp2.y - CYDLGFRAME - staticheight,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_SUPPORTSPASSWORDPROTECTION), &swpTemp2);
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_SELECTEDSUPPORTSPASSWORDPROTECTION),
-		  HWND_TOP,
-                  swpTemp2.x + swpTemp2.cx + CXDLGFRAME,
-                  swpTemp2.y,
-                  swpTemp.cx - 5*CXDLGFRAME - swpTemp2.cx,
-                  staticheight,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_SUPPORTSPASSWORDPROTECTION), &swpTemp2);
-  internal_GetStaticTextSize(hwnd, ST_DESCRIPTION, &iCX, &iCY); // Autosize!
-  WinSetWindowPos(WinWindowFromID(hwnd, ST_DESCRIPTION),
-		  HWND_TOP,
-                  swpTemp2.x,
-                  swpTemp2.y - 2*CYDLGFRAME - staticheight,
-                  iCX, iCY,
-                  SWP_MOVE | SWP_SIZE);
-
-  WinQueryWindowPos(WinWindowFromID(hwnd, ST_DESCRIPTION), &swpTemp2);
-  WinQueryWindowPos(WinWindowFromID(hwnd, PB_STARTMODULE), &swpTemp3);
-  WinSetWindowPos(WinWindowFromID(hwnd, MLE_SELECTEDMODULEDESCRIPTION),
-		  HWND_TOP,
-                  swpTemp2.x,
-                  swpTemp3.y + swpTemp3.cy + 2*CYDLGFRAME,
-                  swpTemp.cx - 4*CXDLGFRAME,
-                  swpTemp2.y - CYDLGFRAME - (swpTemp3.y + swpTemp3.cy + 2*CYDLGFRAME),
-                  SWP_MOVE | SWP_SIZE);
-
-
-  // That's all!
-  if (iDisabledWindowUpdate)
-    WinEnableWindowUpdate(hwnd, TRUE);
-
-}
-
-static void SetPage1ControlLimits(HWND hwnd)
-{
-  WinSendDlgItemMsg(hwnd, SPB_TIMEOUT,
-                    SPBM_SETLIMITS,
-                    (MPARAM) MAX_SAVER_TIMEOUT,
-                    (MPARAM) MIN_SAVER_TIMEOUT);
-
-  WinSendDlgItemMsg(hwnd, SPB_PWDDELAYMIN,
-                    SPBM_SETLIMITS,
-                    (MPARAM) MAX_SAVER_TIMEOUT,
-                    (MPARAM) MIN_SAVER_TIMEOUT);
-
-  WinSendDlgItemMsg(hwnd, EF_PASSWORD,
-                    EM_SETTEXTLIMIT,
-                    (MPARAM) SSCORE_MAXPASSWORDLEN,
-                    (MPARAM) NULL);
-
-  WinSendDlgItemMsg(hwnd, EF_PASSWORD2,
-                    EM_SETTEXTLIMIT,
-                    (MPARAM) SSCORE_MAXPASSWORDLEN,
-                    (MPARAM) NULL);
-
-}
-
-static void SetPage2ControlLimits(HWND hwnd)
-{
-  WinSendDlgItemMsg(hwnd, SPB_STANDBYTIMEOUT,
-                    SPBM_SETLIMITS,
-                    (MPARAM) MAX_DPMS_TIMEOUT,
-                    (MPARAM) MIN_DPMS_TIMEOUT);
-
-  WinSendDlgItemMsg(hwnd, SPB_SUSPENDTIMEOUT,
-                    SPBM_SETLIMITS,
-                    (MPARAM) MAX_DPMS_TIMEOUT,
-                    (MPARAM) MIN_DPMS_TIMEOUT);
-
-  WinSendDlgItemMsg(hwnd, SPB_OFFTIMEOUT,
-                    SPBM_SETLIMITS,
-                    (MPARAM) MAX_DPMS_TIMEOUT,
-                    (MPARAM) MIN_DPMS_TIMEOUT);
-
-}
-
-static void SetPage3ControlLimits(HWND hwnd)
-{
-  WinSendDlgItemMsg(hwnd, MLE_SELECTEDMODULEDESCRIPTION,
-		    MLM_SETTEXTLIMIT,
-		    (MPARAM) SSMODULE_MAXDESCLEN,
-                    (MPARAM) NULL);
-}
-
-static void EnableDisablePage1Controls(HWND hwnd)
-{
-  SSCoreInfo_t SSCoreInfo;
-  int bValue1, bValue2, bValue3;
-
-  // Get info if Security/2 is installed or not!
-  if (SSCore_GetInfo(&SSCoreInfo, sizeof(SSCoreInfo))!=SSCORE_NOERROR)
-    SSCoreInfo.bSecurityPresent = FALSE;
-
-  // Enable/Disable elements of first groupbox
-  bValue1 = WinQueryButtonCheckstate(hwnd, CB_ENABLED);
-
-  WinEnableWindow(WinWindowFromID(hwnd, ST_STARTSAVERAFTER), bValue1);
-  WinEnableWindow(WinWindowFromID(hwnd, SPB_TIMEOUT), bValue1);
-  WinEnableWindow(WinWindowFromID(hwnd, ST_MINUTESOFINACTIVITY), bValue1);
-
-  WinEnableWindow(WinWindowFromID(hwnd, CB_WAKEUPBYKEYBOARDONLY), bValue1);
-  WinEnableWindow(WinWindowFromID(hwnd, CB_DISABLEVIOPOPUPSWHILESAVING), bValue1);
-
-  // Query elements for the remaining groupboxes
-  bValue1 = WinQueryButtonCheckstate(hwnd, CB_USEPASSWORDPROTECTION);
-  bValue2 = WinQueryButtonCheckstate(hwnd, CB_DELAYPASSWORDPROTECTION);
-  bValue3 = WinQueryButtonCheckstate(hwnd, RB_USETHISPASSWORD);
-
-  // Enable this only if Security/2 is present, and password protection is on
-  WinEnableWindow(WinWindowFromID(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER), bValue1 && (SSCoreInfo.bSecurityPresent));
-  WinEnableWindow(WinWindowFromID(hwnd, RB_USETHISPASSWORD), bValue1);
-
-  WinEnableWindow(WinWindowFromID(hwnd, ST_TYPEYOURPASSWORD), bValue1 && bValue3);
-  WinEnableWindow(WinWindowFromID(hwnd, ST_PASSWORD), bValue1 && bValue3);
-  WinEnableWindow(WinWindowFromID(hwnd, ST_PASSWORDFORVERIFICATION), bValue1 && bValue3);
-  WinEnableWindow(WinWindowFromID(hwnd, ST_FORVERIFICATION), bValue1 && bValue3);
-  WinEnableWindow(WinWindowFromID(hwnd, EF_PASSWORD), bValue1 && bValue3);
-  WinEnableWindow(WinWindowFromID(hwnd, EF_PASSWORD2), bValue1 && bValue3);
-
-  if ((!bValue1) || (!bValue3))
-    WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE), bValue1 && bValue3);
-
-  WinEnableWindow(WinWindowFromID(hwnd, CB_DELAYPASSWORDPROTECTION), bValue1);
-
-  WinEnableWindow(WinWindowFromID(hwnd, ST_ASKPASSWORDONLYAFTER), bValue1 && bValue2);
-  WinEnableWindow(WinWindowFromID(hwnd, SPB_PWDDELAYMIN), bValue1 && bValue2);
-  WinEnableWindow(WinWindowFromID(hwnd, ST_MINUTESOFSAVING), bValue1 && bValue2);
-
-  WinEnableWindow(WinWindowFromID(hwnd, CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD), bValue1);
-  WinEnableWindow(WinWindowFromID(hwnd, CB_STARTSAVERMODULEONSTARTUP), bValue1);
-}
-
-static void EnableDisablePage2Controls(HWND hwnd)
-{
-  SSCoreInfo_t SSCoreInfo;
-  int bStandbyEnabled, bSuspendEnabled, bOffEnabled;
-  Page2UserData_p pUserData;
-  char *pchTemp;
-  FILE *hfNLSFile;
-
-  pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-  {
-    hfNLSFile = internal_OpenNLSFile(pUserData->Desktop);
-
-    if (hfNLSFile)
-      pchTemp = (char *) malloc(1024);
-    else
-      pchTemp = NULL;
-
-
-    // Get DPMS capabilities!
-    if (SSCore_GetInfo(&SSCoreInfo, sizeof(SSCoreInfo))!=SSCORE_NOERROR)
-      SSCoreInfo.iDPMSCapabilities = SSCORE_DPMSCAPS_NODPMS;
-
-    // Get current settings!
-    bStandbyEnabled = wpssdesktop_wpssQueryUseDPMSStandby(pUserData->Desktop);
-    bSuspendEnabled = wpssdesktop_wpssQueryUseDPMSSuspend(pUserData->Desktop);
-    bOffEnabled = wpssdesktop_wpssQueryUseDPMSOff(pUserData->Desktop);
-
-    // Enable/Disable Standby checkbox and spinbutton
-    WinEnableWindow(WinWindowFromID(hwnd, CB_USEDPMSSTANDBYSTATE),
-                    SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_STANDBY);
-
-    WinShowWindow(WinWindowFromID(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER),
-                  ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_STANDBY) &&
-                   bStandbyEnabled));
-    WinShowWindow(WinWindowFromID(hwnd, SPB_STANDBYTIMEOUT),
-                  ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_STANDBY) &&
-                   bStandbyEnabled));
-    WinShowWindow(WinWindowFromID(hwnd, ST_STANDBYMINUTESTEXT),
-                  ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_STANDBY) &&
-                   bStandbyEnabled));
-
-
-    // Enable/Disable Suspend checkbox and spinbutton
-    WinEnableWindow(WinWindowFromID(hwnd, CB_USEDPMSSUSPENDSTATE),
-                    SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_SUSPEND);
-    WinShowWindow(WinWindowFromID(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER),
-                  ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_SUSPEND) &&
-                   bSuspendEnabled));
-    WinShowWindow(WinWindowFromID(hwnd, SPB_SUSPENDTIMEOUT),
-                  ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_SUSPEND) &&
-                   bSuspendEnabled));
-    WinShowWindow(WinWindowFromID(hwnd, ST_SUSPENDMINUTESTEXT),
-                  ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_SUSPEND) &&
-                   bSuspendEnabled));
-
-    // Enable/Disable Off checkbox and spinbutton
-    WinEnableWindow(WinWindowFromID(hwnd, CB_USEDPMSOFFSTATE),
-                    SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_OFF);
-    WinShowWindow(WinWindowFromID(hwnd, ST_SWITCHTOOFFSTATEAFTER),
-                  ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_OFF) &&
-                   bOffEnabled));
-    WinShowWindow(WinWindowFromID(hwnd, SPB_OFFTIMEOUT),
-                  ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_OFF) &&
-                   bOffEnabled));
-    WinShowWindow(WinWindowFromID(hwnd, ST_OFFMINUTESTEXT),
-                  ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_OFF) &&
-                   bOffEnabled));
-
-    // Now update texts to reflect the order of states!
-    // Let's set the first one!
-    if ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_STANDBY) &&
-        bStandbyEnabled)
-    {
-      // The first enabled and available mode is the standby mode!
-      if ((pchTemp) && (sprintmsg(pchTemp, hfNLSFile, "PG2_0010")))
-        WinSetDlgItemText(hwnd, ST_STANDBYMINUTESTEXT, pchTemp);
-      else
-	WinSetDlgItemText(hwnd, ST_STANDBYMINUTESTEXT, "minute(s) of saving");
-
-      // Look for the next one!
-      if ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_SUSPEND) &&
-          bSuspendEnabled)
-      {
-	// The next one is the suspend mode!
-        if ((pchTemp) && (sprintmsg(pchTemp, hfNLSFile, "PG2_0011")))
-	  WinSetDlgItemText(hwnd, ST_SUSPENDMINUTESTEXT, pchTemp);
-	else
-	  WinSetDlgItemText(hwnd, ST_SUSPENDMINUTESTEXT, "minute(s) of Standby state");
-        // Look for the next one!
-        if ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_OFF) &&
-            bOffEnabled)
-	{
-	  if ((pchTemp) && (sprintmsg(pchTemp, hfNLSFile, "PG2_0012")))
-	    WinSetDlgItemText(hwnd, ST_OFFMINUTESTEXT, pchTemp);
-	  else
-	    WinSetDlgItemText(hwnd, ST_OFFMINUTESTEXT, "minute(s) of Suspend state");
-        }
-      } else
-      {
-        // Suspend is skipped, maybe Off mode?
-        if ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_OFF) &&
-            bOffEnabled)
-	{
-	  if ((pchTemp) && (sprintmsg(pchTemp, hfNLSFile, "PG2_0011")))
-	    WinSetDlgItemText(hwnd, ST_OFFMINUTESTEXT, pchTemp);
-	  else
-	    WinSetDlgItemText(hwnd, ST_OFFMINUTESTEXT, "minute(s) of Standby state");
-        }
-      }
-    }
-    else
-    if ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_SUSPEND) &&
-        bSuspendEnabled)
-    {
-      // The first enabled and available mode is the Suspend mode!
-      if ((pchTemp) && (sprintmsg(pchTemp, hfNLSFile, "PG2_0010")))
-	WinSetDlgItemText(hwnd, ST_SUSPENDMINUTESTEXT, pchTemp);
-      else
-	WinSetDlgItemText(hwnd, ST_SUSPENDMINUTESTEXT, "minute(s) of saving");
-      // Look for the next one!
-      if ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_OFF) &&
-          bOffEnabled)
-      {
-	// The next one is the Off mode!
-	if ((pchTemp) && (sprintmsg(pchTemp, hfNLSFile, "PG2_0012")))
-	  WinSetDlgItemText(hwnd, ST_OFFMINUTESTEXT, pchTemp);
-	else
-	  WinSetDlgItemText(hwnd, ST_OFFMINUTESTEXT, "minute(s) of Suspend state");
-      }
-    }
-    else
-    if ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_OFF) &&
-        bOffEnabled)
-    {
-      // The first enabled and available mode is the Off mode!
-      if ((pchTemp) && (sprintmsg(pchTemp, hfNLSFile, "PG2_0010")))
-        WinSetDlgItemText(hwnd, ST_OFFMINUTESTEXT, pchTemp);
-      else
-        WinSetDlgItemText(hwnd, ST_OFFMINUTESTEXT, "minute(s) of saving");
-    }
-
-    internal_CloseNLSFile(hfNLSFile);
-  }
-
-  if (pchTemp)
-    free(pchTemp);
-}
-
-static void SetPage1ControlValues(HWND hwnd)
-{
-  Page1UserData_p pUserData;
-  char achTemp[SSCORE_MAXPASSWORDLEN];
-  pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-  {
-    WinCheckButton(hwnd, CB_ENABLED, wpssdesktop_wpssQueryScreenSaverEnabled(pUserData->Desktop));
-    WinSendDlgItemMsg(hwnd, SPB_TIMEOUT, SPBM_SETCURRENTVALUE,
-		      (MPARAM) (wpssdesktop_wpssQueryScreenSaverTimeout(pUserData->Desktop)/60000),
-                      (MPARAM) NULL);
-    WinCheckButton(hwnd, CB_WAKEUPBYKEYBOARDONLY, wpssdesktop_wpssQueryWakeByKeyboardOnly(pUserData->Desktop));
-    WinCheckButton(hwnd, CB_DISABLEVIOPOPUPSWHILESAVING, wpssdesktop_wpssQueryDisableVIOPopupsWhileSaving(pUserData->Desktop));
-    WinCheckButton(hwnd, CB_USEPASSWORDPROTECTION, wpssdesktop_wpssQueryScreenSaverPasswordProtected(pUserData->Desktop));
-    wpssdesktop_wpssQueryScreenSaverEncryptedPassword(pUserData->Desktop, achTemp, sizeof(achTemp));
-    WinSetDlgItemText(hwnd, EF_PASSWORD, achTemp);
-    WinSetDlgItemText(hwnd, EF_PASSWORD2, achTemp);
-    WinCheckButton(hwnd, CB_DELAYPASSWORDPROTECTION, wpssdesktop_wpssQueryDelayedPasswordProtection(pUserData->Desktop));
-    if (wpssdesktop_wpssQueryUseCurrentSecurityPassword(pUserData->Desktop))
-    {
-      WinCheckButton(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER, TRUE);
-      WinCheckButton(hwnd, RB_USETHISPASSWORD, FALSE);
-    } else
-    {
-      WinCheckButton(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER, FALSE);
-      WinCheckButton(hwnd, RB_USETHISPASSWORD, TRUE);
-    }
-    WinSendDlgItemMsg(hwnd, SPB_PWDDELAYMIN, SPBM_SETCURRENTVALUE,
-		      (MPARAM) (wpssdesktop_wpssQueryDelayedPasswordProtectionTimeout(pUserData->Desktop)/60000),
-                      (MPARAM) NULL);
-    WinCheckButton(hwnd, CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD, wpssdesktop_wpssQueryFirstKeyEventGoesToPwdWindow(pUserData->Desktop));
-    WinCheckButton(hwnd, CB_STARTSAVERMODULEONSTARTUP, wpssdesktop_wpssQueryAutoStartAtStartup(pUserData->Desktop));
-    EnableDisablePage1Controls(hwnd);
-  }
-}
-static void SetPage2ControlValues(HWND hwnd)
-{
-  Page2UserData_p pUserData;
-  pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-  {
-    WinCheckButton(hwnd, CB_USEDPMSSTANDBYSTATE, wpssdesktop_wpssQueryUseDPMSStandby(pUserData->Desktop));
-    WinSendDlgItemMsg(hwnd, SPB_STANDBYTIMEOUT, SPBM_SETCURRENTVALUE,
-		      (MPARAM) (wpssdesktop_wpssQueryDPMSStandbyTimeout(pUserData->Desktop)/60000),
-		      (MPARAM) NULL);
-    WinCheckButton(hwnd, CB_USEDPMSSUSPENDSTATE, wpssdesktop_wpssQueryUseDPMSSuspend(pUserData->Desktop));
-    WinSendDlgItemMsg(hwnd, SPB_SUSPENDTIMEOUT, SPBM_SETCURRENTVALUE,
-		      (MPARAM) (wpssdesktop_wpssQueryDPMSSuspendTimeout(pUserData->Desktop)/60000),
-		      (MPARAM) NULL);
-    WinCheckButton(hwnd, CB_USEDPMSOFFSTATE, wpssdesktop_wpssQueryUseDPMSOff(pUserData->Desktop));
-    WinSendDlgItemMsg(hwnd, SPB_OFFTIMEOUT, SPBM_SETCURRENTVALUE,
-		      (MPARAM) (wpssdesktop_wpssQueryDPMSOffTimeout(pUserData->Desktop)/60000),
-		      (MPARAM) NULL);
-    EnableDisablePage2Controls(hwnd);
-  }
-}
 static void StartPage3Preview(HWND hwnd)
 {
   Page3UserData_p pUserData;
@@ -3288,9 +1932,7 @@ static void StartPage3Preview(HWND hwnd)
     }
     if (lID!=LIT_NONE)
     {
-#ifdef DEBUG_LOGGING
       AddLog("Start preview: ["); AddLog(pUserData->pModuleDescArray[lID].achSaverDLLFileName); AddLog("]\n");
-#endif
       // Disable some controls for the time it is starting
       WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE), FALSE);
       WinEnableWindow(WinWindowFromID(hwnd, PB_STARTMODULE), FALSE);
@@ -3324,172 +1966,7 @@ static void StopPage3Preview(HWND hwnd)
     pUserData->iPreviewMsgCounter++;
   }
 }
-static void SetPage3ModuleInfo(HWND hwnd)
-{
-  long lID;
-  Page3UserData_p pUserData;
-  char achVer[128];
-  FILE *hfNLSFile;
 
-  pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-  {
-    hfNLSFile = internal_OpenNLSFile(pUserData->Desktop);
-
-    lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYSELECTION, (MPARAM) LIT_CURSOR, (MPARAM) NULL);
-    if (lID!=LIT_NONE)
-    {
-      lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYITEMHANDLE, (MPARAM) lID, (MPARAM) NULL);
-      if ((lID<0) || lID>=pUserData->ulMaxModules)
-      {
-        // Something is wrong, the handle, which should tell the index in the
-        // module desc array, points out of the array!
-        lID = LIT_NONE;
-      }
-    }
-    if (lID==LIT_NONE)
-    {
-      // Either there is no module selected, or something went wrong.
-      WinSetDlgItemText(hwnd, ST_SELECTEDMODULENAME, "");
-      WinSetDlgItemText(hwnd, ST_SELECTEDMODULEVERSION, "");
-      WinSetDlgItemText(hwnd, ST_SELECTEDSUPPORTSPASSWORDPROTECTION, "");
-      if (!hfNLSFile) // No NLS support
-        WinSetDlgItemText(hwnd, MLE_SELECTEDMODULEDESCRIPTION, "No module selected!\nPlease select a screen saver module!");
-      else
-      {
-        // There is NLS support, read text!
-        char *pchTemp = (char *) malloc(1024);
-        if (pchTemp)
-        {
-          if (sprintmsg(pchTemp, hfNLSFile, "PG3_0014"))
-	    WinSetDlgItemText(hwnd, MLE_SELECTEDMODULEDESCRIPTION, pchTemp);
-	  else
-            WinSetDlgItemText(hwnd, MLE_SELECTEDMODULEDESCRIPTION, "No module selected!\nPlease select a screen saver module!");
-          free(pchTemp);
-        } else
-          WinSetDlgItemText(hwnd, MLE_SELECTEDMODULEDESCRIPTION, "No module selected!\nPlease select a screen saver module!");
-      }
-      WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE), FALSE);
-      StopPage3Preview(hwnd);
-    } else
-    {
-      // Ok, we have the index of the selected module in lID!
-      char *pchYes, *pchNo;
-
-      WinSetDlgItemText(hwnd, ST_SELECTEDMODULENAME, pUserData->pModuleDescArray[lID].achModuleName);
-      sprintf(achVer, "%d.%02d",
-	      pUserData->pModuleDescArray[lID].lVersionMajor,
-              pUserData->pModuleDescArray[lID].lVersionMinor);
-      WinSetDlgItemText(hwnd, ST_SELECTEDMODULEVERSION, achVer);
-
-      if (hfNLSFile)
-      {
-        // There is NLS support, read text!
-        pchYes = (char *) malloc(1024);
-        pchNo = (char *) malloc(1024);
-        if (pchYes)
-          sprintmsg(pchYes, hfNLSFile, "PG3_0009");
-        if (pchNo)
-          sprintmsg(pchNo, hfNLSFile, "PG3_0010");
-      } else
-      {
-        pchYes = NULL;
-        pchNo = NULL;
-      }
-      if ((pchYes) && (pchNo))
-        WinSetDlgItemText(hwnd, ST_SELECTEDSUPPORTSPASSWORDPROTECTION, pUserData->pModuleDescArray[lID].bSupportsPasswordProtection?pchYes:pchNo);
-      else
-        WinSetDlgItemText(hwnd, ST_SELECTEDSUPPORTSPASSWORDPROTECTION, pUserData->pModuleDescArray[lID].bSupportsPasswordProtection?"Yes":"No");
-
-      if (pchYes)
-        free(pchYes);
-      if (pchNo)
-        free(pchNo);
-
-      WinSetDlgItemText(hwnd, MLE_SELECTEDMODULEDESCRIPTION, pUserData->pModuleDescArray[lID].achModuleDesc);
-      WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE), pUserData->pModuleDescArray[lID].bConfigurable);
-      if (WinQueryButtonCheckstate(hwnd, CB_SHOWPREVIEW))
-      {
-	if (WinIsWindowVisible(hwnd))
-	  StartPage3Preview(hwnd);
-      } else
-      {
-	StopPage3Preview(hwnd);
-      }
-    }
-
-    internal_CloseNLSFile(hfNLSFile);
-
-  }
-}
-static void SetPage3ControlValues(HWND hwnd, int bStartOrStopPreview)
-{
-  Page3UserData_p pUserData;
-  char achCurrModule[CCHMAXPATHCOMP];
-  ULONG ulTemp, ulCount;
-  long lID, lIDToSelect;
-
-  pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-  {
-    // Get current saver DLL module!
-    wpssdesktop_wpssQueryScreenSaverModule(pUserData->Desktop,
-                                           achCurrModule, sizeof(achCurrModule));
-#ifdef DEBUG_LOGGING
-    AddLog("[SetPage3ControlValues] : Current saver module: [");
-    AddLog(achCurrModule); AddLog("]\n");
-#endif
-    // Fill module list with available modules
-    lIDToSelect = LIT_NONE;
-    WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_DELETEALL, (MPARAM) NULL, (MPARAM) NULL);
-    for (ulTemp=0; ulTemp<pUserData->ulMaxModules; ulTemp++)
-    {
-      lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_INSERTITEM,
-                                     (MPARAM) LIT_SORTASCENDING,
-                                     (MPARAM) (pUserData->pModuleDescArray[ulTemp].achModuleName));
-      WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_SETITEMHANDLE,
-                        (MPARAM) lID, (MPARAM) ulTemp);
-      if (!strcmp(pUserData->pModuleDescArray[ulTemp].achSaverDLLFileName,
-                  achCurrModule))
-      {
-#ifdef DEBUG_LOGGING
-        AddLog("[SetPage3ControlValues] : Found module!\n");
-#endif
-        // This is the currently selected screen saver!
-        // We might save the item ID, so we can select that item later.
-        // The problem is that we're inserting items in sorted mode, so
-        // item indexes will not be valid. So, we save item handle here, and
-        // search for item with that handle later!
-        lIDToSelect = ulTemp;
-      }
-    }
-    if (lIDToSelect != LIT_NONE)
-    {
-      // Go through the items in the list, and select the one with lIDToSelect handle!
-      ulCount = (ULONG) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYITEMCOUNT, (MPARAM) NULL, (MPARAM) NULL);
-      for (ulTemp = 0; ulTemp<ulCount; ulTemp++)
-      {
-        if ((ULONG)WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYITEMHANDLE, (MPARAM) ulTemp, (MPARAM) NULL) == lIDToSelect)
-        {
-          WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_SELECTITEM, (MPARAM) ulTemp, (MPARAM) TRUE);
-          break;
-        }
-      }
-    }
-    WinCheckButton(hwnd, CB_SHOWPREVIEW,
-                   ulTemp = wpssdesktop_wpssQueryScreenSaverPreviewEnabled(pUserData->Desktop));
-    if (bStartOrStopPreview)
-    {
-      if (ulTemp)
-        StartPage3Preview(hwnd);
-      else
-        StopPage3Preview(hwnd);
-    }
-
-    // Ok, now set up module info!
-    SetPage3ModuleInfo(hwnd);
-  }
-}
 static void UseSelectedModule(HWND hwnd)
 {
   Page3UserData_p pUserData;
@@ -3573,8 +2050,8 @@ static void ChangeSaverPassword(HWND hwnd)
       pchTemp1 = (char *) malloc(1024);
       pchTemp2 = (char *) malloc(1024);
       if ((pchTemp1) && (pchTemp2) && (hfNLSFile) &&
-          (sprintmsg(pchTemp1, hfNLSFile, "PG1_0018")) &&
-          (sprintmsg(pchTemp2, hfNLSFile, "PG1_0017"))
+          (sprintmsg(pchTemp1, hfNLSFile, "PG2_0018")) &&
+          (sprintmsg(pchTemp2, hfNLSFile, "PG2_0017"))
          )
         WinMessageBox(HWND_DESKTOP, hwnd,
                       pchTemp1,
@@ -3663,14 +2140,11 @@ MRESULT EXPENTRY PreviewWindowProc( HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
     // but it's always good to have seatbelts. :)
     case WM_SSCORENOTIFY_PREVIEWSTARTED:
     case WM_SSCORENOTIFY_PREVIEWSTOPPED:
-#ifdef DEBUG_LOGGING
       AddLog("[PreviewWndProc] : SSCORENOTIFY! Forwarding to parent!\n");
-#endif
       hwndParent = WinQueryWindow(hwnd, QW_PARENT);
       return WinSendMsg(hwndParent, msg, mp1, mp2);
 
     default:
-#ifdef DEBUG_LOGGING
       /*
       {
         char achTemp[128];
@@ -3678,342 +2152,9 @@ MRESULT EXPENTRY PreviewWindowProc( HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         AddLog(achTemp);
       }
       */
-#endif
       break;
   }
   return WinDefWindowProc( hwnd, msg, mp1, mp2 );
-}
-
-static void SetPage1Text(HWND hwnd)
-{
-  char *pchTemp;
-  int iCX, iCY, iMaxCX;
-  SWP swpNotebook, swpBtn;
-  ULONG CXDLGFRAME = WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME);
-  FILE *hfNLSFile;
-  Page1UserData_p pUserData;
-
-  pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-    hfNLSFile = internal_OpenNLSFile(pUserData->Desktop);
-  else
-    hfNLSFile = NULLHANDLE;
-
-  // Only if we have an NLS support file opened!
-  if (hfNLSFile)
-  {
-    // Allocate memory for strings we're gonna read!
-    pchTemp = (char *) malloc(1024);
-    if (pchTemp)
-    {
-      // Okay, read strings and change control texts!
-      // First the Undo/Default/Help buttons!
-      iMaxCX = 0;
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0000"))
-      {
-        WinSetDlgItemText(hwndSettingsNotebook, PB_NOTEBOOK_PG1_HELP, pchTemp);
-        WinSetDlgItemText(hwnd, PB_NOTEBOOK_PG1_HELP, pchTemp);
-        internal_GetStaticTextSize(hwndSettingsNotebook, PB_NOTEBOOK_PG1_HELP, &iCX, &iCY);
-        if (iMaxCX<iCX) iMaxCX = iCX;
-      }
-
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0001"))
-      {
-        WinSetDlgItemText(hwndSettingsNotebook, PB_NOTEBOOK_PG1_DEFAULT, pchTemp);
-        WinSetDlgItemText(hwnd, PB_NOTEBOOK_PG1_DEFAULT, pchTemp);
-        internal_GetStaticTextSize(hwndSettingsNotebook, PB_NOTEBOOK_PG1_DEFAULT, &iCX, &iCY);
-        if (iMaxCX<iCX) iMaxCX = iCX;
-      }
-
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0002"))
-      {
-        WinSetDlgItemText(hwndSettingsNotebook, PB_NOTEBOOK_PG1_UNDO, pchTemp);
-        WinSetDlgItemText(hwnd, PB_NOTEBOOK_PG1_UNDO, pchTemp);
-        internal_GetStaticTextSize(hwndSettingsNotebook, PB_NOTEBOOK_PG1_UNDO, &iCX, &iCY);
-        if (iMaxCX<iCX) iMaxCX = iCX;
-      }
-      // Now resize and reposition the buttons!
-      WinQueryWindowPos(hwndSettingsNotebook, &swpNotebook);
-      WinQueryWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG1_UNDO), &swpBtn);
-      WinSetWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG1_UNDO), HWND_TOP,
-                      swpNotebook.cx - 20*CXDLGFRAME - 3*iMaxCX,
-                      swpBtn.y,
-                      iMaxCX+6*CXDLGFRAME,
-                      swpBtn.cy,
-                      SWP_MOVE | SWP_SIZE);
-
-      WinQueryWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG1_DEFAULT), &swpBtn);
-      WinSetWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG1_DEFAULT), HWND_TOP,
-                      swpNotebook.cx - 20*CXDLGFRAME - 3*iMaxCX +7*CXDLGFRAME+iMaxCX,
-                      swpBtn.y,
-                      iMaxCX+6*CXDLGFRAME,
-                      swpBtn.cy,
-                      SWP_MOVE | SWP_SIZE);
-
-      WinQueryWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG1_HELP), &swpBtn);
-      WinSetWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG1_HELP), HWND_TOP,
-                      swpNotebook.cx - 20*CXDLGFRAME - 3*iMaxCX +14*CXDLGFRAME+2*iMaxCX,
-                      swpBtn.y,
-                      iMaxCX+6*CXDLGFRAME,
-                      swpBtn.cy,
-                      SWP_MOVE | SWP_SIZE);
-
-      // Then the controls
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0003"))
-	WinSetDlgItemText(hwnd, GB_GENERALSETTINGS, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0004"))
-	WinSetDlgItemText(hwnd, CB_ENABLED, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0005"))
-	WinSetDlgItemText(hwnd, ST_STARTSAVERAFTER, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0006"))
-	WinSetDlgItemText(hwnd, ST_MINUTESOFINACTIVITY, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0007"))
-	WinSetDlgItemText(hwnd, GB_PASSWORDPROTECTION, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0008"))
-	WinSetDlgItemText(hwnd, CB_USEPASSWORDPROTECTION, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0009"))
-	WinSetDlgItemText(hwnd, ST_TYPEYOURPASSWORD, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0010"))
-      {
-	WinSetDlgItemText(hwnd, ST_PASSWORD, pchTemp);
-        WinSetDlgItemText(hwnd, ST_PASSWORDFORVERIFICATION, pchTemp);
-      }
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0011"))
-        WinSetDlgItemText(hwnd, ST_FORVERIFICATION, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0012"))
-        WinSetDlgItemText(hwnd, PB_CHANGE, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0013"))
-        WinSetDlgItemText(hwnd, CB_DELAYPASSWORDPROTECTION, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0014"))
-        WinSetDlgItemText(hwnd, ST_ASKPASSWORDONLYAFTER, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0015"))
-        WinSetDlgItemText(hwnd, ST_MINUTESOFSAVING, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0016"))
-        WinSetDlgItemText(hwnd, CB_STARTSAVERMODULEONSTARTUP, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0019"))
-        WinSetDlgItemText(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0020"))
-        WinSetDlgItemText(hwnd, RB_USETHISPASSWORD, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0021"))
-	WinSetDlgItemText(hwnd, CB_WAKEUPBYKEYBOARDONLY, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0022"))
-        WinSetDlgItemText(hwnd, CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG1_0023"))
-        WinSetDlgItemText(hwnd, CB_DISABLEVIOPOPUPSWHILESAVING, pchTemp);
-
-      free(pchTemp);
-    }
-
-  }
-
-  internal_CloseNLSFile(hfNLSFile);
-
-  WinInvalidateRect(hwndSettingsNotebook, NULL, TRUE);
-}
-
-static void SetPage2Text(HWND hwnd)
-{
-  char *pchTemp;
-  int iCX, iCY, iMaxCX;
-  SWP swpNotebook, swpBtn;
-  ULONG CXDLGFRAME = WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME);
-  Page2UserData_p pUserData;
-  FILE *hfNLSFile;
-
-  pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-    hfNLSFile = internal_OpenNLSFile(pUserData->Desktop);
-  else
-    hfNLSFile = NULLHANDLE;
-
-  // Only if we have an NLS support file opened!
-  if (hfNLSFile)
-  {
-    // Allocate memory for strings we're gonna read!
-    pchTemp = (char *) malloc(1024);
-    if (pchTemp)
-    {
-      // Okay, read strings and change control texts!
-      // First the Undo/Default/Help buttons!
-      iMaxCX = 0;
-      if (sprintmsg(pchTemp, hfNLSFile, "PG2_0000"))
-      {
-        WinSetDlgItemText(hwndSettingsNotebook, PB_NOTEBOOK_PG2_HELP, pchTemp);
-        WinSetDlgItemText(hwnd, PB_NOTEBOOK_PG2_HELP, pchTemp);
-        internal_GetStaticTextSize(hwndSettingsNotebook, PB_NOTEBOOK_PG2_HELP, &iCX, &iCY);
-        if (iMaxCX<iCX) iMaxCX = iCX;
-      }
-
-      if (sprintmsg(pchTemp, hfNLSFile, "PG2_0001"))
-      {
-        WinSetDlgItemText(hwndSettingsNotebook, PB_NOTEBOOK_PG2_DEFAULT, pchTemp);
-        WinSetDlgItemText(hwnd, PB_NOTEBOOK_PG2_DEFAULT, pchTemp);
-        internal_GetStaticTextSize(hwndSettingsNotebook, PB_NOTEBOOK_PG2_DEFAULT, &iCX, &iCY);
-        if (iMaxCX<iCX) iMaxCX = iCX;
-      }
-
-      if (sprintmsg(pchTemp, hfNLSFile, "PG2_0002"))
-      {
-        WinSetDlgItemText(hwndSettingsNotebook, PB_NOTEBOOK_PG2_UNDO, pchTemp);
-        WinSetDlgItemText(hwnd, PB_NOTEBOOK_PG2_UNDO, pchTemp);
-        internal_GetStaticTextSize(hwndSettingsNotebook, PB_NOTEBOOK_PG2_UNDO, &iCX, &iCY);
-        if (iMaxCX<iCX) iMaxCX = iCX;
-      }
-      // Now resize and reposition the buttons!
-      WinQueryWindowPos(hwndSettingsNotebook, &swpNotebook);
-      WinQueryWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG2_UNDO), &swpBtn);
-      WinSetWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG2_UNDO), HWND_TOP,
-                      swpNotebook.cx - 20*CXDLGFRAME - 3*iMaxCX,
-                      swpBtn.y,
-                      iMaxCX+6*CXDLGFRAME,
-                      swpBtn.cy,
-                      SWP_MOVE | SWP_SIZE);
-
-      WinQueryWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG2_DEFAULT), &swpBtn);
-      WinSetWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG2_DEFAULT), HWND_TOP,
-                      swpNotebook.cx - 20*CXDLGFRAME - 3*iMaxCX +7*CXDLGFRAME+iMaxCX,
-                      swpBtn.y,
-                      iMaxCX+6*CXDLGFRAME,
-                      swpBtn.cy,
-                      SWP_MOVE | SWP_SIZE);
-
-      WinQueryWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG2_HELP), &swpBtn);
-      WinSetWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG2_HELP), HWND_TOP,
-                      swpNotebook.cx - 20*CXDLGFRAME - 3*iMaxCX +14*CXDLGFRAME+2*iMaxCX,
-                      swpBtn.y,
-                      iMaxCX+6*CXDLGFRAME,
-                      swpBtn.cy,
-                      SWP_MOVE | SWP_SIZE);
-
-      // Then the controls
-      if (sprintmsg(pchTemp, hfNLSFile, "PG2_0003"))
-	WinSetDlgItemText(hwnd, GB_DPMSSETTINGS, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG2_0004"))
-	WinSetDlgItemText(hwnd, CB_USEDPMSSTANDBYSTATE, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG2_0005"))
-	WinSetDlgItemText(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG2_0006"))
-	WinSetDlgItemText(hwnd, CB_USEDPMSSUSPENDSTATE, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG2_0007"))
-	WinSetDlgItemText(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG2_0008"))
-	WinSetDlgItemText(hwnd, CB_USEDPMSOFFSTATE, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG2_0009"))
-	WinSetDlgItemText(hwnd, ST_SWITCHTOOFFSTATEAFTER, pchTemp);
-
-      free(pchTemp);
-    }
-  }
-
-  internal_CloseNLSFile(hfNLSFile);
-
-  // Also, we have to set the dynamic text, too, so:
-  EnableDisablePage2Controls(hwnd);
-  WinInvalidateRect(hwndSettingsNotebook, NULL, TRUE);
-}
-static void SetPage3Text(HWND hwnd)
-{
-  char *pchTemp;
-  int iCX, iCY, iMaxCX;
-  SWP swpNotebook, swpBtn;
-  ULONG CXDLGFRAME = WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME);
-  Page3UserData_p pUserData;
-  FILE *hfNLSFile;
-
-  pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-  if (pUserData)
-    hfNLSFile = internal_OpenNLSFile(pUserData->Desktop);
-  else
-    hfNLSFile = NULLHANDLE;
-
-  // Only if we have an NLS support file opened!
-  if (hfNLSFile)
-  {
-    // Allocate memory for strings we're gonna read!
-    pchTemp = (char *) malloc(1024);
-    if (pchTemp)
-    {
-      // Okay, read strings and change control texts!
-      // First the Undo/Default/Help buttons!
-      iMaxCX = 0;
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0000"))
-      {
-        WinSetDlgItemText(hwndSettingsNotebook, PB_NOTEBOOK_PG3_HELP, pchTemp);
-        WinSetDlgItemText(hwnd, PB_NOTEBOOK_PG3_HELP, pchTemp);
-        internal_GetStaticTextSize(hwndSettingsNotebook, PB_NOTEBOOK_PG3_HELP, &iCX, &iCY);
-        if (iMaxCX<iCX) iMaxCX = iCX;
-      }
-
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0001"))
-      {
-        WinSetDlgItemText(hwndSettingsNotebook, PB_NOTEBOOK_PG3_DEFAULT, pchTemp);
-        WinSetDlgItemText(hwnd, PB_NOTEBOOK_PG3_DEFAULT, pchTemp);
-        internal_GetStaticTextSize(hwndSettingsNotebook, PB_NOTEBOOK_PG3_DEFAULT, &iCX, &iCY);
-        if (iMaxCX<iCX) iMaxCX = iCX;
-      }
-
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0002"))
-      {
-        WinSetDlgItemText(hwndSettingsNotebook, PB_NOTEBOOK_PG3_UNDO, pchTemp);
-        WinSetDlgItemText(hwnd, PB_NOTEBOOK_PG3_UNDO, pchTemp);
-        internal_GetStaticTextSize(hwndSettingsNotebook, PB_NOTEBOOK_PG3_UNDO, &iCX, &iCY);
-        if (iMaxCX<iCX) iMaxCX = iCX;
-      }
-      // Now resize and reposition the buttons!
-      WinQueryWindowPos(hwndSettingsNotebook, &swpNotebook);
-      WinQueryWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG3_UNDO), &swpBtn);
-      WinSetWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG3_UNDO), HWND_TOP,
-                      swpNotebook.cx - 20*CXDLGFRAME - 3*iMaxCX,
-                      swpBtn.y,
-                      iMaxCX+6*CXDLGFRAME,
-                      swpBtn.cy,
-                      SWP_MOVE | SWP_SIZE);
-
-      WinQueryWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG3_DEFAULT), &swpBtn);
-      WinSetWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG3_DEFAULT), HWND_TOP,
-                      swpNotebook.cx - 20*CXDLGFRAME - 3*iMaxCX +7*CXDLGFRAME+iMaxCX,
-                      swpBtn.y,
-                      iMaxCX+6*CXDLGFRAME,
-                      swpBtn.cy,
-                      SWP_MOVE | SWP_SIZE);
-
-      WinQueryWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG3_HELP), &swpBtn);
-      WinSetWindowPos(WinWindowFromID(hwndSettingsNotebook, PB_NOTEBOOK_PG3_HELP), HWND_TOP,
-                      swpNotebook.cx - 20*CXDLGFRAME - 3*iMaxCX +14*CXDLGFRAME+2*iMaxCX,
-                      swpBtn.y,
-                      iMaxCX+6*CXDLGFRAME,
-                      swpBtn.cy,
-                      SWP_MOVE | SWP_SIZE);
-
-      // Then the controls
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0003"))
-	WinSetDlgItemText(hwnd, GB_SCREENSAVERMODULES, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0004"))
-	WinSetDlgItemText(hwnd, CB_SHOWPREVIEW, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0005"))
-	WinSetDlgItemText(hwnd, GB_MODULEINFORMATION, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0006"))
-	WinSetDlgItemText(hwnd, ST_MODULENAME, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0007"))
-	WinSetDlgItemText(hwnd, ST_MODULEVERSION, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0008"))
-	WinSetDlgItemText(hwnd, ST_SUPPORTSPASSWORDPROTECTION, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0011"))
-	WinSetDlgItemText(hwnd, ST_DESCRIPTION, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0012"))
-	WinSetDlgItemText(hwnd, PB_STARTMODULE, pchTemp);
-      if (sprintmsg(pchTemp, hfNLSFile, "PG3_0013"))
-	WinSetDlgItemText(hwnd, PB_CONFIGURE, pchTemp);
-
-      free(pchTemp);
-    }
-  }
-
-  internal_CloseNLSFile(hfNLSFile);
-
-  // Also, we have to set the dynamic text, too, so:
-  SetPage3ModuleInfo(hwnd);
-  WinInvalidateRect(hwndSettingsNotebook, NULL, TRUE);
 }
 
 static int internal_IsLocaleObject(PDRAGINFO pdiDragInfo)
@@ -4126,12 +2267,10 @@ static void internal_SetLanguageFromLocaleObject(WPSSDesktop *somSelf, PDRAGINFO
                   sizeof(achTemp),
                   achTemp);
 
-#ifdef DEBUG_LOGGING
   AddLog("[internal_SetLanguageFromLocaleObject] : Changing language!\n");
   AddLog("[internal_SetLanguageFromLocaleObject] : Dropped: [");
   AddLog(achTemp);
   AddLog("]\n");
-#endif
 
   /*
    * Old method:
@@ -4155,11 +2294,9 @@ static void internal_SetLanguageFromLocaleObject(WPSSDesktop *somSelf, PDRAGINFO
 
   */
 
-#ifdef DEBUG_LOGGING
   AddLog("[internal_SetLanguageFromLocaleObject] : New language is: [");
   AddLog(achTemp);
   AddLog("]\n");
-#endif
 
   DrgFreeDraginfo(pdiDragInfo);
 
@@ -4188,7 +2325,7 @@ MRESULT EXPENTRY fnwpNLSEnabledNotebookWindowProc(HWND hwnd, ULONG msg,
       pUserData = (Page1UserData_p) WinQueryWindowULong(hwndSettingsPage1, QWL_USER);
       if (pUserData)
 	// Show help
-	internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE1_GENERAL);
+	internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE1_GENERALSETTINGS);
       return (MRESULT) TRUE;
     }
     if (ulCurrPageID == ulSettingsPage2ID)
@@ -4197,7 +2334,7 @@ MRESULT EXPENTRY fnwpNLSEnabledNotebookWindowProc(HWND hwnd, ULONG msg,
       pUserData = (Page2UserData_p) WinQueryWindowULong(hwndSettingsPage2, QWL_USER);
       if (pUserData)
 	// Show help
-	internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE2_GENERAL);
+	internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE2_PASSWORDPROTECTION);
       return (MRESULT) TRUE;
     }
     if (ulCurrPageID == ulSettingsPage3ID)
@@ -4206,7 +2343,7 @@ MRESULT EXPENTRY fnwpNLSEnabledNotebookWindowProc(HWND hwnd, ULONG msg,
       pUserData = (Page3UserData_p) WinQueryWindowULong(hwndSettingsPage3, QWL_USER);
       if (pUserData)
 	// Show help
-	internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE3_GENERAL);
+	internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE3_SAVERMODULES);
       return (MRESULT) TRUE;
     }
   }
@@ -4293,393 +2430,779 @@ static void SubclassChildWindowsForNLS(HWND hwnd)
   WinEndEnumWindows(henum);
 }
 
+/*****************************************************************************/
+/*****************************************************************************/
+
+static LONG GetStaticTextWidth(HWND hStatic)
+{
+  HPS     hps;
+  char    text[256];
+  POINTL  aptl[TXTBOX_BOTTOMRIGHT]; // this is 3 POINTLs
+
+  WinQueryWindowText(hStatic, sizeof(text), text);
+
+  hps = WinGetPS(hStatic);
+  GpiQueryTextBox(hps, strlen(text), text, TXTBOX_BOTTOMRIGHT, aptl);
+  WinReleasePS(hps);
+
+  return aptl[TXTBOX_TOPRIGHT].x - aptl[TXTBOX_TOPLEFT].x;
+}
+
+/*****************************************************************************/
+
+static void SetPage3ModuleInfo(HWND hwnd)
+{
+  long  lID;
+  FILE *hfNLSFile;
+  Page3UserData_p pUserData;
+  char  szText[256];
+
+  pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+  if (!pUserData)
+    return;
+
+  hfNLSFile = internal_OpenNLSFile(pUserData->Desktop);
+
+  lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYSELECTION,
+                                 (MPARAM) LIT_CURSOR, (MPARAM) NULL);
+  if (lID!=LIT_NONE)
+  {
+    lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYITEMHANDLE, (MPARAM) lID, (MPARAM) NULL);
+    if ((lID<0) || lID>=pUserData->ulMaxModules)
+    {
+      // Something is wrong, the handle, which should tell the index in the
+      // module desc array, points out of the array!
+      lID = LIT_NONE;
+    }
+  }
+
+  if (lID==LIT_NONE)
+  {
+    // Either there is no module selected, or something went wrong.
+    WinSetDlgItemText(hwnd, GB_MODULEINFORMATION, "");
+
+    if (!hfNLSFile || !sprintmsg(szText, hfNLSFile, "PG3_0014"))
+      strcpy(szText, "No module selected!\nPlease select a screen saver module!");
+    WinSetDlgItemText(hwnd, MLE_SELECTEDMODULEDESCRIPTION, szText);
+
+    WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE), FALSE);
+    StopPage3Preview(hwnd);
+    internal_CloseNLSFile(hfNLSFile);
+    return;
+  }
+
+  // combine the name and version to form the groupbox heading
+  sprintf(szText, "%s v%d.%02d",
+          pUserData->pModuleDescArray[lID].achModuleName,
+          pUserData->pModuleDescArray[lID].lVersionMajor,
+          pUserData->pModuleDescArray[lID].lVersionMinor);
+  WinSetDlgItemText(hwnd, GB_MODULEINFORMATION, szText);
+
+  WinSetDlgItemText(hwnd, MLE_SELECTEDMODULEDESCRIPTION,
+                    pUserData->pModuleDescArray[lID].achModuleDesc);
+
+  WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE),
+                  pUserData->pModuleDescArray[lID].bConfigurable);
+
+  if (WinQueryButtonCheckstate(hwnd, CB_SHOWPREVIEW))
+  {
+    if (WinIsWindowVisible(hwnd))
+      StartPage3Preview(hwnd);
+    else
+      StopPage3Preview(hwnd);
+  }
+
+  internal_CloseNLSFile(hfNLSFile);
+}
+
+/*****************************************************************************/
+
+static void SetPage1Text(HWND hwnd)
+{
+  HWND hParent;
+  FILE *hfNLSFile;
+  char *pchTemp;
+  Page1UserData_p pUserData;
+
+  if (!(pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER)) ||
+      !(hfNLSFile = internal_OpenNLSFile(pUserData->Desktop)) ||
+      !(pchTemp = (char *) malloc(1024)))
+    return;
+
+  // Okay, read strings and change control texts!
+
+  // First the Undo/Default/Help buttons!  During init, they're
+  // children of the dialog; later they become children of the notebook
+  hParent = WinWindowFromID(hwnd, PB_NOTEBOOK_PG1_HELP) ? hwnd : hwndSettingsNotebook;
+  if (sprintmsg(pchTemp, hfNLSFile, "COM_0004"))
+  {
+    WinSetDlgItemText(hParent, PB_NOTEBOOK_PG1_HELP, pchTemp);
+    WinSendDlgItemMsg(hParent, PB_NOTEBOOK_PG1_HELP, BM_AUTOSIZE, 0, 0);
+  }
+  if (sprintmsg(pchTemp, hfNLSFile, "COM_0005"))
+  {
+    WinSetDlgItemText(hParent, PB_NOTEBOOK_PG1_DEFAULT, pchTemp);
+    WinSendDlgItemMsg(hParent, PB_NOTEBOOK_PG1_DEFAULT, BM_AUTOSIZE, 0, 0);
+  }
+  if (sprintmsg(pchTemp, hfNLSFile, "COM_0006"))
+  {
+    WinSetDlgItemText(hParent, PB_NOTEBOOK_PG1_UNDO, pchTemp);
+    WinSendDlgItemMsg(hParent, PB_NOTEBOOK_PG1_UNDO, BM_AUTOSIZE, 0, 0);
+  }
+
+  // Then the controls
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0003"))
+    WinSetDlgItemText(hwnd, GB_GENERALSETTINGS, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0004"))
+    WinSetDlgItemText(hwnd, CB_ENABLED, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0005"))
+    WinSetDlgItemText(hwnd, ST_STARTSAVERAFTER, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0006"))
+    WinSetDlgItemText(hwnd, ST_MINUTESOFINACTIVITY, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0007"))
+    WinSetDlgItemText(hwnd, CB_WAKEUPBYKEYBOARDONLY, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0008"))
+    WinSetDlgItemText(hwnd, CB_DISABLEVIOPOPUPSWHILESAVING, pchTemp);
+
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0013"))
+    WinSetDlgItemText(hwnd, GB_DPMSSETTINGS, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0014"))
+    WinSetDlgItemText(hwnd, CB_USEDPMSSTANDBYSTATE, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0015"))
+    WinSetDlgItemText(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0016"))
+    WinSetDlgItemText(hwnd, CB_USEDPMSSUSPENDSTATE, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0017"))
+    WinSetDlgItemText(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0018"))
+    WinSetDlgItemText(hwnd, CB_USEDPMSOFFSTATE, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG1_0019"))
+    WinSetDlgItemText(hwnd, ST_SWITCHTOOFFSTATEAFTER, pchTemp);
+
+  free(pchTemp);
+  internal_CloseNLSFile(hfNLSFile);
+  WinInvalidateRect(hwndSettingsNotebook, NULL, TRUE);
+}
+
+/*****************************************************************************/
+
+static void SetPage2Text(HWND hwnd)
+{
+  HWND hParent;
+  FILE *hfNLSFile;
+  char *pchTemp;
+  Page2UserData_p pUserData;
+
+  if (!(pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER)) ||
+      !(hfNLSFile = internal_OpenNLSFile(pUserData->Desktop)) ||
+      !(pchTemp = (char *) malloc(1024)))
+    return;
+
+  // Okay, read strings and change control texts!
+
+  // First the Undo/Default/Help buttons!
+  hParent = WinWindowFromID(hwnd, PB_NOTEBOOK_PG2_HELP) ? hwnd : hwndSettingsNotebook;
+
+  if (sprintmsg(pchTemp, hfNLSFile, "COM_0004"))
+  {
+    WinSetDlgItemText(hParent, PB_NOTEBOOK_PG2_HELP, pchTemp);
+    WinSendDlgItemMsg(hParent, PB_NOTEBOOK_PG2_HELP, BM_AUTOSIZE, 0, 0);
+  }
+  if (sprintmsg(pchTemp, hfNLSFile, "COM_0005"))
+  {
+    WinSetDlgItemText(hParent, PB_NOTEBOOK_PG2_DEFAULT, pchTemp);
+    WinSendDlgItemMsg(hParent, PB_NOTEBOOK_PG2_DEFAULT, BM_AUTOSIZE, 0, 0);
+  }
+  if (sprintmsg(pchTemp, hfNLSFile, "COM_0006"))
+  {
+    WinSetDlgItemText(hParent, PB_NOTEBOOK_PG2_UNDO, pchTemp);
+    WinSendDlgItemMsg(hParent, PB_NOTEBOOK_PG2_UNDO, BM_AUTOSIZE, 0, 0);
+  }
+
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0007"))
+    WinSetDlgItemText(hwnd, GB_PASSWORDPROTECTION, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0008"))
+    WinSetDlgItemText(hwnd, CB_USEPASSWORDPROTECTION, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0009"))
+    WinSetDlgItemText(hwnd, ST_TYPEYOURPASSWORD, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0010"))
+  {
+    WinSetDlgItemText(hwnd, ST_PASSWORD, pchTemp);
+    WinSetDlgItemText(hwnd, ST_PASSWORDFORVERIFICATION, pchTemp);
+  }
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0011"))
+    WinSetDlgItemText(hwnd, ST_FORVERIFICATION, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0012"))
+    WinSetDlgItemText(hwnd, PB_CHANGE, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0013"))
+    WinSetDlgItemText(hwnd, CB_DELAYPASSWORDPROTECTION, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0014"))
+    WinSetDlgItemText(hwnd, ST_ASKPASSWORDONLYAFTER, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0015"))
+    WinSetDlgItemText(hwnd, ST_MINUTESOFSAVING, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0016"))
+    WinSetDlgItemText(hwnd, CB_STARTSAVERMODULEONSTARTUP, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0019"))
+    WinSetDlgItemText(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0020"))
+    WinSetDlgItemText(hwnd, RB_USETHISPASSWORD, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG2_0022"))
+    WinSetDlgItemText(hwnd, CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD, pchTemp);
+
+  free(pchTemp);
+  internal_CloseNLSFile(hfNLSFile);
+
+  // Also, we have to set the dynamic text, too, so:
+  EnableDisablePage2Controls(hwnd);
+  WinInvalidateRect(hwndSettingsNotebook, NULL, TRUE);
+}
+
+/*****************************************************************************/
+
+static void SetPage3Text(HWND hwnd)
+{
+  HWND hParent;
+  FILE *hfNLSFile;
+  char *pchTemp;
+  Page3UserData_p pUserData;
+
+  if (!(pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER)) ||
+      !(hfNLSFile = internal_OpenNLSFile(pUserData->Desktop)) ||
+      !(pchTemp = (char *) malloc(1024)))
+    return;
+
+  // Okay, read strings and change control texts!
+
+  // First the Undo/Default/Help buttons!
+  hParent = WinWindowFromID(hwnd, PB_NOTEBOOK_PG3_HELP) ? hwnd : hwndSettingsNotebook;
+  if (sprintmsg(pchTemp, hfNLSFile, "COM_0004"))
+  {
+    WinSetDlgItemText(hParent, PB_NOTEBOOK_PG3_HELP, pchTemp);
+    WinSendDlgItemMsg(hParent, PB_NOTEBOOK_PG3_HELP, BM_AUTOSIZE, 0, 0);
+  }
+  if (sprintmsg(pchTemp, hfNLSFile, "COM_0005"))
+  {
+    WinSetDlgItemText(hParent, PB_NOTEBOOK_PG3_DEFAULT, pchTemp);
+    WinSendDlgItemMsg(hParent, PB_NOTEBOOK_PG3_DEFAULT, BM_AUTOSIZE, 0, 0);
+  }
+  if (sprintmsg(pchTemp, hfNLSFile, "COM_0006"))
+  {
+    WinSetDlgItemText(hParent, PB_NOTEBOOK_PG3_UNDO, pchTemp);
+    WinSendDlgItemMsg(hParent, PB_NOTEBOOK_PG3_UNDO, BM_AUTOSIZE, 0, 0);
+  }
+
+  // Then the controls
+  if (sprintmsg(pchTemp, hfNLSFile, "PG3_0003"))
+    WinSetDlgItemText(hwnd, GB_SCREENSAVERMODULES, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG3_0004"))
+    WinSetDlgItemText(hwnd, CB_SHOWPREVIEW, pchTemp);
+
+  WinSetDlgItemText(hwnd, GB_MODULEINFORMATION, "");
+  if (sprintmsg(pchTemp, hfNLSFile, "PG3_0012"))
+    WinSetDlgItemText(hwnd, PB_STARTMODULE, pchTemp);
+  if (sprintmsg(pchTemp, hfNLSFile, "PG3_0013"))
+    WinSetDlgItemText(hwnd, PB_CONFIGURE, pchTemp);
+
+  free(pchTemp);
+  internal_CloseNLSFile(hfNLSFile);
+
+  // Also, we have to set the dynamic text, too, so:
+  SetPage3ModuleInfo(hwnd);
+  WinInvalidateRect(hwndSettingsNotebook, NULL, TRUE);
+}
+
+/*****************************************************************************/
+
+static void ResizePage1Controls(HWND hwnd)
+{
+  LONG    tmp;
+  LONG    xS;
+  LONG    xR;
+  LONG    cxL;
+  LONG    cxR;
+  HWND    hCtl;
+  POINTL  ptl = {4, 8};
+  SWP     swpLtxt;
+  SWP     swpRtxt;
+  SWP     swpSpin;
+
+  // get the width & height in pixels of an average char 
+  WinMapDlgPoints(hwnd, &ptl, 1, TRUE);
+
+  // timeout
+  hCtl = WinWindowFromID(hwnd, ST_STARTSAVERAFTER);
+  WinQueryWindowPos(hCtl, &swpLtxt);
+  cxL = GetStaticTextWidth(hCtl);
+  WinSetWindowPos(hCtl, 0, 0, 0, cxL, swpLtxt.cy, SWP_SIZE);
+
+  hCtl = WinWindowFromID(hwnd, SPB_TIMEOUT);
+  WinQueryWindowPos(hCtl, &swpSpin);
+  xS = swpLtxt.x + cxL + ptl.x;
+  WinSetWindowPos(hCtl, 0, xS, swpSpin.y, 0, 0, SWP_MOVE);
+
+  hCtl = WinWindowFromID(hwnd, ST_MINUTESOFINACTIVITY);
+  WinQueryWindowPos(WinWindowFromID(hwnd, ST_MINUTESOFINACTIVITY), &swpRtxt);
+  xR = xS + swpSpin.cx + ptl.x;
+  cxR = swpRtxt.x + swpRtxt.cx - xR;
+  WinSetWindowPos(hCtl, 0, xR, swpRtxt.y, cxR, swpRtxt.cy, SWP_SIZE | SWP_MOVE);
+
+  // make the text to the left of the DPMS spinbuttons a uniform width;
+  // the text to the right will be resized below to use all remaining space
+  cxL = 0;
+  tmp = GetStaticTextWidth(WinWindowFromID(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER));
+  cxL = tmp > cxL ? tmp : cxL;
+  tmp = GetStaticTextWidth(WinWindowFromID(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER));
+  cxL = tmp > cxL ? tmp : cxL;
+  tmp = GetStaticTextWidth(WinWindowFromID(hwnd, ST_SWITCHTOOFFSTATEAFTER));
+  cxL = tmp > cxL ? tmp : cxL;
+
+  // standby timeout
+  hCtl = WinWindowFromID(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER);
+  WinQueryWindowPos(hCtl, &swpLtxt);
+  WinSetWindowPos(hCtl, 0, 0, 0, cxL, swpLtxt.cy, SWP_SIZE);
+
+  hCtl = WinWindowFromID(hwnd, SPB_STANDBYTIMEOUT);
+  WinQueryWindowPos(hCtl, &swpSpin);
+  xS = swpLtxt.x + cxL + ptl.x;
+  WinSetWindowPos(hCtl, 0, xS, swpLtxt.y, 0, 0, SWP_MOVE);
+
+  hCtl = WinWindowFromID(hwnd, ST_STANDBYMINUTESTEXT);
+  WinQueryWindowPos(hCtl, &swpRtxt);
+  xR = xS + swpSpin.cx + ptl.x;
+  cxR = swpRtxt.x + swpRtxt.cx - xR;
+  WinSetWindowPos(hCtl, 0, xR, swpLtxt.y, cxR, swpLtxt.cy, SWP_SIZE | SWP_MOVE);
+
+  // at this point, the x and cx values for all controls are known and can be reused;
+  // we only need to call WinQueryWindowPos() once per line to get its y & cy values
+
+  // suspend timeout
+  hCtl = WinWindowFromID(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER);
+  WinQueryWindowPos(hCtl, &swpLtxt);
+  WinSetWindowPos(hCtl, 0, 0, 0, cxL, swpLtxt.cy, SWP_SIZE);
+
+  hCtl = WinWindowFromID(hwnd, SPB_SUSPENDTIMEOUT);
+  WinSetWindowPos(hCtl, 0, xS, swpLtxt.y, 0, 0, SWP_MOVE);
+
+  hCtl = WinWindowFromID(hwnd, ST_SUSPENDMINUTESTEXT);
+  WinSetWindowPos(hCtl, 0, xR, swpLtxt.y, cxR, swpLtxt.cy, SWP_SIZE | SWP_MOVE);
+
+  // off timeout
+  hCtl = WinWindowFromID(hwnd, ST_SWITCHTOOFFSTATEAFTER);
+  WinQueryWindowPos(hCtl, &swpLtxt);
+  WinSetWindowPos(hCtl, 0, 0, 0, cxL, swpLtxt.cy, SWP_SIZE);
+
+  hCtl = WinWindowFromID(hwnd, SPB_OFFTIMEOUT);
+  WinSetWindowPos(hCtl, 0, xS, swpLtxt.y, 0, 0, SWP_MOVE);
+
+  hCtl = WinWindowFromID(hwnd, ST_OFFMINUTESTEXT);
+  WinSetWindowPos(hCtl, 0, xR, swpLtxt.y, cxR, swpLtxt.cy, SWP_SIZE | SWP_MOVE);
+
+  return;
+}
+
+/*****************************************************************************/
+
+static void ResizePage2Controls(HWND hwnd)
+{
+  LONG    x;
+  LONG    cx;
+  HWND    hCtl;
+  POINTL  ptl = {4, 8}; // avg character size in dlg units
+  SWP     swpLtxt;
+  SWP     swpRtxt;
+  SWP     swpSpin;
+
+  // get the width & height in pixels of an average char 
+  WinMapDlgPoints(hwnd, &ptl, 1, TRUE);
+
+  // timeout
+  hCtl = WinWindowFromID(hwnd, ST_ASKPASSWORDONLYAFTER);
+  WinQueryWindowPos(hCtl, &swpLtxt);
+  cx = GetStaticTextWidth(hCtl);
+  WinSetWindowPos(hCtl, 0, 0, 0, cx, swpLtxt.cy, SWP_SIZE);
+
+  hCtl = WinWindowFromID(hwnd, SPB_PWDDELAYMIN);
+  WinQueryWindowPos(hCtl, &swpSpin);
+  x = swpLtxt.x + cx + ptl.x;
+  WinSetWindowPos(hCtl, 0, x, swpSpin.y, 0, 0, SWP_MOVE);
+
+  hCtl = WinWindowFromID(hwnd, ST_MINUTESOFSAVING);
+  WinQueryWindowPos(hCtl, &swpRtxt);
+  x += swpSpin.cx + ptl.x;
+  cx = swpRtxt.x + swpRtxt.cx - x;
+  WinSetWindowPos(hCtl, 0, x, swpRtxt.y, cx, swpRtxt.cy, SWP_SIZE | SWP_MOVE);
+
+  return;
+}
+
+/*****************************************************************************/
+
+static void SetPage1ControlLimits(HWND hwnd)
+{
+  WinSendDlgItemMsg(hwnd, SPB_TIMEOUT,
+                    SPBM_SETLIMITS,
+                    (MPARAM) MAX_SAVER_TIMEOUT,
+                    (MPARAM) MIN_SAVER_TIMEOUT);
+
+  WinSendDlgItemMsg(hwnd, SPB_STANDBYTIMEOUT,
+                    SPBM_SETLIMITS,
+                    (MPARAM) MAX_DPMS_TIMEOUT,
+                    (MPARAM) MIN_DPMS_TIMEOUT);
+
+  WinSendDlgItemMsg(hwnd, SPB_SUSPENDTIMEOUT,
+                    SPBM_SETLIMITS,
+                    (MPARAM) MAX_DPMS_TIMEOUT,
+                    (MPARAM) MIN_DPMS_TIMEOUT);
+
+  WinSendDlgItemMsg(hwnd, SPB_OFFTIMEOUT,
+                    SPBM_SETLIMITS,
+                    (MPARAM) MAX_DPMS_TIMEOUT,
+                    (MPARAM) MIN_DPMS_TIMEOUT);
+}
+
+static void SetPage2ControlLimits(HWND hwnd)
+{
+  WinSendDlgItemMsg(hwnd, SPB_PWDDELAYMIN,
+                    SPBM_SETLIMITS,
+                    (MPARAM) MAX_SAVER_TIMEOUT,
+                    (MPARAM) MIN_SAVER_TIMEOUT);
+
+  WinSendDlgItemMsg(hwnd, EF_PASSWORD,
+                    EM_SETTEXTLIMIT,
+                    (MPARAM) SSCORE_MAXPASSWORDLEN,
+                    (MPARAM) NULL);
+
+  WinSendDlgItemMsg(hwnd, EF_PASSWORD2,
+                    EM_SETTEXTLIMIT,
+                    (MPARAM) SSCORE_MAXPASSWORDLEN,
+                    (MPARAM) NULL);
+}
+
+/*****************************************************************************/
+
+static void SetPage1ControlValues(HWND hwnd)
+{
+  Page1UserData_p pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+
+  if (!pUserData)
+    return;
+
+  WinCheckButton(hwnd, CB_ENABLED, wpssdesktop_wpssQueryScreenSaverEnabled(pUserData->Desktop));
+  WinSendDlgItemMsg(hwnd, SPB_TIMEOUT, SPBM_SETCURRENTVALUE,
+          (MPARAM) (wpssdesktop_wpssQueryScreenSaverTimeout(pUserData->Desktop)/60000), 0);
+  WinCheckButton(hwnd, CB_WAKEUPBYKEYBOARDONLY, wpssdesktop_wpssQueryWakeByKeyboardOnly(pUserData->Desktop));
+  WinCheckButton(hwnd, CB_DISABLEVIOPOPUPSWHILESAVING, wpssdesktop_wpssQueryDisableVIOPopupsWhileSaving(pUserData->Desktop));
+
+  WinCheckButton(hwnd, CB_USEDPMSSTANDBYSTATE,
+                 wpssdesktop_wpssQueryUseDPMSStandby(pUserData->Desktop));
+  WinSendDlgItemMsg(hwnd, SPB_STANDBYTIMEOUT, SPBM_SETCURRENTVALUE,
+          (MPARAM) (wpssdesktop_wpssQueryDPMSStandbyTimeout(pUserData->Desktop)/60000), 0);
+
+  WinCheckButton(hwnd, CB_USEDPMSSUSPENDSTATE,
+                 wpssdesktop_wpssQueryUseDPMSSuspend(pUserData->Desktop));
+  WinSendDlgItemMsg(hwnd, SPB_SUSPENDTIMEOUT, SPBM_SETCURRENTVALUE,
+          (MPARAM) (wpssdesktop_wpssQueryDPMSSuspendTimeout(pUserData->Desktop)/60000), 0);
+
+  WinCheckButton(hwnd, CB_USEDPMSOFFSTATE,
+                 wpssdesktop_wpssQueryUseDPMSOff(pUserData->Desktop));
+  WinSendDlgItemMsg(hwnd, SPB_OFFTIMEOUT, SPBM_SETCURRENTVALUE,
+          (MPARAM) (wpssdesktop_wpssQueryDPMSOffTimeout(pUserData->Desktop)/60000), 0);
+
+  EnableDisablePage1Controls(hwnd);
+}
+
+/*****************************************************************************/
+
+static void SetPage2ControlValues(HWND hwnd)
+{
+  Page2UserData_p pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+  char achTemp[SSCORE_MAXPASSWORDLEN];
+
+  if (!pUserData)
+    return;
+
+  WinCheckButton(hwnd, CB_USEPASSWORDPROTECTION, wpssdesktop_wpssQueryScreenSaverPasswordProtected(pUserData->Desktop));
+  wpssdesktop_wpssQueryScreenSaverEncryptedPassword(pUserData->Desktop, achTemp, sizeof(achTemp));
+  WinSetDlgItemText(hwnd, EF_PASSWORD, achTemp);
+  WinSetDlgItemText(hwnd, EF_PASSWORD2, achTemp);
+  WinCheckButton(hwnd, CB_DELAYPASSWORDPROTECTION, wpssdesktop_wpssQueryDelayedPasswordProtection(pUserData->Desktop));
+  if (wpssdesktop_wpssQueryUseCurrentSecurityPassword(pUserData->Desktop))
+  {
+    WinCheckButton(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER, TRUE);
+    WinCheckButton(hwnd, RB_USETHISPASSWORD, FALSE);
+  } else
+  {
+    WinCheckButton(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER, FALSE);
+    WinCheckButton(hwnd, RB_USETHISPASSWORD, TRUE);
+  }
+  WinSendDlgItemMsg(hwnd, SPB_PWDDELAYMIN, SPBM_SETCURRENTVALUE,
+          (MPARAM) (wpssdesktop_wpssQueryDelayedPasswordProtectionTimeout(pUserData->Desktop)/60000),
+          (MPARAM) NULL);
+  WinCheckButton(hwnd, CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD, wpssdesktop_wpssQueryFirstKeyEventGoesToPwdWindow(pUserData->Desktop));
+  WinCheckButton(hwnd, CB_STARTSAVERMODULEONSTARTUP, wpssdesktop_wpssQueryAutoStartAtStartup(pUserData->Desktop));
+
+  EnableDisablePage2Controls(hwnd);
+}
+
+/*****************************************************************************/
+
+static void SetPage3ControlValues(HWND hwnd, int bStartOrStopPreview)
+{
+  Page3UserData_p pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+
+  char achCurrModule[CCHMAXPATHCOMP];
+  ULONG ulTemp, ulCount;
+  long lID, lIDToSelect;
+
+  if (!pUserData)
+    return;
+  
+  // Get current saver DLL module!
+  wpssdesktop_wpssQueryScreenSaverModule(pUserData->Desktop,
+                                         achCurrModule, sizeof(achCurrModule));
+  AddLog("[SetPage3ControlValues] : Current saver module: [");
+  AddLog(achCurrModule); AddLog("]\n");
+
+  // Fill module list with available modules
+  lIDToSelect = LIT_NONE;
+  WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_DELETEALL, (MPARAM) NULL, (MPARAM) NULL);
+
+  for (ulTemp=0; ulTemp<pUserData->ulMaxModules; ulTemp++)
+  {
+    lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_INSERTITEM,
+                                   (MPARAM) LIT_SORTASCENDING,
+                                   (MPARAM) (pUserData->pModuleDescArray[ulTemp].achModuleName));
+    WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_SETITEMHANDLE,
+                      (MPARAM) lID, (MPARAM) ulTemp);
+
+
+    // This is the currently selected screen saver!
+    // We might save the item ID, so we can select that item later.
+    // The problem is that we're inserting items in sorted mode, so
+    // item indexes will not be valid. So, we save item handle here, and
+    // search for item with that handle later!
+    if (!strcmp(pUserData->pModuleDescArray[ulTemp].achSaverDLLFileName, achCurrModule))
+    {
+      AddLog("[SetPage3ControlValues] : Found module!\n");
+      lIDToSelect = ulTemp;
+    }
+  }
+
+  if (lIDToSelect != LIT_NONE)
+  {
+    // Go through the items in the list, and select the one with lIDToSelect handle!
+    ulCount = (ULONG) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYITEMCOUNT, (MPARAM) NULL, (MPARAM) NULL);
+    for (ulTemp = 0; ulTemp<ulCount; ulTemp++)
+    {
+      if ((ULONG)WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYITEMHANDLE, (MPARAM) ulTemp, (MPARAM) NULL) == lIDToSelect)
+      {
+        WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_SELECTITEM, (MPARAM) ulTemp, (MPARAM) TRUE);
+        break;
+      }
+    }
+  }
+
+  ulTemp = wpssdesktop_wpssQueryScreenSaverPreviewEnabled(pUserData->Desktop);
+  WinCheckButton(hwnd, CB_SHOWPREVIEW, ulTemp);
+
+  if (bStartOrStopPreview)
+  {
+    if (ulTemp)
+      StartPage3Preview(hwnd);
+    else
+      StopPage3Preview(hwnd);
+  }
+
+  // Ok, now set up module info!
+  SetPage3ModuleInfo(hwnd);
+}
+
+/*****************************************************************************/
+
+static void EnableDisablePage1Controls(HWND hwnd)
+{
+  SSCoreInfo_t  SSCoreInfo;
+  int           bStandbyEnabled, bSuspendEnabled, bOffEnabled;
+  BOOL          bOK;
+  BOOL          bEnabled;
+  Page1UserData_p pUserData;
+  char         *pchTemp;
+  char         *pNext;
+  FILE         *hfNLSFile;
+
+  pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+  if (!pUserData)
+    return;
+
+  // Enable/Disable elements of first groupbox
+  bEnabled = WinQueryButtonCheckstate(hwnd, CB_ENABLED);
+  WinEnableWindow(WinWindowFromID(hwnd, ST_STARTSAVERAFTER), bEnabled);
+  WinEnableWindow(WinWindowFromID(hwnd, SPB_TIMEOUT), bEnabled);
+  WinEnableWindow(WinWindowFromID(hwnd, ST_MINUTESOFINACTIVITY), bEnabled);
+  WinEnableWindow(WinWindowFromID(hwnd, CB_WAKEUPBYKEYBOARDONLY), bEnabled);
+  WinEnableWindow(WinWindowFromID(hwnd, CB_DISABLEVIOPOPUPSWHILESAVING), bEnabled);
+
+  // Get DPMS capabilities!
+  if (SSCore_GetInfo(&SSCoreInfo, sizeof(SSCoreInfo))!=SSCORE_NOERROR)
+    SSCoreInfo.iDPMSCapabilities = SSCORE_DPMSCAPS_NODPMS;
+
+  // Get current settings!
+  bStandbyEnabled = wpssdesktop_wpssQueryUseDPMSStandby(pUserData->Desktop);
+  bSuspendEnabled = wpssdesktop_wpssQueryUseDPMSSuspend(pUserData->Desktop);
+  bOffEnabled     = wpssdesktop_wpssQueryUseDPMSOff(pUserData->Desktop);
+
+  // Enable/Disable Standby checkbox and spinbutton
+  bOK = bEnabled &&
+        (SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_STANDBY) ? TRUE : FALSE; 
+  WinEnableWindow(WinWindowFromID(hwnd, CB_USEDPMSSTANDBYSTATE), bOK);
+  WinShowWindow(WinWindowFromID(hwnd, ST_SWITCHTOSTANDBYSTATEAFTER), 
+                bOK && bStandbyEnabled);
+  WinShowWindow(WinWindowFromID(hwnd, SPB_STANDBYTIMEOUT),
+                bOK && bStandbyEnabled);
+  WinShowWindow(WinWindowFromID(hwnd, ST_STANDBYMINUTESTEXT),
+                bOK && bStandbyEnabled);
+
+  // Enable/Disable Suspend checkbox and spinbutton
+  bOK = bEnabled &&
+        (SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_SUSPEND) ? TRUE : FALSE; 
+  WinEnableWindow(WinWindowFromID(hwnd, CB_USEDPMSSUSPENDSTATE), bOK);
+  WinShowWindow(WinWindowFromID(hwnd, ST_SWITCHTOSUSPENDSTATEAFTER),
+                 bOK && bSuspendEnabled);
+  WinShowWindow(WinWindowFromID(hwnd, SPB_SUSPENDTIMEOUT),
+                 bOK && bSuspendEnabled);
+  WinShowWindow(WinWindowFromID(hwnd, ST_SUSPENDMINUTESTEXT),
+                 bOK && bSuspendEnabled);
+
+  // Enable/Disable Off checkbox and spinbutton
+  bOK = bEnabled &&
+        (SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_OFF) ? TRUE : FALSE; 
+  WinEnableWindow(WinWindowFromID(hwnd, CB_USEDPMSOFFSTATE), bOK);
+  WinShowWindow(WinWindowFromID(hwnd, ST_SWITCHTOOFFSTATEAFTER),
+                bOK && bOffEnabled);
+  WinShowWindow(WinWindowFromID(hwnd, SPB_OFFTIMEOUT),
+                bOK && bOffEnabled);
+  WinShowWindow(WinWindowFromID(hwnd, ST_OFFMINUTESTEXT),
+                bOK && bOffEnabled);
+
+  // Now update texts to reflect the order of states!
+  hfNLSFile = internal_OpenNLSFile(pUserData->Desktop);
+  if (hfNLSFile)
+    pchTemp = (char *) malloc(1024);
+  else
+    pchTemp = NULL;
+
+  if ((pchTemp) && (sprintmsg(pchTemp, hfNLSFile, "PG1_0020")))
+    pNext = pchTemp;
+  else
+    pNext = "minute(s) of saving";
+
+  if ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_STANDBY) &&
+      bStandbyEnabled)
+  {
+    WinSetDlgItemText(hwnd, ST_STANDBYMINUTESTEXT, pNext);
+
+    if ((pchTemp) && (sprintmsg(pchTemp, hfNLSFile, "PG1_0021")))
+      pNext = pchTemp;
+    else
+      pNext = "minute(s) of Standby state";
+  }
+
+  if ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_SUSPEND) &&
+      bSuspendEnabled)
+  {
+    WinSetDlgItemText(hwnd, ST_SUSPENDMINUTESTEXT, pNext);
+
+    if ((pchTemp) && (sprintmsg(pchTemp, hfNLSFile, "PG1_0022")))
+      pNext = pchTemp;
+    else
+      pNext = "minute(s) of Standby state";
+  }
+
+  if ((SSCoreInfo.iDPMSCapabilities & SSCORE_DPMSCAPS_STATE_OFF) &&
+      bOffEnabled)
+    WinSetDlgItemText(hwnd, ST_OFFMINUTESTEXT, pNext);
+
+  internal_CloseNLSFile(hfNLSFile);
+
+  if (pchTemp)
+    free(pchTemp);
+}
+
+/*****************************************************************************/
+
+static void EnableDisablePage2Controls(HWND hwnd)
+{
+  SSCoreInfo_t SSCoreInfo;
+  int   bValue1, bValue2, bValue3, bEnabled;
+
+  // Get info if Security/2 is installed or not!
+  if (SSCore_GetInfo(&SSCoreInfo, sizeof(SSCoreInfo))!=SSCORE_NOERROR)
+    SSCoreInfo.bSecurityPresent = FALSE;
+
+  bValue1 = WinQueryButtonCheckstate(hwnd, CB_USEPASSWORDPROTECTION);
+  bValue2 = WinQueryButtonCheckstate(hwnd, CB_DELAYPASSWORDPROTECTION);
+  bValue3 = WinQueryButtonCheckstate(hwnd, RB_USETHISPASSWORD);
+
+  // disable everything if DSS is not enabled
+  // Note: wpssdesktop_wpssQueryScreenSaverEnabled() is used as a function call
+  // not a method call, and doesn't use somSelf anyway, so a null object is OK
+  bEnabled = wpssdesktop_wpssQueryScreenSaverEnabled(0);
+  WinEnableWindow(WinWindowFromID(hwnd, CB_USEPASSWORDPROTECTION), bEnabled);
+  bValue1 &= bEnabled;
+
+  // Enable this only if Security/2 is present, and password protection is on
+  WinEnableWindow(WinWindowFromID(hwnd, RB_USEPASSWORDOFCURRENTSECURITYUSER), bValue1 && (SSCoreInfo.bSecurityPresent));
+  WinEnableWindow(WinWindowFromID(hwnd, RB_USETHISPASSWORD), bValue1);
+
+  WinEnableWindow(WinWindowFromID(hwnd, ST_TYPEYOURPASSWORD), bValue1 && bValue3);
+  WinEnableWindow(WinWindowFromID(hwnd, ST_PASSWORD), bValue1 && bValue3);
+  WinEnableWindow(WinWindowFromID(hwnd, ST_PASSWORDFORVERIFICATION), bValue1 && bValue3);
+  WinEnableWindow(WinWindowFromID(hwnd, ST_FORVERIFICATION), bValue1 && bValue3);
+  WinEnableWindow(WinWindowFromID(hwnd, EF_PASSWORD), bValue1 && bValue3);
+  WinEnableWindow(WinWindowFromID(hwnd, EF_PASSWORD2), bValue1 && bValue3);
+
+  if ((!bValue1) || (!bValue3))
+    WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE), bValue1 && bValue3);
+
+  WinEnableWindow(WinWindowFromID(hwnd, CB_DELAYPASSWORDPROTECTION), bValue1);
+
+  WinEnableWindow(WinWindowFromID(hwnd, ST_ASKPASSWORDONLYAFTER), bValue1 && bValue2);
+  WinEnableWindow(WinWindowFromID(hwnd, SPB_PWDDELAYMIN), bValue1 && bValue2);
+  WinEnableWindow(WinWindowFromID(hwnd, ST_MINUTESOFSAVING), bValue1 && bValue2);
+
+  WinEnableWindow(WinWindowFromID(hwnd, CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD), bValue1);
+  WinEnableWindow(WinWindowFromID(hwnd, CB_STARTSAVERMODULEONSTARTUP), bValue1);
+}
+
+/*****************************************************************************/
+
 MRESULT EXPENTRY fnwpScreenSaverSettingsPage1(HWND hwnd, ULONG msg,
                                               MPARAM mp1, MPARAM mp2)
 {
   Page1UserData_p pUserData;
-  char achTemp[SSCORE_MAXPASSWORDLEN];
+
   switch (msg)
   {
     case WM_INITDLG:
+    {
       // Save window handle
       hwndSettingsPage1 = hwnd;
+
       // Initialize dialog window's private data
       pUserData = (Page1UserData_p) malloc(sizeof(Page1UserData_t));
-      if (pUserData)
-      {
-	pUserData->Desktop = (WPSSDesktop *)mp2;
-	pUserData->bPageSetUp = FALSE;
-	WinSetWindowULong(hwnd, QWL_USER, (ULONG) pUserData);
-#ifdef DEBUG_LOGGING
-	AddLog("[fnwpScreenSaverSettingsPage1] : WM_INITDLG : Memory allocated\n");
-#endif
-	// Fill Undo buffer
-	pUserData->bUndoEnabled = wpssdesktop_wpssQueryScreenSaverEnabled(pUserData->Desktop);
-        pUserData->iUndoActivationTime = wpssdesktop_wpssQueryScreenSaverTimeout(pUserData->Desktop);
-        pUserData->bUndoPasswordProtected = wpssdesktop_wpssQueryScreenSaverPasswordProtected(pUserData->Desktop);
-	wpssdesktop_wpssQueryScreenSaverEncryptedPassword(pUserData->Desktop,
-							  pUserData->achUndoEncryptedPassword,
-                                                          sizeof(pUserData->achUndoEncryptedPassword));
-        pUserData->bUndoStartAtStartup = wpssdesktop_wpssQueryAutoStartAtStartup(pUserData->Desktop);
-        pUserData->bUndoDelayedPasswordProtection = wpssdesktop_wpssQueryDelayedPasswordProtection(pUserData->Desktop);
-        pUserData->iUndoDelayedPasswordProtectionTime = wpssdesktop_wpssQueryDelayedPasswordProtectionTimeout(pUserData->Desktop);
-        pUserData->bUndoWakeByKeyboardOnly = wpssdesktop_wpssQueryWakeByKeyboardOnly(pUserData->Desktop);
-      }
-      // Create Undo/Default/Help buttons in notebook common button area!
-      WinCreateWindow(hwnd, WC_BUTTON, "Help",
-                      WS_VISIBLE | BS_NOTEBOOKBUTTON | BS_HELP,
-                      0, 0, 0, 0, hwnd, HWND_TOP,
-                      PB_NOTEBOOK_PG1_HELP,
-                      NULL, NULL);
-      WinCreateWindow(hwnd, WC_BUTTON, "~Default",
-                      WS_VISIBLE | BS_NOTEBOOKBUTTON,
-                      0, 0, 0, 0, hwnd, HWND_TOP,
-                      PB_NOTEBOOK_PG1_DEFAULT,
-                      NULL, NULL);
-      WinCreateWindow(hwnd, WC_BUTTON, "~Undo",
-                      WS_VISIBLE | BS_NOTEBOOKBUTTON,
-                      0, 0, 0, 0, hwnd, HWND_TOP,
-                      PB_NOTEBOOK_PG1_UNDO,
-		      NULL, NULL);
-      // Set text (NLS support)
-      SetPage1Font(hwnd);
-      SetPage1Text(hwnd);
-      // Resize controls
-      ResizePage1Controls(hwnd);
-      // Set the limits of the controls
-      SetPage1ControlLimits(hwnd);
-      // Set the initial values of controls
-      SetPage1ControlValues(hwnd);
-      // Subclass every child control, so it will pass DM_* messages
-      // to its owner, so locale objects dropped to the controls
-      // will change language!
-      SubclassChildWindowsForNLS(hwnd);
-      // Subclass the notebook control too. It is required so that if
-      // we dinamically change the language, we can show the right help!
-      SubclassNotebookWindowForNLS();
-
-      WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE), FALSE);
 
       if (pUserData)
-	pUserData->bPageSetUp = TRUE;
-      return (MRESULT) TRUE;
-    case WM_FORMATFRAME:
-      ResizePage1Controls(hwnd);
-      break;
-    case WM_LANGUAGECHANGED:
-      SetPage1Font(hwnd);
-      SetPage1Text(hwnd);
-      ResizePage1Controls(hwnd);
-      break;
-    case WM_DESTROY:
-      // Free private window memory!
-      pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-      if (pUserData)
       {
-        free(pUserData);
-      }
-      // Note that we're destroyed!
-      hwndSettingsPage1 = NULLHANDLE;
-
-      break;
-    case WM_CONTROL:
-      switch (SHORT1FROMMP(mp1)) // Control window ID
-      {
-	case EF_PASSWORD:
-	case EF_PASSWORD2:
-	  if (SHORT2FROMMP(mp1)==EN_SETFOCUS)
-	  {
-	    WinSetDlgItemText(hwnd, SHORT1FROMMP(mp1), "");
-	  }
-	  if (SHORT2FROMMP(mp1)==EN_KILLFOCUS)
-	  {
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if (pUserData)
-	    {
-	      WinQueryDlgItemText(hwnd, SHORT1FROMMP(mp1), sizeof(achTemp), achTemp);
-	      // Store back the encrypted password!
-	      wpssdesktop_wpssEncryptScreenSaverPassword(pUserData->Desktop, achTemp);
-	      WinSetDlgItemText(hwnd, SHORT1FROMMP(mp1), achTemp);
-              WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE),
-                              WinQueryButtonCheckstate(hwnd, CB_USEPASSWORDPROTECTION));
-	    }
-	  }
-	  break;
-	case CB_ENABLED:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-	  {
-	    // The button control has been clicked
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if (pUserData)
-	    {
-	      wpssdesktop_wpssSetScreenSaverEnabled(pUserData->Desktop,
-                                                    WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-              EnableDisablePage1Controls(hwnd);
-	    }
-	  }
-	  break;
-	case CB_DISABLEVIOPOPUPSWHILESAVING:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-	  {
-	    // The button control has been clicked
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if (pUserData)
-	    {
-	      wpssdesktop_wpssSetDisableVIOPopupsWhileSaving(pUserData->Desktop,
-                                                    WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-            }
-	  }
-	  break;
-	case CB_WAKEUPBYKEYBOARDONLY:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-	  {
-	    // The button control has been clicked
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if (pUserData)
-	    {
-	      wpssdesktop_wpssSetWakeByKeyboardOnly(pUserData->Desktop,
-                                                    WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-            }
-	  }
-	  break;
-	case CB_USEPASSWORDPROTECTION:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-	  {
-	    // The button control has been clicked
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if (pUserData)
-            {
-	      wpssdesktop_wpssSetScreenSaverPasswordProtected(pUserData->Desktop,
-                                                              WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-              EnableDisablePage1Controls(hwnd);
-	    }
-	  }
-	  break;
-        case CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-	  {
-	    // The button control has been clicked
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if (pUserData)
-	    {
-	      wpssdesktop_wpssSetFirstKeyEventGoesToPwdWindow(pUserData->Desktop,
-                                                              WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-	    }
-	  }
-	  break;
-        case CB_STARTSAVERMODULEONSTARTUP:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-	  {
-	    // The button control has been clicked
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if (pUserData)
-	    {
-	      wpssdesktop_wpssSetAutoStartAtStartup(pUserData->Desktop,
-                                                    WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-	    }
-	  }
-	  break;
-	case CB_DELAYPASSWORDPROTECTION:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-	  {
-	    // The button control has been clicked
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if (pUserData)
-            {
-	      wpssdesktop_wpssSetDelayedPasswordProtection(pUserData->Desktop,
-                                                           WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-              EnableDisablePage1Controls(hwnd);
-	    }
-	  }
-          break;
-        case RB_USEPASSWORDOFCURRENTSECURITYUSER:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-	  {
-	    // The button control has been clicked
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if (pUserData)
-            {
-	      wpssdesktop_wpssSetUseCurrentSecurityPassword(pUserData->Desktop,
-                                                            TRUE);
-              EnableDisablePage1Controls(hwnd);
-	    }
-	  }
-	  break;
-        case RB_USETHISPASSWORD:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-	  {
-	    // The button control has been clicked
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if (pUserData)
-            {
-	      wpssdesktop_wpssSetUseCurrentSecurityPassword(pUserData->Desktop,
-                                                            FALSE);
-              EnableDisablePage1Controls(hwnd);
-	    }
-	  }
-	  break;
-	case SPB_TIMEOUT:
-	  if (SHORT2FROMMP(mp1)==SPBN_CHANGE)
-	  {
-            // The spin-button control value has been changed
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if ((pUserData) && (pUserData->bPageSetUp))
-	    {
-	      ULONG ulValue;
-              ulValue = 3; // Default, in case of problems.
-	      WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1),
-				SPBM_QUERYVALUE,
-				(MPARAM) &ulValue,
-				MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
-	      wpssdesktop_wpssSetScreenSaverTimeout(pUserData->Desktop,
-						    ulValue*60000);
-	    }
-          }
-          break;
-	case SPB_PWDDELAYMIN:
-	  if (SHORT2FROMMP(mp1)==SPBN_CHANGE)
-	  {
-            // The spin-button control value has been changed
-	    pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if ((pUserData) && (pUserData->bPageSetUp))
-	    {
-	      ULONG ulValue;
-              ulValue = 1; // Default, in case of problems.
-	      WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1),
-				SPBM_QUERYVALUE,
-				(MPARAM) &ulValue,
-				MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
-	      wpssdesktop_wpssSetDelayedPasswordProtectionTimeout(pUserData->Desktop,
-                                                                  ulValue*60000);
-	    }
-          }
-          break;
-	default:
-          break;
-      }
-      return (MRESULT) FALSE;
-    case WM_COMMAND:
-      switch SHORT1FROMMP(mp2) {
-	case CMDSRC_PUSHBUTTON:           // ---- A WM_COMMAND from a pushbutton ------
-	  switch (SHORT1FROMMP(mp1)) {
-            case PB_CHANGE:
-	      {
-                ChangeSaverPassword(hwnd);
-	      }
-	      break;
-	    case PB_NOTEBOOK_PG1_UNDO:
-	      pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-	      {
-#ifdef DEBUG_LOGGING
-		AddLog("[PB_NOTEBOOK_UNDO] : Pressed!\n");
-#endif
-		// Set back settings from UNDO buffer (saved at start of dialog)
-              	wpssdesktop_wpssSetScreenSaverEnabled(pUserData->Desktop, pUserData->bUndoEnabled);
-		wpssdesktop_wpssSetScreenSaverTimeout(pUserData->Desktop, pUserData->iUndoActivationTime);
-                wpssdesktop_wpssSetScreenSaverPasswordProtected(pUserData->Desktop, pUserData->bUndoPasswordProtected);
-		wpssdesktop_wpssSetScreenSaverEncryptedPassword(pUserData->Desktop,
-                                                                pUserData->achUndoEncryptedPassword);
-                wpssdesktop_wpssSetAutoStartAtStartup(pUserData->Desktop, pUserData->bUndoStartAtStartup);
-                wpssdesktop_wpssSetDelayedPasswordProtection(pUserData->Desktop, pUserData->bUndoDelayedPasswordProtection);
-                wpssdesktop_wpssSetDelayedPasswordProtectionTimeout(pUserData->Desktop, pUserData->iUndoDelayedPasswordProtectionTime);
-                wpssdesktop_wpssSetWakeByKeyboardOnly(pUserData->Desktop, pUserData->bUndoWakeByKeyboardOnly);
-		// Set values of controls
-		SetPage1ControlValues(hwnd);
-		WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE), FALSE);
-	      }
-	      break;
-	    case PB_NOTEBOOK_PG1_DEFAULT:
-	      pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-	      {
-#ifdef DEBUG_LOGGING
-		AddLog("[PB_NOTEBOOK_DEFAULT] : Pressed!\n");
-#endif
-		// Set default settings
-              	wpssdesktop_wpssSetScreenSaverEnabled(pUserData->Desktop, FALSE);
-		wpssdesktop_wpssSetScreenSaverTimeout(pUserData->Desktop, 3*60000);
-                wpssdesktop_wpssSetScreenSaverPasswordProtected(pUserData->Desktop, FALSE);
-                wpssdesktop_wpssSetScreenSaverEncryptedPassword(pUserData->Desktop, "");
-                wpssdesktop_wpssSetAutoStartAtStartup(pUserData->Desktop, FALSE);
-                wpssdesktop_wpssSetDelayedPasswordProtection(pUserData->Desktop, TRUE);
-                wpssdesktop_wpssSetDelayedPasswordProtectionTimeout(pUserData->Desktop, 5*60000);
-                wpssdesktop_wpssSetWakeByKeyboardOnly(pUserData->Desktop, FALSE);
-                wpssdesktop_wpssSetFirstKeyEventGoesToPwdWindow(pUserData->Desktop, FALSE);
-		// Set values of controls
-		SetPage1ControlValues(hwnd);
-		WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE), FALSE);
-	      }
-	      break;
-	    case PB_NOTEBOOK_PG1_HELP:
-	      pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-		// Show help
-		internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE1_GENERAL);
-	      return (MRESULT) TRUE;
-	    default:
-              break;
-	  }
-	  return (MRESULT) TRUE;
-        default:
-          break;
-      }
-      break;
-
-    case WM_HELP:
-      pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-      if (pUserData)
-	// Show help
-	internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE1_GENERAL);
-      return (MRESULT) TRUE;
-
-    // Handling Drag'n'Drop of Locale objects!
-    case DM_DRAGOVER:
-      {
-	if (internal_IsLocaleObject((PDRAGINFO) mp1))
-          return MRFROM2SHORT(DOR_DROP, DO_COPY); // Fine, let it come!
-	else
-	  return MRFROM2SHORT(DOR_NODROPOP, 0); // We support it, but not in this form!
-      }
-
-    case DM_DROP:
-      {
-	if (internal_IsLocaleObject((PDRAGINFO) mp1))
-	{
-	  pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	  if (pUserData)
-	    internal_SetLanguageFromLocaleObject(pUserData->Desktop, (PDRAGINFO) mp1);
-	  return MRFROM2SHORT(DOR_DROP, DO_COPY);
-	} else
-          return MPFROM2SHORT(DOR_NODROPOP, 0);
-      }
-
-    default:
-      break;
-  }
-  return WinDefDlgProc(hwnd, msg, mp1, mp2);
-}
-MRESULT EXPENTRY fnwpScreenSaverSettingsPage2(HWND hwnd, ULONG msg,
-                                              MPARAM mp1, MPARAM mp2)
-{
-  Page2UserData_p pUserData;
-  switch (msg)
-  {
-    case WM_INITDLG:
-      // Save window handle
-      hwndSettingsPage2 = hwnd;
-
-      // Initialize dialog window's private data
-      pUserData = (Page2UserData_p) malloc(sizeof(Page2UserData_t));
-      if (pUserData)
-      {
-#ifdef DEBUG_LOGGING
-	AddLog("[fnwpScreenSaverSettingsPage2] : WM_INITDLG : Memory allocated\n");
-#endif
-	pUserData->Desktop = (WPSSDesktop *)mp2;
+        pUserData->Desktop = (WPSSDesktop *)mp2;
         pUserData->bPageSetUp = FALSE;
-	WinSetWindowULong(hwnd, QWL_USER, (ULONG) pUserData);
+        WinSetWindowULong(hwnd, QWL_USER, (ULONG) pUserData);
+        AddLog("[fnwpScreenSaverSettingsPage1] : WM_INITDLG : Memory allocated\n");
+
         // Fill Undo buffer
+        pUserData->bUndoEnabled = wpssdesktop_wpssQueryScreenSaverEnabled(pUserData->Desktop);
+        pUserData->iUndoActivationTime = wpssdesktop_wpssQueryScreenSaverTimeout(pUserData->Desktop);
+        pUserData->bUndoWakeByKeyboardOnly = wpssdesktop_wpssQueryWakeByKeyboardOnly(pUserData->Desktop);
+
         pUserData->bUndoUseDPMSStandbyState = wpssdesktop_wpssQueryUseDPMSStandby(pUserData->Desktop);
         pUserData->iUndoDPMSStandbyStateTimeout = wpssdesktop_wpssQueryDPMSStandbyTimeout(pUserData->Desktop);
         pUserData->bUndoUseDPMSSuspendState = wpssdesktop_wpssQueryUseDPMSSuspend(pUserData->Desktop);
@@ -4687,256 +3210,503 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage2(HWND hwnd, ULONG msg,
         pUserData->bUndoUseDPMSOffState = wpssdesktop_wpssQueryUseDPMSOff(pUserData->Desktop);
         pUserData->iUndoDPMSOffStateTimeout = wpssdesktop_wpssQueryDPMSOffTimeout(pUserData->Desktop);
       }
-      // Create Undo/Default/Help buttons in notebook common button area!
-      WinCreateWindow(hwnd, WC_BUTTON, "Help",
-                      WS_VISIBLE | BS_NOTEBOOKBUTTON | BS_HELP,
-                      0, 0, 0, 0, hwnd, HWND_TOP,
-                      PB_NOTEBOOK_PG2_HELP,
-                      NULL, NULL);
-      WinCreateWindow(hwnd, WC_BUTTON, "~Default",
-                      WS_VISIBLE | BS_NOTEBOOKBUTTON,
-                      0, 0, 0, 0, hwnd, HWND_TOP,
-                      PB_NOTEBOOK_PG2_DEFAULT,
-                      NULL, NULL);
-      WinCreateWindow(hwnd, WC_BUTTON, "~Undo",
-                      WS_VISIBLE | BS_NOTEBOOKBUTTON,
-                      0, 0, 0, 0, hwnd, HWND_TOP,
-                      PB_NOTEBOOK_PG2_UNDO,
-                      NULL, NULL);
+
+      // set dialog font
+      WinSetPresParam(hwnd, PP_FONTNAMESIZE, strlen(achFontToUse) + 1, achFontToUse);
+
       // Set text (NLS support)
-      SetPage2Font(hwnd);
-      SetPage2Text(hwnd);
+      SetPage1Text(hwnd);
+
       // Resize controls
-      ResizePage2Controls(hwnd);
+      ResizePage1Controls(hwnd);
+
       // Set the limits of the controls
-      SetPage2ControlLimits(hwnd);
+      SetPage1ControlLimits(hwnd);
+
       // Set the initial values of controls
-      SetPage2ControlValues(hwnd);
-      // Subclass every child control, so it will pass DM_* messages
-      // to its owner, so locale objects dropped to the controls
-      // will change language!
+      SetPage1ControlValues(hwnd);
+
+      // Subclass every child control, so it will pass DM_* messages to its
+      // owner, so locale objects dropped to the controls change language!
       SubclassChildWindowsForNLS(hwnd);
+
       // Subclass the notebook control too. It is required so that if
-      // we dinamically change the language, we can show the right help!
+      // we dynamically change the language, we can show the right help!
       SubclassNotebookWindowForNLS();
 
       if (pUserData)
         pUserData->bPageSetUp = TRUE;
-      return (MRESULT) TRUE;
-    case WM_FORMATFRAME:
-      ResizePage2Controls(hwnd);
-      break;
+
+      return (MRESULT) FALSE;
+    }
+
     case WM_LANGUAGECHANGED:
-      SetPage2Font(hwnd);
-      SetPage2Text(hwnd);
-      ResizePage2Controls(hwnd);
+      SetPage1Text(hwnd);
+      ResizePage1Controls(hwnd);
       break;
+
     case WM_DESTROY:
       // Free private window memory!
-      pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+      pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+      WinSetWindowULong(hwnd, QWL_USER, 0);
       if (pUserData)
-      {
         free(pUserData);
-      }
 
       // Note that we're destroyed!
-      hwndSettingsPage2 = NULLHANDLE;
-
+      hwndSettingsPage1 = NULLHANDLE;
       break;
+
     case WM_CONTROL:
-      switch (SHORT1FROMMP(mp1)) // Control window ID
+    {
+      pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+      if (!pUserData)
+        return (MRESULT) FALSE;
+
+      switch ((ULONG)mp1) // Control window ID & notification code
       {
-	case CB_USEDPMSSTANDBYSTATE:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-          {
-            // The button control has been clicked
-            pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-            if (pUserData)
-            {
-              wpssdesktop_wpssSetUseDPMSStandby(pUserData->Desktop,
-                                                WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-              EnableDisablePage2Controls(hwnd);
-	    }
-          }
+        case MPFROM2SHORT(CB_ENABLED, BN_CLICKED):
+        case MPFROM2SHORT(CB_ENABLED, BN_DBLCLICKED):
+          wpssdesktop_wpssSetScreenSaverEnabled(pUserData->Desktop,
+                                    WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage1Controls(hwnd);
+          if (hwndSettingsPage2)
+            EnableDisablePage2Controls(hwndSettingsPage2);
           break;
-	case CB_USEDPMSSUSPENDSTATE:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-          {
-            // The button control has been clicked
-            pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-            if (pUserData)
-            {
-              wpssdesktop_wpssSetUseDPMSSuspend(pUserData->Desktop,
-                                                WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-              EnableDisablePage2Controls(hwnd);
-	    }
-          }
+
+        case MPFROM2SHORT(CB_DISABLEVIOPOPUPSWHILESAVING, BN_CLICKED):
+        case MPFROM2SHORT(CB_DISABLEVIOPOPUPSWHILESAVING, BN_DBLCLICKED):
+          wpssdesktop_wpssSetDisableVIOPopupsWhileSaving(pUserData->Desktop,
+                                        WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
           break;
-	case CB_USEDPMSOFFSTATE:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-          {
-            // The button control has been clicked
-            pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-            if (pUserData)
-            {
-              wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop,
+
+        case MPFROM2SHORT(CB_WAKEUPBYKEYBOARDONLY, BN_CLICKED):
+        case MPFROM2SHORT(CB_WAKEUPBYKEYBOARDONLY, BN_DBLCLICKED):
+          wpssdesktop_wpssSetWakeByKeyboardOnly(pUserData->Desktop,
+                               WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          break;
+
+        case MPFROM2SHORT(CB_USEDPMSSTANDBYSTATE, BN_CLICKED):
+        case MPFROM2SHORT(CB_USEDPMSSTANDBYSTATE, BN_DBLCLICKED):
+        case CB_USEDPMSSTANDBYSTATE:
+          wpssdesktop_wpssSetUseDPMSStandby(pUserData->Desktop,
                                             WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
-              EnableDisablePage2Controls(hwnd);
-	    }
+          EnableDisablePage1Controls(hwnd);
+          break;
+
+        case MPFROM2SHORT(CB_USEDPMSSUSPENDSTATE, BN_CLICKED):
+        case MPFROM2SHORT(CB_USEDPMSSUSPENDSTATE, BN_DBLCLICKED):
+          wpssdesktop_wpssSetUseDPMSSuspend(pUserData->Desktop,
+                                            WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage1Controls(hwnd);
+          break;
+
+        case MPFROM2SHORT(CB_USEDPMSOFFSTATE, BN_CLICKED):
+        case MPFROM2SHORT(CB_USEDPMSOFFSTATE, BN_DBLCLICKED):
+          wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop,
+                                        WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage1Controls(hwnd);
+          break;
+
+        case MPFROM2SHORT(SPB_TIMEOUT, SPBN_CHANGE):
+          if (pUserData->bPageSetUp)
+          {
+            ULONG ulValue = 3; // Default, in case of problems.
+
+            WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
+                              (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
+            wpssdesktop_wpssSetScreenSaverTimeout(pUserData->Desktop, ulValue*60000);
           }
           break;
-	case SPB_STANDBYTIMEOUT:
-	  if (SHORT2FROMMP(mp1)==SPBN_CHANGE)
-	  {
-            // The spin-button control value has been changed
-	    pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if ((pUserData) && (pUserData->bPageSetUp))
-	    {
-	      ULONG ulValue;
-              ulValue = 5; // Default, in case of problems.
-	      WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1),
-				SPBM_QUERYVALUE,
-				(MPARAM) &ulValue,
-				MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
-	      wpssdesktop_wpssSetDPMSStandbyTimeout(pUserData->Desktop,
-						    ulValue*60000);
-	    }
+
+        case MPFROM2SHORT(SPB_STANDBYTIMEOUT, SPBN_CHANGE):
+          if (pUserData->bPageSetUp)
+          {
+            ULONG ulValue = 5; // Default, in case of problems.
+
+            WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
+                              (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
+            wpssdesktop_wpssSetDPMSStandbyTimeout(pUserData->Desktop, ulValue*60000);
           }
           break;
-	case SPB_SUSPENDTIMEOUT:
-	  if (SHORT2FROMMP(mp1)==SPBN_CHANGE)
-	  {
-            // The spin-button control value has been changed
-	    pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if ((pUserData) && (pUserData->bPageSetUp))
-	    {
-	      ULONG ulValue;
-              ulValue = 5; // Default, in case of problems.
-	      WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1),
-				SPBM_QUERYVALUE,
-				(MPARAM) &ulValue,
-				MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
-	      wpssdesktop_wpssSetDPMSSuspendTimeout(pUserData->Desktop,
-						    ulValue*60000);
-	    }
+
+        case MPFROM2SHORT(SPB_SUSPENDTIMEOUT, SPBN_CHANGE):
+          if (pUserData->bPageSetUp)
+          {
+            ULONG ulValue = 5; // Default, in case of problems.
+
+            WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
+                              (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
+            wpssdesktop_wpssSetDPMSSuspendTimeout(pUserData->Desktop, ulValue*60000);
           }
           break;
-	case SPB_OFFTIMEOUT:
-	  if (SHORT2FROMMP(mp1)==SPBN_CHANGE)
-	  {
-            // The spin-button control value has been changed
-	    pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	    if ((pUserData) && (pUserData->bPageSetUp))
-	    {
-	      ULONG ulValue;
-              ulValue = 5; // Default, in case of problems.
-	      WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1),
-				SPBM_QUERYVALUE,
-				(MPARAM) &ulValue,
-				MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
-	      wpssdesktop_wpssSetDPMSOffTimeout(pUserData->Desktop,
-                                                ulValue*60000);
-	    }
+
+        case MPFROM2SHORT(SPB_OFFTIMEOUT, SPBN_CHANGE):
+          if (pUserData->bPageSetUp)
+          {
+            ULONG ulValue = 5; // Default, in case of problems.
+
+            WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
+                              (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
+            wpssdesktop_wpssSetDPMSOffTimeout(pUserData->Desktop, ulValue*60000);
           }
           break;
-	default:
-          break;
-      }
-      return (MRESULT) FALSE;
-    case WM_COMMAND:
-      switch SHORT1FROMMP(mp2) {
-	case CMDSRC_PUSHBUTTON:           // ---- A WM_COMMAND from a pushbutton ------
-	  switch (SHORT1FROMMP(mp1)) {
-	    case PB_NOTEBOOK_PG2_UNDO:
-	      pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-	      {
-		// Set back settings from UNDO buffer (saved at start of dialog)
-                wpssdesktop_wpssSetUseDPMSStandby(pUserData->Desktop,
-                                                  pUserData->bUndoUseDPMSStandbyState);
-                wpssdesktop_wpssSetDPMSStandbyTimeout(pUserData->Desktop,
-                                                      pUserData->iUndoDPMSStandbyStateTimeout);
-                wpssdesktop_wpssSetUseDPMSSuspend(pUserData->Desktop,
-                                                  pUserData->bUndoUseDPMSSuspendState);
-                wpssdesktop_wpssSetDPMSSuspendTimeout(pUserData->Desktop,
-                                                      pUserData->iUndoDPMSSuspendStateTimeout);
-                wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop,
-                                              pUserData->bUndoUseDPMSOffState);
-                wpssdesktop_wpssSetDPMSOffTimeout(pUserData->Desktop,
-                                                  pUserData->iUndoDPMSOffStateTimeout);
-		// Set values of controls
-		SetPage2ControlValues(hwnd);
-	      }
-	      break;
-	    case PB_NOTEBOOK_PG2_DEFAULT:
-	      pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-	      {
-		// Set default settings
-                wpssdesktop_wpssSetUseDPMSStandby(pUserData->Desktop,
-                                                  TRUE);
-                wpssdesktop_wpssSetDPMSStandbyTimeout(pUserData->Desktop,
-                                                      5*60000);
-                wpssdesktop_wpssSetUseDPMSSuspend(pUserData->Desktop,
-                                                  TRUE);
-                wpssdesktop_wpssSetDPMSSuspendTimeout(pUserData->Desktop,
-                                                      5*60000);
-                wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop,
-                                              TRUE);
-                wpssdesktop_wpssSetDPMSOffTimeout(pUserData->Desktop,
-                                                  5*60000);
-		// Set values of controls
-		SetPage2ControlValues(hwnd);
-	      }
-	      break;
-	    case PB_NOTEBOOK_PG2_HELP:
-	      pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-		// Show help
-		internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE2_GENERAL);
-	      return (MRESULT) TRUE;
-	    default:
-              break;
-	  }
-          return (MRESULT) TRUE;
+
         default:
           break;
       }
-      break;
+
+      return (MRESULT) FALSE;
+    }
+
+    case WM_COMMAND:
+    {
+      pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+      if (!pUserData)
+        return (MRESULT) TRUE;
+
+      switch (SHORT1FROMMP(mp1))
+      {
+        case PB_NOTEBOOK_PG1_UNDO:
+          AddLog("[PB_NOTEBOOK_UNDO] : Pressed!\n");
+
+          // Set back settings from UNDO buffer (saved at start of dialog)
+          wpssdesktop_wpssSetScreenSaverEnabled(pUserData->Desktop, pUserData->bUndoEnabled);
+          wpssdesktop_wpssSetScreenSaverTimeout(pUserData->Desktop, pUserData->iUndoActivationTime);
+          wpssdesktop_wpssSetWakeByKeyboardOnly(pUserData->Desktop, pUserData->bUndoWakeByKeyboardOnly);
+
+          wpssdesktop_wpssSetUseDPMSStandby(pUserData->Desktop,
+                                            pUserData->bUndoUseDPMSStandbyState);
+          wpssdesktop_wpssSetDPMSStandbyTimeout(pUserData->Desktop,
+                                                pUserData->iUndoDPMSStandbyStateTimeout);
+          wpssdesktop_wpssSetUseDPMSSuspend(pUserData->Desktop,
+                                            pUserData->bUndoUseDPMSSuspendState);
+          wpssdesktop_wpssSetDPMSSuspendTimeout(pUserData->Desktop,
+                                                pUserData->iUndoDPMSSuspendStateTimeout);
+          wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop,
+                                        pUserData->bUndoUseDPMSOffState);
+          wpssdesktop_wpssSetDPMSOffTimeout(pUserData->Desktop,
+                                            pUserData->iUndoDPMSOffStateTimeout);
+
+          // Set values of controls
+          SetPage1ControlValues(hwnd);
+          WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE), FALSE);
+          break;
+
+        case PB_NOTEBOOK_PG1_DEFAULT:
+          AddLog("[PB_NOTEBOOK_DEFAULT] : Pressed!\n");
+
+          // Set default settings
+          wpssdesktop_wpssSetScreenSaverEnabled(pUserData->Desktop, FALSE);
+          wpssdesktop_wpssSetScreenSaverTimeout(pUserData->Desktop, 3*60000);
+          wpssdesktop_wpssSetWakeByKeyboardOnly(pUserData->Desktop, FALSE);
+
+          wpssdesktop_wpssSetUseDPMSStandby(pUserData->Desktop, FALSE);
+          wpssdesktop_wpssSetDPMSStandbyTimeout(pUserData->Desktop, 5*60000);
+          wpssdesktop_wpssSetUseDPMSSuspend(pUserData->Desktop, FALSE);
+          wpssdesktop_wpssSetDPMSSuspendTimeout(pUserData->Desktop, 5*60000);
+          wpssdesktop_wpssSetUseDPMSOff(pUserData->Desktop, FALSE);
+          wpssdesktop_wpssSetDPMSOffTimeout(pUserData->Desktop, 5*60000);
+
+          // Set values of controls
+          SetPage1ControlValues(hwnd);
+          WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE), FALSE);
+          break;
+
+        case PB_NOTEBOOK_PG1_HELP:
+          internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE1_GENERALSETTINGS);
+          break;
+
+        default:
+          break;
+      }
+
+      return (MRESULT) TRUE;
+    }
 
     case WM_HELP:
-      pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+      pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
       if (pUserData)
-	// Show help
-	internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE2_GENERAL);
+        internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE1_GENERALSETTINGS);
       return (MRESULT) TRUE;
 
     // Handling Drag'n'Drop of Locale objects!
     case DM_DRAGOVER:
-      {
-	if (internal_IsLocaleObject((PDRAGINFO) mp1))
-          return MRFROM2SHORT(DOR_DROP, DO_COPY); // Fine, let it come!
-	else
-	  return MRFROM2SHORT(DOR_NODROPOP, 0); // We support it, but not in this form!
-      }
+      if (internal_IsLocaleObject((PDRAGINFO) mp1))
+        return MRFROM2SHORT(DOR_DROP, DO_COPY); // Fine, let it come!
+
+      return MRFROM2SHORT(DOR_NODROPOP, 0); // We support it, but not in this form!
 
     case DM_DROP:
+      if (internal_IsLocaleObject((PDRAGINFO) mp1))
       {
-	if (internal_IsLocaleObject((PDRAGINFO) mp1))
-	{
-	  pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	  if (pUserData)
-	    internal_SetLanguageFromLocaleObject(pUserData->Desktop, (PDRAGINFO) mp1);
-	  return MRFROM2SHORT(DOR_DROP, DO_COPY);
-	} else
-          return MPFROM2SHORT(DOR_NODROPOP, 0);
+        pUserData = (Page1UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+        if (pUserData)
+          internal_SetLanguageFromLocaleObject(pUserData->Desktop, (PDRAGINFO) mp1);
+        return MRFROM2SHORT(DOR_DROP, DO_COPY);
       }
+      return MPFROM2SHORT(DOR_NODROPOP, 0);
 
     default:
       break;
   }
+
   return WinDefDlgProc(hwnd, msg, mp1, mp2);
 }
+
+/*****************************************************************************/
+
+MRESULT EXPENTRY fnwpScreenSaverSettingsPage2(HWND hwnd, ULONG msg,
+                                              MPARAM mp1, MPARAM mp2)
+{
+  Page2UserData_p pUserData;
+  char achTemp[SSCORE_MAXPASSWORDLEN];
+
+  switch (msg)
+  {
+    case WM_INITDLG:
+    {
+      // Save window handle
+      hwndSettingsPage2 = hwnd;
+
+      // Initialize dialog window's private data
+      pUserData = (Page2UserData_p) malloc(sizeof(Page2UserData_t));
+
+      if (pUserData)
+      {
+        pUserData->Desktop = (WPSSDesktop *)mp2;
+        pUserData->bPageSetUp = FALSE;
+        WinSetWindowULong(hwnd, QWL_USER, (ULONG) pUserData);
+        AddLog("[fnwpScreenSaverSettingsPage2] : WM_INITDLG : Memory allocated\n");
+
+        // Fill Undo buffer
+        pUserData->bUndoPasswordProtected = wpssdesktop_wpssQueryScreenSaverPasswordProtected(pUserData->Desktop);
+        wpssdesktop_wpssQueryScreenSaverEncryptedPassword(pUserData->Desktop,
+                          pUserData->achUndoEncryptedPassword,
+                          sizeof(pUserData->achUndoEncryptedPassword));
+        pUserData->bUndoStartAtStartup = wpssdesktop_wpssQueryAutoStartAtStartup(pUserData->Desktop);
+        pUserData->bUndoDelayedPasswordProtection = wpssdesktop_wpssQueryDelayedPasswordProtection(pUserData->Desktop);
+        pUserData->iUndoDelayedPasswordProtectionTime = wpssdesktop_wpssQueryDelayedPasswordProtectionTimeout(pUserData->Desktop);
+      }
+
+      // set dialog font
+      WinSetPresParam(hwnd, PP_FONTNAMESIZE, strlen(achFontToUse) + 1, achFontToUse);
+
+      // Set text (NLS support)
+      SetPage2Text(hwnd);
+
+      // Resize controls
+      ResizePage2Controls(hwnd);
+
+      // Set the limits of the controls
+      SetPage2ControlLimits(hwnd);
+
+      // Set the initial values of controls
+      SetPage2ControlValues(hwnd);
+
+      // Subclass every child control, so it will pass DM_* messages to its
+      // owner, so locale objects dropped to the controls change language!
+      SubclassChildWindowsForNLS(hwnd);
+
+      // Subclass the notebook control too. It is required so that if
+      // we dinamically change the language, we can show the right help!
+      SubclassNotebookWindowForNLS();
+
+      WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE), FALSE);
+
+      if (pUserData)
+        pUserData->bPageSetUp = TRUE;
+
+      return (MRESULT) FALSE;
+    }
+
+    case WM_LANGUAGECHANGED:
+      SetPage2Text(hwnd);
+      ResizePage2Controls(hwnd);
+      break;
+
+    case WM_DESTROY:
+      // Free private window memory!
+      pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+      WinSetWindowULong(hwnd, QWL_USER, 0);
+      if (pUserData)
+        free(pUserData);
+
+      // Note that we're destroyed!
+      hwndSettingsPage2 = NULLHANDLE;
+      break;
+
+    case WM_SHOW:
+      if (SHORT1FROMMP(mp1))
+        EnableDisablePage2Controls(hwnd);
+      return (MRESULT) FALSE;
+
+    case WM_CONTROL:
+    {
+      pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+      if (!pUserData)
+        return (MRESULT) FALSE;
+
+      switch ((ULONG)mp1) // Control window ID & notification code
+      {
+        case MPFROM2SHORT(EF_PASSWORD, EN_SETFOCUS):
+        case MPFROM2SHORT(EF_PASSWORD2, EN_SETFOCUS):
+          WinSetDlgItemText(hwnd, SHORT1FROMMP(mp1), "");
+          break;
+
+        case MPFROM2SHORT(EF_PASSWORD, EN_KILLFOCUS):
+        case MPFROM2SHORT(EF_PASSWORD2, EN_KILLFOCUS):
+          // Store back the encrypted password!
+          WinQueryDlgItemText(hwnd, SHORT1FROMMP(mp1), sizeof(achTemp), achTemp);
+          wpssdesktop_wpssEncryptScreenSaverPassword(pUserData->Desktop, achTemp);
+          WinSetDlgItemText(hwnd, SHORT1FROMMP(mp1), achTemp);
+          WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE),
+                          WinQueryButtonCheckstate(hwnd, CB_USEPASSWORDPROTECTION));
+          break;
+
+        case MPFROM2SHORT(CB_USEPASSWORDPROTECTION, BN_CLICKED):
+        case MPFROM2SHORT(CB_USEPASSWORDPROTECTION, BN_DBLCLICKED):
+          wpssdesktop_wpssSetScreenSaverPasswordProtected(pUserData->Desktop,
+                                   WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage2Controls(hwnd);
+          break;
+
+        case MPFROM2SHORT(CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD, BN_CLICKED):
+        case MPFROM2SHORT(CB_MAKETHEFIRSTKEYPRESSTHEFIRSTKEYOFTHEPASSWORD, BN_DBLCLICKED):
+          wpssdesktop_wpssSetFirstKeyEventGoesToPwdWindow(pUserData->Desktop,
+                                         WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          break;
+
+        case MPFROM2SHORT(CB_STARTSAVERMODULEONSTARTUP, BN_CLICKED):
+        case MPFROM2SHORT(CB_STARTSAVERMODULEONSTARTUP, BN_DBLCLICKED):
+          wpssdesktop_wpssSetAutoStartAtStartup(pUserData->Desktop,
+                                          WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          break;
+
+        case MPFROM2SHORT(CB_DELAYPASSWORDPROTECTION, BN_CLICKED):
+        case MPFROM2SHORT(CB_DELAYPASSWORDPROTECTION, BN_DBLCLICKED):
+          wpssdesktop_wpssSetDelayedPasswordProtection(pUserData->Desktop,
+                                       WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)));
+          EnableDisablePage2Controls(hwnd);
+          break;
+
+        case MPFROM2SHORT(RB_USEPASSWORDOFCURRENTSECURITYUSER, BN_CLICKED):
+        case MPFROM2SHORT(RB_USEPASSWORDOFCURRENTSECURITYUSER, BN_DBLCLICKED):
+          wpssdesktop_wpssSetUseCurrentSecurityPassword(pUserData->Desktop, TRUE);
+          EnableDisablePage2Controls(hwnd);
+          break;
+
+        case MPFROM2SHORT(RB_USETHISPASSWORD, BN_CLICKED):
+        case MPFROM2SHORT(RB_USETHISPASSWORD, BN_DBLCLICKED):
+          wpssdesktop_wpssSetUseCurrentSecurityPassword(pUserData->Desktop, FALSE);
+          EnableDisablePage2Controls(hwnd);
+          break;
+
+        case MPFROM2SHORT(SPB_PWDDELAYMIN, SPBN_CHANGE):
+          if (pUserData->bPageSetUp)
+          {
+            ULONG ulValue = 1; // Default, in case of problems.
+
+            WinSendDlgItemMsg(hwnd, SHORT1FROMMP(mp1), SPBM_QUERYVALUE,
+                              (MPARAM) &ulValue, MPFROM2SHORT(0, SPBQ_ALWAYSUPDATE));
+            wpssdesktop_wpssSetDelayedPasswordProtectionTimeout(pUserData->Desktop,
+                                                                ulValue*60000);
+          }
+          break;
+
+        default:
+          break;
+      }
+
+      return (MRESULT) FALSE;
+    }
+
+    case WM_COMMAND:
+    {
+      pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+      if (!pUserData)
+        return (MRESULT) TRUE;
+
+      switch (SHORT1FROMMP(mp1))
+      {
+        case PB_CHANGE:
+          ChangeSaverPassword(hwnd);
+          break;
+
+        case PB_NOTEBOOK_PG2_UNDO:
+          AddLog("[PB_NOTEBOOK_UNDO] : Pressed!\n");
+
+          // Set back settings from UNDO buffer (saved at start of dialog)
+          wpssdesktop_wpssSetScreenSaverPasswordProtected(pUserData->Desktop, pUserData->bUndoPasswordProtected);
+          wpssdesktop_wpssSetScreenSaverEncryptedPassword(pUserData->Desktop,
+                                                          pUserData->achUndoEncryptedPassword);
+          wpssdesktop_wpssSetAutoStartAtStartup(pUserData->Desktop, pUserData->bUndoStartAtStartup);
+          wpssdesktop_wpssSetDelayedPasswordProtection(pUserData->Desktop, pUserData->bUndoDelayedPasswordProtection);
+          wpssdesktop_wpssSetDelayedPasswordProtectionTimeout(pUserData->Desktop, pUserData->iUndoDelayedPasswordProtectionTime);
+
+          // Set values of controls
+          SetPage2ControlValues(hwnd);
+          WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE), FALSE);
+          break;
+
+        case PB_NOTEBOOK_PG2_DEFAULT:
+          AddLog("[PB_NOTEBOOK_DEFAULT] : Pressed!\n");
+
+          // Set default settings
+          wpssdesktop_wpssSetScreenSaverPasswordProtected(pUserData->Desktop, FALSE);
+          wpssdesktop_wpssSetScreenSaverEncryptedPassword(pUserData->Desktop, "");
+          wpssdesktop_wpssSetAutoStartAtStartup(pUserData->Desktop, FALSE);
+          wpssdesktop_wpssSetDelayedPasswordProtection(pUserData->Desktop, TRUE);
+          wpssdesktop_wpssSetDelayedPasswordProtectionTimeout(pUserData->Desktop, 5*60000);
+          wpssdesktop_wpssSetFirstKeyEventGoesToPwdWindow(pUserData->Desktop, FALSE);
+
+          // Set values of controls
+          SetPage2ControlValues(hwnd);
+          WinEnableWindow(WinWindowFromID(hwnd, PB_CHANGE), FALSE);
+          break;
+
+        case PB_NOTEBOOK_PG2_HELP:
+          internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE2_PASSWORDPROTECTION);
+          break;
+
+        default:
+          break;
+      }
+
+      return (MRESULT) TRUE;
+    }
+
+    case WM_HELP:
+      pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+      if (pUserData)
+        internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE2_PASSWORDPROTECTION);
+      return (MRESULT) TRUE;
+
+    // Handling Drag'n'Drop of Locale objects!
+    case DM_DRAGOVER:
+      if (internal_IsLocaleObject((PDRAGINFO) mp1))
+        return MRFROM2SHORT(DOR_DROP, DO_COPY); // Fine, let it come!
+
+      return MRFROM2SHORT(DOR_NODROPOP, 0); // We support it, but not in this form!
+
+    case DM_DROP:
+      if (internal_IsLocaleObject((PDRAGINFO) mp1))
+      {
+        pUserData = (Page2UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+        if (pUserData)
+          internal_SetLanguageFromLocaleObject(pUserData->Desktop, (PDRAGINFO) mp1);
+        return MRFROM2SHORT(DOR_DROP, DO_COPY);
+      }
+      return MPFROM2SHORT(DOR_NODROPOP, 0);
+
+    default:
+      break;
+  }
+
+  return WinDefDlgProc(hwnd, msg, mp1, mp2);
+}
+
+/*****************************************************************************/
+
 
 MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
                                               MPARAM mp1, MPARAM mp2)
@@ -4948,6 +3718,9 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
   switch (msg)
   {
     case WM_INITDLG:
+    {
+      SWP   swp;
+
       // Save window handle
       hwndSettingsPage3 = hwnd;
 
@@ -4955,22 +3728,21 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
       pUserData = (Page3UserData_p) malloc(sizeof(Page3UserData_t));
       if (pUserData)
       {
-#ifdef DEBUG_LOGGING
-	AddLog("[fnwpScreenSaverSettingsPage3] : WM_INITDLG : Memory allocated\n");
-#endif
-	pUserData->Desktop = (WPSSDesktop *)mp2;
+        AddLog("[fnwpScreenSaverSettingsPage3] : WM_INITDLG : Memory allocated\n");
+
+        WinSetWindowULong(hwnd, QWL_USER, (ULONG) pUserData);
+
+        pUserData->Desktop = (WPSSDesktop *)mp2;
         pUserData->bPageSetUp = FALSE;
 
         pUserData->iPreviewMsgCounter = 0; // Number of Start/Stop preview commands pending
         pUserData->bPreviewRunning = 0;    // Is preview running?
 
         /* Querying the list of available modules may take a while */
-        WinSetPointer(HWND_DESKTOP,
-                      WinQuerySysPointer(HWND_DESKTOP, SPTR_WAIT, FALSE));
+        WinSetPointer(HWND_DESKTOP, WinQuerySysPointer(HWND_DESKTOP, SPTR_WAIT, FALSE));
         pUserData->ulMaxModules =
-          wpssdesktop_wpssQueryNumOfAvailableScreenSaverModules(pUserData->Desktop);
-        WinSetPointer(HWND_DESKTOP,
-                      WinQuerySysPointer(HWND_DESKTOP, SPTR_ARROW, FALSE));
+              wpssdesktop_wpssQueryNumOfAvailableScreenSaverModules(pUserData->Desktop);
+        WinSetPointer(HWND_DESKTOP, WinQuerySysPointer(HWND_DESKTOP, SPTR_ARROW, FALSE));
 
 #ifdef DEBUG_LOGGING
         {
@@ -4979,21 +3751,18 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
           AddLog(achTemp);
         }
 #endif
-        pUserData->pModuleDescArray = (PSSMODULEDESC) malloc(pUserData->ulMaxModules * sizeof(SSMODULEDESC));
+        pUserData->pModuleDescArray =
+              (PSSMODULEDESC) malloc(pUserData->ulMaxModules * sizeof(SSMODULEDESC));
         if (pUserData->pModuleDescArray)
         {
-          WinSetPointer(HWND_DESKTOP,
-                        WinQuerySysPointer(HWND_DESKTOP, SPTR_WAIT, FALSE));
+          WinSetPointer(HWND_DESKTOP, WinQuerySysPointer(HWND_DESKTOP, SPTR_WAIT, FALSE));
           wpssdesktop_wpssQueryInfoAboutAvailableScreenSaverModules(pUserData->Desktop,
                                                                     pUserData->ulMaxModules,
                                                                     pUserData->pModuleDescArray);
-          WinSetPointer(HWND_DESKTOP,
-                        WinQuerySysPointer(HWND_DESKTOP, SPTR_ARROW, FALSE));
-        } else
-        {
-          pUserData->ulMaxModules = 0;
+          WinSetPointer(HWND_DESKTOP, WinQuerySysPointer(HWND_DESKTOP, SPTR_ARROW, FALSE));
         }
-        WinSetWindowULong(hwnd, QWL_USER, (ULONG) pUserData);
+        else
+          pUserData->ulMaxModules = 0;
 
         // Fill Undo buffer
         wpssdesktop_wpssQueryScreenSaverModule(pUserData->Desktop,
@@ -5001,8 +3770,10 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
                                                sizeof(pUserData->achUndoSaverDLLFileName));
       }
 
+      // set dialog font
+      WinSetPresParam(hwnd, PP_FONTNAMESIZE, strlen(achFontToUse) + 1, achFontToUse);
+
       // Create special child window
-      // (will be resized/positioned later)
       if (!bWindowClassRegistered)
       {
         WinRegisterClass(WinQueryAnchorBlock(hwnd), (PSZ) PREVIEW_CLASS,
@@ -5011,44 +3782,29 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
                          16); // Window data
         bWindowClassRegistered = TRUE;
       }
-      WinCreateWindow(hwnd, PREVIEW_CLASS, "Preview area",
-                      WS_VISIBLE,
-                      50, 50, 50, 50,
-                      hwnd, HWND_TOP,
-                      ID_PREVIEWAREA,
-                      NULL, NULL);
 
-      // Create Undo/Default/Help buttons in notebook common button area!
-      WinCreateWindow(hwnd, WC_BUTTON, "Help",
-                      WS_VISIBLE | BS_NOTEBOOKBUTTON | BS_HELP,
-                      0, 0, 0, 0, hwnd, HWND_TOP,
-                      PB_NOTEBOOK_PG3_HELP,
-                      NULL, NULL);
-      WinCreateWindow(hwnd, WC_BUTTON, "~Default",
-                      WS_VISIBLE | BS_NOTEBOOKBUTTON,
-                      0, 0, 0, 0, hwnd, HWND_TOP,
-                      PB_NOTEBOOK_PG3_DEFAULT,
-                      NULL, NULL);
-      WinCreateWindow(hwnd, WC_BUTTON, "~Undo",
-                      WS_VISIBLE | BS_NOTEBOOKBUTTON,
-                      0, 0, 0, 0, hwnd, HWND_TOP,
-                      PB_NOTEBOOK_PG3_UNDO,
-                      NULL, NULL);
+      // use the coordinates of the dummy text field
+      // to position the preview window
+      // the text field which in turn is aligned with the listbox
+      WinQueryWindowPos(WinWindowFromID(hwnd, ST_PREVIEWPOSITION), &swp);
+      WinCreateWindow(hwnd, PREVIEW_CLASS, "Preview area", WS_VISIBLE,
+                      swp.x, swp.y, swp.cx, swp.cy,
+                      hwnd, swp.hwndInsertBehind, ID_PREVIEWAREA, NULL, NULL);
+
+      WinShowWindow(WinWindowFromID(hwnd, ST_PREVIEWPOSITION), FALSE);
 
       // Set Page3 text (NLS support)
-      SetPage3Font(hwnd);
       SetPage3Text(hwnd);
-      // Resize controls
-      ResizePage3Controls(hwnd);
-      // Set the limits of the controls
-      SetPage3ControlLimits(hwnd);
+
       // Set the initial values of controls, and
       // also start the preview if it's checked!
       SetPage3ControlValues(hwnd, TRUE);
+
       // Subclass every child control, so it will pass DM_* messages
       // to its owner, so locale objects dropped to the controls
       // will change language!
       SubclassChildWindowsForNLS(hwnd);
+
       // Subclass the notebook control too. It is required so that if
       // we dinamically change the language, we can show the right help!
       SubclassNotebookWindowForNLS();
@@ -5056,207 +3812,164 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
       if (pUserData)
         pUserData->bPageSetUp = TRUE;
 
-      return (MRESULT) TRUE;
-
-    case WM_FORMATFRAME:
-      ResizePage3Controls(hwnd);
-      break;
+      WinShowWindow(hwnd, TRUE);
+      return (MRESULT) FALSE;
+    }
 
     case WM_LANGUAGECHANGED:
+    {
+      int iPreviewState;
 
-#ifdef DEBUG_LOGGING
       AddLog("WM_LANGUAGECHANGED] : Getting pUserData\n");
-#endif
       pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-      if (pUserData)
+      if (!pUserData)
+        return (MRESULT) 0;
+
+      AddLog("WM_LANGUAGECHANGED] : Query old preview state\n");
+      iPreviewState = wpssdesktop_wpssQueryScreenSaverPreviewEnabled(pUserData->Desktop);
+
+      AddLog("WM_LANGUAGECHANGED] : Stop preview if running\n");
+      // Stop preview if it is running.
+      if (iPreviewState)
       {
-        int iPreviewState;
+        AddLog("WM_LANGUAGECHANGED] : Yes, was running, so stop it!\n");
+        AddLog(" - 1\n");
+        WinCheckButton(hwnd, CB_SHOWPREVIEW, FALSE);
+        AddLog(" - 2\n");
+        wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop,
+                                                     FALSE);
+        // AddLog(" - 3\n");
+        StopPage3Preview(hwnd);
+        AddLog(" - 4\n");
+      }
 
-#ifdef DEBUG_LOGGING
-        AddLog("WM_LANGUAGECHANGED] : Query old preview state\n");
-#endif
-        iPreviewState = wpssdesktop_wpssQueryScreenSaverPreviewEnabled(pUserData->Desktop);
+      AddLog("WM_LANGUAGECHANGED] : Destroy old strings from available modules\n");
 
-#ifdef DEBUG_LOGGING
-        AddLog("WM_LANGUAGECHANGED] : Stop preview if running\n");
-#endif
-        // Stop preview if it is running.
-        if (iPreviewState)
-        {
-#ifdef DEBUG_LOGGING
-          AddLog("WM_LANGUAGECHANGED] : Yes, was running, so stop it!\n");
-          AddLog(" - 1\n");
-#endif
-          WinCheckButton(hwnd, CB_SHOWPREVIEW, FALSE);
-#ifdef DEBUG_LOGGING
-          AddLog(" - 2\n");
-#endif
-          wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop,
-                                                       FALSE);
-#ifdef DEBUG_LOGGING
-          //AddLog(" - 3\n");
-#endif
-          StopPage3Preview(hwnd);
-#ifdef DEBUG_LOGGING
-          AddLog(" - 4\n");
-#endif
-        }
+      // Destroy old strings from available modules
+      if (pUserData->pModuleDescArray)
+        free(pUserData->pModuleDescArray);
+      pUserData->pModuleDescArray = NULL;
+      pUserData->ulMaxModules = 0;
 
-#ifdef DEBUG_LOGGING
-        AddLog("WM_LANGUAGECHANGED] : Destroy old strings from available modules\n");
-#endif
-        // Destroy old strings from available modules
-        if (pUserData->pModuleDescArray)
-          free(pUserData->pModuleDescArray);
-        pUserData->pModuleDescArray = NULL;
-        pUserData->ulMaxModules = 0;
+      AddLog("WM_LANGUAGECHANGED] : Get number of modules available\n");
 
-#ifdef DEBUG_LOGGING
-        AddLog("WM_LANGUAGECHANGED] : Get number of modules available\n");
-#endif
-        // Re-load strings (using the new language!)
+      // Re-load strings (using the new language!)
+      WinSetPointer(HWND_DESKTOP, WinQuerySysPointer(HWND_DESKTOP, SPTR_WAIT, FALSE));
+      pUserData->ulMaxModules =
+        wpssdesktop_wpssQueryNumOfAvailableScreenSaverModules(pUserData->Desktop);
+      WinSetPointer(HWND_DESKTOP, WinQuerySysPointer(HWND_DESKTOP, SPTR_ARROW, FALSE));
+
+      AddLog("WM_LANGUAGECHANGED] : malloc()\n");
+
+      pUserData->pModuleDescArray =
+                (PSSMODULEDESC) malloc(pUserData->ulMaxModules * sizeof(SSMODULEDESC));
+      if (pUserData->pModuleDescArray)
+      {
+        AddLog("WM_LANGUAGECHANGED] : Get list of modules\n");
         WinSetPointer(HWND_DESKTOP,
                       WinQuerySysPointer(HWND_DESKTOP, SPTR_WAIT, FALSE));
-        pUserData->ulMaxModules =
-          wpssdesktop_wpssQueryNumOfAvailableScreenSaverModules(pUserData->Desktop);
+        wpssdesktop_wpssQueryInfoAboutAvailableScreenSaverModules(pUserData->Desktop,
+                                                                  pUserData->ulMaxModules,
+                                                                  pUserData->pModuleDescArray);
         WinSetPointer(HWND_DESKTOP,
-                        WinQuerySysPointer(HWND_DESKTOP, SPTR_ARROW, FALSE));
-
-#ifdef DEBUG_LOGGING
-        AddLog("WM_LANGUAGECHANGED] : malloc()\n");
-#endif
-
-        pUserData->pModuleDescArray = (PSSMODULEDESC) malloc(pUserData->ulMaxModules * sizeof(SSMODULEDESC));
-        if (pUserData->pModuleDescArray)
-        {
-#ifdef DEBUG_LOGGING
-          AddLog("WM_LANGUAGECHANGED] : Get list of modules\n");
-#endif
-          WinSetPointer(HWND_DESKTOP,
-                        WinQuerySysPointer(HWND_DESKTOP, SPTR_WAIT, FALSE));
-          wpssdesktop_wpssQueryInfoAboutAvailableScreenSaverModules(pUserData->Desktop,
-                                                                    pUserData->ulMaxModules,
-                                                                    pUserData->pModuleDescArray);
-          WinSetPointer(HWND_DESKTOP,
-                        WinQuerySysPointer(HWND_DESKTOP, SPTR_ARROW, FALSE));
-        } else
-        {
-          pUserData->ulMaxModules = 0;
-        }
-
-#ifdef DEBUG_LOGGING
-	AddLog("WM_LANGUAGECHANGED] : SetPage3Font()\n");
-#endif
-	SetPage3Font(hwnd);
-#ifdef DEBUG_LOGGING
-	AddLog("WM_LANGUAGECHANGED] : SetPage3Text()\n");
-#endif
-	SetPage3Text(hwnd);
-#ifdef DEBUG_LOGGING
-	AddLog("WM_LANGUAGECHANGED] : SetPage3ControlValues()\n");
-#endif
-	SetPage3ControlValues(hwnd, FALSE);
-#ifdef DEBUG_LOGGING
-	AddLog("WM_LANGUAGECHANGED] : ResizePage3Controls()\n");
-#endif
-	ResizePage3Controls(hwnd);
-
-        // Restart preview if it was running before!
-        if (iPreviewState)
-	{
-#ifdef DEBUG_LOGGING
-	  AddLog("WM_LANGUAGECHANGED] : Restart preview!\n");
-#endif
-
-          wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop,
-                                                       TRUE);
-          WinCheckButton(hwnd, CB_SHOWPREVIEW, TRUE);
-          StartPage3Preview(hwnd);
-        }
+                      WinQuerySysPointer(HWND_DESKTOP, SPTR_ARROW, FALSE));
       }
-#ifdef DEBUG_LOGGING
+      else
+        pUserData->ulMaxModules = 0;
+
+      AddLog("WM_LANGUAGECHANGED] : SetPage3Text()\n");
+      SetPage3Text(hwnd);
+
+      AddLog("WM_LANGUAGECHANGED] : SetPage3ControlValues()\n");
+      SetPage3ControlValues(hwnd, FALSE);
+
+      // Restart preview if it was running before!
+      if (iPreviewState)
+      {
+        AddLog("WM_LANGUAGECHANGED] : Restart preview!\n");
+        wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop, TRUE);
+        WinCheckButton(hwnd, CB_SHOWPREVIEW, TRUE);
+        StartPage3Preview(hwnd);
+      }
+
       AddLog("WM_LANGUAGECHANGED] : Done.\n");
-#endif
-      break;
+      return (MRESULT) 0;
+    }
 
     case WM_SSCORENOTIFY_PREVIEWSTARTED:
       pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-      if (pUserData)
-      {
-#ifdef DEBUG_LOGGING
-        AddLog("[WM_PREVIEWSTARTED] : Done.\n");
-#endif
-        if (pUserData->iPreviewMsgCounter>0)
-          pUserData->iPreviewMsgCounter--;
-        pUserData->bPreviewRunning = 1;
+      if (!pUserData)
+        return (MRESULT) 0;
 
-        // Enable the disabled controls
-        WinEnableWindow(WinWindowFromID(hwnd, PB_STARTMODULE), TRUE);
-        WinEnableWindow(WinWindowFromID(hwnd, LB_MODULELIST), TRUE);
-        WinEnableWindow(WinWindowFromID(hwnd, CB_SHOWPREVIEW), TRUE);
-        lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYSELECTION, (MPARAM) LIT_CURSOR, (MPARAM) NULL);
-        if (lID!=LIT_NONE)
+      AddLog("[WM_PREVIEWSTARTED] : Done.\n");
+      if (pUserData->iPreviewMsgCounter>0)
+        pUserData->iPreviewMsgCounter--;
+      pUserData->bPreviewRunning = 1;
+
+      // Enable the disabled controls
+      WinEnableWindow(WinWindowFromID(hwnd, PB_STARTMODULE), TRUE);
+      WinEnableWindow(WinWindowFromID(hwnd, LB_MODULELIST), TRUE);
+      WinEnableWindow(WinWindowFromID(hwnd, CB_SHOWPREVIEW), TRUE);
+
+      lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYSELECTION, (MPARAM) LIT_CURSOR, (MPARAM) NULL);
+      if (lID!=LIT_NONE)
+      {
+        lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYITEMHANDLE,
+                                       (MPARAM) lID, (MPARAM) NULL);
+        if ((lID<0) || lID>=pUserData->ulMaxModules)
         {
-          lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYITEMHANDLE, (MPARAM) lID, (MPARAM) NULL);
-          if ((lID<0) || lID>=pUserData->ulMaxModules)
-          {
-            // Something is wrong, the handle, which should tell the index in the
-            // module desc array, points out of the array!
-            lID = LIT_NONE;
-          }
+          // Something is wrong, the handle, which should tell the index in the
+          // module desc array, points out of the array!
+          lID = LIT_NONE;
         }
-        if (lID!=LIT_NONE)
-          WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE), pUserData->pModuleDescArray[lID].bConfigurable);
-        else
-          WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE), FALSE);
       }
+
+      if (lID!=LIT_NONE)
+        WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE),
+                        pUserData->pModuleDescArray[lID].bConfigurable);
+      else
+        WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE), FALSE);
+      
       return (MRESULT) 0;
 
     case WM_SSCORENOTIFY_PREVIEWSTOPPED:
       pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-      if (pUserData)
+      if (!pUserData)
+        return (MRESULT) 0;
+
+      AddLog("[WM_PREVIEWSTOPPED] : Done.\n");
+
+      if (pUserData->iPreviewMsgCounter>0)
+        pUserData->iPreviewMsgCounter--;
+      pUserData->bPreviewRunning = 0;
+
+      // Enable the disabled controls
+      WinEnableWindow(WinWindowFromID(hwnd, PB_STARTMODULE), TRUE);
+      WinEnableWindow(WinWindowFromID(hwnd, LB_MODULELIST), TRUE);
+      WinEnableWindow(WinWindowFromID(hwnd, CB_SHOWPREVIEW), TRUE);
+
+      lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYSELECTION, (MPARAM) LIT_CURSOR, (MPARAM) NULL);
+      if (lID!=LIT_NONE)
       {
-#ifdef DEBUG_LOGGING
-        AddLog("[WM_PREVIEWSTOPPED] : Done.\n");
-#endif
-
-        if (pUserData->iPreviewMsgCounter>0)
-          pUserData->iPreviewMsgCounter--;
-        pUserData->bPreviewRunning = 0;
-
-        // Enable the disabled controls
-        WinEnableWindow(WinWindowFromID(hwnd, PB_STARTMODULE), TRUE);
-        WinEnableWindow(WinWindowFromID(hwnd, LB_MODULELIST), TRUE);
-        WinEnableWindow(WinWindowFromID(hwnd, CB_SHOWPREVIEW), TRUE);
-        lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYSELECTION, (MPARAM) LIT_CURSOR, (MPARAM) NULL);
-        if (lID!=LIT_NONE)
+        lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYITEMHANDLE, (MPARAM) lID, (MPARAM) NULL);
+        if ((lID<0) || lID>=pUserData->ulMaxModules)
         {
-          lID = (long) WinSendDlgItemMsg(hwnd, LB_MODULELIST, LM_QUERYITEMHANDLE, (MPARAM) lID, (MPARAM) NULL);
-          if ((lID<0) || lID>=pUserData->ulMaxModules)
-          {
-            // Something is wrong, the handle, which should tell the index in the
-            // module desc array, points out of the array!
-            lID = LIT_NONE;
-          }
+          // Something is wrong, the handle, which should tell the index in the
+          // module desc array, points out of the array!
+          lID = LIT_NONE;
         }
-        if (lID!=LIT_NONE)
-          WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE), pUserData->pModuleDescArray[lID].bConfigurable);
-        else
-          WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE), FALSE);
       }
+      if (lID!=LIT_NONE)
+        WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE),
+                        pUserData->pModuleDescArray[lID].bConfigurable);
+      else
+        WinEnableWindow(WinWindowFromID(hwnd, PB_CONFIGURE), FALSE);
+      
       return (MRESULT) 0;
 
-    case WM_CLOSE:
-#ifdef DEBUG_LOGGING
-      AddLog("[WM_DESTROY] : Starting loop\n");
-#endif
-      break;
-
     case WM_DESTROY:
-
-#ifdef DEBUG_LOGGING
       AddLog("[WM_DESTROY] : Stop preview!\n");
-#endif
+
       // Make sure the preview will not go on!
       StopPage3Preview(hwnd);
 
@@ -5269,9 +3982,7 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
 
         hab = WinQueryAnchorBlock(hwnd);
 
-#ifdef DEBUG_LOGGING
         AddLog("[WM_DESTROY] : Starting loop\n");
-#endif
 
 #ifdef DEBUG_LOGGING
         if (pUserData->iPreviewMsgCounter<=0)
@@ -5284,29 +3995,21 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
         // it has been stopped.
         if (pUserData->iPreviewMsgCounter>0)
         {
-#ifdef DEBUG_LOGGING
           AddLog("[WM_DESTROY] : Going into loop to wait for preview to stop!\n");
-#endif
 
           while (WinGetMsg(hab, &qmsg, 0, 0, 0))
           {
             WinDispatchMsg(hab, &qmsg);
             if (pUserData->iPreviewMsgCounter<=0)
             {
-#ifdef DEBUG_LOGGING
               AddLog("[WM_DESTROY] : iPreviewMsgCounter became 0!\n");
-#endif
               break;
             }
           }
-#ifdef DEBUG_LOGGING
           AddLog("[WM_DESTROY] : Preview stopped.\n");
-#endif
         }
       }
-#ifdef DEBUG_LOGGING
       AddLog("[WM_DESTROY] : Destroying preview area child!\n");
-#endif
 
       // Destroy preview area child window, created in WM_INITDLG!
       hwndPreview = WinWindowFromID(hwnd, ID_PREVIEWAREA);
@@ -5314,6 +4017,7 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
         WinDestroyWindow(hwndPreview);
 
       // Free private window memory!
+      WinSetWindowULong(hwnd, QWL_USER, 0);
       if (pUserData)
       {
         if (pUserData->pModuleDescArray)
@@ -5324,197 +4028,148 @@ MRESULT EXPENTRY fnwpScreenSaverSettingsPage3(HWND hwnd, ULONG msg,
       // Note that we're destroyed!
       hwndSettingsPage3 = NULLHANDLE;
 
-#ifdef DEBUG_LOGGING
       AddLog("[WM_DESTROY] : Done!\n");
-#endif
       break;
 
+      // The dialog window size/pos is changed, or the dialog window is
+      // being shown or hidden! Don't let the time-consuming screen saver
+      // preview run when the dialog window is hidden!
     case WM_WINDOWPOSCHANGED:
-      // The dialog window size/pos is changed, or the dialog window
-      // is being shown or hidden!
-      // Don't let the time-consuming screen saver preview run,
-      // when the dialog window is hidden!
-      {
-        PSWP pswpNew;
-        pswpNew = (PSWP) mp1;
+    {
+      PSWP pswpNew;
+      pswpNew = (PSWP) mp1;
 
-        if (pswpNew->fl & SWP_SHOW)
+      if (pswpNew->fl & SWP_SHOW)
+      {
+        // The dialog window is about to be shown!
+        if (WinQueryButtonCheckstate(hwnd, CB_SHOWPREVIEW))
         {
-          // The dialog window is about to be shown!
-          if (WinQueryButtonCheckstate(hwnd, CB_SHOWPREVIEW))
-          {
-#ifdef DEBUG_LOGGING
-	    AddLog("[fnwpScreenSaverSettingsPage3] : WM_WINDOWPOSCHANGED : Starting preview\n");
-#endif
-            // Restart screen saver preview!
-            StartPage3Preview(hwnd);
-	  }
-	} else
-	if (pswpNew->fl & SWP_HIDE)
-	{
-	  // The dialog window is about to be hidden!
-	  if (WinQueryButtonCheckstate(hwnd, CB_SHOWPREVIEW))
-	  {
-#ifdef DEBUG_LOGGING
-	    AddLog("[fnwpScreenSaverSettingsPage3] : WM_WINDOWPOSCHANGED : Stopping preview\n");
-#endif
-            // Stop the running screen saver preview!
-            StopPage3Preview(hwnd);
-	  }
-	}
-        break;
+          // Restart screen saver preview!
+          AddLog("[fnwpScreenSaverSettingsPage3] : WM_WINDOWPOSCHANGED : Starting preview\n");
+          StartPage3Preview(hwnd);
+        }
       }
-    case WM_CONTROL:
-      switch (SHORT1FROMMP(mp1)) // Control window ID
+      else
+      if (pswpNew->fl & SWP_HIDE)
       {
-	case LB_MODULELIST:
-	  if ((SHORT2FROMMP(mp1)==LN_SELECT) || (SHORT2FROMMP(mp1)==LN_ENTER))
-	  {
-            SetPage3ModuleInfo(hwnd);
-            UseSelectedModule(hwnd);
-	  }
+        // The dialog window is about to be hidden!
+        if (WinQueryButtonCheckstate(hwnd, CB_SHOWPREVIEW))
+        {
+          // Stop the running screen saver preview!
+          AddLog("[fnwpScreenSaverSettingsPage3] : WM_WINDOWPOSCHANGED : Stopping preview\n");
+          StopPage3Preview(hwnd);
+        }
+      }
+
+      break;
+    }
+
+    case WM_CONTROL:
+    {
+      switch ((ULONG)mp1) // Control window ID & notification code
+      {
+        case MPFROM2SHORT(LB_MODULELIST, LN_SELECT):
+        case MPFROM2SHORT(LB_MODULELIST, LN_ENTER):
+          SetPage3ModuleInfo(hwnd);
+          UseSelectedModule(hwnd);
           break;
-	case CB_SHOWPREVIEW:
-	  if ((SHORT2FROMMP(mp1)==BN_CLICKED) || (SHORT2FROMMP(mp1)==BN_DBLCLICKED))
-	  {
-	    // The button control has been clicked
-	    if (WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)))
-	    {
-	      pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-		wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop,
-                                                             TRUE);
 
-              StartPage3Preview(hwnd);
-	    }
-	    else
-	    {
-	      pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-		wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop,
-                                                             FALSE);
+        case MPFROM2SHORT(CB_SHOWPREVIEW, BN_CLICKED):
+        case MPFROM2SHORT(CB_SHOWPREVIEW, BN_DBLCLICKED):
+          pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+          if (!pUserData)
+            break;
 
-              StopPage3Preview(hwnd);
-	    }
-	  }
-	  break;
-	default:
+          // The button control has been clicked
+          if (WinQueryButtonCheckstate(hwnd, SHORT1FROMMP(mp1)))
+          {
+            wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop, TRUE);
+            StartPage3Preview(hwnd);
+          }
+          else
+          {
+            wpssdesktop_wpssSetScreenSaverPreviewEnabled(pUserData->Desktop, FALSE);
+            StopPage3Preview(hwnd);
+          }
           break;
       }
       return (MRESULT) FALSE;
+    }
 
     case WM_COMMAND:
-      switch SHORT1FROMMP(mp2) {
-	case CMDSRC_PUSHBUTTON:           // ---- A WM_COMMAND from a pushbutton ------
-	  switch (SHORT1FROMMP(mp1)) {
-            case PB_STARTMODULE:
-	      pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-                wpssdesktop_wpssStartScreenSaverNow(pUserData->Desktop, FALSE);
-	      break;
-	    case PB_CONFIGURE:
-              ConfigureSelectedModule(hwnd);
-              // Restart the preview if the user configured the module, so
-              // the preview will show the new setting!
-              if (WinQueryButtonCheckstate(hwnd, CB_SHOWPREVIEW))
-              {
-                StopPage3Preview(hwnd);
-                StartPage3Preview(hwnd);
-              }
-	      break;
-	    case PB_NOTEBOOK_PG3_UNDO:
-	      pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-	      {
-		// Set back settings from UNDO buffer (saved at start of dialog)
-                wpssdesktop_wpssSetScreenSaverModule(pUserData->Desktop,
-						     pUserData->achUndoSaverDLLFileName);
+    {
+      pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+      if (!pUserData)
+        return (MRESULT) TRUE;
 
-		// Set values of controls
-		SetPage3ControlValues(hwnd, TRUE);
-	      }
-	      break;
-	    case PB_NOTEBOOK_PG3_DEFAULT:
-	      pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-	      {
-		// Set default settings
-                wpssdesktop_wpssSetScreenSaverModule(pUserData->Desktop, "");
+      switch (SHORT1FROMMP(mp1))
+      {
+        case PB_STARTMODULE:
+          wpssdesktop_wpssStartScreenSaverNow(pUserData->Desktop, FALSE);
+          break;
 
-		// Set values of controls
-		SetPage3ControlValues(hwnd, TRUE);
-	      }
-	      break;
-	    case PB_NOTEBOOK_PG3_HELP:
-	      pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	      if (pUserData)
-		// Show help
-		internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE3_GENERAL);
-              return (MRESULT) TRUE;
-            default:
-              break;
-	  }
-          return (MRESULT) TRUE;
-        default:
+        case PB_CONFIGURE:
+          ConfigureSelectedModule(hwnd);
+
+          // Restart the preview if the user configured the module, so
+          // the preview will show the new setting!
+          if (WinQueryButtonCheckstate(hwnd, CB_SHOWPREVIEW))
+          {
+            StopPage3Preview(hwnd);
+            StartPage3Preview(hwnd);
+          }
+          break;
+
+        case PB_NOTEBOOK_PG3_UNDO:
+          // Set back settings from UNDO buffer (saved at start of dialog)
+          wpssdesktop_wpssSetScreenSaverModule(pUserData->Desktop,
+                                               pUserData->achUndoSaverDLLFileName);
+          // Set values of controls
+          SetPage3ControlValues(hwnd, TRUE);
+          break;
+
+        case PB_NOTEBOOK_PG3_DEFAULT:
+          // Set default settings
+          wpssdesktop_wpssSetScreenSaverModule(pUserData->Desktop, "");
+
+          // Set values of controls
+          SetPage3ControlValues(hwnd, TRUE);
+          break;
+
+        case PB_NOTEBOOK_PG3_HELP:
+          internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE3_SAVERMODULES);
           break;
       }
-      break;
+
+      return (MRESULT) TRUE;
+    }
 
     case WM_HELP:
       pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
       if (pUserData)
-	// Show help
-	internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE3_GENERAL);
+        internal_wpDisplayHelp(pUserData->Desktop, HELPID_PAGE3_SAVERMODULES);
       return (MRESULT) TRUE;
 
     // Handling Drag'n'Drop of Locale objects!
     case DM_DRAGOVER:
-      {
-	if (internal_IsLocaleObject((PDRAGINFO) mp1))
-          return MRFROM2SHORT(DOR_DROP, DO_COPY); // Fine, let it come!
-	else
-	  return MRFROM2SHORT(DOR_NODROPOP, 0); // We support it, but not in this form!
-      }
+      if (internal_IsLocaleObject((PDRAGINFO) mp1))
+        return MRFROM2SHORT(DOR_DROP, DO_COPY); // Fine, let it come!
+      return MRFROM2SHORT(DOR_NODROPOP, 0); // We support it, but not in this form!
 
     case DM_DROP:
+      if (internal_IsLocaleObject((PDRAGINFO) mp1))
       {
-	if (internal_IsLocaleObject((PDRAGINFO) mp1))
-	{
-	  pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
-	  if (pUserData)
-	    internal_SetLanguageFromLocaleObject(pUserData->Desktop, (PDRAGINFO) mp1);
-	  return MRFROM2SHORT(DOR_DROP, DO_COPY);
-	} else
-          return MPFROM2SHORT(DOR_NODROPOP, 0);
+        pUserData = (Page3UserData_p) WinQueryWindowULong(hwnd, QWL_USER);
+        if (pUserData) {
+          internal_SetLanguageFromLocaleObject(pUserData->Desktop, (PDRAGINFO) mp1);
+          return MRFROM2SHORT(DOR_DROP, DO_COPY);
+        }
       }
-
-    default:
-      break;
+      return MPFROM2SHORT(DOR_NODROPOP, 0);
   }
 
   return WinDefDlgProc(hwnd, msg, mp1, mp2);
 }
 
+/*****************************************************************************/
 
-//---------------------------------------------------------------------
-// LibMain
-//
-// This gets called at DLL initialization and termination.
-//---------------------------------------------------------------------
-unsigned _System LibMain(unsigned hmod, unsigned termination)
-{
-  if (termination)
-  {
-    // Cleanup!
-  } else
-  {
-    // Startup!
-    // Save DLL Module handle
-    hmodThisDLL = hmod;
-  }
-  return 1;
-}
-
-
-
-/**************************  END WPSSDesktop.c  ******************************/

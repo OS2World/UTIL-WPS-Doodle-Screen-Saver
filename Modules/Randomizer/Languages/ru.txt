@@ -5,8 +5,10 @@
  * Locales : ru_*
  *
  * Author  : Yuri Proniakin
+ *         : Yurii Zamotailo
  *
  * Date (YYYY-MM-DD): 2005.12.27
+ *                  : 2023-12-13
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -22,33 +24,33 @@
 // ---------------------------------------------------------------------------
 // Strings for the Configuration dialog:
 
-CFG_0001="Настройка модуля Жеребьёвка";   // Window title
+CFG_0001="Рандомизатор - Настройки";           // Window title
 
-CFG_0002="Переключение модулей";          // Groupbox
-CFG_0003="Переход к следующему ~через";   // Static text
-CFG_0004="мин.";                          // Static text
-CFG_0005="В случайном ~порядке";          // Checkbox
+CFG_0002="Переключение между модулями";        // Groupbox
+CFG_0003="Переход к следующему через";         // Static text
+CFG_0004="мин.";                               // Static text
+CFG_0005="В случайном ~порядке";               // Checkbox
 
-CFG_0006="Используемые модули";           // Groupbox
+CFG_0006="Используемые модули";                // Groupbox
 CFG_0007="Использовать ~все доступные модули"; // Radiobutton
-CFG_0008="Только модули из этого ~списка:";    // Radiobutton
+CFG_0008="Только модули из ~списка:";          // Radiobutton
 
-CFG_0009="";                             // Button
-CFG_0010="";                             // Button
+CFG_0009="";                                // Button
+CFG_0010="";                                 // Button
 
-CFG_0011="<- ~Добавить";                  // Button
-CFG_0012="<< Д~обавить все";              // Button
-CFG_0013="Уда~лить все >>";               // Button
-CFG_0014="~Удалить ->";                   // Button
+CFG_0011="<- ~Добавить";                       // Button
+CFG_0012="<< Д~обавить все";                   // Button
+CFG_0013="У~брать все >>";                     // Button
+CFG_0014="~Убрать ->";                         // Button
 
-CFG_0015="~Ok";                           // Ok button
-CFG_0016="О~тмена";                       // Cancel button
+CFG_0015="~Ok";                                // Ok button
+CFG_0016="О~тменить";                          // Cancel button
 
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
-MOD_NAME="Жеребьёвка";
-MOD_DESC="Модуль, вызывающий другие модули.\nАвтор: Doodle";
+MOD_NAME="Рандомизатор";
+MOD_DESC="Модуль, вызывающий другие модули.\n\nАвтор: Doodle";
 
 // ---------------------------------------------------------------------------
 // <EOF>

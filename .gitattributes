@@ -3,3 +3,9 @@
 *.txt eol=crlf
 # Be safe by making the Warpin script (*.wis) have crlf
 *.wis eol=crlf
+# These keep getting crlf line endings during the build
+WPSSDesktop/WPSSDesktop.h
+WPSSDesktop/WPSSDesktop.ih
+# IPF files should also have their line endings preserved
+*.ipf eol=crlf
+

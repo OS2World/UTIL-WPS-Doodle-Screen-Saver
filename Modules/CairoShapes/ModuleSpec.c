@@ -55,7 +55,7 @@ char *pchModuleDesc =
 
 /* Module version number (Major.Minor format): */
 int   iModuleVersionMajor = 3;
-int   iModuleVersionMinor = 11;
+int   iModuleVersionMinor = 2;
 
 /* Internal name generated from module name, to have
  * private window identifier for this kind of windows: */

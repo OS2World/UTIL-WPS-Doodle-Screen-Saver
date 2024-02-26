@@ -1,0 +1,40 @@
+/*
+ * NLS support file for the Cairo Shapes Screen Saver Module
+ *
+ * Language: Russian
+ * Locales : ru_*
+ *
+ * Original Author  : Doodle
+ * Contributor  : Dave Yeo
+ * Translator   : Yurii Zamotailo
+ *
+ * Date (YYYY-MM-DD): 2019.09.13
+ *                  : 2023-12-13
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+// ........................................
+// This module has no configuration dialog!
+// ........................................
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Формы Cairo";
+MOD_DESC="Показывает различные красочные формы и фигуры.\n\nИспользуется библиотека Cairo.";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

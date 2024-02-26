@@ -5,8 +5,10 @@
  * Locales : ru_*
  *
  * Author  : Yuri Proniakin
+ *         : Yurii Zamotailo
  *
  * Date (YYYY-MM-DD): 2006.02.21.
+ *                  : 2023-12-13
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -22,16 +24,16 @@
 // ---------------------------------------------------------------------------
 // Strings for the Configuration dialog:
 
-CFG_0001="Настройка модуля Текст";                    // Window title
-CFG_0002="~Текст:";                                   // Label
-CFG_0003="~Ok";                                       // OK Button
-CFG_0004="О~тмена";                                   // Cancel Button
+CFG_0001="Бегущая строка - Настройки";              // Window title
+CFG_0002="Отображаемый текст:";                     // Label
+CFG_0003="~Ok";                                     // OK Button
+CFG_0004="О~тменить";                               // Cancel Button
 
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
-MOD_NAME="Движущийся текст";
-MOD_DESC="Этот модуль перемещает текст по экрану!\nАвтор - Warp5";
+MOD_NAME="Бегущая строка";
+MOD_DESC="Заставка в виде анимации текста по типу бегущей строки!\nСам текст задаётся в настройках.\n\nАвтор: Warp5";
 
 // ---------------------------------------------------------------------------
 // <EOF>

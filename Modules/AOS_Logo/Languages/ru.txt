@@ -5,8 +5,10 @@
  * Locales : ru_*
  *
  * Author  : Yuri Proniakin
+ *         : Yurii Zamotailo
  *
  * Date (YYYY-MM-DD): 2005.12.27
+ *                  : 2023-12-13
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -29,8 +31,8 @@
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
-MOD_NAME="логотип ArcaOS";
-MOD_DESC="Логотип ArcaOS, перемещающийся каждые 30 секунд.\nАвтор: Doodle.\n участник Dave Yeo.\nРабота от Alex Taylor и Rachel Rosenthal.";
+MOD_NAME="Логотип ArcaOS";
+MOD_DESC="Логотип ArcaOS, перемещающийся по экрану каждые 30 секунд.\n\nАвтор: Doodle.\nПри участии Dave Yeo.\nРабота Alex Taylor и Rachel Rosenthal.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

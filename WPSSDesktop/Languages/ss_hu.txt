@@ -1,5 +1,5 @@
 /*
- * NLS support file for Doodle's Screen Saver v1.5
+ * NLS support file for Doodle's Screen Saver v1.9
  *
  * Language: Hungarian language
  * Locale  : hu_*
@@ -23,88 +23,57 @@
 
 COM_0000="~KÇpernyãvÇdã";                         // Properties tab text
 COM_0001="µltal†nos kÇpernyãvÇdã be†ll°t†sok";    // Descriptive text for page 1
-COM_0002="DPMS be†ll°tasok";                      // Descriptive text for page 2
+COM_0002="Jelszavas vÇdelem";                     // Descriptive text for page 2
 COM_0003="KÇpernyãvÇdã modulok";                  // Descriptive text for page 3
+COM_0004="S£g¢";
+COM_0005="~Alapbe†ll°t†s";
+COM_0006="~Visszavon";
 
 // ---------------------------------------------------------------------------
 // Strings for page 1 of screen saver settings:
-
-PG1_FONT="9.WarpSans";
-
-PG1_0000="S£g¢";
-PG1_0001="~Alapbe†ll°t†s";
-PG1_0002="~Visszavon";
 
 PG1_0003="µltal†nos be†ll°t†sok";
 PG1_0004="KÇpernyãvÇdã ~engedÇlyezve";
 PG1_0005="KÇpernyãvÇdã ind°t†sa";
 PG1_0006="percnyi inaktivit†s ut†n";
+PG1_0007="Csak a ~billenty˚zetre Çbredjen fel";
+PG1_0008="~VIO kÇpernyãre v†lt†s tilt†sa kÇprenyãvÇdÇs alatt";
 
-PG1_0007="Jelszavas vÇdelem";
-PG1_0008="~Jelszavas vÇdelem engedÇlyezve";
-PG1_0009="KÇrem gÇpelje be a jelsz¢t mindkÇt beviteli mezãbe (a karakterek nem fognak l†tszani), majd nyomja meg a V†ltoztat gombot.";
-PG1_0010="Jelsz¢:";
-PG1_0011="(ellenãrzã)";
-PG1_0012="~V†ltoztat";
-PG1_0013="~KÇsleltetett jelszavas vÇdelem";
-PG1_0014="A jelsz¢t csak";
-PG1_0015="perccel kÇsãbb kÇrje";
-PG1_0016="KÇpernyãvÇdã ind°t†sa ~rendszerind°t†skor";
-
-PG1_0017="KÅlînbîzã jelszavak";
-PG1_0018="Az ôn †ltal megadott jelszavak nem egyeznek meg!";
-
-// -- Added in v1.4:
-PG1_0019="Haszn†lja az aktu†lis Se~curity/2 felhaszn†l¢ jelszav†t";
-PG1_0020="Haszn†lja a kîvetkezã je~lsz¢t:";
-
-// -- Added in v1.5:
-PG1_0021="Csak a ~billenty˚zetre Çbredjen fel";
-
-// -- Added in v1.6:
-PG1_0022="Az elsã b~illenty˚leÅtÇs m†r a jelsz¢ rÇsze legyen";
-
-// -- Added in v1.9:
-PG1_0023="~VIO kÇpernyãre v†lt†s tilt†sa kÇprenyãvÇdÇs alatt";
+PG1_0013="DPMS be†ll°t†sok";
+PG1_0014="A DPMS ~Standby †llapot haszn†lata";
+PG1_0015="Kapcsoljon Standby †llapotba";
+PG1_0016="A DPMS S~uspend †llapot haszn†lata";
+PG1_0017="Kapcsoljon Suspend †llapotba";
+PG1_0018="A DPMS ~Off †llapot haszn†lata";
+PG1_0019="Kapcsoljon Off †llapotba";
+PG1_0020="percnyi kÇpernyãvÇdÇs ut†n";
+PG1_0021="percnyi Standby †llapot ut†n";
+PG1_0022="percnyi Suspend †llapot ut†n";
 
 // ---------------------------------------------------------------------------
 // Strings for page 2 of screen saver settings:
 
-PG2_FONT="9.WarpSans";
-
-PG2_0000="S£g¢";
-PG2_0001="~Alapbe†ll°t†s";
-PG2_0002="~Visszavon";
-
-PG2_0003="DPMS be†ll°t†sok";
-PG2_0004="A DPMS ~Standby †llapot haszn†lata";
-PG2_0005="Kapcsoljon Standby †llapotba";
-PG2_0006="A DPMS S~uspend †llapot haszn†lata";
-PG2_0007="Kapcsoljon Suspend †llapotba";
-PG2_0008="A DPMS ~Off †llapot haszn†lata";
-PG2_0009="Kapcsoljon Off †llapotba";
-PG2_0010="percnyi kÇpernyãvÇdÇs ut†n";
-PG2_0011="percnyi Standby †llapot ut†n";
-PG2_0012="percnyi Suspend †llapot ut†n";
+PG2_0007="Jelszavas vÇdelem";
+PG2_0008="~Jelszavas vÇdelem engedÇlyezve";
+PG2_0009="KÇrem gÇpelje be a jelsz¢t mindkÇt beviteli mezãbe (a karakterek nem fognak l†tszani), majd nyomja meg a V†ltoztat gombot.";
+PG2_0010="Jelsz¢:";
+PG2_0011="(ellenãrzã)";
+PG2_0012="~V†ltoztat";
+PG2_0013="~KÇsleltetett jelszavas vÇdelem";
+PG2_0014="A jelsz¢t csak";
+PG2_0015="perccel kÇsãbb kÇrje";
+PG2_0016="KÇpernyãvÇdã ind°t†sa ~rendszerind°t†skor";
+PG2_0017="KÅlînbîzã jelszavak";
+PG2_0018="Az ôn †ltal megadott jelszavak nem egyeznek meg!";
+PG2_0019="Haszn†lja az aktu†lis Se~curity/2 felhaszn†l¢ jelszav†t";
+PG2_0020="Haszn†lja a kîvetkezã je~lsz¢t:";
+PG2_0022="Az elsã b~illenty˚leÅtÇs m†r a jelsz¢ rÇsze legyen";
 
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
 
-PG3_FONT="9.WarpSans";
-
-PG3_0000="S£g¢";
-PG3_0001="~Alapbe†ll°t†s";
-PG3_0002="~Visszavon";
-
 PG3_0003="KÇpernyãvÇdã modulok";
 PG3_0004="~ElãnÇzeti kÇp";
-PG3_0005="Inform†ci¢ a modulr¢l";
-PG3_0006="Modul neve:";
-PG3_0007="Modul verzi¢ja:";
-PG3_0008="T†mogatja a jelszavas vÇdelmet:";
-PG3_0009="Igen";
-PG3_0010="Nem";
-PG3_0011="Le°r†s:";
 PG3_0012="~Ind°t†s";
 PG3_0013="~Konfigur†ci¢";
 
@@ -124,9 +93,6 @@ MOD_0003="~MÇgsem";
 MOD_0004="Rossz jelsz¢"; 
 MOD_0005="Nem megfelelã jelsz¢t adott meg! KÇrem pr¢b†lja £jra!";
 MOD_0006="~Ok";
-
-// Font to use (for DBCS support)
-MOD_0007="9.WarpSans";
 
 // ---------------------------------------------------------------------------
 // <EOF>

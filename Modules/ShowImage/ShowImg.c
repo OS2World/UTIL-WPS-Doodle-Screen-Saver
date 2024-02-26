@@ -1027,8 +1027,8 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
     return SSMODULE_ERROR_INVALIDPARAMETER;
 
   // Return info about module!
-  pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 80;
+  pModuleDesc->iVersionMajor = 2;
+  pModuleDesc->iVersionMinor = 0;
   strcpy(pModuleDesc->achModuleName, "Show Image");
   strcpy(pModuleDesc->achModuleDesc,
          "Show an image and blank the screen after some time.\n"
@@ -1120,7 +1120,7 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_Configure(HWND hwndOwner, char *pchHo
       if (chars != strlen(buffer)) {
         // bad file
         //DosBeep(1400,200);
-        fclose(hFile);
+        //fclose(hfile);
       }
       fclose(hFile);
     }

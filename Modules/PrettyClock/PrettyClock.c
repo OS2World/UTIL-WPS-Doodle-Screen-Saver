@@ -873,6 +873,8 @@ void internal_LoadImage(char *pchHomeDirectory, char *pchImageName, Image_p pIma
     // Update info_ptr
     png_read_update_info(png_ptr, info_ptr);
 
+#if 0 //To quiet stderr from outputting "libpng warning: Ignoring extra png_read_update_info() call; row buffer not reallocated"
+
     // Get width, height and other stuffs again
     png_get_IHDR(png_ptr, info_ptr, &ulWidth, &ulHeight, &iBitDepth, &iColorType, NULL, NULL, NULL);
 
@@ -883,6 +885,7 @@ void internal_LoadImage(char *pchHomeDirectory, char *pchImageName, Image_p pIma
     // Update info_ptr
     png_read_update_info(png_ptr, info_ptr);
 
+#endif 
 
     // Get new (final) width, height etc..
     png_get_IHDR(png_ptr, info_ptr, &ulWidth, &ulHeight, &iBitDepth, &iColorType, NULL, NULL, NULL);
@@ -3328,8 +3331,8 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
     return SSMODULE_ERROR_INVALIDPARAMETER;
 
   // Return info about module!
-  pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 80;
+  pModuleDesc->iVersionMajor = 2;
+  pModuleDesc->iVersionMinor = 1;
   strcpy(pModuleDesc->achModuleName, "Pretty Clock");
   strcpy(pModuleDesc->achModuleDesc,
          "This module shows a floating clock. The look and feel of the clock can be changed by selecting different skins for the clock.\n"

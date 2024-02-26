@@ -1,4 +1,5 @@
 /*
+ * NLS support file for Doodle's Screen Saver v1.4
  * Doodlen n„yt”ns„„st„j„n v1.4 suomen kielituki
  *
  * Kieli: suomi
@@ -23,79 +24,57 @@
 
 COM_0000="N~„yt”ns„„st„j„";                 // Properties tab text
 COM_0001="N„yt”ns„„st„j„n yleisasetukset"; // Descriptive text for page 1
-COM_0002="DPMS-asetukset";                 // Descriptive text for page 2
+COM_0002="Salasanasuojaus";                // Descriptive text for page 2
 COM_0003="N„yt”ns„„st„j„n moduulit";          // Descriptive text for page 3
+COM_0004="O~hje";
+COM_0005="~Oletus";
+COM_0006="~Peru";
 
 // ---------------------------------------------------------------------------
 // Strings for page 1 of screen saver settings:
-
-PG1_FONT="9.WarpSans";
-
-PG1_0000="O~hje";
-PG1_0001="~Oletus";
-PG1_0002="~Peru";
 
 PG1_0003="Yleisasetukset";
 PG1_0004="N„yt”ns„„st„j„ ~k„yt”ss„";
 PG1_0005="K„ynnist„";
 PG1_0006="minuutin koneen k„ytt„m„tt”myyden j„lkeen";
+//PG1_0007=
+//PG1_0008=
 
-PG1_0007="Salasanasuojaus";
-PG1_0008="K„yt„ ~salasanasuojausta";
-PG1_0009="Sy”t„ salasanasi molempiin kenttiin (merkkej„ ei n„ytet„). Paina sen j„lkeen Vaihda-n„pp„int„.";
-PG1_0010="Salasana:";
-PG1_0011="(vahvistus)";
-PG1_0012="~Vaihda";
-PG1_0013="V~iive salasanasuojauksessa";
-PG1_0014="Pyyd„ salasanaa vasta";
-PG1_0015="minuutin n„yt”ns„„st”n j„lkeen";
-PG1_0016="K„ynnist„ ~n„yt”ns„„st„j„ koneen k„ynnistymisen yhteydess„";
-
-PG1_0017="Salasanat eiv„t t„sm„„";
-PG1_0018="Antamasi salasanat eiv„t t„sm„„!";
-
-// -- Added in v1.4:
-PG1_0019="K„yt„ aktiivisen S~ecurity/2-k„ytt„j„n salasanaa";
-PG1_0020="K„yt„ ~t„t„ salasanaa:";
+PG1_0013="DPMS-asetukset";
+PG1_0014="K„yt„ DPMS ~Standby -tilaa";
+PG1_0015="Vaihda Standby-tilaan";
+PG1_0016="K„yt„ DPMS S~uspend -tilaa";
+PG1_0017="Vaihda Suspend-tilaan";
+PG1_0018="K„yt„ DPMS ~Off -tilaa";
+PG1_0019="Vaihda Off-tilaan";
+PG1_0020="minuutin n„yt”ns„„st”n j„lkeen";
+PG1_0021="minuutin Standby-tilan j„lkeen";
+PG1_0022="minuutin Suspend-tilan j„lkeen";
 
 // ---------------------------------------------------------------------------
 // Strings for page 2 of screen saver settings:
 
-PG2_FONT="9.WarpSans";
-
-PG2_0000="Ohje";
-PG2_0001="~Oletus";
-PG2_0002="~Peru";
-
-PG2_0003="DPMS-asetukset";
-PG2_0004="K„yt„ DPMS ~Standby -tilaa";
-PG2_0005="Vaihda Standby-tilaan";
-PG2_0006="K„yt„ DPMS S~uspend -tilaa";
-PG2_0007="Vaihda Suspend-tilaan";
-PG2_0008="K„yt„ DPMS ~Off -tilaa";
-PG2_0009="Vaihda Off-tilaan";
-PG2_0010="minuutin n„yt”ns„„st”n j„lkeen";
-PG2_0011="minuutin Standby-tilan j„lkeen";
-PG2_0012="minuutin Suspend-tilan j„lkeen";
+PG2_0007="Salasanasuojaus";
+PG2_0008="K„yt„ ~salasanasuojausta";
+PG2_0009="Sy”t„ salasanasi molempiin kenttiin (merkkej„ ei n„ytet„). Paina sen j„lkeen Vaihda-n„pp„int„.";
+PG2_0010="Salasana:";
+PG2_0011="(vahvistus)";
+PG2_0012="~Vaihda";
+PG2_0013="V~iive salasanasuojauksessa";
+PG2_0014="Pyyd„ salasanaa vasta";
+PG2_0015="minuutin n„yt”ns„„st”n j„lkeen";
+PG2_0016="K„ynnist„ ~n„yt”ns„„st„j„ koneen k„ynnistymisen yhteydess„";
+PG2_0017="Salasanat eiv„t t„sm„„";
+PG2_0018="Antamasi salasanat eiv„t t„sm„„!";
+PG2_0019="K„yt„ aktiivisen S~ecurity/2-k„ytt„j„n salasanaa";
+PG2_0020="K„yt„ ~t„t„ salasanaa:";
+//PG2_0022=
 
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
 
-PG3_FONT="9.WarpSans";
-
-PG3_0000="Ohje";
-PG3_0001="~Oletus";
-PG3_0002="~Peru";
-
 PG3_0003="N„yt”ns„„st„j„n moduulit";
 PG3_0004="~Esikatselu";
-PG3_0005="Moduulin informaatio";
-PG3_0006="Moduulin nimi:";
-PG3_0007="Moduulin versio:";
-PG3_0008="Tukee salasanasuojausta:";
-PG3_0009="Kyll„";
-PG3_0010="Ei";
-PG3_0011="Kuvaus:";
 PG3_0012="~K„ynnist„";
 PG3_0013="~Muokkaa";
 
@@ -115,9 +94,6 @@ MOD_0003="~Peruuta";
 MOD_0004="V„„r„ salasana"; 
 MOD_0005="Sy”tetty v„„r„ salasana! Yrit„ uudelleen!";
 MOD_0006="~Ok";
-
-// Font to use (for DBCS support)
-MOD_0007="9.WarpSans";
 
 // ---------------------------------------------------------------------------
 // <EOF>

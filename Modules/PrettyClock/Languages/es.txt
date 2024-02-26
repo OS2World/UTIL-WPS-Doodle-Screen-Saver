@@ -6,12 +6,11 @@
  *
  * Author  : Alfredo Fern ndez D¡az, Guillermo G. Llorens
  *
- * Date (YYYY-MM-DD): 2019.07.07.
+ * Date (YYYY-MM-DD): 2023.12.29.
  *
  *
- * To create the binary NLS file from this file, use the MSGC.EXE
- * tool this way:
- * msgc <filename.txt>
+ * Para crear el archivo NLS binario a partir de ‚ste, ejecute
+ * la herramienta MSGC mediante el mandato: msgc es.txt
  *
  */
 
@@ -38,7 +37,7 @@ CFG_0007="<Sin nombre>";                   // Text to show in listbox when
 // The name and the description string of the module:
 
 MOD_NAME="Reloj bonito";
-MOD_DESC="Este m¢dulo presenta un reloj flotante,\ncon diversos estilos intercambiables.\n\nUtiliza zlib v%1s y libpng v%2s.\nEscrito por Doodle.";
+MOD_DESC="Este m¢dulo presenta un reloj flotante, con diversos estilos intercambiables.\n\nUtiliza zlib v%1s y libpng v%2s.\nEscrito por Doodle.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

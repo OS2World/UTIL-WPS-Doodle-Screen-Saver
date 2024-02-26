@@ -2001,7 +2001,7 @@ MRESULT EXPENTRY fnConfigDialogProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
       break;
 
     case WM_COMMAND:
-      switch SHORT1FROMMP(mp2) {
+      switch (SHORT1FROMMP(mp2)) {
 	case CMDSRC_PUSHBUTTON:           // ---- A WM_COMMAND from a pushbutton ------
 	  switch (SHORT1FROMMP(mp1)) {
 	    case PB_ADD:
@@ -2281,8 +2281,8 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
     return SSMODULE_ERROR_INVALIDPARAMETER;
 
   // Return info about module!
-  pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 70;
+  pModuleDesc->iVersionMajor = 2;
+  pModuleDesc->iVersionMinor = 0;
   strcpy(pModuleDesc->achModuleName, "Randomizer");
   strcpy(pModuleDesc->achModuleDesc,
          "Randomizer module, using other saver modules.\n"

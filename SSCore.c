@@ -602,6 +602,7 @@ static void internal_TryToLoadSSDPMS()
 
   rc = DosLoadModule(NULL, 0, "SSDPMS.DLL", &hmodThisSSDPMS);
 
+  _control87(0x37f, 0x1fff);
   if (rc!=NO_ERROR)
   {
     // Error loading the DLL.
@@ -1456,6 +1457,7 @@ static void internal_Worker_StartSaver(char *pchDLLFileName,
     ulrc = DosLoadModule(achFailure, sizeof(achFailure),
                          pchDLLFileName,
                          phmodDLL);
+    _control87(0x37f, 0x1fff);
     if (ulrc!=NO_ERROR)
     {
       // Error, could not start screensaver!
@@ -2708,11 +2710,11 @@ SSCOREDECLSPEC int SSCORECALL SSCore_Initialize(HAB habCaller, char *pchHomeDire
   strcpy(GlobalCurrentSettings.achEncryptedPassword, "");
   GlobalCurrentSettings.bUseDelayedPasswordProtection = 0; // No delayed password asking
   GlobalCurrentSettings.iPasswordDelayTime = 60000; // No delayed password asking, but still, 1 min is the minimum
-  GlobalCurrentSettings.bUseDPMSStandbyState = 1;
+  GlobalCurrentSettings.bUseDPMSStandbyState = 0;
   GlobalCurrentSettings.iDPMSStandbyTime = 5*60000; // Set standby mode in 5 secs
-  GlobalCurrentSettings.bUseDPMSSuspendState = 1;
+  GlobalCurrentSettings.bUseDPMSSuspendState = 0;
   GlobalCurrentSettings.iDPMSSuspendTime = 5*60000; // Set suspend mode in 5 more secs
-  GlobalCurrentSettings.bUseDPMSOffState = 1;
+  GlobalCurrentSettings.bUseDPMSOffState = 0;
   GlobalCurrentSettings.iDPMSOffTime     = 5*60000; // Turn off monitor in 5 more secs
   GlobalCurrentSettings.bWakeByKeyboardOnly = FALSE;
   GlobalCurrentSettings.bFirstKeyEventGoesToPwdWindow = FALSE;
@@ -3004,6 +3006,7 @@ SSCOREDECLSPEC int SSCORECALL SSCore_GetListOfModules(SSCoreModuleList_p *ppModu
       rc = DosLoadModule(achFailure, sizeof(achFailure),
                          achFileNamePath,
                          &hmodDLL);
+      _control87(0x37f, 0x1fff);
       if (rc==NO_ERROR)
       {
         // Cool, DLL could be loaded!
@@ -3416,6 +3419,7 @@ SSCOREDECLSPEC int SSCORECALL SSCore_ConfigureModule(char *pchModuleFileName, HW
   ulrc = DosLoadModule(achFailure, sizeof(achFailure),
                        pchModuleFileName,
                        &hmodSaverModule);
+  _control87(0x37f, 0x1fff);
   if (ulrc!=NO_ERROR)
     return SSCORE_ERROR_COULDNOTLOADMODULE;
 
@@ -3736,6 +3740,7 @@ static void internal_InitializeSecurity2()
                      sizeof(achFailure),       /* Size of buffer             */
                      "USERCTL.DLL",            /* Module to load             */
                      &hmodThisUSERCTL);        /* Module handle returned     */
+  _control87(0x37f, 0x1fff);
   if (rc != NO_ERROR)
   {
     // No userctl.dll, no security/2 installed.

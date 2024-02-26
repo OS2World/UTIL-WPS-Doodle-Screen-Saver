@@ -958,8 +958,8 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_GetModuleDesc(SSModuleDesc_p pModuleD
     return SSMODULE_ERROR_INVALIDPARAMETER;
 
   // Return info about module!
-  pModuleDesc->iVersionMajor = 1;
-  pModuleDesc->iVersionMinor = 70;
+  pModuleDesc->iVersionMajor = 2;
+  pModuleDesc->iVersionMinor = 0;
   strcpy(pModuleDesc->achModuleName, "Moving Text");
   strcpy(pModuleDesc->achModuleDesc,
          "This modules moves text on the screen!\n"
@@ -1044,7 +1044,6 @@ SSMODULEDECLSPEC int SSMODULECALL SSModule_Configure(HWND hwndOwner, char *pchHo
       if (chars != strlen(buffer)) {
         // bad file
         //DosBeep(1400,200);
-        fclose(hFile);
       }
       fclose(hFile);
     }
@@ -1347,7 +1346,7 @@ void readConfig (char *pchHomeDirectory) {
   CfgDlgInit.cbSize = sizeof(CfgDlgInit);
   CfgDlgInit.pchHomeDirectory = pchHomeDirectory;
   if (CfgDlgInit.pchText == NULL) CfgDlgInit.pchText = (char *)calloc(250,1);
-  strcpy(CfgDlgInit.pchText, "Hello World!");
+  strcpy(CfgDlgInit.pchText, "OS/2...OS/2");
 
   // Get home directory of current user
   hFile = NULL;

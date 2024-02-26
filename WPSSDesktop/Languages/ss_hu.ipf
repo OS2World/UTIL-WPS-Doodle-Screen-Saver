@@ -18,12 +18,10 @@
 :userdoc.
 .*
 .*--------------------------------------------------------------*\
-.*  Help for Page 1 of the Screen Saver
+.* General help for the page
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h1 res=1000.K‚perny‹v‚d‹
+:h1 res=4000.K‚perny‹v‚d‹
 :p.A :hp2.K‚perny‹v‚d‹:ehp2. be ll¡t sok els‹ oldala az
 :hp2.µltal nos k‚perny‹v‚d‹ be ll¡t sok:ehp2. oldal. Ez az a hely,
 ahol a k‚perny‹v‚d‹ leg ltal nosabb be ll¡t sait lehet megv ltoztatni,
@@ -37,15 +35,20 @@ itt:elink. olvashat.
 :p.
 Az egyes mez‹k r‚szletes magyar zat hoz v lasszon a k”vetkez‹ list b¢l:
 :ul compact.
-:li.:link reftype=hd res=1001.µltal nos be ll¡t sok:elink.
-:li.:link reftype=hd res=1002.Jelszavas v‚delem:elink.
-:li.:link reftype=hd res=6001.Visszavon:elink.
-:li.:link reftype=hd res=6002.Alapbe ll¡t s:elink.
+:li.:link reftype=hd res=1000.µltal nos be ll¡t sok:elink.
+:li.:link reftype=hd res=1001.DPMS be ll¡t sok:elink.
+:li.:link reftype=hd res=2000.Jelszavas v‚delem:elink.
+:li.:link reftype=hd res=3000.K‚perny‹v‚d‹ modulok:elink.
 :eul.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 1 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Help for General settings groupbox
 .*
-:h1 res=1001.µltal nos be ll¡t sok
+:h2 res=1000.µltal nos be ll¡t sok
 :p.Jel”lje ki a :hp2.K‚perny‹v‚d‹ enged‚lyezve:ehp2.-t amennyiben enged‚nyezni
 szeretn‚ a k‚perny‹v‚d‹t. Am¡g a k‚perny‹v‚d‹ enged‚lyezve van, a rendszer
 figyelemmel k¡s‚ri a felhaszn l¢i aktivit st (az eg‚r es a billentyûzet 
@@ -68,10 +71,55 @@ hogy semmilyen m s alkalmaz s nem tudja majd elvenni a k‚perny‹t ‚s a beviteli
 eszk”z”ket a k‚perny‹v‚d‹ el‹l, m‚g a CAD-kezel‹ ‚s m s hasonl¢ alkalmaz sok sem.
 Ez megakad lyozhatja a felhaszn l¢t abban, hogy egyes lefagyott alkalmaz sokat
 kil‹hessen m¡g a k‚perny‹v‚d‹ akt¡v, de sokkal biztons gosabb  is teszi a rendszert.
+
+:p.:link reftype=hd res=1001.DPMS be ll¡t sok:elink.
+
+.*
+.* Help for DPMS settings groupbox
+.*
+:h2 res=1001.DPMS be ll¡t sok
+:p.Ezek a be ll¡t sok csak akkor el‚rhet‹k, ha a videok rtya meghajt¢programja 
+is t mogatja a DPMS-t (jelenleg csak a Scitech SNAP ilyen), ‚s a monitor is 
+t mogatja azt.
+:p.A monitoroknak n‚gy energiatakar‚kos zemm¢da l‚tezik a DPMS standard szerint.
+Ezek a k”vetkez‹k (a legkev‚sb‚ energiatakar‚kossal kezdve):
+:ol.
+:li.Az :hp2.on  llapot:ehp2.. Ez az az  llapot, amelyben a monitor be van
+kapcsolva, es a megszokott m¢don mûk”dik.
+:li.A :hp2.stand-by  llapot:ehp2.. Ilyenkor a monitor r‚szlegesen ki van kapcsolva,
+de ebb‹l az  llapotb¢l m‚g gyorsan vissza tud t‚rni a bekapcsolt  llapot ba.
+:li.A :hp2.suspend  llapot:ehp2.. Ebben az  llapot ban a monitor m r majdnem
+teljesen ki van kapcsolva.
+:li.Az :hp2.off  llapot:ehp2. A monitor ilyenkor ki van kapcsolva.
+:eol.
+:p.A k‚perny‹v‚d‹ mindig a legels‹  llapotb¢l indul, ‚s az id‹ el‹rehaladt val
+egyre takar‚kosabb  llapotokba kapcsol.
+:p.Csak azokat az  llapotokat fogja felhaszn lni, amelyek itt ki vannak jel”lve,
+‚s az adott  llapotn l megadott id‹ letelte ut n kapcsol  t a k”vetkez‹  llapotba.
+
+:p.:link reftype=hd res=1002.A DPMS-r‹l:elink.
+:p.:link reftype=hd res=1000.µltal nos be ll¡t sok:elink.
+
+.*
+.* Info about DPMS itself
+.*
+:h3 res=1002.A DPMS-r‹l
+:p.A DPMS a :hp2.Display Power Management Signaling:ehp2. r”vid¡t‚se, amely
+egy VESA standard, mely n‚gy energiatakar‚kos monitor-zemm¢dot defini l a 
+monitorok sz m ra: on, stand-by, suspend ‚s off.
+
+:p.:link reftype=hd res=1001.DPMS be ll¡t sok:elink.
+:p.:link reftype=hd res=1000.µltal nos be ll¡t sok:elink.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 2 of the Screen Saver
+.*--------------------------------------------------------------*/
+.*
 .*
 .* Help for Password protection groupbox
 .*
-:h1 res=1002.Jelszavas v‚delem
+:h2 res=2000.Jelszavas v‚delem
 :p.Jel”lje ki a :hp2.Jelszavas v‚delem enged‚lyezve:ehp2.-t amennyiben jelszavas
 v‚delmet szeretne a k‚perny‹v‚d‹h”z. Ha a jelszavas v‚delem be van kapcsolva,
 akkor a k‚perny‹v‚d‹ egy jelsz¢t fog k‚rni miel‹tt le ll¡tani a k‚perny‹v‚d‚st,
@@ -109,91 +157,16 @@ A k‚perny‹v‚d‹ nem fogja k‚sleltetni a jelszavas v‚delmet ha az a felhaszn l¢
 k‚r‚s‚re indult el (az Asztal felbukkan¢ menj‚b‹l a :hp2.Z rol s most:ehp2. 
 elemet kiv lasztva), vagy ha az a rendszer ind¡t sa miatt automatikusan indult
 el!
-.*
-.*--------------------------------------------------------------*\
-.*  Help for Page 2 of the Screen Saver
-.*--------------------------------------------------------------*/
-.*
-.* General help for the page
-.*
-:h1 res=2000.K‚perny‹v‚d‹
-:p.A :hp2.K‚perny‹v‚d‹:ehp2. be ll¡t sok m sodik oldala a
-:hp2.DPMS be ll¡t sok:ehp2. oldal. Ezen a oldalon lehet megmondani a 
-k‚perny‹v‚d‹nek, hogy haszn ljon-e kl”nb”z‹
-:link reftype=hd res=2002.
-DPMS:elink. szolg ltat sokat amennyiben azok rendelkez‚sre  llnak, vagy ne.
-:p.
-A k‚perny‹v‚d‹ nyelv‚t megv ltoztathatja, amennyiben erre az oldalra
-dob egy Locale objektumot a Fogd ‚s Vidd m¢dszerrel. Err‹l b‹vebben
-:link reftype=hd res=5000.
-itt:elink. olvashat.
-:p.
-Az egyes mez‹k r‚szletes magyar zat hoz v lasszon a k”vetkez‹ list b¢l:
-:ul compact.
-:li.:link reftype=hd res=2001.DPMS be ll¡t sok:elink.
-:li.:link reftype=hd res=6001.Visszavon:elink.
-:li.:link reftype=hd res=6002.Alapbe ll¡t s:elink.
-:eul.
-.*
-.* Help for DPMS settings groupbox
-.*
-:h1 res=2001.DPMS be ll¡t sok
-:p.Ezek a be ll¡t sok csak akkor el‚rhet‹k, ha a videok rtya meghajt¢programja 
-is t mogatja a DPMS-t (jelenleg csak a Scitech SNAP ilyen), ‚s a monitor is 
-t mogatja azt.
-:p.A monitoroknak n‚gy energiatakar‚kos zemm¢da l‚tezik a DPMS standard szerint.
-Ezek a k”vetkez‹k (a legkev‚sb‚ energiatakar‚kossal kezdve):
-:ol.
-:li.Az :hp2.on  llapot:ehp2.. Ez az az  llapot, amelyben a monitor be van
-kapcsolva, es a megszokott m¢don mûk”dik.
-:li.A :hp2.stand-by  llapot:ehp2.. Ilyenkor a monitor r‚szlegesen ki van kapcsolva,
-de ebb‹l az  llapotb¢l m‚g gyorsan vissza tud t‚rni a bekapcsolt  llapot ba.
-:li.A :hp2.suspend  llapot:ehp2.. Ebben az  llapot ban a monitor m r majdnem
-teljesen ki van kapcsolva.
-:li.Az :hp2.off  llapot:ehp2. A monitor ilyenkor ki van kapcsolva.
-:eol.
-:p.A k‚perny‹v‚d‹ mindig a legels‹  llapotb¢l indul, ‚s az id‹ el‹rehaladt val
-egyre takar‚kosabb  llapotokba kapcsol.
-:p.Csak azokat az  llapotokat fogja felhaszn lni, amelyek itt ki vannak jel”lve,
-‚s az adott  llapotn l megadott id‹ letelte ut n kapcsol  t a k”vetkez‹  llapotba.
-.*
-.* Info about DPMS itself
-.*
-:h1 res=2002.A DPMS-r‹l
-:p.A DPMS a :hp2.Display Power Management Signaling:ehp2. r”vid¡t‚se, amely
-egy VESA standard, mely n‚gy energiatakar‚kos monitor-zemm¢dot defini l a 
-monitorok sz m ra: on, stand-by, suspend ‚s off.
+
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for Page 3 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h1 res=3000.K‚perny‹v‚d‹
-:p.A :hp2.K‚perny‹v‚d‹:ehp2. be ll¡t sok harmadik oldala 
-:hp2.K‚perny‹v‚d‹ modulok:ehp2. oldal. Ezen az oldalon tal lhat¢ a
-k‚perny‹v‚d‹
-:link reftype=hd res=3002.
-modulok:elink. list ja. Itt lehet ezeket a modulokat konfigur lni, ‚s itt
-lehet egy adott modult kiv lasztani aktu lis modulnak, melyet a k‚perny‹v‚d‹
-fog haszn lni.
-:p.
-A k‚perny‹v‚d‹ nyelv‚t megv ltoztathatja, amennyiben erre az oldalra
-dob egy Locale objektumot a Fogd ‚s Vidd m¢dszerrel. Err‹l b‹vebben
-:link reftype=hd res=5000.
-itt:elink. olvashat.
-:p.
-Az egyes mez‹k r‚szletes magyar zat hoz v lasszon a k”vetkez‹ list b¢l:
-:ul compact.
-:li.:link reftype=hd res=3001.K‚perny‹v‚d‹ modulok:elink.
-:li.:link reftype=hd res=6001.Visszavon:elink.
-:li.:link reftype=hd res=6002.Alapbe ll¡t s:elink.
-:eul.
-.*
 .* Help for Screen Saver modules groupbox
 .*
-:h1 res=3001.K‚perny‹v‚d‹ modulok
+:h2 res=3000.K‚perny‹v‚d‹ modulok
 :p.Ezen az oldalon a rendelkez‚sre  ll¢ k‚perny‹v‚d‹ modulok list j t l thatja,
 ‚s inform ci¢kat az aktu lis modulr¢l.
 :p.Az aktu lis modul az a modul, amelyik ‚ppen ki van v lasztva a rendelkez‚sre
@@ -216,14 +189,20 @@ az aktu lis modul hogyan viselkedik a k‚perny‹v‚d‹ ”sszes jelenlegi be ll¡t sa
 mellett (figyelembe v‚ve a k‚perny‹v‚d‹ be ll¡t sainak m s oldalain szerepl‹
 be ll¡t sokat is, mint p‚ld ul a :hp2.K‚sleltetett jelszavas v‚delem:ehp2., ‚s
 egyebek).
+
+:p.:link reftype=hd res=3001.Modulok:elink.
+
 .*
 .* Help about Screen Saver modules
 .*
-:h1 res=3002.Modulok
+:h3 res=3001.Modulok
 :p.A k‚perny‹v‚d‹ modul egy vagy t”bb speci lis DLL file, mely a k‚perny‹v‚d‹
 "home" k”nyvt r nak :hp3.Modules:ehp3. alk”nyvt r ban van (a "home" k”nyvt r
 itt azt a k”nyvt rat jelenti, ahov  a k‚perny‹v‚d‹ telep¡t‚sre kerlt). A modul
 az, amely elindul amikor a k‚perny‹v‚d‚st meg kell kezdeni.
+
+:p.:link reftype=hd res=3000.K‚perny‹v‚d‹ modulok:elink.
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for setting the language of the screen saver
@@ -231,7 +210,7 @@ az, amely elindul amikor a k‚perny‹v‚d‚st meg kell kezdeni.
 .*
 .* Help for setting the language
 .*
-:h1 res=5000.A k‚perny‹v‚d‹ nyelv‚nek megv ltoztat sa
+:h2 res=5000.A k‚perny‹v‚d‹ nyelv‚nek megv ltoztat sa
 :p.Lehet‹s‚g van arra, hogy megv ltoztassa a k‚perny‹v‚d‹ nyelv‚t. A be ll¡tott
 nyelvet haszn lj k a k‚perny‹v‚d‹ be ll¡t s ra szolg l¢ oldalak,
 illetve azok a k‚perny‹v‚d‹ modulok is, amelyek ezt t mogatj k. A nyelv 
@@ -258,13 +237,13 @@ a nyelvre fog  tv ltani, ‚s ett‹l fogva azt a nyelvet fogja haszn lni.
 .*
 .* Help for the Undo button
 .*
-:h1 res=6001.Visszavon
+:h3 res=6001.Visszavon
 :p.V lassza a :hp2.Visszavon:ehp2.-t, ha a be ll¡t sokat arra akarja 
 visszav ltoztatni, amelyek akkor voltak akt¡vak, miel‹tt ez az ablak megjelent!
 .*
 .* Help for the Default button
 .*
-:h1 res=6002.Alapbe ll¡t s
+:h3 res=6002.Alapbe ll¡t s
 :p.V lassza az :hp2.Alapbe ll¡t s:ehp2.-t, ha a be ll¡t sokat arra akarja
 visszav ltoztatni, amelyek akkor voltak akt¡vak, amikor a rendszert telep¡tette!
 :euserdoc.

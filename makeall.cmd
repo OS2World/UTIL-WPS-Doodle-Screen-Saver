@@ -59,6 +59,9 @@ cd ..\..
 echo * MODULES\CairoShapes
 cd Modules\CairoShapes
 wmake -h
+cd Languages
+call make.cmd
+cd ..
 cd ..\..
 
 echo * MODULES\CIRCLES

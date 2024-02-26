@@ -4,14 +4,13 @@
  * Language: Espa¤ol
  * Locales : es_*
  *
- * Author  : Guillermo G. Llorens
+ * Author  : Alfredo Fern ndez D¡az, Guillermo G. Llorens
  *
- * Date (YYYY-MM-DD): 2005.07.16.
+ * Date (YYYY-MM-DD): 2023.12.29.
  *
  *
- * To create the binary NLS file from this file, use the MSGC.EXE
- * tool this way:
- * msgc <filename.txt>
+ * Para crear el archivo NLS binario a partir de ‚ste, ejecute
+ * la herramienta MSGC mediante el mandato: msgc ss_es.txt
  *
  */
 
@@ -22,29 +21,29 @@
 // ---------------------------------------------------------------------------
 // Strings for the Configuration dialog:
 
-CFG_0001="Configurar IFSIM";                      // Window title
+CFG_0001="Configurar IFS en movimiento";           // Window title
 
-CFG_0002="Resoluci¢n de la imagen";               // Groupbox
-CFG_0003="~Resoluci¢n de la pantalla";            // Radio button
-CFG_0004="~Mitad de la resoluci¢n de pantalla";   // Radio button
-CFG_0005="Resoluci¢n ~propia";                    // Radio button
-CFG_0006="Resoluci¢n:";                           // Static text
+CFG_0002="Resoluci¢n de la imagen";                // Groupbox
+CFG_0003="~Resoluci¢n de la pantalla";             // Radio button
+CFG_0004="~Mitad de la resoluci¢n de pantalla";    // Radio button
+CFG_0005="Resoluci¢n ~propia";                     // Radio button
+CFG_0006="Resoluci¢n:";                            // Static text
 
-CFG_0007="N£mero de puntos";                      // Groupbox
-CFG_0008="Introduzca un valor entre 1 y 100000";  // Static text
-CFG_0009="N£mero de puntos:";                     // Static text
+CFG_0007="N£mero de puntos";                       // Groupbox
+CFG_0008="Por favor, introduzca entre 1 y 100000"; // Static text
+CFG_0009="N£mero de puntos:";                      // Static text
 
-CFG_0010="Uso del procesador";                    // Groupbox
-CFG_0011="Ejecutar con prioridad de ~inactividad";// Radio button
-CFG_0012="Ejecutar con prioridad ~normal";        // Radio button
+CFG_0010="Uso del procesador";                     // Groupbox
+CFG_0011="Ejecutar con prioridad de ~inactividad"; // Radio button
+CFG_0012="Ejecutar con prioridad ~normal";         // Radio button
 
-CFG_0013="Velocidad de animaci¢n:";               // Static text
-CFG_0014="CPS";                                   // Static text
+CFG_0013="Velocidad de animaci¢n:";                // Static text
+CFG_0014="FPS";                                    // Static text
 
-CFG_0015="Usar ~WarpOverlay! si est  disponible"; // Checkbox
+CFG_0015="Usar ~WarpOverlay! si est  disponible";  // Checkbox
 
-CFG_0016="~Bien";                                 // Ok button
-CFG_0017="~Cancelar";                             // Cancel button
+CFG_0016="~Bien";                                  // Ok button
+CFG_0017="~Cancelar";                              // Cancel button
 
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:

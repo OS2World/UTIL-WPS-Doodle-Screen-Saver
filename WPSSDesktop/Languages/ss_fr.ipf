@@ -18,12 +18,10 @@
 :userdoc.
 .*
 .*--------------------------------------------------------------*\
-.*  Help for Page 1 of the Screen Saver
+.* General help for the page
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h1 res=1000.conomiseur d'‚cran (page 1)
+:h1 res=4000.conomiseur d'‚cran (page 1)
 :p.La premiŠre page des paramŠtres de l':hp2.‚conomiseur 
 d'‚cran:ehp2. est la page des :hp2.paramŠtres g‚n‚raux:ehp2.&per. C'est 
 ici que les paramŠtres les plus communs de l'‚conomiseur d'‚cran peuvent 
@@ -37,16 +35,21 @@ d'informations, veuillez cliquer
 Pour une explication d‚taill‚e de chaque option, veuillez s‚lectionner 
 l'un des ‚l‚ments de la liste ci-dessous &colon. 
 :ul compact.
-:li.:link reftype=hd res=1001.ParamŠtres g‚n‚raux:elink.
-:li.:link reftype=hd res=1002.Protection par mot de passe:elink.
-:li.:link reftype=hd res=6001.D‚faire:elink.
-:li.:link reftype=hd res=6002.Par d‚faut:elink.
+:li.:link reftype=hd res=1000.ParamŠtres g‚n‚raux:elink.
+:li.:link reftype=hd res=1001.ParamŠtres DPMS:elink.
+:li.:link reftype=hd res=2000.Protection par mot de passe:elink.
+:li.:link reftype=hd res=3000.Modules d'‚conomie d'‚cran:elink.
 :eul.
 :p.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 1 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Help for General settings groupbox
 .*
-:h1 res=1001.ParamŠtres g‚n‚raux
+:h2 res=1000.ParamŠtres g‚n‚raux
 :p.S‚lectionnez :hp2.Activer l'‚conomiseur d'‚cran:ehp2. pour mettre en
 fonction l'‚conomiseur d'‚cran. Une fois activ‚, l'‚conomiseur 
 surveillera l'activit‚ utilisateur (activit‚ du clavier et de la souris 
@@ -72,10 +75,62 @@ autre application similaire. Certes, cela empˆche … l'utilisateur
 de mettre fin brutalement … des applications qui plantent lorsque l'‚cran
 est en ‚conomie, mais cela rend cependant le systŠme plus s‚curis‚. 
 :p.
+
+:p.:link reftype=hd res=1001.ParamŠtres DPMS:elink.
+
+.*
+.* Help for DPMS settings groupbox
+.*
+:h2 res=1001.ParamŠtres DPMS
+:p.Ces options de param‚trage ne sont disponibles que si … la fois le 
+pilote video (Scitech SNAP uniquement pour le moment) et le moniteur 
+prennent en charge le standard DPMS. 
+:p.Il y a quatre ‚tats d'‚conomie d'‚nergie pour les moniteurs, selon le
+standard DPMS. Ce sont les suivants, en comman‡ant par le moins 
+‚conome &colon. 
+:ol.
+:li.L'‚tat :hp2.en fonction:ehp2.&per. C'est l'‚tat dans lequel le 
+moniteur se trouve lorsqu'il est allum‚ et fonctionne normalement. 
+:li.L'‚tat d':hp2.attente:ehp2.&per. Le moniteur n'est ici que 
+partiellement mis hors fonction, et peut revenir trŠs rapidement … 
+l'‚tat en fonction. 
+:li.L'‚tat :hp2.suspendu:ehp2.&per. C'est l'‚tat dans lequel le 
+moniteur est mis hors fonction … peu prŠs complŠtement. 
+:li.L'‚tat :hp2.hors tension:ehp2.&per. Le moniteur est mis hors tension 
+dans cet ‚tat. 
+:eol.
+:p.L'‚conomiseur d'‚cran d‚marre toujours depuis le premier ‚tat, et 
+passe dans un ‚tat d'‚conomie plus avanc‚e au fur et … mesure que le 
+temps passe. 
+:p.L'‚conomiseur d'‚cran n'utilisera que les ‚tats qui sont s‚lectionn‚s 
+ici et passera au prochain ‚tat aprŠs le d‚lai donn‚ pour cet ‚tat. 
+:p.
+
+:p.:link reftype=hd res=1002.Informations … propos du standard DPMS:elink.
+:p.:link reftype=hd res=1000.ParamŠtres g‚n‚raux:elink.
+
+.*
+.* Info about DPMS itself
+.*
+:h3 res=1002.Informations … propos du standard DPMS
+:p.DPMS est l'abbr‚viation de :hp2.Display Power Management 
+Signaling:ehp2. (Signalisation pour la Gestion de l'Alimentation de 
+l'Affichage), un standard d'interfa‡age VESA d‚finissant quatre modes de 
+gestion d'alimentation pour les moniteurs : en fonction, en attente, 
+suspendu et hors tension. 
+:p.
+
+:p.:link reftype=hd res=1001.ParamŠtres DPMS:elink.
+:p.:link reftype=hd res=1000.ParamŠtres g‚n‚raux:elink.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 2 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Help for Password protection groupbox
 .*
-:h1 res=1002.Protection par mot de passe
+:h2 res=2000.Protection par mot de passe
 :p.S‚lectionnez :hp2.Activer la protection par mot de passe:ehp2. pour 
 permettre la protection par mot de passe de l'‚conomiseur d'‚cran. 
 Si la protection par mot de passe est en fonction, l'‚conomiseur 
@@ -124,99 +179,15 @@ l'‚l‚ment de menu :hp2.Verrouillage imm‚diat:ehp2. dans le menu
 contextuel du bureau) ou s'il est lanc‚ lors de la s‚quence d‚marrage du 
 systŠme. 
 :p.
-.*
-.*--------------------------------------------------------------*\
-.*  Help for Page 2 of the Screen Saver
-.*--------------------------------------------------------------*/
-.*
-.* General help for the page
-.*
-:h1 res=2000.conomiseur d'‚cran (page 2)
-:p.La deuxiŠme page de l':hp2.‚conomiseur d'‚cran:ehp2. est la page des 
-:hp2.paramŠtres DPMS:ehp2.&per. C'est ici que l'‚conomiseur d'‚cran est 
-charg‚ d'utiliser ou non les diff‚rents services 
-:link reftype=hd res=2002.DPMS:elink.&comma. s'ils sont disponibles. 
-:p.La modification de la langue de l'‚conomiseur d'‚cran est possible 
-en glissant et d‚posant un objet de r‚gion sur cette page. Pour plus 
-d'informations, veuillez cliquer 
-:link reftype=hd res=5000.ici:elink.&per. 
-:p.
-Pour une explication d‚taill‚e de chaque option, veuillez s‚lectionner 
-l'un des ‚l‚ments de la liste ci-dessous &colon. 
-:ul compact.
-:li.:link reftype=hd res=2001.ParamŠtres DPMS:elink.
-:li.:link reftype=hd res=6001.D‚faire:elink.
-:li.:link reftype=hd res=6002.Par d‚faut:elink.
-:eul.
-:p.
-.*
-.* Help for DPMS settings groupbox
-.*
-:h1 res=2001.ParamŠtres DPMS
-:p.Ces options de param‚trage ne sont disponibles que si … la fois le 
-pilote video (Scitech SNAP uniquement pour le moment) et le moniteur 
-prennent en charge le standard DPMS. 
-:p.Il y a quatre ‚tats d'‚conomie d'‚nergie pour les moniteurs, selon le
-standard DPMS. Ce sont les suivants, en comman‡ant par le moins 
-‚conome &colon. 
-:ol.
-:li.L'‚tat :hp2.en fonction:ehp2.&per. C'est l'‚tat dans lequel le 
-moniteur se trouve lorsqu'il est allum‚ et fonctionne normalement. 
-:li.L'‚tat d':hp2.attente:ehp2.&per. Le moniteur n'est ici que 
-partiellement mis hors fonction, et peut revenir trŠs rapidement … 
-l'‚tat en fonction. 
-:li.L'‚tat :hp2.suspendu:ehp2.&per. C'est l'‚tat dans lequel le 
-moniteur est mis hors fonction … peu prŠs complŠtement. 
-:li.L'‚tat :hp2.hors tension:ehp2.&per. Le moniteur est mis hors tension 
-dans cet ‚tat. 
-:eol.
-:p.L'‚conomiseur d'‚cran d‚marre toujours depuis le premier ‚tat, et 
-passe dans un ‚tat d'‚conomie plus avanc‚e au fur et … mesure que le 
-temps passe. 
-:p.L'‚conomiseur d'‚cran n'utilisera que les ‚tats qui sont s‚lectionn‚s 
-ici et passera au prochain ‚tat aprŠs le d‚lai donn‚ pour cet ‚tat. 
-:p.
-.*
-.* Info about DPMS itself
-.*
-:h1 res=2002.Informations … propos du standard DPMS
-:p.DPMS est l'abbr‚viation de :hp2.Display Power Management 
-Signaling:ehp2. (Signalisation pour la Gestion de l'Alimentation de 
-l'Affichage), un standard d'interfa‡age VESA d‚finissant quatre modes de 
-gestion d'alimentation pour les moniteurs : en fonction, en attente, 
-suspendu et hors tension. 
-:p.
-.*
+
+
 .*--------------------------------------------------------------*\
 .*  Help for Page 3 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h1 res=3000.conomiseur d'‚cran (page 3)
-:p.La troisiŠme page des paramŠtres de l':hp2.‚conomiseur 
-d'‚cran:ehp2. est la page des :hp2.modules d'‚conomie d'‚cran:ehp2.&per. 
-C'est … cet endroit que la liste des 
-:link reftype=hd res=3002.modules:elink. de l'‚conomiseur d'‚cran peut 
-ˆtre obtenue, que ces modules peuvent ˆtre configur‚s et qu'un module 
-peut ˆtre s‚lectionn‚ comme ‚tant le module d'‚conomie d'‚cran en cours. 
-:p.La modification de la langue de l'‚conomiseur d'‚cran est possible 
-en glissant et d‚posant un objet de r‚gion sur cette page. Pour plus 
-d'informations, veuillez cliquer 
-:link reftype=hd res=5000.ici:elink.&per. 
-:p.
-Pour une explication d‚taill‚e de chaque option, veuillez s‚lectionner 
-l'un des ‚l‚ments de la liste ci-dessous &colon. 
-:ul compact.
-:li.:link reftype=hd res=3001.Modules d'‚conomie d'‚cran:elink.
-:li.:link reftype=hd res=6001.D‚faire:elink.
-:li.:link reftype=hd res=6002.Par d‚faut:elink.
-:eul.
-:p.
-.*
 .* Help for Screen Saver modules groupbox
 .*
-:h1 res=3001.Modules d'‚conomie d'‚cran
+:h2 res=3000.Modules d'‚conomie d'‚cran
 :p.Cette page affiche la liste des modules d'‚conomie d'‚cran disponibles 
 et donne des informations sur le module en cours de s‚lection. 
 :p.Le module en cours de s‚lection est celui en surbrillance dans la 
@@ -241,15 +212,21 @@ l'‚conomiseur d'‚cran en cours (y compris les paramŠtres d'autres pages
 de paramŠtres comme la :hp2.protection par mot de passe diff‚r‚e:ehp2. et 
 autres). 
 :p.
+
+:p.:link reftype=hd res=3001.Modules:elink.
+
 .*
 .* Help about Screen Saver modules
 .*
-:h1 res=3002.Modules
+:h3 res=3001.Modules
 :p.Un module est un (ou plus) fichier .DLL particulier, situ‚ dans le 
 dossier :hp3.Modules:ehp3. du r‚pertoire d'installation de base de 
 l'‚conomiseur d'‚cran. Il est lanc‚ lorsque l'‚conomie d'‚cran doit ˆtre 
 d‚marr‚e. 
 :p.
+
+:p.:link reftype=hd res=3000.Modules d'‚conomie d'‚cran:elink.
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for setting the language of the screen saver
@@ -257,7 +234,7 @@ d‚marr‚e.
 .*
 .* Help for setting the language
 .*
-:h1 res=5000.Param‚trage de la langue de l'‚conomiseur
+:h2 res=5000.Param‚trage de la langue de l'‚conomiseur
 :p.Il est possible de modifier la langue des pages de paramŠtres de 
 l'‚conomiseur d'‚cran, ainsi que celle de certains des modules (prenant 
 en charge plusieurs langues), en glissant et d‚posant un :hp2.objet de 
@@ -286,14 +263,14 @@ l'utilisera aprŠs l'op‚ration de Glisser/D‚poser.
 .*
 .* Help for the Undo button
 .*
-:h1 res=6001.D‚faire
+:h3 res=6001.D‚faire
 :p.S‚lectionnez :hp2.D‚faire:ehp2. pour retourner aux valeurs des 
 paramŠtres qui ‚taient d‚finies avant d'ouvrir la fenˆtre. 
 :p.
 .*
 .* Help for the Default button
 .*
-:h1 res=6002.Par d‚faut
+:h3 res=6002.Par d‚faut
 :p.S‚lectionnez :hp2.Par d‚faut:ehp2. pour retourner aux valeurs des 
 paramŠtres qui ‚taient d‚finies … l'installation du systŠme. 
 :p.

@@ -23,88 +23,57 @@
 
 COM_0000="S~creen Saver";                 // Properties tab text
 COM_0001="General Screen Saver settings"; // Descriptive text for page 1
-COM_0002="DPMS settings";                 // Descriptive text for page 2
+COM_0002="Password protection";           // Descriptive text for page 2
 COM_0003="Screen Saver modules";          // Descriptive text for page 3
+COM_0004="Help";
+COM_0005="~Default";
+COM_0006="~Undo";
 
 // ---------------------------------------------------------------------------
 // Strings for page 1 of screen saver settings:
-
-PG1_FONT="9.WarpSans";
-
-PG1_0000="Help";
-PG1_0001="~Default";
-PG1_0002="~Undo";
 
 PG1_0003="General settings";
 PG1_0004="Screen saving ~enabled";
 PG1_0005="Start saver after";
 PG1_0006="minute(s) of inactivity";
+PG1_0007="Wake up by ~keyboard only";
+PG1_0008="Disable ~VIO popups while saving";
 
-PG1_0007="Password protection";
-PG1_0008="Use ~password protection";
-PG1_0009="Type your password in both entry fields (characters are not displayed). Then press the Change button.";
-PG1_0010="Password:";
-PG1_0011="(for verification)";
-PG1_0012="~Change";
-PG1_0013="~Delay password protection";
-PG1_0014="Ask password only after";
-PG1_0015="minute(s) of saving";
-PG1_0016="~Start screen saver on system startup";
-
-PG1_0017="Password mismatch";
-PG1_0018="The two passwords you've entered do not match!";
-
-// -- Added in v1.4:
-PG1_0019="Use password of current S~ecurity/2 user";
-PG1_0020="Use ~this password:";
-
-// -- Added in v1.5:
-PG1_0021="Wake up by ~keyboard only";
-
-// -- Added in v1.6:
-PG1_0022="Make the ~first keypress the first key of the password";
-
-// -- Added in v1.9:
-PG1_0023="Disable ~VIO popups while saving";
+PG1_0013="DPMS settings";
+PG1_0014="Use DPMS ~Standby state";
+PG1_0015="Switch to Standby state after";
+PG1_0016="Use DPMS S~uspend state";
+PG1_0017="Switch to Suspend state after";
+PG1_0018="Use DPMS ~Off state";
+PG1_0019="Switch to Off state after";
+PG1_0020="minute(s) of saving";
+PG1_0021="minute(s) of Standby state";
+PG1_0022="minute(s) of Suspend state";
 
 // ---------------------------------------------------------------------------
 // Strings for page 2 of screen saver settings:
 
-PG2_FONT="9.WarpSans";
-
-PG2_0000="Help";
-PG2_0001="~Default";
-PG2_0002="~Undo";
-
-PG2_0003="DPMS settings";
-PG2_0004="Use DPMS ~Standby state";
-PG2_0005="Switch to Standby state after";
-PG2_0006="Use DPMS S~uspend state";
-PG2_0007="Switch to Suspend state after";
-PG2_0008="Use DPMS ~Off state";
-PG2_0009="Switch to Off state after";
-PG2_0010="minute(s) of saving";
-PG2_0011="minute(s) of Standby state";
-PG2_0012="minute(s) of Suspend state";
+PG2_0007="Password protection";
+PG2_0008="Use ~password protection";
+PG2_0009="Type your password in both entry fields (characters are not displayed). Then press the Change button.";
+PG2_0010="Password:";
+PG2_0011="(for verification)";
+PG2_0012="~Change";
+PG2_0013="~Delay password protection";
+PG2_0014="Ask password only after";
+PG2_0015="minute(s) of saving";
+PG2_0016="~Start screen saver on system startup";
+PG2_0017="Password mismatch";
+PG2_0018="The two passwords you've entered do not match!";
+PG2_0019="Use password of current S~ecurity/2 user";
+PG2_0020="Use ~this password:";
+PG2_0022="Make the ~first keypress the first key of the password";
 
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
 
-PG3_FONT="9.WarpSans";
-
-PG3_0000="Help";
-PG3_0001="~Default";
-PG3_0002="~Undo";
-
 PG3_0003="Screen Saver modules";
 PG3_0004="Show ~preview";
-PG3_0005="Module information";
-PG3_0006="Module name:";
-PG3_0007="Module version:";
-PG3_0008="Supports password protection:";
-PG3_0009="Yes";
-PG3_0010="No";
-PG3_0011="Description:";
 PG3_0012="~Start now";
 PG3_0013="~Configure";
 
@@ -124,9 +93,6 @@ MOD_0003="~Cancel";
 MOD_0004="Wrong password"; 
 MOD_0005="An invalid password has been entered! Please try again!";
 MOD_0006="~Ok";
-
-// Font to use (for DBCS support)
-MOD_0007="9.WarpSans";
 
 // ---------------------------------------------------------------------------
 // <EOF>

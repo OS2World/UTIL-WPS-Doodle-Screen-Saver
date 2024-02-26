@@ -21,90 +21,59 @@
 // ---------------------------------------------------------------------------
 // Strings for the settings notebook:
 
-PG1_FONT="9.WarpSans";
-
 COM_0000="B~lokkeren";                       // Properties tab text
 COM_0001="Algemene blokkeringsinstellingen"; // Descriptive text for page 1
-COM_0002="DPMS instellingen";                // Descriptive text for page 2
+COM_0002="Wachtwoord beveiliging";           // Descriptive text for page 2
 COM_0003="Blokkeringsmodules";               // Descriptive text for page 3
+COM_0004="Help";
+COM_0005="~Standaard";
+COM_0006="~Beginwaarde";
 
 // ---------------------------------------------------------------------------
 // Strings for page 1 of screen saver settings:
-
-PG1_0000="Help";
-PG1_0001="~Standaard";
-PG1_0002="~Beginwaarde";
 
 PG1_0003="Algemene instellingen";
 PG1_0004="Blokk~eren ingeschakeld";
 PG1_0005="Start blokkeren na";
 PG1_0006="minu(u)t(en) van inactiviteit";
+PG1_0007="Alleen ~deblokkeren met toetsenbord";
+PG1_0008="~VIO hulpvensters tijdens het opslaan uitschakelen";
 
-PG1_0007="Wachtwoord beveiliging";
-PG1_0008="Gebruik ~wachtwoord beveiliging";
-PG1_0009="Voer uw wachtwoord in beide velden in (tekst wordt niet afgebeeld) en klik vervolgens op Wijzigen.";
-PG1_0010="Wachtwoord:";
-PG1_0011="(ter controle)";
-PG1_0012="W~ijzigen";
-PG1_0013="~Vertraagde wachtwoord beveiliging";
-PG1_0014="Vraag wachtwoord alleen na";
-PG1_0015="minu(u)t(en) van blokkeren";
-PG1_0016="Bl~okkeren bij opstarten";
-
-PG1_0017="Wachtwoorden verschillen";
-PG1_0018="De twee ingevoerde wachtwoorden komen niet overeen!";
-
-// -- Added in v1.4:
-PG1_0019="Gebruik wachtwoord van ~huidige Security/2 gebruiker";
-PG1_0020="Gebruik dit wach~twoord:";
-
-// -- Added in v1.5:
-PG1_0021="Alleen ~deblokkeren met toetsenbord";
-
-// -- Added in v1.6:
-PG1_0022="Maak de eerst ~ingetoetste karakter de eerste karakter van het wachtwoord";
-
-// -- Added in v1.9:
-PG1_0023="~VIO hulpvensters tijdens het opslaan uitschakelen";
+PG1_0013="DPMS instellingen";
+PG1_0014="Gebruik DPMS ~Waakstand";
+PG1_0015="Schakel over naar Waakstand na";
+PG1_0016="Gebruik DPMS R~uststand";
+PG1_0017="Schakel over naar Ruststand na";
+PG1_0018="Gebruik DPMS U~it status";
+PG1_0019="Schakel over naar Uit status na";
+PG1_0020="minu(u)t(en) van blokkeren";
+PG1_0021="minu(u)t(en) van Waakstand";
+PG1_0022="minu(u)t(en) van Ruststand";
 
 // ---------------------------------------------------------------------------
 // Strings for page 2 of screen saver settings:
 
-PG2_FONT="9.WarpSans";
-
-PG2_0000="Help";
-PG2_0001="~Standaard";
-PG2_0002="~Beginwaarde";
-
-PG2_0003="DPMS instellingen";
-PG2_0004="Gebruik DPMS ~Waakstand";
-PG2_0005="Schakel over naar Waakstand na";
-PG2_0006="Gebruik DPMS R~uststand";
-PG2_0007="Schakel over naar Ruststand na";
-PG2_0008="Gebruik DPMS U~it status";
-PG2_0009="Schakel over naar Uit status na";
-PG2_0010="minu(u)t(en) van blokkeren";
-PG2_0011="minu(u)t(en) van Waakstand";
-PG2_0012="minu(u)t(en) van Ruststand";
+PG2_0007="Wachtwoord beveiliging";
+PG2_0008="Gebruik ~wachtwoord beveiliging";
+PG2_0009="Voer uw wachtwoord in beide velden in (tekst wordt niet afgebeeld) en klik vervolgens op Wijzigen.";
+PG2_0010="Wachtwoord:";
+PG2_0011="(ter controle)";
+PG2_0012="W~ijzigen";
+PG2_0013="~Vertraagde wachtwoord beveiliging";
+PG2_0014="Vraag wachtwoord alleen na";
+PG2_0015="minu(u)t(en) van blokkeren";
+PG2_0016="Bl~okkeren bij opstarten";
+PG2_0017="Wachtwoorden verschillen";
+PG2_0018="De twee ingevoerde wachtwoorden komen niet overeen!";
+PG2_0019="Gebruik wachtwoord van ~huidige Security/2 gebruiker";
+PG2_0020="Gebruik dit wach~twoord:";
+PG2_0022="Maak de eerst ~ingetoetste karakter de eerste karakter van het wachtwoord";
 
 // ---------------------------------------------------------------------------
 // Strings for page 3 of screen saver settings:
 
-PG3_FONT="9.WarpSans";
-
-PG3_0000="Help";
-PG3_0001="~Standaard";
-PG3_0002="~Beginwaarde";
-
 PG3_0003="Schermbeveiligingsmodules";
 PG3_0004="Toon ~voorbeeld";
-PG3_0005="Module informatie";
-PG3_0006="Module naam:";
-PG3_0007="Module versie:";
-PG3_0008="Ondersteunt wachtwoord beveiliging:";
-PG3_0009="Ja";
-PG3_0010="Nee";
-PG3_0011="Omschrijving:";
 PG3_0012="Start ~nu";
 PG3_0013="~Instellen";
 
@@ -124,9 +93,6 @@ MOD_0003="~Annuleren";
 MOD_0004="Verkeerde wachtwoord"; 
 MOD_0005="Er is een verkeerd wachtwoord ingevoerd! Probeer het a.u.b. opnieuw!";
 MOD_0006="~Annuleren";
-
-// Font to use (for DBCS support)
-MOD_0007="9.WarpSans";
 
 // ---------------------------------------------------------------------------
 // <EOF>

@@ -1,12 +1,14 @@
 /*
  * NLS support file for the PrettyClock Screen Saver Module
  *
- * Language: General English language
- * Locales : en_*
+ * Language: Russian
+ * Locales : ru_*
  *
  * Author  : Doodle
+ *         : Yurii Zamotailo  
  *
- * Date (YYYY-MM-DD): 2005.05.28.
+ * Date (YYYY-MM-DD): 2005.05.28
+ *                  : 2023-12-13
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -22,15 +24,15 @@
 // ---------------------------------------------------------------------------
 // Strings for the Configuration dialog:
 
-CFG_0001="Настройка модуля Часы";         // Window title
-CFG_0002="Оболочки";                      // Groupbox text
-CFG_0003="Выберите, какую о~болочку использовать:";  // Help text inside the groupbox
-CFG_0004="~Ok";                           // Ok button
-CFG_0005="О~тмена";                       // Cancel button
+CFG_0001="Часы - Настройки";                        // Window title
+CFG_0002="Оформление внешнего вида часов";          // Groupbox text
+CFG_0003="Выберите обложку (скин):";                // Text inside the groupbox
+CFG_0004="~Ok";                                     // Ok button
+CFG_0005="О~тменить";                               // Cancel button
 
-CFG_0006="<Без оболочки>";                // Text to show in listbox for 
+CFG_0006="<Без обложки>";                 // Text to show in listbox for 
                                           // no-skin entry
-CFG_0007="<Без имени>";                   // Text to show in listbox when
+CFG_0007="<Без названия>";                // Text to show in listbox when
                                           // there is no name of skin defined
                                           // in skin file
 
@@ -38,7 +40,7 @@ CFG_0007="<Без имени>";                   // Text to show in listbox when
 // The name and the description string of the module:
 
 MOD_NAME="Часы";
-MOD_DESC="Этот модуль показывает плавающие по экрану часы. Вид часов можно менять, выбирая разные оболочки.\nИспользует zlib v%1s и libpng v%2s.\nАвтор: Doodle";
+MOD_DESC="Этот модуль показывает плавающие по экрану часы.\nВид часов можно менять, выбирая разные обложки (скины).\nИспользует zlib v%1s и libpng v%2s.\n\nАвтор: Doodle";
 
 // ---------------------------------------------------------------------------
 // <EOF>

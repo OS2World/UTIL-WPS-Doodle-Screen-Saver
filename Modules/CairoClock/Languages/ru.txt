@@ -5,8 +5,10 @@
  * Locales : ru_*
  *
  * Author  : Yuri Proniakin
+ *         : Yurii Zamotailo
  *
- * Date (YYYY-MM-DD): 2006.02.21.
+ * Date (YYYY-MM-DD): 2006.02.21
+ *                  : 2023-12-13
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -22,18 +24,18 @@
 // ---------------------------------------------------------------------------
 // Strings for the Configuration dialog:
 
-CFG_0001="Настройка модуля Часы Cairo";            // Window title
+CFG_0001="Часы Cairo - Настройки";                // Window title
 
-CFG_0002="Визуальные режимы";                      // Groupbox
+CFG_0002="Варианты визуализации";                 // Groupbox
 
-CFG_0003="~Дата";                                  // Checkbox
-CFG_0004="~Цифровые часы";                         // Checkbox
-CFG_0005="Двигать часы по ~экрану";                // Checkbox
-CFG_0006="~Размер часов";                          // Static
-CFG_0007="% экрана";                               // Static
+CFG_0003="~Дата";                                 // Checkbox
+CFG_0004="~Цифровые часы";                        // Checkbox
+CFG_0005="~Перемещение по экрану";                // Checkbox
+CFG_0006="Размер часов";                          // Static
+CFG_0007="% экрана";                              // Static
 
-CFG_0008="~Ok";                                    // Ok button
-CFG_0009="О~тмена";                                // Cancel button
+CFG_0008="~Ok";                                   // Ok button
+CFG_0009="О~тменить";                             // Cancel button
 
 
 // ---------------------------------------------------------------------------
@@ -47,7 +49,7 @@ MOD_DATE="%%a, %%d %%b %%Y";
 // The name and the description string of the module:
 
 MOD_NAME="Часы Cairo";
-MOD_DESC="Часы и текущая дата.\nИспользуется библиотека Cairo.";
+MOD_DESC="Часы и текущая дата.\n\nИспользуется библиотека Cairo.";
 
 // ---------------------------------------------------------------------------
 // <EOF>

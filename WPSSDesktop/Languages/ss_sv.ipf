@@ -18,12 +18,10 @@
 :userdoc.
 .*
 .*--------------------------------------------------------------*\
-.*  Help for Page 1 of the Screen Saver
+.* General help for the page
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h1 res=1000.Sk„rmsl„ckare
+:h1 res=4000.Sk„rmsl„ckare
 :p.Den f”rsta sidan hos :hp2.Sk„rmsl„ckarens:ehp2. inst„llningar „r
 sidan f”r :hp2.Allm„nna inst„llningar:ehp2.. Detta „r platsen
 d„r de vanligaste inst„llningarna hos sk„rmsl„ckaren kan „ndras, som
@@ -36,15 +34,20 @@ h„r:elink..
 :p.
 F”r en detaljerad f”rklaring av varje f„lt, v„lj fr†n listan nedanf”r:
 :ul compact.
-:li.:link reftype=hd res=1001.Allm„nna inst„llningar:elink.
-:li.:link reftype=hd res=1002.L”senordsskydd:elink.
-:li.:link reftype=hd res=6001.ngra:elink.
-:li.:link reftype=hd res=6002.Standard:elink.
+:li.:link reftype=hd res=1000.Allm„nna inst„llningar:elink.
+:li.:link reftype=hd res=1001.DPMS inst„llningar:elink.
+:li.:link reftype=hd res=2000.L”senordsskydd:elink.
+:li.:link reftype=hd res=3000.Sk„rmsl„ckarmoduler:elink.
 :eul.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 1 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Help for General settings groupbox
 .*
-:h1 res=1001.Allm„nna inst„llningar
+:h2 res=1000.Allm„nna inst„llningar
 :p.V„lj :hp2.Sk„rmsl„ckare aktiverad:ehp2. f”r att aktivera sk„rmsl„ckaren. N„r den
 „r aktiverad, monitorerar systemet anv„ndaraktiviteten 
 (mus och tangentbordsaktivitet p† Skrivbordet),
@@ -65,10 +68,53 @@ applikationer kommer att kunna ta ”ver sk„rm och inmatningsenheter, inte
 ens CAD-hanteraren eller andra liknade applikationer. Detta kan eventuellt hindra anv„ndaren
 fr†n att d”da n†gra h„ngande applikationer medan sk„rmsl„ckaren „r ig†ng, men det
 g”r systemet s„krare.
+
+:p.:link reftype=hd res=1001.DPMS inst„llningar:elink.
+
+.*
+.* Help for DPMS settings groupbox
+.*
+:h2 res=1001.DPMS inst„llningar
+:p.Dessa inst„llningar „r endast tillg„ngliga om videodrivrutinen st”der DPMS (f”r n„rvarande „r det endast
+tillg„ngligt med Scitech SNAP), och monitorn kan hantera DPMS.
+:p.Det finns fyra energisparl„gen f”r monitorer, i enlighet med DPMS standarden. Dessa „r f”ljande,
+startande fr†n de minst energisparande l„gena:
+:ol.
+:li.L„get :hp2.P†:ehp2.. Detta „r l„get d„r monitorn „r p†slagen, 
+och fungerar normalt.
+:li.L„get :hp2.Stand-by:ehp2.. Monitorn „r delvis avslagen h„r, men 
+kan v„ldigt snabbt †terh„mtas fr†n detta l„ge.
+:li.L„get :hp2.Suspendera:ehp2.. I detta l„ge „r monitorn n„stan 
+helt avslagen.
+:li.L„get :hp2.Av:ehp2.. Monitorn „r avslagen i detta l„ge.
+:eol.
+:p.Sk„rmsl„ckaren startar alltid fr†n det f”rsta l„get, och g†r till mer och mer energisparande l„gen i takt
+med att tiden g†r.
+:p.Sk„rmsl„ckaren kommer endast att anv„nda de l„gen som „r valda h„r, och v„xla till n„sta l„ge efter den tid som
+angivits f”r detta l„ge.
+
+:p.:link reftype=hd res=1002.Information om DPMS:elink.
+:p.:link reftype=hd res=1000.Allm„nna inst„llningar:elink.
+
+.*
+.* Info about DPMS itself
+.*
+
+:h3 res=1002.Information om DPMS
+:p.DPMS „r en f”rkortning f”r :hp2.Display Power Management Signaling:ehp2., en VESA interfacestandard som definierar
+fyra energisparl„gen f”r monitorer som „r vilande: p†, stand-by, suspendera och av.
+
+:p.:link reftype=hd res=1001.DPMS inst„llningar:elink.
+:p.:link reftype=hd res=1000.Allm„nna inst„llningar:elink.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 2 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Help for Password protection groupbox
 .*
-:h1 res=1002.L”senordsskydd
+:h2 res=2000.L”senordsskydd
 :p.V„lj :hp2.Anv„nd l”senordsskydd:ehp2. f”r att aktivera l”senordsskydd hos sk„rmsl„ckaren. Om
 l”senordsskyddet „r aktiverat, kommer sk„rmsl„ckaren att fr†ga efter ett l”senord innan
 sk„rmsl„ckningen avbryts, och kommer endast 
@@ -101,89 +147,17 @@ sk„rmsl„ckaren n„r systemet startas.
 Sk„rmsl„ckaren kommer inte att f”rdr”ja l”senordsskydd om den startas p† beg„ran av anv„ndaren (genom
 att v„lja menyalternativet :hp2.L†s nu:ehp2. fr†n popupmenyn hos Skrivbordet), eller om den startas under
 systemets startsekvens.
-.*
-.*--------------------------------------------------------------*\
-.*  Help for Page 2 of the Screen Saver
-.*--------------------------------------------------------------*/
-.*
-.* General help for the page
-.*
-:h1 res=2000.Sk„rmsl„ckare
-:p.Den andra sidan hos :hp2.Sk„rmsl„ckar:ehp2. inst„llningarna „r sidan
-med :hp2.DPMS inst„llningar:ehp2.. Detta „r platsen d„r du 
-kan tala om f”r sk„rmsl„ckaren att anv„nda en annan 
-:link reftype=hd res=2002.
-DPMS:elink. service eller inte, om de finns tillg„ngliga.
-:p.
-ndra spr†k hos sk„rmsl„ckaren „r m”jligt genom att dra och sl„ppa ett
-Lokalobjekt p† den h„r sidan. Mer om detta kan hittas 
-:link reftype=hd res=5000.
-h„r:elink..
-:p.
-F”r en detaljerad f”rklaring av varje f„lt, v„lj fr†n listan nedanf”r:
-:ul compact.
-:li.:link reftype=hd res=2001.DPMS inst„llningar:elink.
-:li.:link reftype=hd res=6001.ngra:elink.
-:li.:link reftype=hd res=6002.Standard:elink.
-:eul.
-.*
-.* Help for DPMS settings groupbox
-.*
-:h1 res=2001.DPMS inst„llningar
-:p.Dessa inst„llningar „r endast tillg„ngliga om videodrivrutinen st”der DPMS (f”r n„rvarande „r det endast
-tillg„ngligt med Scitech SNAP), och monitorn kan hantera DPMS.
-:p.Det finns fyra energisparl„gen f”r monitorer, i enlighet med DPMS standarden. Dessa „r f”ljande,
-startande fr†n de minst energisparande l„gena:
-:ol.
-:li.L„get :hp2.P†:ehp2.. Detta „r l„get d„r monitorn „r p†slagen, 
-och fungerar normalt.
-:li.L„get :hp2.Stand-by:ehp2.. Monitorn „r delvis avslagen h„r, men 
-kan v„ldigt snabbt †terh„mtas fr†n detta l„ge.
-:li.L„get :hp2.Suspendera:ehp2.. I detta l„ge „r monitorn n„stan 
-helt avslagen.
-:li.L„get :hp2.Av:ehp2.. Monitorn „r avslagen i detta l„ge.
-:eol.
-:p.Sk„rmsl„ckaren startar alltid fr†n det f”rsta l„get, och g†r till mer och mer energisparande l„gen i takt
-med att tiden g†r.
-:p.Sk„rmsl„ckaren kommer endast att anv„nda de l„gen som „r valda h„r, och v„xla till n„sta l„ge efter den tid som
-angivits f”r detta l„ge.
-.*
-.* Info about DPMS itself
-.*
 
-:h1 res=2002.Information om DPMS
-:p.DPMS „r en f”rkortning f”r :hp2.Display Power Management Signaling:ehp2., en VESA interfacestandard som definierar
-fyra energisparl„gen f”r monitorer som „r vilande: p†, stand-by, suspendera och av.
+
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for Page 3 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h1 res=3000.Sk„rmsl„ckare
-:p.Den tredje sidan med :hp2.Sk„rmsl„ckar:ehp2. inst„llningar 
-„r sidan f”r :hp2.Sk„rmsl„ckarmoduler:ehp2.. Detta „r platsen
-d„r listan ”ver tillg„ngliga sk„rmsl„ckar 
-:link reftype=hd res=3002.
-moduler:elink. kan ses, dessa moduler kan konfigureras,
-en modul kan v„ljas f”r att vara den aktuella sk„rmsl„ckarmodulen.
-:p.
-ndra spr†k hos sk„rmsl„ckaren „r m”jligt genom att dra och sl„ppa ett
-Lokalobjekt p† den h„r sidan. Mer om detta kan hittas 
-:link reftype=hd res=5000.
-h„r:elink..
-:p.
-F”r en detaljerad f”rklaring av varje f„lt, v„lj fr†n listan nedanf”r:
-:ul compact.
-:li.:link reftype=hd res=3001.Sk„rmsl„ckarmoduler:elink.
-:li.:link reftype=hd res=6001.ngra:elink.
-:li.:link reftype=hd res=6002.Standard:elink.
-:eul.
-.*
 .* Help for Screen Saver modules groupbox
 .*
-:h1 res=3001.Sk„rmsl„ckarmoduler
+:h2 res=3000.Sk„rmsl„ckarmoduler
 :p.Den h„r sidan visar en lista ”ver tillg„ngliga sk„rmsl„ckarmoduler, och ger information
 om den f”r n„rvarande valda modulen.
 :p.Den aktuella modulen „r den som „r vald fr†n listan ”ver tillg„ngliga 
@@ -203,13 +177,19 @@ modulspecifik konfigurationsdialog.
 :p.Knappen :hp2.Starta nu:ehp2. kan anv„ndas f”r att se om den aktuella modulen skulle bete sig med alla
 aktuella inst„llningar hos sk„rmsl„ckaren (inkluderande inst„llningarna p† de andra sk„rmsl„ckarsidorna,
 som :hp2.F”rdr”jt l”senordsskydd:ehp2. och andra).
+
+:p.:link reftype=hd res=3001.Moduler:elink.
+
 .*
 .* Help about Screen Saver modules
 .*
-:h1 res=3002.Moduler
+:h3 res=3001.Moduler
 :p.En sk„rmsl„ckarmodul best†r av en eller flera special DLL fil(er), 
 i katalogen :hp3.Modules:ehp3. under
 hemkatalogen hos sk„rmsl„ckaren. Den startas n„r sk„rmsl„ckaren skall startas.
+
+:p.:link reftype=hd res=3000.Sk„rmsl„ckarmoduler:elink.
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for setting the language of the screen saver
@@ -217,7 +197,7 @@ hemkatalogen hos sk„rmsl„ckaren. Den startas n„r sk„rmsl„ckaren skall startas.
 .*
 .* Help for setting the language
 .*
-:h1 res=5000.St„lla in spr†ket hos sk„rmsl„ckaren
+:h2 res=5000.St„lla in spr†ket hos sk„rmsl„ckaren
 :p.Det „r m”jligt att „ndra spr†ket hos sk„rmsl„ckarens inst„llningssidor och spr†ket hos vissa
 sk„rmsl„ckarmoduler (vilka st”der NLS) genom att dra och 
 sl„ppa ett :hp2.Lokalobjekt:ehp2. fr†n:hp2.Spr†kpaletten:ehp2..
@@ -241,13 +221,13 @@ till det spr†ket, och anv„nda spr†ket efter detta.
 .*
 .* Help for the Undo button
 .*
-:h1 res=6001.ngra
+:h3 res=6001.ngra
 :p.V„lj :hp2.ngra:ehp2. f”r att „ndra inst„llningarna till de 
 som var aktiva innan detta f”nster visades.
 .*
 .* Help for the Default button
 .*
-:h1 res=6002.Standard
+:h3 res=6002.Standard
 :p.V„lj :hp2.Standard:ehp2. f”r att „ndra inst„llningarna 
 till de som var aktiva n„r du installerade systemet.
 :euserdoc.

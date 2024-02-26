@@ -17,15 +17,13 @@
 .*==============================================================*/
 .*
 :userdoc.
-:font facename='MINCHO System'.
+.*
 .*--------------------------------------------------------------*\
-.*  Help for Page 1 of the Screen Saver
+.* General help for the page
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:font facename=Helv Combined size=10x10.
-:h1 res=1000.螢幕保護程式
+:h1 res=4000.螢幕保護程式
+:font facename='MINCHO System'.
 :p.:color fc=pink.:hp2.螢幕保護程式:ehp2.:color fc=default.的第一頁設定是
 :color fc=pink.:hp2.一般螢幕保護程式設定:ehp2.:color fc=default.頁。 
 這是變更螢幕保護程式最一般性設定的地方，
@@ -39,15 +37,20 @@
 :p.
 關於每個欄位的詳細解釋，請從下面列表選擇：
 :ul compact.
-:li.:link reftype=hd res=1001.一般設定:elink.
-:li.:link reftype=hd res=1002.密碼保護:elink.
-:li.:link reftype=hd res=6001.還原:elink.
-:li.:link reftype=hd res=6002.預設值:elink.
+:li.:link reftype=hd res=1000.一般設定:elink.
+:li.:link reftype=hd res=1001.DPMS 設定:elink.
+:li.:link reftype=hd res=2000.密碼保護:elink.
+:li.:link reftype=hd res=3000.螢幕保護程式模組:elink.
 :eul.
+
+.*--------------------------------------------------------------*\
+.*  Help for Page 1 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Help for General settings groupbox
 .*
-:h1 res=1001.一般設定
+:h2 res=1000.一般設定
+:font facename='MINCHO System'.
 :p.選取:color fc=pink.:hp2.使用螢幕保護程式:ehp2.:color fc=default.啟用此螢幕保護程式。
 當此功能開啟時，系統將監視使用者的動作（桌面滑鼠和鍵盤的動作）， 
 .br
@@ -63,10 +66,56 @@
 當電腦處於震動的環境中，或是因其他原因不適合由碰觸滑鼠停止螢幕保護程式運作時，
 .br
 此項功能將很有用處。
+
+:p.:link reftype=hd res=1001.DPMS 設定:elink.
+
+.*
+.* Help for DPMS settings groupbox
+.*
+:h2 res=1001.DPMS 設定
+:font facename='MINCHO System'.
+:p.當顯示驅動程式和螢幕都支援 DPMS (目前僅有 Scitech SNAP 支援) 時，
+此設定才能使用。
+:p.目前針對螢幕有四種電源保護狀態，都是依據 DPMS 標準。
+下列是按照省電最少到最多的次序排列狀態：
+:ol.
+:li.:color fc=pink.:hp2.開啟狀態:ehp2.:color fc=default.。這是螢幕打開時的狀態， 
+一般的工作情形。
+:li.:color fc=pink.:hp2.待機狀態:ehp2.:color fc=default.。這時螢幕會暫時關閉，但 
+可以非常快速回復。
+:li.:color fc=pink.:hp2.暫歇狀態:ehp2.:color fc=default.。這時螢幕幾乎是完全
+關閉狀態。
+:li.:color fc=pink.:hp2.關閉狀態:ehp2.:color fc=default.。這時螢幕是關閉的狀態。
+:eol.
+:p.螢幕保護程式總是由第一個狀態，然後一步步隨著時間
+進入更多的省電狀態。
+:p.螢幕保護程式僅會使用所選取的狀態，並且按著
+設定的時間切換至下個狀態。
+
+:p.:link reftype=hd res=1002.關於 DPMS 的資訊:elink.
+:p.:link reftype=hd res=1000.一般設定:elink.
+
+.*
+.* Info about DPMS itself
+.*
+:h3 res=1002.關於 DPMS 的資訊
+:font facename='MINCHO System'.
+:p.DPMS 是 :color fc=pink.:hp2.Display Power Management Signaling:ehp2.:color fc=default. 的縮寫，一種 VESA 介面標準，
+.br
+可定義四種螢幕怠機狀態電源管理模式： 開啟、待機、暫歇和關閉。
+
+:p.:link reftype=hd res=1001.DPMS 設定:elink.
+:p.:link reftype=hd res=1000.一般設定:elink.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 2 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Help for Password protection groupbox
 .*
-:h1 res=1002.密碼保護
+:h2 res=2000.密碼保護
+:font facename='MINCHO System'.
 :p.選取:color fc=pink.:hp2.使用密碼保護:ehp2.:color fc=default.以啟動螢幕保護程式的密碼保護。
 .br
 如果密碼保護功能開啟，螢幕保護程式就會在螢幕保護作用終止前詢問密碼，
@@ -105,91 +154,18 @@
 選單項目），
 .br
 或是由系統啟動順序開啟時，就不會延遲密碼保護。
-.*
-.*--------------------------------------------------------------*\
-.*  Help for Page 2 of the Screen Saver
-.*--------------------------------------------------------------*/
-.*
-.* General help for the page
-.*
-:h1 res=2000.螢幕保護程式
-:p.:color fc=pink.:hp2.螢幕保護程式:ehp2.:color fc=default.的第二頁設定，是
-:color fc=pink.:hp2.DPMS 設定:ehp2.:color fc=default.頁面。這裡可以告訴 
-螢幕保護程式，若是可行的話，
-.br
-可以自定是否使用不同的
-:link reftype=hd res=2002.
-DPMS:elink.服務。
-:p.
-變更螢幕保護程式的語言可以使用拖曳一個語言環境物件到此頁面。
-更多的訊息可以在
-:link reftype=hd res=5000.
-這裡:elink.找到。
-:p.
-關於每個欄位的詳細解釋，請從下面列表選擇：
-:ul compact.
-:li.:link reftype=hd res=2001.DPMS 設定:elink.
-:li.:link reftype=hd res=6001.還原:elink.
-:li.:link reftype=hd res=6002.預設值:elink.
-:eul.
-.*
-.* Help for DPMS settings groupbox
-.*
-:h1 res=2001.DPMS 設定
-:p.當顯示驅動程式和螢幕都支援 DPMS (目前僅有 Scitech SNAP 支援) 時，
-此設定才能使用。
-:p.目前針對螢幕有四種電源保護狀態，都是依據 DPMS 標準。
-下列是按照省電最少到最多的次序排列狀態：
-:ol.
-:li.:color fc=pink.:hp2.開啟狀態:ehp2.:color fc=default.。這是螢幕打開時的狀態， 
-一般的工作情形。
-:li.:color fc=pink.:hp2.待機狀態:ehp2.:color fc=default.。這時螢幕會暫時關閉，但 
-可以非常快速回復。
-:li.:color fc=pink.:hp2.暫歇狀態:ehp2.:color fc=default.。這時螢幕幾乎是完全
-關閉狀態。
-:li.:color fc=pink.:hp2.關閉狀態:ehp2.:color fc=default.。這時螢幕是關閉的狀態。
-:eol.
-:p.螢幕保護程式總是由第一個狀態，然後一步步隨著時間
-進入更多的省電狀態。
-:p.螢幕保護程式僅會使用所選取的狀態，並且按著
-設定的時間切換至下個狀態。
-.*
-.* Info about DPMS itself
-.*
-:h1 res=2002.關於 DPMS 的資訊
-:p.DPMS 是 :color fc=pink.:hp2.Display Power Management Signaling:ehp2.:color fc=default. 的縮寫，一種 VESA 介面標準，
-.br
-可定義四種螢幕怠機狀態電源管理模式： 開啟、待機、暫歇和關閉。
+
+
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for Page 3 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h1 res=3000.螢幕保護程式
-:p.:color fc=pink.:hp2.螢幕保護程式:ehp2.:color fc=default.的第三頁設定，是
-:color fc=pink.:hp2.螢幕保護程式模組:ehp2.:color fc=default.頁面。這裡可以
-看見可使用的螢幕保護程式
-:link reftype=hd res=3002.
-模組:elink.列表。
-.br
-這些模組都能架構，可以選取其中一個模組，成為目前的螢幕保護程式模組。
-:p.
-變更螢幕保護程式的語言可以藉由拖曳一個語言環境物件到此頁面。更多相關資訊可以在
-:link reftype=hd res=5000.
-這裡:elink.找到。
-:p.
-關於每個欄位的詳細解釋，請從下面列表選擇：
-:ul compact.
-:li.:link reftype=hd res=3001.螢幕保護程式模組:elink.
-:li.:link reftype=hd res=6001.還原:elink.
-:li.:link reftype=hd res=6002.預設值:elink.
-:eul.
-.*
 .* Help for Screen Saver modules groupbox
 .*
-:h1 res=3001.螢幕保護程式模組
+:h2 res=3000.螢幕保護程式模組
+:font facename='MINCHO System'.
 :p.此頁面顯示可使用的螢幕保護程式模組列表，
 和顯示關於目前所選取模組的資訊。
 :p.目前選取的模組，是在可使用的模組
@@ -211,14 +187,21 @@ DPMS:elink.服務。
 設定，
 .br
 如:color fc=pink.:hp2.延遲密碼保護:ehp2.:color fc=default.和其他的)。
+
+:p.:link reftype=hd res=3001.模組:elink.
+
 .*
 .* Help about Screen Saver modules
 .*
-:h1 res=3002.模組
+:h3 res=3001.模組
+:font facename='MINCHO System'.
 :p.螢幕保護模組是一個或多個特殊的 DLL 檔，置放於 
 螢幕保護程式主目錄中的 :color fc=pink.:hp3.Modules:ehp3.:color fc=default. 資料夾。
 .br
 當螢幕保護程式啟動時，模組就會開啟。
+
+:p.:link reftype=hd res=3000.螢幕保護程式模組:elink.
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for setting the language of the screen saver
@@ -226,7 +209,8 @@ DPMS:elink.服務。
 .*
 .* Help for setting the language
 .*
-:h1 res=5000.設定此螢幕保護程式的語言
+:h2 res=5000.設定此螢幕保護程式的語言
+:font facename='MINCHO System'.
 :p.你可以變更螢幕保護程式設定頁的語系，和某些螢幕保護程式模組的語系（支援 NLS ）, 從
 :color fc=pink.:hp2.國別選用區:ehp2.:color fc=default.使用拖拉
 .br
@@ -254,13 +238,15 @@ DPMS:elink.服務。
 .*
 .* Help for the Undo button
 .*
-:h1 res=6001.還原
+:h3 res=6001.還原
+:font facename='MINCHO System'.
 :p.選取:hp2.「還原」:ehp2.以變更在此視窗顯示之前
 已生效的設定。
 .*
 .* Help for the Default button
 .*
-:h1 res=6002.預設值
+:h3 res=6002.預設值
+:font facename='MINCHO System'.
 :p.選取:hp2.「預設值」:ehp2.以變更當你安裝在此系統時
 已生效的設定。
 :euserdoc.

@@ -18,12 +18,10 @@
 :userdoc.
 .*
 .*--------------------------------------------------------------*\
-.*  Help for Page 1 of the Screen Saver
+.* General help for the page
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h1 res=1000.Blokkeren
+:h1 res=4000.Blokkeren
 :p.De eerste pagina van de :hp2.Blokkeren:ehp2. instellingen is de
 :hp2.Algemene blokkeringsinstellingen:ehp2. pagina. Dit is de plaats
 waar de meest gebruikte instellingen van de scherm beveiliger aangepast kunnen
@@ -38,15 +36,19 @@ hier:elink. gevonden worden.
 Voor een gedetailleerde verklaring van elk veld kunt u uit de onderstaande
 lijst selecteren:
 :ul compact.
-:li.:link reftype=hd res=1001.Algemene instellingen:elink.
-:li.:link reftype=hd res=1002.Wachtwoord beveiliging:elink.
-:li.:link reftype=hd res=6001.Beginwaarde:elink.
-:li.:link reftype=hd res=6002.Standaard:elink.
+:li.:link reftype=hd res=1000.Algemene instellingen:elink.
+:li.:link reftype=hd res=1001.DPMS instellingen:elink.
+:li.:link reftype=hd res=2000.Wachtwoord beveiliging:elink.
+:li.:link reftype=hd res=3000.Blokkeringsmodules:elink.
 :eul.
+
+.*--------------------------------------------------------------*\
+.*  Help for Page 1 of the Screen Saver
+.*--------------------------------------------------------------*/
 .*
 .* Help for General settings groupbox
 .*
-:h1 res=1001.Algemene instellingen
+:h2 res=1000.Algemene instellingen
 :p.Selecteer :hp2.Blokkeren ingeschakeld:ehp2. om de scherm beveiliging te activeren.
 Zolang het geactiveerd is, zal het systeem de gebruikersactiviteit in de gaten houden (muis en
 toetsenbord activiteit op de Werkplek), en zal de scherm beveiliging automatisch starten
@@ -67,10 +69,55 @@ Dit betekent dat andere programma's het scherm en de invoerapparatuur niet kunne
 niet de CAD-verwerker of gelijksoortige programma's. Dit kan de gebruiker de mogelijkheid
 ontnemen om vastzittende programma's te onderbreken als de scherm beveiliging actief is,
 maar het maakt het systeem wel veiliger.
+
+:p.:link reftype=hd res=1001.DPMS instellingen:elink.
+
+.*
+.* Help for DPMS settings groupbox
+.*
+:h2 res=1001.DPMS instellingen
+:p.Deze instellingen zijn alleen beschikbaar als zowel het videokaart stuurprogramma DPMS
+ondersteunt (momenteel is dat alleen Scitech SNAP) alsook het beeldscherm DPMS geschikt is.
+:p.Er zijn vier energie besparingsstanden voor de beeldschermen, conform de DPMS standaard.
+Dit zijn de volgende, beginnende bij de minst besparende energie modus:
+:ol.
+:li.De :hp2.aan stand:ehp2.. Dit is de stand waarin het beeldscherm aan staat, 
+en normaal werkt.
+:li.De :hp2.waakstand:ehp2.. Het beeldscherm is hier deels uitgeschakeld, maar kan
+snel hersteld worden vanuit deze stand.
+:li.De :hp2.ruststand:ehp2.. Dit is de stand waarin het beeldscherm bijna volledig uit
+staat.
+:li.De :hp2.uit stand:ehp2. Het beeldscherm staat uit in deze stand.
+:eol.
+:p.De scherm beveiliging begint altijd in de eerste stand, en schakelt over naar meer
+en meer energie besparende standen naarmate de tijd verstrijkt.
+:p.De scherm beveiliging zal alleen die standen gebruiken die hier geselecteerd zijn,
+en overgaan naar de volgende stand na het verstrijken van de opgegeven tijd voor de
+voorgaande stand.
+
+:p.:link reftype=hd res=1002.Informatie over DPMS:elink.
+:p.:link reftype=hd res=1000.Algemene instellingen:elink.
+
+.*
+.* Info about DPMS itself
+.*
+:h3 res=1002.Informatie over DPMS
+:p.DPMS is de afkorting van :hp2.Display Power Management Signaling:ehp2., een VESA
+interface standaard dat vier stroom besparende modi definieert voor beeldschermen in
+een wacht status: aan, Waakstand, Ruststand en Uit.
+
+:p.:link reftype=hd res=1001.DPMS instellingen:elink.
+:p.:link reftype=hd res=1000.Algemene instellingen:elink.
+
+.*
+.*--------------------------------------------------------------*\
+.*  Help for Page 2 of the Screen Saver
+.*--------------------------------------------------------------*/
+.*
 .*
 .* Help for Password protection groupbox
 .*
-:h1 res=1002.Wachtwoord beveiliging
+:h2 res=2000.Wachtwoord beveiliging
 :p.Selecteer :hp2.Gebruik wachtwoord beveiliging:ehp2. om de wachtwoord beveiliging
 van de scherm beveiliging te activeren. Als de wachtwoord beveiliging ingeschakeld is,
 zal de scherm beveiliging vragen om een wachtwoord voordat het stopt met het blokkeren
@@ -110,93 +157,15 @@ De scherm beveiliging zal geen wachttijd voor de wachtwoord beveiliging gebruike
 door een gebruikersverzoek gestart is (door selectie van de :hp2.Blokkeren:ehp2.
 menu optie vanuit het popup menu van de Werkplek), of als het gestart is in het
 systeem opstart proces.
-.*
-.*--------------------------------------------------------------*\
-.*  Help for Page 2 of the Screen Saver
-.*--------------------------------------------------------------*/
-.*
-.* General help for the page
-.*
-:h1 res=2000.Blokkeren
-:p.De tweede pagina van de :hp2.Blokkeren:ehp2. instellingen
-is de :hp2.DPMS instellingen:ehp2. pagina. Dit is de plaats waar u
-kunt aangeven dat de scherm beveiliging verschillende
-:link reftype=hd res=2002.
-DPMS:elink. diensten dient te gebruiken (of niet), als die beschikbaar
-zijn.
-:p.
-Het wijzigen van de taal van de scherm beveiliging is mogelijk door het
-slepen en loslaten van een Locale object op deze pagina. Meer hierover
-kan :link reftype=hd res=5000.
-hier:elink. gevonden worden.
-:p.
-Voor een gedetailleerde verklaring van elk veld kunt u uit de onderstaande
-lijst selecteren:
-:ul compact.
-:li.:link reftype=hd res=2001.DPMS instellingen:elink.
-:li.:link reftype=hd res=6001.Beginwaarde:elink.
-:li.:link reftype=hd res=6002.Standaard:elink.
-:eul.
-.*
-.* Help for DPMS settings groupbox
-.*
-:h1 res=2001.DPMS instellingen
-:p.Deze instellingen zijn alleen beschikbaar als zowel het videokaart stuurprogramma DPMS
-ondersteunt (momenteel is dat alleen Scitech SNAP) alsook het beeldscherm DPMS geschikt is.
-:p.Er zijn vier energie besparingsstanden voor de beeldschermen, conform de DPMS standaard.
-Dit zijn de volgende, beginnende bij de minst besparende energie modus:
-:ol.
-:li.De :hp2.aan stand:ehp2.. Dit is de stand waarin het beeldscherm aan staat, 
-en normaal werkt.
-:li.De :hp2.waakstand:ehp2.. Het beeldscherm is hier deels uitgeschakeld, maar kan
-snel hersteld worden vanuit deze stand.
-:li.De :hp2.ruststand:ehp2.. Dit is de stand waarin het beeldscherm bijna volledig uit
-staat.
-:li.De :hp2.uit stand:ehp2. Het beeldscherm staat uit in deze stand.
-:eol.
-:p.De scherm beveiliging begint altijd in de eerste stand, en schakelt over naar meer
-en meer energie besparende standen naarmate de tijd verstrijkt.
-:p.De scherm beveiliging zal alleen die standen gebruiken die hier geselecteerd zijn,
-en overgaan naar de volgende stand na het verstrijken van de opgegeven tijd voor de
-voorgaande stand.
-.*
-.* Info about DPMS itself
-.*
-:h1 res=2002.Informatie over DPMS
-:p.DPMS is de afkorting van :hp2.Display Power Management Signaling:ehp2., een VESA
-interface standaard dat vier stroom besparende modi definieert voor beeldschermen in
-een wacht status: aan, Waakstand, Ruststand en Uit.
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for Page 3 of the Screen Saver
 .*--------------------------------------------------------------*/
 .*
-.* General help for the page
-.*
-:h1 res=3000.Blokkeren
-:p.De derde pagina van de :hp2.Blokkeren:ehp2. instellingen is de
-:hp2.Blokkeringsmodules:ehp2. pagina. Dit is de plaats waar u de
-lijst met beschikbare 
-:link reftype=hd res=3002.
-blokkeringsmodules:elink. kunt vinden. Deze modules kunnen ingesteld worden,
-en een module kan geselecteerd worden als de huidige blokkeringsmodule.
-:p.
-Het wijzigen van de taal van de scherm beveiliging is mogelijk door het
-slepen en loslaten van een Locale object op deze pagina. Meer hierover
-kan :link reftype=hd res=5000.
-hier:elink. gevonden worden.
-:p.
-Voor een gedetailleerde verklaring van elk veld kunt u uit de onderstaande
-lijst selecteren:
-:ul compact.
-:li.:link reftype=hd res=3001.Blokkeringsmodules:elink.
-:li.:link reftype=hd res=6001.Beginwaarde:elink.
-:li.:link reftype=hd res=6002.Standaard:elink.
-:eul.
-.*
 .* Help for Screen Saver modules groupbox
 .*
-:h1 res=3001.Blokkeringsmodules
+:h2 res=3000.Blokkeringsmodules
 :p.Deze pagina laat de lijst met beschikbare blokkeringsmodules zien,
 en laat informatie zien over de momenteel geselecteerde module.
 :p.De momenteel geselecteerde module is degene die geselecteerd is vanuit
@@ -217,14 +186,20 @@ een module specifiek configuratie scherm te voorschijn komen.
 zich gedraagt met alle huidige instellingen van de scherm beveiliging (inclusief de
 instellingen van de andere blokkeringspagina's, zoals :hp2.Vertraagde wachtwoord
 beveiliging:ehp2. en anderen).
+
+:p.:link reftype=hd res=3001.Modules:elink.
+
 .*
 .* Help about Screen Saver modules
 .*
-:h1 res=3002.Modules
+:h3 res=3001.Modules
 :p.Een blokkeringsmodule is/zijn ‚‚n of meer speciale DLL bestand(en),
 in de :hp3.Modules:ehp3. map binnen de basis directory van de scherm
 beveiliging. Het wordt gestart als de scherm beveiliging gestart zou
 moeten worden.
+
+:p.:link reftype=hd res=3000.Blokkeringsmodules:elink.
+
 .*
 .*--------------------------------------------------------------*\
 .*  Help for setting the language of the screen saver
@@ -232,7 +207,7 @@ moeten worden.
 .*
 .* Help for setting the language
 .*
-:h1 res=5000.Het instellen van de taal van de scherm beveiliging
+:h2 res=5000.Het instellen van de taal van de scherm beveiliging
 :p.Het is mogelijk om de taal van de blokkeren instellingen pagina's
 te wijzigen en de taal van sommige van de blokkeringsmodules (die NLS
 ondersteunen) door het slepen en loslaten van een :hp2.Locale object:ehp2. vanuit
@@ -257,13 +232,13 @@ zal het wijzigen naar die taal, en zal het verder die taal gebruiken.
 .*
 .* Help for the Undo button
 .*
-:h1 res=6001.Beginwaarde
+:h3 res=6001.Beginwaarde
 :p.Selecteer :hp2.Beginwaarde:ehp2. om de instellingen te veranderen in die welke
 actief waren voordat dit venster getoond werd.
 .*
 .* Help for the Default button
 .*
-:h1 res=6002.Standaard
+:h3 res=6002.Standaard
 :p.Selecteer :hp2.Standaard:ehp2. om de instellingen te veranderen in die welke
 actief waren toen het systeem ge‹nstalleerd werd.
 :euserdoc.

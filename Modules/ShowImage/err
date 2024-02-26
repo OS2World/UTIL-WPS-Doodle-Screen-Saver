@@ -1,0 +1,18 @@
+ShowImg.c:1125:7: error: Resource handle 'hFile' freed twice. [doubleFree]
+      fclose(hFile);
+      ^
+ShowImg.c:1123:9: note: Resource handle 'hFile' freed twice.
+        fclose(hFile);
+        ^
+ShowImg.c:1125:7: note: Resource handle 'hFile' freed twice.
+      fclose(hFile);
+      ^
+ShowImg.c:1115:47: error: Undefined behavior: Variable 'buffer' is used as parameter and destination in sprintf(). [sprintfOverlappingData]
+        sprintf(buffer, "%ssFileName = %s\n", buffer, " ");
+                                              ^
+ShowImg.c:1117:47: error: Undefined behavior: Variable 'buffer' is used as parameter and destination in sprintf(). [sprintfOverlappingData]
+        sprintf(buffer, "%ssFileName = %s\n", buffer, CfgDlgInit.ModuleConfig.sFileName);
+                                              ^
+ShowImg.c:1118:46: error: Undefined behavior: Variable 'buffer' is used as parameter and destination in sprintf(). [sprintfOverlappingData]
+      sprintf(buffer, "%slBlankTime = %i\n", buffer, CfgDlgInit.ModuleConfig.lBlankTime);
+                                             ^

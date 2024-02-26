@@ -19,3 +19,7 @@ AUTHORS
 Contributors
 =============
 - Dave Yeo
+- Lewis G Rosenthal
+- Alfredo Fern ndez D¡az
+- Richard Walsh
+- Various translators, see Doc/translators.txt

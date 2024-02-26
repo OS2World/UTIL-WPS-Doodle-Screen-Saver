@@ -5,8 +5,10 @@
  * Locales : ru_*
  *
  * Author  : Yuri Proniakin
+ *         : Yurii Zamotailo
  *
  * Date (YYYY-MM-DD): 2005.12.27
+ *                  : 2023-12-13
  *
  *
  * To create the binary NLS file from this file, use the MSGC.EXE
@@ -29,8 +31,8 @@
 // ---------------------------------------------------------------------------
 // The name and the description string of the module:
 
-MOD_NAME="Летающий замок";
-MOD_DESC="Золотой замок, отскакивающий от краёв экрана.\nАвтор: Doodle";
+MOD_NAME="Замковый движ";
+MOD_DESC="Золотой замок летающий по экрану, отскакивающий от его краёв после столкновения.\n\nАвтор: Doodle";
 
 // ---------------------------------------------------------------------------
 // <EOF>

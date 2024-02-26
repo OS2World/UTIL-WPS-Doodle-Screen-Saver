@@ -1,0 +1,48 @@
+/*
+ * NLS support file for the ShowImage Screen Saver Module
+ *
+ * Language: Russian
+ * Locales : ru_*
+ *
+ * Author  : Warp5  (based on code by Doodle!)
+ * Translator  : Yurii Zamotailo
+ *
+ * Date (YYYY-MM-DD): 2005.06.02
+ *                  : 2023-12-13
+ *
+ *
+ * To create the binary NLS file from this file, use the MSGC.EXE
+ * tool this way:
+ * msgc <filename.txt>
+ *
+ */
+
+// The following lines contain all the text which appears in the
+// Configuration Dialog of the saver module, and also contains the
+// localized description string of the module.
+
+// ---------------------------------------------------------------------------
+// Strings for the Configuration dialog:
+
+CFG_0001="Слайд-шоу - Настройки";                   // Window title
+
+CFG_0002="Пустой экран после:";                     // Label
+CFG_0003="мин.";                                    // Label
+CFG_0004="~Увеличить, если картинка меньше экрана"; // Check Box
+CFG_0005="Каталог с изображениями:";                // Label
+CFG_0006="Выбрать";                                 // Browse Button
+CFG_0007="~Ok";                                     // Browse Button
+CFG_0008="О~тменить";                               // Browse Button
+CFG_0009="Смена изображения после:";                // Label
+CFG_0010="Изображения в ~случайном порядке";        // Label
+
+
+// ---------------------------------------------------------------------------
+// The name and the description string of the module:
+
+MOD_NAME="Слайд-шоу";
+MOD_DESC="Показывает картинки из выбранного каталога в течении установленного интервала времени, после чего отображает пустой экран.\n\nАвтор: Warp5.\nЭтот модуль использует библиотеку GBM с поддержкой JPEG и частично основан на работе Independent JPEG Group.";
+
+// ---------------------------------------------------------------------------
+// <EOF>
+// ---------------------------------------------------------------------------

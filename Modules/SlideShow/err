@@ -1,0 +1,27 @@
+SldShow.c:1278:7: error: Resource handle 'hFile' freed twice. [doubleFree]
+      fclose(hFile);
+      ^
+SldShow.c:1276:9: note: Resource handle 'hFile' freed twice.
+        fclose(hFile);
+        ^
+SldShow.c:1278:7: note: Resource handle 'hFile' freed twice.
+      fclose(hFile);
+      ^
+SldShow.c:1263:46: error: Undefined behavior: Variable 'buffer' is used as parameter and destination in sprintf(). [sprintfOverlappingData]
+        sprintf(buffer, "%ssDirName = %s\n", buffer, " ");
+                                             ^
+SldShow.c:1265:46: error: Undefined behavior: Variable 'buffer' is used as parameter and destination in sprintf(). [sprintfOverlappingData]
+        sprintf(buffer, "%ssDirName = %s\n", buffer, CfgDlgInit.ModuleConfig.sDirName);
+                                             ^
+SldShow.c:1266:46: error: Undefined behavior: Variable 'buffer' is used as parameter and destination in sprintf(). [sprintfOverlappingData]
+      sprintf(buffer, "%slBlankTime = %i\n", buffer, CfgDlgInit.ModuleConfig.lBlankTime);
+                                             ^
+SldShow.c:1267:47: error: Undefined behavior: Variable 'buffer' is used as parameter and destination in sprintf(). [sprintfOverlappingData]
+      sprintf(buffer, "%slSwitchTime = %i\n", buffer, CfgDlgInit.ModuleConfig.lSwitchTime);
+                                              ^
+SldShow.c:1269:48: error: Undefined behavior: Variable 'buffer' is used as parameter and destination in sprintf(). [sprintfOverlappingData]
+         sprintf(buffer, "%sbRandom = TRUE\n", buffer);
+                                               ^
+SldShow.c:1271:49: error: Undefined behavior: Variable 'buffer' is used as parameter and destination in sprintf(). [sprintfOverlappingData]
+         sprintf(buffer, "%sbRandom = FALSE\n", buffer);
+                                                ^
