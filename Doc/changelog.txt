@@ -2,8 +2,8 @@ ChangeLog File:
 
 * v2.5 : 2024.02.16
   - Update libpng and zlib for PrettyClock
-  - Properties help rewrite from Alfredo Fern ndez D¡az
-  - Spanish translations from Alfredo Fern ndez D¡az
+  - Properties help rewrite from Alfredo FernÃ¡ndez DÃ­az
+  - Spanish translations from Alfredo FernÃ¡ndez DÃ­az
   - Refactor the Screensaver Settings in the Desktop Properties,
      thanks to Rich Walsh
   - Remove hard coded fonts from the modules resources
